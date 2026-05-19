@@ -1,0 +1,1981 @@
+STL,Type
+eventually [t1:t2] (rise (sig1 >= val1 and sig1 <= val2)),invariance_reachability
+always ( eventually (sig1 <= val1) -> eventually [t1:t2] (sig2 == val2) ),temporal_response
+always ( rise (sig1 == val1) -> not (sig2 >= val2 and sig2 <= val3) and rise (sig3 >= val4) ),immediate_response
+always [0:t1] (sig1 < val1 or sig2 == val2),invariance_reachability
+eventually [0:t1] (sig1 < val1),invariance_reachability
+always ( not ((sig1 == val1) since [t1:t2] (sig2 == sig3)) -> always [t3:t4] (sig4 >= val2) ),temporal_response
+always ( sig1 > val1 or sig2 == sig3 -> always [0:t1] (eventually (rise (sig4 > val2 and sig4 < val3))) ),stabilization_recurrence
+always ( rise (sig1 > val1 and sig1 <= val2) or rise (sig2 > val3) -> (sig3 == sig4) until [0:t1] (not (sig5 == sig6)) ),temporal_response
+always ( once [0:t1] (sig1 < val1) -> eventually [0:t2] (not (sig2 == val2)) ),temporal_response
+always [0:t1] (sig1 < val1 and sig2 <= val2),invariance_reachability
+always ( sig1 == val1 -> always [0:t1] (sig2 == val2) ),temporal_response
+eventually [0:t1] (rise (sig1 == sig2)),invariance_reachability
+always ( rise (sig1 >= val1) -> sig2 < val2 and fall (sig3 > val3 and sig3 <= val4) ),immediate_response
+always ( rise (sig1 < val1) -> eventually [0:t1] (sig2 >= val2) ),temporal_response
+always ( sig1 < val1 and sig2 >= val2 -> always (eventually [0:t1] (sig3 < val3)) ),stabilization_recurrence
+always ( not (sig1 > val1) and sig2 == val2 -> rise ((sig3 <= val3) until [0:t1] (rise (sig4 > val4 and sig4 < val5))) ),temporal_response
+eventually (rise (sig1 <= val1) or sig2 >= val2),invariance_reachability
+always ( sig1 == sig2 and sig3 < val1 -> always [0:t1] (sig4 <= val2) ),temporal_response
+always ( not fall (sig1 >= val1) -> always [t1:t2] (eventually (rise (sig2 > val2))) ),stabilization_recurrence
+always ( rise (sig1 >= val1) -> eventually [0:t1] (always [0:t2] (sig2 == sig3)) ),stabilization_recurrence
+always ( (sig1 > val1 and sig1 < val2) or sig2 > val3 -> eventually [t1:t2] (always (sig3 >= val4)) ),stabilization_recurrence
+always [0:t1] (sig1 == val1 or sig2 > val2),invariance_reachability
+always ( rise (sig1 > val1 and sig1 < val2) -> eventually [0:t1] (rise (sig2 < val3)) ),temporal_response
+always ( (sig1 == val1) since [t1:t2] (not (sig2 >= val2)) -> always (sig3 < val3) ),temporal_response
+always [0:t1] (sig1 > val1 and sig2 == sig3),invariance_reachability
+eventually [0:t1] (not (sig1 == val1) and fall (sig2 == val2)),invariance_reachability
+always ( fall (sig1 >= val1 and sig1 <= val2) -> not ((sig2 == sig3) since [t1:t2] (sig4 > val3)) ),temporal_response
+always ( rise (sig1 <= val1) -> (sig2 == val2) until [t1:t2] (sig3 == sig4) ),temporal_response
+always ( not (sig1 <= val1) or not (sig2 >= val2) -> sig3 > val3 and sig4 == sig5 ),immediate_response
+always ( rise (sig1 > val1 and sig1 < val2) -> always [0:t1] (sig2 > val3 and sig2 < val4) ),temporal_response
+always ( sig1 < val1 and sig2 >= val2 -> sig3 < val3 or not rise (sig4 >= val4) ),immediate_response
+always ( once (sig1 < val1) -> eventually [t1:t2] (sig2 == val2) ),temporal_response
+always (sig1 == val1),invariance_reachability
+always ( rise (sig1 < val1) -> not (always [t1:t2] (sig2 == sig3)) ),temporal_response
+always ( rise (sig1 == val1) and sig2 < val2 -> sig3 > val3 and sig3 < val4 ),immediate_response
+eventually (sig1 == sig2 and rise (sig3 < val1)),invariance_reachability
+always [0:t1] (sig1 > val1 and sig1 <= val2),invariance_reachability
+always ( once [0:t1] (sig1 < val1) -> not (always [0:t2] (sig2 == sig3)) ),temporal_response
+always ( sig1 < val1 and sig2 >= val2 -> always [0:t1] (not (sig3 == sig4)) ),temporal_response
+always ( rise (sig1 == sig2) -> sig3 == val1 ),immediate_response
+always ( not (once [t1:t2] (sig1 > val1 and sig1 < val2)) -> eventually [0:t3] (always [0:t4] (sig2 > val3 and sig2 < val4)) ),stabilization_recurrence
+always [0:t1] (sig1 == sig2 and sig3 == val1),invariance_reachability
+always ( fall (sig1 == val1) -> rise (sig2 > val2) ),immediate_response
+always (sig1 == val1),invariance_reachability
+always ( always (sig1 >= val1 and sig1 <= val2) -> always [0:t1] (eventually [0:t2] (sig2 >= val3)) ),stabilization_recurrence
+always [t1:t2] (not (sig1 <= val1) and not (sig2 == sig3)),invariance_reachability
+always ( sig1 >= val1 or sig2 > val2 -> sig3 == sig4 ),immediate_response
+eventually [0:t1] (sig1 >= val1 and sig2 > val2),invariance_reachability
+always ( not fall (sig1 == val1) and sig2 == sig3 -> (not (sig4 == sig5)) since [0:t1] (fall (sig6 > val2 and sig6 <= val1)) ),temporal_response
+always ( _ >= val1 -> rise (always (not (sig1 < val2))) ),temporal_response
+always ( fall (sig1 == val1) -> (not (sig2 > val2)) until (rise (sig3 >= val3 and sig3 <= val4)) ),temporal_response
+eventually [t1:t2] (sig1 < val1 or sig2 <= val2),invariance_reachability
+always ( sig1 >= val1 and sig2 > val2 -> eventually [0:t1] (always [0:t2] (sig3 > val3 and sig3 < val4)) ),stabilization_recurrence
+always ((sig1 > val1 and sig1 < val2) and sig2 < val3),invariance_reachability
+always ( sig1 == sig2 -> always (sig3 == val1) ),temporal_response
+always ( fall (sig1 == sig2) -> sig3 > val1 and sig3 < val2 ),immediate_response
+always ( not (historically [0:t1] (sig1 == val1)) -> eventually (always [0:t2] (sig2 == val2)) ),stabilization_recurrence
+always ( (not fall (sig1 >= val1 and sig1 <= val2)) until [0:t1] (fall (sig2 == sig3)) -> eventually (fall (sig4 == sig5)) ),temporal_response
+always [0:t1] (not (sig1 > val1 and sig1 < val2) or sig2 >= val3),invariance_reachability
+always ( rise (sig1 >= val1 and sig1 <= val2) -> always [0:t1] (eventually [0:t2] (rise (sig2 >= val3 and sig2 <= val4))) ),stabilization_recurrence
+always ( fall (sig1 >= val1 and sig1 <= val2) -> (sig2 >= val3) until [0:t1] (sig3 >= val4 and sig3 <= val5) ),temporal_response
+always ( sig1 == sig2 -> eventually (sig3 == val1) ),temporal_response
+always ( not fall (sig1 >= val1) -> always [t1:t2] (eventually (rise (sig2 > val2))) ),stabilization_recurrence
+eventually (fall (sig1 == sig2)),invariance_reachability
+always ( rise (sig1 < val1) -> sig2 == sig3 and sig4 == sig5 ),immediate_response
+eventually [0:t1] (sig1 == sig2 and rise (sig3 >= val1)),invariance_reachability
+always [t1:t2] (not fall (sig1 > val1 and sig1 < val2) or not (sig2 > val3)),invariance_reachability
+always [0:t1] (sig1 == sig2 or sig3 < val1),invariance_reachability
+always ( historically [0:t1] (sig1 == val1) -> eventually [0:t2] (always [0:t3] (sig2 == val2)) ),stabilization_recurrence
+always [t1:t2] (sig1 == val1 or sig2 == val2),invariance_reachability
+always [t1:t2] (sig1 >= val1),invariance_reachability
+always ( rise (sig1 <= val1) -> (sig2 <= val2) until [0:t1] (sig3 <= val3) ),temporal_response
+always ( (sig1 == sig2) since [t1:t2] (sig3 >= val1) -> always [0:t3] (eventually [0:t4] (sig4 == sig5)) ),stabilization_recurrence
+always ( rise (sig1 > val1 and sig1 <= val2) -> (sig2 >= val3) until [0:t1] (sig3 > val4 and sig3 < val5) ),temporal_response
+always (sig1 == sig2 or sig3 <= val1),invariance_reachability
+always [t1:t2] (sig1 >= val1),invariance_reachability
+always ( rise (sig1 > val1) and sig2 > val2 -> not (eventually (sig3 > val3 and sig3 <= val4)) ),temporal_response
+always [0:t1] (sig1 >= val1),invariance_reachability
+eventually (rise (sig1 == sig2)),invariance_reachability
+always ( (not (sig1 == sig2)) since [t1:t2] (sig3 == val1) -> always [0:t3] (eventually [0:t4] (rise (sig4 >= val2 and sig4 < val3))) ),stabilization_recurrence
+always [t1:t2] (sig1 == sig2),invariance_reachability
+always [t1:t2] (not (sig1 > val1 and sig1 < val2) or not (sig2 == sig3)),invariance_reachability
+always ( rise (sig1 >= val1 and sig1 <= val2) -> (sig2 >= val3 and sig2 <= val4) until [0:t1] (sig3 > val5 and sig3 < val6) ),temporal_response
+always ( sig1 == val1 -> always [0:t1] (eventually [0:t2] (rise (sig2 == sig3))) ),stabilization_recurrence
+always ( once [0:t1] (sig1 == val1) -> rise ((sig2 >= val2) until (rise (sig3 < val3))) ),temporal_response
+always ( sig1 >= val1 and sig1 <= val2 -> eventually (sig2 == val3) ),temporal_response
+always ( sig1 < val1 -> sig2 > val2 and sig2 < val3 ),immediate_response
+always ( fall (sig1 >= val1 and sig1 < val2) -> (sig2 > val3) since (sig3 > val4) ),temporal_response
+always (sig1 == sig2),invariance_reachability
+eventually [t1:t2] ((sig1 >= val1 and sig1 <= val2) and sig2 >= val3),invariance_reachability
+always [0:t1] (sig1 == val1 and sig2 == val2),invariance_reachability
+always ( sig1 == val1 and sig2 == val2 -> (sig3 > val3) until [0:t1] (sig4 < val4) ),temporal_response
+always ( not (sig1 <= val1) -> eventually [t1:t2] (sig2 < val2) ),temporal_response
+always ( rise (sig1 < val1) -> always [0:t1] (eventually [0:t2] (sig2 == val2)) ),stabilization_recurrence
+always ( once [0:t1] (sig1 == sig2) -> always [0:t2] (sig3 > val1 and sig3 < val2) ),temporal_response
+always ( fall (sig1 == sig2) -> sig3 > val1 and (sig4 > val2 and sig4 < val3) ),immediate_response
+always ( rise (sig1 <= val1) -> always (sig2 == sig3) ),temporal_response
+always ( rise (sig1 >= val1) -> rise (sig2 >= val2) ),immediate_response
+always [t1:t2] (sig1 >= val1),invariance_reachability
+always ( rise (sig1 == sig2) -> always [t1:t2] (eventually [t3:t4] (rise (sig3 == sig4))) ),stabilization_recurrence
+eventually [t1:t2] (sig1 == sig2),invariance_reachability
+always ( sig1 < val1 -> sig2 < val2 and rise (sig3 < val3) ),immediate_response
+always ( sig1 <= val1 -> always [0:t1] (eventually [0:t2] (sig2 <= val2)) ),stabilization_recurrence
+always (sig1 <= val1),invariance_reachability
+eventually [0:t1] (sig1 == val1),invariance_reachability
+always ( rise (sig1 >= val1 and sig1 < val2) -> always [0:t1] (eventually [0:t2] (rise (sig2 == val3))) ),stabilization_recurrence
+always ( rise (sig1 <= val1) -> (sig2 == sig3) until [0:t1] (sig4 == sig5) ),temporal_response
+always ( fall (sig1 >= val1 and sig1 <= val2) -> rise (sig2 >= val3 and sig2 <= val4) and sig3 == val5 ),immediate_response
+eventually [0:t1] (sig1 >= val1 or sig2 <= val2),invariance_reachability
+eventually [t1:t2] (sig1 > val1 and sig2 <= val2),invariance_reachability
+always ( sig1 > val1 and sig1 <= val2 -> (sig2 >= val3) until [0:t1] (rise (sig3 == sig4)) ),temporal_response
+always ( rise (sig1 > val1 and sig1 < val2) -> always [0:t1] (eventually [t2:t3] (sig2 > val3)) ),stabilization_recurrence
+always (sig1 > val1 and sig1 < val2),invariance_reachability
+always ( rise (sig1 > val1) -> (sig2 == val2) until (rise (sig3 == sig4)) ),temporal_response
+always ( rise (sig1 <= val1) -> eventually [t1:t2] (not (sig2 == sig3)) ),temporal_response
+always ( once [t1:t2] (sig1 > val1 and sig1 < val2) -> eventually [0:t3] (always (sig2 == sig3)) ),stabilization_recurrence
+always ( fall (sig1 > val1 and sig1 < val2) -> sig2 > val3 and sig2 < val4 ),immediate_response
+always [t1:t2] (not rise (sig1 >= val1)),invariance_reachability
+always ( rise (sig1 > val1) -> (sig2 >= val2 and sig2 <= val3) or sig3 >= val4 ),immediate_response
+eventually [0:t1] (sig1 > val1 and (sig2 >= val2 and sig2 <= val3)),invariance_reachability
+eventually (rise (sig1 == val1)),invariance_reachability
+always ( sig1 >= val1 or sig2 == sig3 -> always [0:t1] (eventually [0:t2] (fall (sig4 > val2 and sig4 < val3))) ),stabilization_recurrence
+always [t1:t2] (sig1 == val1),invariance_reachability
+always ( rise (sig1 > val1 and sig1 < val2) -> not (always [t1:t2] (sig2 == sig3)) ),temporal_response
+always ( sig1 <= val1 -> eventually (always [0:t1] (sig2 == sig3)) ),stabilization_recurrence
+always (sig1 <= val1),invariance_reachability
+eventually [0:t1] (rise (sig1 >= val1 and sig1 <= val2)),invariance_reachability
+always ( sig1 == val1 -> eventually [t1:t2] (sig2 == sig3) ),temporal_response
+always ( sig1 == sig2 and sig3 < val1 -> eventually [0:t1] (always [0:t2] (sig4 >= val2 and sig4 <= val3)) ),stabilization_recurrence
+always [0:t1] (not (sig1 == val1) or sig2 > val2),invariance_reachability
+always [0:t1] (sig1 >= val1 and sig1 <= val2),invariance_reachability
+always ( historically [0:t1] (sig1 == sig2) -> always [0:t2] (not (sig3 == sig4)) ),temporal_response
+eventually [0:t1] (sig1 >= val1 and sig1 <= val2),invariance_reachability
+always ( rise (sig1 == val1) -> always [0:t1] (eventually [0:t1] (sig2 == val2)) ),stabilization_recurrence
+always ( fall (sig1 > val1 and sig1 < val2) -> always [t1:t2] (sig2 == val3) ),temporal_response
+always ( not (sig1 >= val1) or sig2 == val2 -> always [0:t1] (eventually [0:t2] (fall (sig3 >= val3 and sig3 <= val4))) ),stabilization_recurrence
+always ( rise (sig1 > val1) -> fall (sig2 > val2 and sig2 < val3) and not (sig3 < val4) ),immediate_response
+always ( rise (sig1 > val1) -> eventually [t1:t2] (sig2 >= val2) ),temporal_response
+always ( not rise (sig1 == val1) or sig2 < val2 -> sig3 >= val3 ),immediate_response
+always ( sig1 >= val1 -> sig2 >= val2 ),immediate_response
+always ( rise (sig1 >= val1) -> (sig2 < val2) until [t1:t2] (sig3 < val3) ),temporal_response
+always ( rise (sig1 >= val1 and sig1 <= val2) -> always [t1:t2] (eventually [0:t3] (sig2 >= val3)) ),stabilization_recurrence
+eventually [0:t1] (sig1 >= val1),invariance_reachability
+always ( sig1 <= val1 or (sig2 > val2 and sig2 < val3) -> once [0:t1] (sig3 >= val4) ),temporal_response
+always ( fall (sig1 == sig2) -> eventually [0:t1] (sig3 >= val1) ),temporal_response
+always [0:t1] (not (sig1 < val1) and sig2 < val2),invariance_reachability
+always ( sig1 > val1 and sig1 < val2 -> not ((not (sig2 >= val3 and sig2 <= val2)) since [0:t1] (not fall (sig3 >= val4 and sig3 <= val5))) ),temporal_response
+always ( (sig1 > val1 and sig1 < val2) or not (sig2 > val3) -> rise (sig3 > val4 and sig3 < val5) ),immediate_response
+always ( rise (sig1 == val1) -> (sig2 >= val2 and sig2 < val3) until [0:t1] (not fall (sig3 == val4)) ),temporal_response
+always ( always (sig1 < val1) -> always [0:t1] (sig2 >= val2 and sig2 <= val3) ),temporal_response
+always ( rise (sig1 < val1) -> eventually [0:t1] (always [0:t2] (sig2 == val2)) ),stabilization_recurrence
+eventually (sig1 == val1),invariance_reachability
+always ( rise (sig1 == sig2) -> eventually [0:t1] (fall (sig3 >= val1 and sig3 <= val2)) ),temporal_response
+always [0:t1] (not (sig1 >= val1)),invariance_reachability
+always ( rise (sig1 < val1) -> always [0:t1] (sig2 > val2) ),temporal_response
+always ( sig1 == val1 -> sig2 == sig3 ),immediate_response
+always ( rise (sig1 > val1 and sig1 <= val2) -> once (rise (sig2 == sig3)) ),temporal_response
+always ( fall (sig1 > val1 and sig1 < val2) and sig2 >= val3 -> always [0:t1] (eventually [0:t2] (rise (sig3 < val4))) ),stabilization_recurrence
+always ( sig1 <= val1 or not (sig2 > val2) -> (sig3 > val3) since [t1:t2] (sig4 > val4 and sig4 < val5) ),temporal_response
+always ( fall (sig1 == sig2) -> always [t1:t2] (eventually [t3:t4] (rise (sig3 >= val1))) ),stabilization_recurrence
+always ( fall (sig1 > val1 and sig1 < val2) -> sig2 >= val3 or sig3 >= val4 ),immediate_response
+always ( rise (sig1 < val1) -> always [0:t1] (eventually [0:t2] (sig2 < val2)) ),stabilization_recurrence
+always ( rise (sig1 > val1) -> sig2 < val2 ),immediate_response
+always ( rise (sig1 == sig2) -> sig3 < val1 ),immediate_response
+eventually [0:t1] (sig1 > val1 and sig2 == val2),invariance_reachability
+always ( fall (sig1 > val1 and sig1 < val2) -> not fall (always (not (sig2 <= val3))) ),temporal_response
+always [t1:t2] (sig1 > val1),invariance_reachability
+eventually [0:t1] (sig1 <= val1),invariance_reachability
+eventually [0:t1] (sig1 == sig2),invariance_reachability
+always ( sig1 == val1 and sig2 == sig3 -> sig4 == sig5 ),immediate_response
+eventually (sig1 == sig2),invariance_reachability
+always ( sig1 > val1 or (sig2 >= val2 and sig2 < val3) -> eventually [t1:t2] (always (sig3 == val4)) ),stabilization_recurrence
+always ( sig1 == sig2 and sig3 == sig4 -> rise ((sig5 >= val1 and sig5 <= val2) until [t1:t2] (not rise (sig6 >= val3))) ),temporal_response
+always ( rise (sig1 > val1) -> sig2 <= val2 and sig3 > val3 ),immediate_response
+always ( sig1 >= val1 -> rise (always (not (sig2 < val2))) ),temporal_response
+always ( sig1 > val1 and sig1 < val2 -> always [t1:t2] (sig2 >= val3) ),temporal_response
+always ( sig1 >= val1 and sig1 <= val2 -> sig2 == val3 ),immediate_response
+always ( not fall (historically [t1:t2] (sig1 > val1 and sig1 < val2)) -> always (sig2 == sig3) ),temporal_response
+always ( rise (sig1 == val1) -> always [0:t1] (eventually [0:t2] (rise (sig2 == val2))) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> eventually (sig2 == val2) ),temporal_response
+always ( rise (sig1 < val1) -> eventually [0:t1] (always [0:t2] (sig2 < val2)) ),stabilization_recurrence
+always ( fall (sig1 == sig2) -> sig3 <= val1 ),immediate_response
+always ( sig1 == val1 and not (sig2 <= val2) -> sig3 <= val3 ),immediate_response
+eventually [0:t1] (rise (sig1 >= val1 and sig1 <= val2) and sig2 == sig3),invariance_reachability
+always ( rise (sig1 <= val1) -> not rise (sig2 > val2 and sig2 < val3) ),immediate_response
+eventually (sig1 < val1),invariance_reachability
+always ( historically [t1:t2] (sig1 < val1) -> eventually (always (not (sig2 >= val2))) ),stabilization_recurrence
+always ( not (once [t1:t2] (not (sig1 < val1))) -> eventually [0:t3] (always [0:t4] (not (sig2 >= val2 and sig2 <= val3))) ),stabilization_recurrence
+always [t1:t2] (not fall (sig1 > val1)),invariance_reachability
+always ( rise (sig1 < val1) -> eventually [0:t1] (always [0:t2] (sig2 == sig3)) ),stabilization_recurrence
+always (sig1 >= val1 and sig1 < val2),invariance_reachability
+always ( rise (sig1 < val1) -> always [t1:t2] (eventually [t3:t4] (rise (sig2 >= val2))) ),stabilization_recurrence
+always ( rise (sig1 >= val1) -> always [0:t1] (eventually [0:t2] (sig2 >= val2 and sig2 <= val3)) ),stabilization_recurrence
+always ( fall (sig1 > val1 and sig1 < val2) -> historically [0:t1] (sig2 >= val3) ),temporal_response
+always ( sig1 < val1 -> sig2 == val2 or rise (sig3 <= val3) ),immediate_response
+always ( rise (sig1 == val1) -> eventually [0:t1] (always (sig2 < val2)) ),stabilization_recurrence
+always [0:t1] (sig1 <= val1),invariance_reachability
+always [0:t1] (not (sig1 == sig2) or sig3 == val1),invariance_reachability
+always ( fall (sig1 > val1 and sig1 < val2) -> always [0:t1] (eventually [0:t2] (fall (sig2 == val3))) ),stabilization_recurrence
+eventually [0:t1] (sig1 < val1),invariance_reachability
+always ( fall (sig1 > val1 and sig1 < val2) or fall (sig2 == val3) -> sig3 >= val4 and sig3 <= val5 ),immediate_response
+eventually [0:t1] (sig1 == val1 or (sig2 > val2 and sig2 < val3)),invariance_reachability
+always ( sig1 >= val1 -> sig2 < val2 ),immediate_response
+eventually [t1:t2] (sig1 >= val1 or not (sig2 < val2)),invariance_reachability
+eventually [0:t1] (sig1 > val1 and sig2 >= val2),invariance_reachability
+always ( rise (sig1 > val1) -> sig2 == sig3 and sig4 == sig5 ),immediate_response
+eventually [t1:t2] (sig1 >= val1 and sig1 <= val2),invariance_reachability
+always ( rise (sig1 < val1) -> sig2 <= val2 ),immediate_response
+always ( sig1 > val1 -> fall (sig2 == val2) ),immediate_response
+always (sig1 < val1 or sig2 > val2),invariance_reachability
+always ( rise (sig1 < val1) -> eventually [0:t1] (always [0:t2] (not (sig2 == val2))) ),stabilization_recurrence
+always [0:t1] (sig1 == sig2 or sig3 >= val1),invariance_reachability
+always (sig1 == val1 or (sig2 > val2 and sig2 < val3)),invariance_reachability
+always ( rise (sig1 > val1 and sig1 <= val2) -> sig2 > val3 and sig2 < val4 ),immediate_response
+always ( fall (sig1 > val1 and sig1 < val2) -> sig2 <= val3 ),immediate_response
+always ( (sig1 >= val1 and sig1 <= val2) or rise (sig2 < val3) -> always [0:t1] (eventually [0:t2] (sig3 < val4)) ),stabilization_recurrence
+always [t1:t2] ((sig1 > val1 and sig1 < val2) or sig2 < val3),invariance_reachability
+always ( rise (sig1 >= val1 and sig1 <= val2) -> always (eventually [t1:t2] (rise (sig2 == sig3))) ),stabilization_recurrence
+eventually [0:t1] (sig1 == val1),invariance_reachability
+always ( rise (sig1 == sig2) -> not (always [0:t1] (sig3 == sig4)) ),temporal_response
+always ( sig1 <= val1 and (sig2 >= val2 and sig2 <= val3) -> eventually [0:t1] (not rise (sig3 > val4)) ),temporal_response
+always ( historically (sig1 == sig2) -> not (once (sig3 < val1)) ),temporal_response
+eventually (sig1 > val1 and sig2 <= val2),invariance_reachability
+always ( rise (sig1 == val1) -> sig2 > val2 ),immediate_response
+always ( rise (sig1 >= val1) -> eventually (always [0:t1] (sig2 <= val2)) ),stabilization_recurrence
+always ( rise (sig1 > val1) or sig2 < val2 -> sig3 == val3 or sig4 <= val2 ),immediate_response
+always ( rise (sig1 >= val1 and sig1 <= val2) -> eventually [0:t1] (sig2 == sig3) ),temporal_response
+always ( rise (sig1 < val1) -> sig2 >= val2 ),immediate_response
+always [0:t1] (sig1 == sig2 and sig3 >= val1),invariance_reachability
+always ( rise (sig1 == val1) or rise (sig2 <= val2) -> always [t1:t2] (sig3 == val3) ),temporal_response
+eventually [0:t1] (not rise (sig1 == sig2) and fall (sig3 == val1)),invariance_reachability
+eventually [0:t1] (sig1 <= val1),invariance_reachability
+always [t1:t2] (sig1 == val1),invariance_reachability
+eventually [0:t1] (rise (sig1 >= val1 and sig1 <= val2) or sig2 == val3),invariance_reachability
+eventually (rise (sig1 == val1)),invariance_reachability
+always ( fall (sig1 == val1) -> eventually [t1:t2] (always (sig2 == val2)) ),stabilization_recurrence
+eventually [t1:t2] (rise (sig1 <= val1) or (sig2 >= val2 and sig2 <= val3)),invariance_reachability
+always ( fall (sig1 >= val1 and sig1 < val2) -> once [t1:t2] (not fall (sig2 >= val3)) ),temporal_response
+always ( rise (sig1 > val1) -> always [0:t1] (sig2 >= val2) ),temporal_response
+always ( sig1 >= val1 and sig2 < val2 -> sig3 == sig4 and sig5 == val3 ),immediate_response
+always [t1:t2] (sig1 == sig2 and sig3 >= val1),invariance_reachability
+always ( rise (sig1 >= val1 and sig1 <= val2) -> always (eventually [t1:t2] (fall (sig2 == sig3))) ),stabilization_recurrence
+always ( sig1 == val1 or rise (sig2 == val2) -> sig3 == sig4 ),immediate_response
+always ( sig1 > val1 and sig1 < val2 -> sig2 == val3 ),immediate_response
+eventually [t1:t2] (rise (sig1 == val1)),invariance_reachability
+always ( fall (sig1 == val1) -> eventually [0:t1] (always [0:t2] (sig2 == sig3)) ),stabilization_recurrence
+eventually [0:t1] (sig1 == val1),invariance_reachability
+always [0:t1] (sig1 == val1),invariance_reachability
+always ( sig1 < val1 -> eventually [0:t1] (always [0:t2] (sig2 == val1)) ),stabilization_recurrence
+eventually [0:t1] (rise (sig1 > val1 and sig1 < val2)),invariance_reachability
+eventually (rise (sig1 > val1 and sig1 < val2) and sig2 < val2),invariance_reachability
+eventually (sig1 == sig2 or sig3 <= val1),invariance_reachability
+always (not rise (sig1 == sig2) and sig3 <= val1),invariance_reachability
+always ( sig1 == val1 -> sig2 == val2 ),immediate_response
+always ( rise (sig1 <= val1) -> always [0:t1] (eventually [0:t2] (fall (sig2 == val2))) ),stabilization_recurrence
+always ( sig1 <= val1 or rise (sig2 == val2) -> eventually [t1:t2] (always [0:t3] (sig3 > val3 and sig3 < val4)) ),stabilization_recurrence
+always [0:t1] (not (sig1 < val1)),invariance_reachability
+always ( fall (sig1 == val1) -> always [0:t1] (eventually [0:t2] (fall (sig2 == val2))) ),stabilization_recurrence
+always ( rise (sig1 == sig2) -> sig3 <= val1 ),immediate_response
+always ( sig1 > val1 and sig2 > val2 -> eventually (always [0:t1] (sig3 > val3 and sig3 < val4)) ),stabilization_recurrence
+always ( sig1 > val1 and sig2 >= val2 -> fall (once [t1:t2] (not fall (sig3 == val3))) ),temporal_response
+always (sig1 == val1 and sig2 > val2),invariance_reachability
+always ( rise (sig1 <= val1) -> always [t1:t2] (sig2 == val2) ),temporal_response
+always ( sig1 < val1 -> eventually [0:t1] (always (sig2 == sig3)) ),stabilization_recurrence
+always [0:t1] (sig1 == sig2),invariance_reachability
+always [0:t1] (sig1 < val1),invariance_reachability
+always ( rise (sig1 > val1) -> eventually [0:t1] (always [0:t2] (sig2 == sig3)) ),stabilization_recurrence
+always ( rise (sig1 >= val1) -> always [0:t1] (eventually [0:t2] (sig2 < val2)) ),stabilization_recurrence
+always ( sig1 > val1 or (sig2 >= val2 and sig2 <= val3) -> fall (sig3 == val4) and not (sig4 <= val5) ),immediate_response
+always ( historically (sig1 > val1) -> always [t1:t2] (sig2 < val2) ),temporal_response
+eventually [0:t1] (sig1 == val1),invariance_reachability
+eventually [0:t1] (sig1 >= val1 or sig2 == sig3),invariance_reachability
+always ( sig1 <= val1 or rise (sig2 > val2) -> always [t1:t2] (eventually [t3:t4] (sig3 == sig4)) ),stabilization_recurrence
+always ( sig1 <= val1 and (sig2 >= val2 and sig2 <= val3) -> always [0:t1] (eventually [0:t2] (rise (sig3 >= val4))) ),stabilization_recurrence
+always ( sig1 >= val1 or sig2 <= val2 -> eventually [t1:t2] (not (sig3 > val3 and sig3 < val4)) ),temporal_response
+always ( (sig1 == val1) since [t1:t2] (sig2 >= val2) -> eventually [0:t3] (always [0:t4] (sig3 <= val3)) ),stabilization_recurrence
+always (sig1 == val1),invariance_reachability
+always ( rise (sig1 > val1) -> not (eventually [0:t1] (sig2 < val2)) ),temporal_response
+always ( not fall (sig1 == sig2) -> fall (sig3 == val1) or sig4 == sig5 ),immediate_response
+always ( fall (sig1 == val1) -> eventually (sig2 <= val2) ),temporal_response
+always [0:t1] (sig1 > val1),invariance_reachability
+eventually [0:t1] (rise (sig1 >= val1)),invariance_reachability
+eventually [t1:t2] ((sig1 >= val1 and sig1 <= val2) and sig2 == val3),invariance_reachability
+always ( rise (sig1 <= val1) -> sig2 > val2 and sig3 <= val3 ),immediate_response
+always ( sig1 < val1 or sig2 >= val2 -> not (sig3 > val3 and sig3 < val4) and (sig4 > val5 and sig4 < val6) ),immediate_response
+always ( sig1 == sig2 -> sig3 <= val1 ),immediate_response
+always ( not (historically (sig1 >= val1)) -> eventually [0:t1] (always [0:t2] (not (sig2 > val2 and sig2 < val3))) ),stabilization_recurrence
+always ( rise (sig1 >= val1 and sig1 < val2) -> sig2 < val3 or sig3 == sig4 ),immediate_response
+always ( fall (sig1 == val1) -> sig2 < val2 ),immediate_response
+always ( sig1 > val1 and sig1 < val2 -> not (always (sig2 > val3 and sig2 < val4)) ),temporal_response
+always ( (sig1 == val1) since [0:t1] (sig2 < val2) -> always [t2:t3] (eventually [0:t4] (sig3 == val3)) ),stabilization_recurrence
+always ( sig1 == val1 -> always [0:t1] (eventually [0:t2] (rise (sig2 <= val2))) ),stabilization_recurrence
+always [t1:t2] ((sig1 > val1 and sig1 < val2) or sig2 < val3),invariance_reachability
+always [t1:t2] (sig1 == sig2),invariance_reachability
+always ( rise (sig1 >= val1) -> eventually [0:t1] (always [0:t2] (sig2 == val2)) ),stabilization_recurrence
+eventually [0:t1] (not fall (sig1 >= val1)),invariance_reachability
+always ( sig1 == val1 -> not ((sig2 > val2 and sig2 < val3) until (rise (sig3 > val4 and sig3 <= val5))) ),temporal_response
+always ( rise (sig1 == val1) -> always (eventually [0:t1] (rise (sig2 == sig3))) ),stabilization_recurrence
+always ( sig1 >= val1 and sig1 <= val2 -> fall (always [t1:t2] (sig2 > val3)) ),temporal_response
+always ( sig1 == sig2 or (sig3 > val1 and sig3 < val2) -> sig4 > val3 and sig4 < val4 ),immediate_response
+always [0:t1] (sig1 < val1),invariance_reachability
+always ( (sig1 > val1 and sig1 < val2) or sig2 < val3 -> always [0:t1] (eventually [0:t2] (sig3 == val4)) ),stabilization_recurrence
+always [t1:t2] (sig1 == sig2),invariance_reachability
+always [0:t1] (sig1 > val1 and sig1 <= val2),invariance_reachability
+always ( not (sig1 == val1) -> always [0:t1] (eventually [0:t2] (sig2 >= val2 and sig2 <= val3)) ),stabilization_recurrence
+always ( sig1 > val1 or sig2 < val2 -> not ((sig3 < val3) since [0:t1] (sig4 <= val4)) ),temporal_response
+always ( sig1 == sig2 -> (sig3 == val1) until [t1:t2] (sig4 >= val2 and sig4 <= val3) ),temporal_response
+always ( always (sig1 > val1) -> (sig2 > val2 and sig2 < val3) until [0:t1] (not (sig3 >= val4)) ),temporal_response
+always ( rise (sig1 <= val1) -> eventually [0:t1] (sig2 > val2 and sig2 < val3) ),temporal_response
+always ( historically [t1:t2] (not rise (sig1 >= val1)) -> historically [0:t3] (sig2 >= val2 and sig2 <= val3) ),temporal_response
+always [0:t1] (not rise (sig1 == sig2) or (sig3 >= val1 and sig3 <= val2)),invariance_reachability
+always ( (not (sig1 <= val1)) until (sig2 <= val2) -> eventually [0:t1] (rise (sig3 >= val3)) ),temporal_response
+always ( historically [t1:t2] (sig1 <= val1) -> fall (always [0:t3] (sig2 >= val2)) ),temporal_response
+always ( sig1 > val1 and sig2 == sig3 -> always (eventually [t1:t2] (sig4 <= val2)) ),stabilization_recurrence
+always ( sig1 <= val1 -> eventually [0:t1] (always (sig2 == sig3)) ),stabilization_recurrence
+always ( fall (sig1 == val1) -> not (sig2 == sig3) ),immediate_response
+always ( rise (sig1 > val1) -> (sig2 < val2) until [0:t1] (rise (sig3 < val3)) ),temporal_response
+always [t1:t2] (sig1 > val1 and sig1 < val2),invariance_reachability
+always ( not (historically (sig1 >= val1)) -> eventually [0:t1] (always [0:t2] (not (sig2 > val2 and sig2 < val3))) ),stabilization_recurrence
+always ( fall (sig1 == sig2) -> always [0:t1] (sig3 == sig4) ),temporal_response
+always ( rise (sig1 > val1 and sig1 < val2) -> always [0:t1] (eventually [0:t2] (rise (sig2 > val3 and sig2 < val4))) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> always [0:t1] (eventually [0:t2] (rise (sig2 == val2))) ),stabilization_recurrence
+always ( rise (sig1 > val1) -> not (sig2 == sig3) ),immediate_response
+always ( rise (sig1 < val1) -> eventually [0:t1] (always [0:t2] (sig2 < val1)) ),stabilization_recurrence
+always ( rise (sig1 >= val1 and sig1 <= val2) -> sig2 == sig3 ),immediate_response
+always ( rise (sig1 >= val1) -> not (sig2 == sig3) and sig4 == val2 ),immediate_response
+always ( sig1 < val1 -> always (sig2 > val2 and sig2 < val3) ),temporal_response
+always ( (sig1 >= val1 and sig1 <= val2) or sig2 < val3 -> sig3 >= val4 ),immediate_response
+eventually [t1:t2] (sig1 == sig2),invariance_reachability
+eventually [t1:t2] (sig1 == val1 or sig2 == sig3),invariance_reachability
+always ( rise (sig1 <= val1) -> sig2 >= val2 ),immediate_response
+eventually [0:t1] (rise (sig1 < val1) and sig2 >= val2),invariance_reachability
+always ( sig1 == sig2 or sig3 == val1 -> sig4 == sig5 ),immediate_response
+always [t1:t2] (sig1 < val1),invariance_reachability
+eventually [t1:t2] (sig1 == sig2),invariance_reachability
+always ( rise (sig1 < val1) -> eventually (always [0:t1] (sig2 == val2)) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> always [t1:t2] (eventually [t3:t4] (rise (sig2 > val2))) ),stabilization_recurrence
+always ( not (sig1 >= val1) and sig2 > val2 -> sig3 == val3 or rise (sig4 > val4) ),immediate_response
+eventually [0:t1] (fall (sig1 == val1) and sig2 < val2),invariance_reachability
+eventually (rise (sig1 == val1)),invariance_reachability
+always ( rise (sig1 > val1) -> (sig2 == val2) until [0:t1] (rise (sig3 <= val3)) ),temporal_response
+always ( rise (sig1 <= val1) -> sig2 >= val2 ),immediate_response
+always ( sig1 == val1 -> sig2 < val2 ),immediate_response
+always ( rise (sig1 >= val1) -> always [0:t1] (eventually [0:t2] (sig2 <= val2)) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> eventually [0:t1] (always [0:t2] (sig2 >= val2 and sig2 <= val3)) ),stabilization_recurrence
+always [t1:t2] (sig1 >= val1 or sig2 <= val2),invariance_reachability
+always ( sig1 == val1 and sig2 == val2 -> eventually [0:t1] (always [0:t2] (sig3 >= val3 and sig3 <= val4)) ),stabilization_recurrence
+always ( (sig1 > val1 and sig1 < val2) since [0:t1] (sig2 == val3) -> eventually [0:t2] (always [t3:t4] (not (sig3 == sig4))) ),stabilization_recurrence
+always (sig1 == val1),invariance_reachability
+always ( historically [t1:t2] (sig1 > val1 and sig1 <= val2) -> always [t3:t4] (sig2 > val3) ),temporal_response
+always ( fall (sig1 >= val1 and sig1 <= val2) -> always [0:t1] (sig2 == sig3) ),temporal_response
+always ( rise (sig1 == val1) -> sig2 == val2 and sig3 >= val3 ),immediate_response
+always [0:t1] (sig1 == val1 or sig2 < val2),invariance_reachability
+always ( rise (sig1 >= val1) -> always (sig2 >= val2) ),temporal_response
+always [t1:t2] ((sig1 > val1 and sig1 < val2) or sig2 == sig3),invariance_reachability
+always ( sig1 == sig2 or (sig3 > val1 and sig3 < val2) -> not (historically (sig4 >= val3 and sig4 <= val4)) ),temporal_response
+always ( sig1 > val1 and sig1 < val2 -> eventually (rise (sig2 == val3)) ),temporal_response
+always ( sig1 > val1 -> always [t1:t2] (sig2 >= val2 and sig2 <= val3) ),temporal_response
+always ( fall (sig1 == val1) -> always [0:t1] (eventually (rise (sig2 > val2))) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> always [0:t1] (eventually [0:t2] (sig2 >= val2 and sig2 <= val3)) ),stabilization_recurrence
+always (sig1 == sig2 and sig3 == sig4),invariance_reachability
+always ( not (sig1 == val1) or (sig2 >= val2 and sig2 <= val3) -> historically (not (sig3 == val4)) ),temporal_response
+always ( rise (sig1 == val1) or rise (sig2 > val2) -> sig3 == sig4 and sig5 <= val3 ),immediate_response
+always [0:t1] (sig1 == sig2),invariance_reachability
+eventually [0:t1] (fall (sig1 >= val1 and sig1 <= val2) and sig2 < val3),invariance_reachability
+always ( rise (sig1 == sig2) -> (not fall (sig3 > val1)) until [t1:t2] (sig4 == val2) ),temporal_response
+always (sig1 == val1 and sig2 == sig3),invariance_reachability
+always ( rise (sig1 == sig2) -> not ((not fall (sig3 == val1)) until [0:t1] (sig4 == val2)) ),temporal_response
+always ( fall ((sig1 >= val1 and sig1 <= val2) since (rise (sig2 <= val3))) -> (not fall (sig3 == sig4)) until [0:t1] (sig5 == sig6) ),temporal_response
+always ( sig1 < val1 -> always [0:t1] (eventually [0:t2] (sig2 == val2)) ),stabilization_recurrence
+always (sig1 <= val1 or not (sig2 <= val2)),invariance_reachability
+always ( sig1 <= val1 and rise (sig2 >= val2) -> always [0:t1] (eventually [0:t2] (sig3 == val3)) ),stabilization_recurrence
+always ( rise (sig1 > val1) -> eventually [0:t1] (always [0:t2] (sig2 >= val2)) ),stabilization_recurrence
+eventually ((sig1 >= val1 and sig1 <= val2) or sig2 == sig3),invariance_reachability
+always ( rise (sig1 < val1) -> (not (sig2 == val2)) until [t1:t2] (sig3 > val3 and sig3 < val4) ),temporal_response
+eventually [0:t1] (sig1 == sig2 and rise (sig3 > val1)),invariance_reachability
+always (sig1 <= val1 and sig2 > val2),invariance_reachability
+always [0:t1] (not (sig1 <= val1)),invariance_reachability
+always ( rise (sig1 > val1 and sig1 < val2) -> not ((sig2 >= val3 and sig2 <= val4) until [0:t1] (sig3 == sig4)) ),temporal_response
+always ( rise (sig1 == val1) -> always [0:t1] (eventually [0:t2] (rise (sig2 < val2))) ),stabilization_recurrence
+always ( not (sig1 <= val1) or sig2 > val2 -> always [0:t1] (eventually [0:t2] (rise (sig3 == val3))) ),stabilization_recurrence
+eventually (sig1 >= val1),invariance_reachability
+always (sig1 == val1),invariance_reachability
+always ( fall (sig1 == val1) and not (sig2 == val2) -> sig3 == val3 ),immediate_response
+always ( once [t1:t2] (sig1 == val1) -> eventually [0:t3] (always [0:t1] (not (sig2 < val2))) ),stabilization_recurrence
+always ( once [t1:t2] (sig1 == sig2) -> eventually [0:t3] (always [0:t4] (sig3 == sig4)) ),stabilization_recurrence
+always ( rise (sig1 >= val1 and sig1 <= val2) -> (sig2 == val3) since [0:t1] (rise (sig3 == val4)) ),temporal_response
+always ( rise (sig1 >= val1) -> not (sig2 <= val2) ),immediate_response
+always ( rise (sig1 > val1) -> (sig2 == val2) until [0:t1] (not (sig3 > val3 and sig3 <= val4)) ),temporal_response
+always ( sig1 > val1 -> not (always [0:t1] (sig2 == sig3)) ),temporal_response
+always ( fall (sig1 == val1) -> historically [t1:t2] (sig2 > val2) ),temporal_response
+always ( sig1 < val1 and (sig2 >= val2 and sig2 <= val3) -> sig3 >= val4 and sig4 == sig5 ),immediate_response
+eventually (sig1 >= val1 or rise (sig2 <= val2)),invariance_reachability
+always ( (sig1 == sig2) since [0:t1] (not (sig3 >= val1)) -> (sig4 >= val2) until [0:t2] (sig5 == sig6) ),temporal_response
+always ( (sig1 >= val1 and sig1 <= val2) and sig2 == val3 -> (sig3 > val4 and sig3 < val1) or (sig4 >= val5 and sig4 <= val6) ),immediate_response
+always ( fall (sig1 == sig2) -> eventually [0:t1] (always [0:t2] (sig3 >= val1)) ),stabilization_recurrence
+always ( (sig1 >= val1 and sig1 <= val2) until (sig2 >= val3 and sig2 <= val4) -> always [0:t1] (not (sig3 <= val5)) ),temporal_response
+always ( fall (sig1 > val1 and sig1 <= val2) -> always [0:t1] (eventually (sig2 > val3 and sig2 < val4)) ),stabilization_recurrence
+always ( sig1 >= val1 -> always [t1:t2] (eventually [t3:t4] (not (sig2 == val2))) ),stabilization_recurrence
+eventually [0:t1] (fall (sig1 == val1) and not (sig2 <= val2)),invariance_reachability
+eventually [0:t1] (rise (sig1 > val1) and (sig2 > val2 and sig2 < val3)),invariance_reachability
+always ( sig1 <= val1 or sig2 > val2 -> sig3 == sig4 or not (sig5 == val3) ),immediate_response
+eventually [0:t1] (sig1 < val1),invariance_reachability
+always ( rise (sig1 <= val1) -> eventually [0:t1] (sig2 <= val2) ),temporal_response
+always ( rise (sig1 < val1) -> rise (sig2 <= val2) and (sig3 > val3 and sig3 < val4) ),immediate_response
+always ( rise (sig1 > val1) and sig2 <= val2 -> (sig3 >= val3) until [t1:t2] (rise (sig4 == val4)) ),temporal_response
+always ( rise (sig1 <= val1) -> historically [0:t1] (sig2 == val2) ),temporal_response
+eventually (sig1 <= val1),invariance_reachability
+eventually [0:t1] (sig1 == val1 or sig2 <= val2),invariance_reachability
+always ( rise (sig1 < val1) -> always [0:t1] (eventually (rise (sig2 > val2))) ),stabilization_recurrence
+eventually [t1:t2] (rise (sig1 >= val1 and sig1 <= val2) or (sig2 >= val3 and sig2 < val4)),invariance_reachability
+always [0:t1] (sig1 <= val1 and sig2 == val2),invariance_reachability
+always ( rise (sig1 == sig2) -> eventually [t1:t2] (always [0:t3] (sig3 == sig4)) ),stabilization_recurrence
+always ( sig1 == val1 or fall (sig2 == val2) -> rise (once [t1:t2] (sig3 == sig4)) ),temporal_response
+eventually [t1:t2] (sig1 == val1),invariance_reachability
+always ( fall (sig1 > val1 and sig1 < val2) -> not (sig2 == sig3) ),immediate_response
+always ( fall (sig1 > val1 and sig1 < val2) -> sig2 >= val3 and sig2 <= val4 ),immediate_response
+always [0:t1] (sig1 <= val1 and sig2 <= val2),invariance_reachability
+always ( rise (sig1 > val1 and sig1 <= val2) -> eventually [t1:t2] (always [0:t3] (not (sig2 > val3))) ),stabilization_recurrence
+always ( rise (sig1 >= val1) -> not rise (eventually (sig2 <= val2)) ),temporal_response
+always ( sig1 < val1 -> not (sig2 >= val2) or sig3 == val3 ),immediate_response
+always [0:t1] (sig1 == sig2 or sig3 == val1),invariance_reachability
+always [0:t1] (sig1 < val1),invariance_reachability
+always (sig1 < val1 and not (sig2 > val2 and sig2 < val3)),invariance_reachability
+always ((sig1 > val1 and sig1 < val2) and sig2 > val3),invariance_reachability
+always ( rise (sig1 == sig2) -> (sig3 <= val1) until [0:t1] (sig4 == val2) ),temporal_response
+always ( rise (sig1 == val1) -> sig2 == val2 ),immediate_response
+always ( fall (sig1 == sig2) -> always [t1:t2] (eventually (sig3 == sig4)) ),stabilization_recurrence
+always ( sig1 > val1 -> sig2 >= val2 ),immediate_response
+always ( rise (sig1 >= val1) -> always [0:t1] (eventually [0:t2] (rise (sig2 > val2))) ),stabilization_recurrence
+always ( not (always [t1:t2] (sig1 < val1)) -> eventually [t3:t4] (always [t5:t6] (sig2 == sig3)) ),stabilization_recurrence
+always ( fall (sig1 == val1) and sig2 == sig3 -> always [0:t1] (eventually [t2:t3] (sig4 >= val2 and sig4 <= val3)) ),stabilization_recurrence
+always ( rise (sig1 > val1) -> always [0:t1] (eventually [0:t2] (sig2 < val2)) ),stabilization_recurrence
+always [t1:t2] (not (sig1 <= val1)),invariance_reachability
+always ( not ((sig1 >= val1 and sig1 <= val2) since [0:t1] (sig2 == sig3)) -> eventually [0:t2] (always [0:t3] (sig4 == sig5)) ),stabilization_recurrence
+always ( rise (sig1 < val1) -> eventually [0:t1] (always [0:t1] (sig2 >= val2 and sig2 <= val3)) ),stabilization_recurrence
+always ( not (sig1 >= val1) -> always [0:t1] (eventually [0:t2] (rise (sig2 < val2))) ),stabilization_recurrence
+always ( fall (sig1 == val1) -> not (always [0:t1] (not (sig2 > val2 and sig2 < val3))) ),temporal_response
+always ( sig1 > val1 or (sig2 > val2 and sig2 < val3) -> always [0:t1] (eventually [0:t2] (sig3 == sig4)) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> (sig2 <= val1) until (sig3 > val2) ),temporal_response
+always (not (sig1 <= val1)),invariance_reachability
+eventually [0:t1] (sig1 == sig2),invariance_reachability
+always ( historically (sig1 == val1) -> always [0:t1] (sig2 < val2) ),temporal_response
+always ( rise (sig1 <= val1) -> always [0:t1] (eventually [0:t2] (sig2 <= val2)) ),stabilization_recurrence
+always [t1:t2] (sig1 == val1),invariance_reachability
+always (sig1 > val1),invariance_reachability
+eventually [t1:t2] (sig1 == val1 or sig2 >= val2),invariance_reachability
+always [0:t1] ((sig1 > val1 and sig1 < val2) and sig2 == sig3),invariance_reachability
+eventually [t1:t2] (rise (sig1 > val1 and sig1 <= val2) or sig2 > val3),invariance_reachability
+always ( not (sig1 >= val1) and fall (sig2 == val2) -> sig3 >= val3 and sig3 < val4 ),immediate_response
+always ( not (sig1 == val1) and rise (sig2 > val2) -> not (sig3 > val3) and sig4 == sig5 ),immediate_response
+always [0:t1] (sig1 == sig2),invariance_reachability
+always ( rise (sig1 > val1) -> always [0:t1] (eventually [0:t2] (rise (sig2 >= val2 and sig2 <= val3))) ),stabilization_recurrence
+always ( sig1 == sig2 -> sig3 >= val1 ),immediate_response
+always ( rise (sig1 < val1) -> always [0:t1] (eventually [0:t2] (sig2 == val2)) ),stabilization_recurrence
+always ( rise (sig1 > val1 and sig1 < val2) -> sig2 == val3 ),immediate_response
+always [0:t1] (sig1 == val1),invariance_reachability
+eventually (rise (sig1 >= val1 and sig1 <= val2)),invariance_reachability
+always ( once (sig1 == val1) -> always [0:t1] (eventually [0:t2] (rise (sig2 == sig3))) ),stabilization_recurrence
+always ( fall (sig1 == sig2) -> (sig3 == sig4) since [0:t1] (rise (sig5 >= val1)) ),temporal_response
+always ( (sig1 >= val1 and sig1 <= val2) and not (sig2 < val3) -> always [t1:t2] (eventually [0:t3] (not (sig3 == sig4))) ),stabilization_recurrence
+eventually [0:t1] (rise (sig1 > val1)),invariance_reachability
+always ( sig1 < val1 or (sig2 > val2 and sig2 < val3) -> fall (once (rise (sig3 == sig4))) ),temporal_response
+always ( sig1 > val1 -> (sig2 >= val2) until [t1:t2] (sig3 >= val3 and sig3 <= val4) ),temporal_response
+eventually [0:t1] (sig1 <= val1),invariance_reachability
+always ( rise (sig1 > val1) -> always [0:t1] (sig2 < val2) ),temporal_response
+always [0:t1] (sig1 == val1 or sig2 == sig3),invariance_reachability
+always ( always [0:t1] (sig1 > val1) -> eventually [0:t2] (always [0:t3] (sig2 <= val2)) ),stabilization_recurrence
+always ( (sig1 > val1 and sig1 < val2) since [t1:t2] (sig2 == sig3) -> not (eventually [0:t3] (rise (sig4 == sig5))) ),temporal_response
+eventually [t1:t2] (sig1 == val1),invariance_reachability
+always ( not ((sig1 > val1 and sig1 < val2) since [0:t1] (sig2 == val3)) -> always [0:t2] (eventually [0:t3] (rise (sig3 == sig4))) ),stabilization_recurrence
+always ( rise (sig1 <= val1) -> eventually [t1:t2] (always [t3:t4] (sig2 > val2 and sig2 < val3)) ),stabilization_recurrence
+always ( rise (sig1 < val1) -> sig2 == val2 ),immediate_response
+always [0:t1] (sig1 > val1 and sig1 < val2),invariance_reachability
+always ( rise (sig1 < val1) -> not (eventually [0:t1] (not (sig2 > val2 and sig2 < val3))) ),temporal_response
+always ( sig1 == val1 or sig2 < val2 -> always [t1:t2] (eventually [0:t3] (rise (sig3 == sig4))) ),stabilization_recurrence
+always ( not (eventually [0:t1] (sig1 == sig2)) -> always (not (sig3 == val1)) ),temporal_response
+always ( (sig1 > val1 and sig1 < val2) or fall (sig2 > val3 and sig2 < val4) -> (sig3 < val5) until (fall (sig4 == val6)) ),temporal_response
+always ( once [0:t1] (sig1 == sig2) -> eventually (always [t2:t3] (not (sig3 >= val1))) ),stabilization_recurrence
+always ( sig1 < val1 and sig2 == val2 -> eventually [0:t1] (always [0:t2] (sig3 == sig4)) ),stabilization_recurrence
+always ( rise (sig1 == sig2) -> always [0:t1] (eventually [0:t2] (sig3 > val1)) ),stabilization_recurrence
+always ( sig1 == sig2 and sig3 == val1 -> not (always [0:t1] (sig4 == sig5)) ),temporal_response
+eventually [0:t1] (sig1 == val1 or sig2 < val2),invariance_reachability
+always ( fall (sig1 == val1) -> eventually [0:t1] (always [0:t2] (sig2 == sig3)) ),stabilization_recurrence
+always ( (sig1 > val1 and sig1 < val2) since [0:t1] (fall (sig2 == sig3)) -> eventually [0:t2] (always [t3:t4] (sig4 == val2)) ),stabilization_recurrence
+always (sig1 == sig2 or sig3 <= val1),invariance_reachability
+always ( sig1 > val1 and sig1 < val2 -> eventually [t1:t2] (always [t3:t4] (sig2 == sig3)) ),stabilization_recurrence
+eventually [t1:t2] (not (sig1 < val1) and sig2 == val2),invariance_reachability
+always ( rise (sig1 >= val1) -> always [t1:t2] (not fall (sig2 == sig3)) ),temporal_response
+always [t1:t2] (sig1 <= val1 or sig2 >= val2),invariance_reachability
+always ( (not (sig1 > val1)) since (sig2 == sig3) -> (not (sig4 > val2 and sig4 < val3)) since (rise (sig5 == val4)) ),temporal_response
+always ( rise (sig1 == sig2) -> always (eventually (sig3 >= val1 and sig3 <= val2)) ),stabilization_recurrence
+always ( rise (sig1 > val1) -> always (sig2 == sig3) ),temporal_response
+always ( rise (sig1 == sig2) -> sig3 >= val1 and sig3 <= val2 ),immediate_response
+eventually [t1:t2] (rise (sig1 == val1) and sig2 == sig3),invariance_reachability
+always (sig1 == val1 and sig2 < val2),invariance_reachability
+always [t1:t2] (sig1 > val1 and sig2 > val2),invariance_reachability
+always ( rise (sig1 >= val1 and sig1 < val2) -> eventually [0:t1] (always (sig2 >= val3)) ),stabilization_recurrence
+always [t1:t2] (sig1 == val1),invariance_reachability
+always ( rise (sig1 > val1) -> sig2 >= val2 ),immediate_response
+always ( rise (sig1 < val1) -> always [0:t1] (eventually [0:t2] (sig2 == sig3)) ),stabilization_recurrence
+always ( rise (sig1 <= val1) -> sig2 == val2 ),immediate_response
+always ( rise (sig1 <= val1) and sig2 < val2 -> (sig3 >= val3 and sig3 <= val4) until (sig4 == sig5) ),temporal_response
+always ( fall (sig1 > val1 and sig1 < val2) -> eventually [0:t1] (always (sig2 == val3)) ),stabilization_recurrence
+always ( rise (sig1 > val1 and sig1 < val2) -> (sig2 >= val3 and sig2 <= val4) until [0:t1] (fall (sig3 >= val5 and sig3 <= val6)) ),temporal_response
+eventually (sig1 <= val1 and (sig2 > val2 and sig2 <= val3)),invariance_reachability
+always ( not (sig1 == val1) and sig2 > val2 -> eventually [0:t1] (always [0:t2] (sig3 == sig4)) ),stabilization_recurrence
+always ( rise (sig1 < val1) -> eventually [0:t1] (always [t2:t3] (sig2 <= val2)) ),stabilization_recurrence
+always ( sig1 >= val1 or fall (sig2 == val2) -> not (sig3 >= val3) or sig4 == sig5 ),immediate_response
+always ( fall (sig1 == val1) -> sig2 > val2 ),immediate_response
+always ( fall (sig1 == val1) -> rise (sig2 == val1) or sig3 > val2 ),immediate_response
+eventually [0:t1] (fall (sig1 == val1) or not (sig2 > val2)),invariance_reachability
+always [0:t1] (sig1 == sig2),invariance_reachability
+eventually [t1:t2] (sig1 == val1 and rise (sig2 < val2)),invariance_reachability
+always [t1:t2] (sig1 >= val1),invariance_reachability
+always ( historically [t1:t2] (sig1 >= val1 and sig1 <= val2) -> fall (always [t3:t4] (sig2 < val3)) ),temporal_response
+always ( fall (sig1 == val1) -> sig2 == val2 ),immediate_response
+always ( sig1 < val1 and sig2 == val2 -> always [0:t1] (sig3 == val3) ),temporal_response
+always ( rise (sig1 == val1) -> eventually (always [t1:t2] (sig2 == sig3)) ),stabilization_recurrence
+always ( rise (sig1 > val1 and sig1 < val2) -> always [0:t1] (eventually [0:t2] (fall (sig2 == sig3))) ),stabilization_recurrence
+eventually (sig1 == val1),invariance_reachability
+eventually [t1:t2] (sig1 >= val1),invariance_reachability
+always ( rise (sig1 > val1 and sig1 < val2) -> sig2 > val3 ),immediate_response
+always [0:t1] (sig1 > val1 or not (sig2 == sig3)),invariance_reachability
+always ( rise (sig1 == val1) -> sig2 == val2 ),immediate_response
+always ( rise (sig1 >= val1) -> (sig2 > val2 and sig2 < val3) and sig3 == val4 ),immediate_response
+always ( sig1 >= val1 or (sig2 > val2 and sig2 < val3) -> sig3 < val4 ),immediate_response
+always [0:t1] (sig1 == sig2),invariance_reachability
+always ( rise (sig1 == sig2) -> (sig3 <= val1) since (sig4 >= val2 and sig4 <= val3) ),temporal_response
+always ( not fall (historically [t1:t2] (sig1 > val1)) -> eventually [t3:t4] (always [t5:t6] (sig2 < val2)) ),stabilization_recurrence
+always [0:t1] ((sig1 >= val1 and sig1 <= val2) and sig2 == val3),invariance_reachability
+always ( rise (sig1 < val1) -> eventually [0:t1] (fall (sig2 == val2)) ),temporal_response
+eventually [t1:t2] ((sig1 > val1 and sig1 < val2) and sig2 == sig3),invariance_reachability
+always ( rise (sig1 > val1) -> eventually (sig2 == val2) ),temporal_response
+always [0:t1] (sig1 < val1),invariance_reachability
+always ( not fall (sig1 > val1 and sig1 < val2) or sig2 <= val3 -> sig3 >= val4 and sig3 <= val5 ),immediate_response
+always ( (sig1 >= val1) since [0:t1] (sig2 == val2) -> eventually [0:t2] (always (sig3 == val3)) ),stabilization_recurrence
+eventually [0:t1] (sig1 <= val1),invariance_reachability
+always ( rise (sig1 > val1) -> (sig2 <= val2) until [0:t1] (rise (sig3 > val3)) ),temporal_response
+always ( rise (sig1 > val1) -> eventually [t1:t2] (always (sig2 > val2)) ),stabilization_recurrence
+always ( historically [0:t1] (sig1 == val1) -> always [0:t2] (eventually (rise (sig2 == sig3))) ),stabilization_recurrence
+always ( once [0:t1] (sig1 > val1) -> not rise (eventually [0:t2] (sig2 <= val2)) ),temporal_response
+always ( rise (sig1 > val1 and sig1 < val2) -> (sig2 == sig3) until [t1:t2] (not (sig4 >= val3 and sig4 <= val4)) ),temporal_response
+always ( sig1 >= val1 -> (sig2 == sig3) until [t1:t2] (sig4 > val2 and sig4 < val3) ),temporal_response
+always [t1:t2] (not fall (sig1 >= val1 and sig1 <= val2) and sig2 < val3),invariance_reachability
+always ( rise (sig1 <= val1) -> rise (sig2 > val2 and sig2 < val3) ),immediate_response
+always [0:t1] (sig1 >= val1),invariance_reachability
+always [0:t1] (sig1 == sig2 or not (sig3 < val1)),invariance_reachability
+always (sig1 == sig2 and sig3 <= val1),invariance_reachability
+always ( fall (sig1 == sig2) -> always [0:t1] (eventually [0:t2] (rise (sig3 == val1))) ),stabilization_recurrence
+always [0:t1] (sig1 == val1 or sig2 > val2),invariance_reachability
+always ( rise (sig1 <= val1) -> always (sig2 == val2) ),temporal_response
+always ( rise (sig1 >= val1) -> sig2 == sig3 and (sig4 >= val2 and sig4 <= val3) ),immediate_response
+always ( rise (sig1 > val1 and sig1 <= val2) -> (sig2 > val3 and sig2 < val4) and (sig3 >= val5 and sig3 <= val6) ),immediate_response
+always ( sig1 >= val1 -> sig2 >= val2 and sig2 <= val3 ),immediate_response
+always ( eventually [0:t1] (sig1 >= val1) -> not fall (eventually [t2:t3] (sig2 <= val2)) ),temporal_response
+always [0:t1] (sig1 < val1),invariance_reachability
+always ( fall (sig1 > val1 and sig1 < val2) -> rise ((sig2 >= val3) until (rise (sig3 == val4))) ),temporal_response
+always [0:t1] (sig1 < val1 and not (sig2 >= val2 and sig2 <= val3)),invariance_reachability
+always ( (sig1 > val1 and sig1 < val2) and sig2 < val3 -> eventually [0:t1] (always [0:t2] (sig3 == val4)) ),stabilization_recurrence
+always ( rise (sig1 < val1) and not (sig2 <= val2) -> not (eventually [0:t1] (sig3 >= val3 and sig3 <= val4)) ),temporal_response
+always ( rise (sig1 >= val1 and sig1 <= val2) -> always [t1:t2] (eventually (rise (sig2 == val3))) ),stabilization_recurrence
+always [0:t1] (sig1 == val1),invariance_reachability
+eventually (rise (sig1 < val1)),invariance_reachability
+always ( sig1 >= val1 and sig2 == val2 -> eventually (always (not (sig3 == sig4))) ),stabilization_recurrence
+always [t1:t2] (sig1 >= val1),invariance_reachability
+always ( sig1 < val1 -> eventually [0:t1] (always [0:t2] (sig2 == val2)) ),stabilization_recurrence
+always [0:t1] (sig1 == val1),invariance_reachability
+always ( fall (sig1 == val1) -> historically [0:t1] (sig2 == sig3) ),temporal_response
+always ( fall (sig1 == sig2) -> sig3 == val1 ),immediate_response
+always ( rise (sig1 <= val1) -> once [0:t1] (sig2 == val2) ),temporal_response
+eventually [0:t1] (fall (sig1 >= val1 and sig1 <= val2)),invariance_reachability
+eventually [0:t1] (sig1 < val1),invariance_reachability
+always [t1:t2] (sig1 == sig2 or sig3 < val1),invariance_reachability
+eventually [t1:t2] (sig1 <= val1 or sig2 <= val2),invariance_reachability
+always ( once (sig1 == val1) -> (sig2 <= val2) until (fall (sig3 == sig4)) ),temporal_response
+always ( rise (sig1 > val1) -> not ((sig2 < val2) until [t1:t2] (sig3 == sig4)) ),temporal_response
+always ( sig1 == sig2 -> sig3 <= val1 ),immediate_response
+always ( fall (sig1 == sig2) -> eventually [0:t1] (sig3 > val1) ),temporal_response
+always ( fall (sig1 >= val1 and sig1 < val2) -> eventually [0:t1] (not (sig2 == val3)) ),temporal_response
+eventually [t1:t2] (sig1 >= val1 and sig2 == sig3),invariance_reachability
+eventually (rise (sig1 > val1)),invariance_reachability
+eventually (rise (sig1 < val1) or sig2 == sig3),invariance_reachability
+always ( not (sig1 >= val1) -> sig2 <= val2 ),immediate_response
+always [t1:t2] (not (sig1 <= val1)),invariance_reachability
+always ( fall (sig1 == val1) -> not (sig2 < val2) ),immediate_response
+always ( sig1 > val1 -> sig2 <= val2 and sig3 > val3 ),immediate_response
+eventually [0:t1] (sig1 >= val1 and sig1 <= val2),invariance_reachability
+always [0:t1] (sig1 == sig2),invariance_reachability
+always ( sig1 > val1 -> eventually [0:t1] (always [t2:t3] (sig2 == val2)) ),stabilization_recurrence
+always (sig1 <= val1 and sig2 <= val2),invariance_reachability
+always [t1:t2] (sig1 <= val1 or sig2 >= val2),invariance_reachability
+always ( rise (sig1 >= val1) -> (sig2 >= val2 and sig2 <= val3) and (sig3 > val4 and sig3 < val5) ),immediate_response
+always ( sig1 == val1 and rise (sig2 <= val2) -> always [0:t1] (eventually [0:t2] (rise (sig3 >= val3 and sig3 <= val4))) ),stabilization_recurrence
+always [t1:t2] (sig1 > val1 and sig2 == sig3),invariance_reachability
+always ( rise (sig1 == val1) -> sig2 > val2 or fall (sig3 == val3) ),immediate_response
+always [0:t1] (not (sig1 == val1)),invariance_reachability
+eventually (rise (sig1 < val1) and sig2 <= val2),invariance_reachability
+always ( fall (sig1 > val1 and sig1 < val2) -> eventually (always [t1:t2] (not (sig2 == val3))) ),stabilization_recurrence
+always ( not (historically [t1:t2] (sig1 == val1)) -> always [0:t2] (eventually [0:t3] (fall (sig2 == sig3))) ),stabilization_recurrence
+always ( (sig1 > val1) since [0:t1] (sig2 > val2) -> eventually (always [t2:t3] (not (sig3 < val3))) ),stabilization_recurrence
+always ( sig1 == val1 or (sig2 > val2 and sig2 < val3) -> rise (sig3 < val4) ),immediate_response
+always [0:t1] (sig1 == val1 or sig2 <= val2),invariance_reachability
+always ( rise (sig1 < val1) -> sig2 == sig3 ),immediate_response
+always [0:t1] (sig1 > val1),invariance_reachability
+always ( not rise (sig1 > val1) and not (sig2 == sig3) -> (sig4 == val2) until (not (_ < val3)) ),temporal_response
+always ( fall (sig1 == val1) -> eventually [0:t1] (always [0:t2] (sig2 == sig3)) ),stabilization_recurrence
+always ( sig1 < val1 or sig2 < val2 -> (not (sig3 == val3)) until [t1:t2] (sig4 >= val4 and sig4 <= val5) ),temporal_response
+always ( rise (sig1 <= val1) -> sig2 <= val2 and sig3 > val3 ),immediate_response
+always ( not (sig1 == val1) and sig2 == val2 -> always [0:t1] (sig3 <= val3) ),temporal_response
+always [t1:t2] (not (sig1 == val1)),invariance_reachability
+always ( rise (sig1 == _) -> sig2 > val1 ),immediate_response
+always ( sig1 >= val1 -> always (sig2 > val2) ),temporal_response
+always ( rise (sig1 <= val1) -> not fall (sig2 == val2) ),immediate_response
+always ( once [0:t1] (sig1 > val1) -> historically (sig2 > val2 and sig2 < val3) ),temporal_response
+always ( (not (sig1 > val1 and sig1 < val2)) since [t1:t2] (sig2 == val3) -> eventually (sig3 <= val4) ),temporal_response
+always ( fall (sig1 > val1 and sig1 < val2) -> rise (always [0:t1] (sig2 >= val3 and sig2 <= val4)) ),temporal_response
+always ( rise (sig1 < val1) -> eventually [t1:t2] (always (sig2 == sig3)) ),stabilization_recurrence
+always ( sig1 == sig2 -> not fall (sig3 > val1) and rise (sig4 > val2) ),immediate_response
+always ( rise (sig1 >= val1) -> always [0:t1] (eventually [0:t2] (sig2 <= val2)) ),stabilization_recurrence
+always ( fall (sig1 == val1) -> eventually [t1:t2] (always [t3:t4] (sig2 < val2)) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> once [t1:t2] (sig2 == sig3) ),temporal_response
+always ( sig1 <= val1 and rise (sig2 > val2) -> sig3 == val3 ),immediate_response
+always ( fall (sig1 == val1) -> not (eventually (sig2 >= val2 and sig2 <= val3)) ),temporal_response
+always ( not ((sig1 == val1) until (sig2 > val2 and sig2 < val3)) -> eventually [0:t1] (always [0:t2] (sig3 < val4)) ),stabilization_recurrence
+eventually [0:t1] (not fall (sig1 == val1)),invariance_reachability
+always ( rise (sig1 == val1) or rise (sig2 >= val2) -> sig3 > val3 and sig3 < val4 ),immediate_response
+always ( not fall (sig1 == val1) and sig2 == val2 -> not rise ((sig3 == val3) until (fall (sig4 == sig5))) ),temporal_response
+always ( fall (sig1 == sig2) -> eventually [0:t1] (always [0:t2] (sig3 == val1)) ),stabilization_recurrence
+always [0:t1] (sig1 == val1 and sig2 == val2),invariance_reachability
+always ( rise (sig1 == sig2) -> sig3 > val1 and sig3 < val2 ),immediate_response
+always ( fall (sig1 == sig2) -> sig3 >= val1 and sig3 <= val2 ),immediate_response
+always ( rise (sig1 >= val1) -> eventually [t1:t2] (always [t3:t4] (sig2 > val2)) ),stabilization_recurrence
+eventually [t1:t2] (sig1 < val1 and (sig2 > val2 and sig2 < val3)),invariance_reachability
+always ( historically [0:t1] (sig1 <= val1) -> always [t2:t3] (eventually [0:t4] (sig2 == val2)) ),stabilization_recurrence
+eventually [0:t1] (sig1 >= val1 and sig2 == val2),invariance_reachability
+always (not (sig1 > val1)),invariance_reachability
+eventually [0:t1] (fall (sig1 > val1 and sig1 < val2) and sig2 == sig3),invariance_reachability
+always [0:t1] (not (sig1 < val1) or sig2 >= val1),invariance_reachability
+always ( fall (sig1 == val1) -> always [0:t1] (eventually [0:t2] (sig2 > val2 and sig2 < val3)) ),stabilization_recurrence
+always [t1:t2] (sig1 >= val1),invariance_reachability
+always ( rise (sig1 == sig2) -> always (sig3 > val1) ),temporal_response
+always [0:t1] (sig1 >= val1),invariance_reachability
+eventually [0:t1] (rise (sig1 >= val1 and sig1 <= val2)),invariance_reachability
+always [0:t1] (sig1 <= val1),invariance_reachability
+always ( fall (sig1 >= val1 and sig1 <= val2) -> always (sig2 == sig3) ),temporal_response
+always ( rise (sig1 > val1 and sig1 < val2) -> eventually [0:t1] (sig2 <= val3) ),temporal_response
+always ( (sig1 >= val1) since [0:t1] (sig2 >= val2 and sig2 <= val3) -> always [0:t2] (eventually (rise (sig3 >= val4))) ),stabilization_recurrence
+eventually [0:t1] (rise (sig1 >= val1 and sig1 <= val2)),invariance_reachability
+always (not (sig1 == sig2)),invariance_reachability
+always ( rise (sig1 > val1 and sig1 < val2) -> eventually [0:t1] (always [0:t2] (sig2 == sig3)) ),stabilization_recurrence
+eventually [t1:t2] (sig1 > val1 or (sig2 >= val2 and sig2 <= val3)),invariance_reachability
+always ( rise (once [t1:t2] (rise (sig1 >= val1))) -> (sig2 >= val2) since [0:t3] (rise (sig3 > val3 and sig3 < val4)) ),temporal_response
+always ( sig1 == sig2 -> (sig3 >= val1 and sig3 <= val2) and not fall (sig4 > val3 and sig4 < val4) ),immediate_response
+always ( sig1 > val1 or rise (sig2 > val2) -> eventually [0:t1] (always [0:t2] (sig3 > val3 and sig3 <= val4)) ),stabilization_recurrence
+always ( rise (sig1 > val1) -> always [t1:t2] (eventually (sig2 >= val2 and sig2 <= val3)) ),stabilization_recurrence
+always ( (sig1 > val1 and sig1 < val2) and rise (sig2 == val3) -> always (eventually (rise (sig3 < val4))) ),stabilization_recurrence
+always ( rise (sig1 < val1) -> not (sig2 == val2) and sig3 == sig4 ),immediate_response
+always ( rise (sig1 <= val1) -> always [0:t1] (eventually [0:t2] (not fall (sig2 > val2 and sig2 < val3))) ),stabilization_recurrence
+always ( sig1 == sig2 -> sig3 == sig4 and sig5 == val1 ),immediate_response
+eventually [0:t1] (sig1 < val1),invariance_reachability
+always ( not (once (sig1 > val1)) -> not (always [t1:t2] (sig2 > val2 and sig2 < val3)) ),temporal_response
+always ( rise (sig1 >= val1) -> (sig2 > val2 and sig2 < val3) until [0:t1] (sig3 == sig4) ),temporal_response
+always ( once [t1:t2] (sig1 == sig2) -> (sig3 > val1 and sig3 < val2) until (not (sig4 > val3)) ),temporal_response
+always ( fall (sig1 >= val1 and sig1 <= val2) -> always (eventually (rise (sig2 == val3))) ),stabilization_recurrence
+always ( sig1 > val1 or (sig2 > val2 and sig2 < val3) -> eventually [0:t1] (always [0:t2] (sig3 == val4)) ),stabilization_recurrence
+always ( fall (sig1 == sig2) -> (sig3 > val1 and sig3 < val2) since [0:t1] (sig4 >= val3 and sig4 < val4) ),temporal_response
+always ( sig1 >= val1 and sig2 == sig3 -> eventually [0:t1] (always [0:t2] (sig4 == sig5)) ),stabilization_recurrence
+always ( fall (sig1 == sig2) -> sig3 >= val1 and sig3 <= val2 ),immediate_response
+always ( once [t1:t2] (rise (sig1 == sig2)) -> always [0:t3] (eventually [0:t4] (sig3 <= val1)) ),stabilization_recurrence
+always ( not (sig1 == val1) and fall (sig2 == val2) -> (sig3 >= val3) until (not fall (sig4 > val4)) ),temporal_response
+always ( rise (sig1 >= val1 and sig1 <= val2) -> eventually [0:t1] (sig2 > val3) ),temporal_response
+always ( historically (sig1 == val1) -> always [0:t1] (sig2 < val2) ),temporal_response
+always [0:t1] (sig1 < val1 and sig2 == sig3),invariance_reachability
+eventually (sig1 >= val1 or fall (sig2 > val2 and sig2 < val3)),invariance_reachability
+always ( fall (sig1 == sig2) -> sig3 <= val1 ),immediate_response
+always (sig1 >= val1 or sig2 == sig3),invariance_reachability
+always ( rise (sig1 > val1) -> (sig2 <= val2) until (sig3 >= val3) ),temporal_response
+always ( rise (sig1 >= val1 and sig1 < val2) -> not ((sig2 < val3) until (sig3 == val4)) ),temporal_response
+always ( not (sig1 > val1 and sig1 <= val2) -> eventually [0:t1] (always [0:t2] (sig2 > val3)) ),stabilization_recurrence
+always ( fall (sig1 >= val1 and sig1 <= val2) -> sig2 < val3 ),immediate_response
+always ( fall (sig1 == sig2) -> fall (always [0:t1] (sig3 < val1)) ),temporal_response
+always ( rise (sig1 < val1) -> sig2 >= val2 and sig2 <= val3 ),immediate_response
+eventually (rise (sig1 == val1)),invariance_reachability
+always ( fall (sig1 > val1 and sig1 < val2) -> always [0:t1] (eventually [0:t2] (rise (sig2 == val3))) ),stabilization_recurrence
+always [0:t1] (sig1 == sig2 and not (sig3 >= val1 and sig3 <= val2)),invariance_reachability
+always ( rise (sig1 == val1) -> _ == val2 ),immediate_response
+always [t1:t2] (sig1 == val1 or sig2 == sig3),invariance_reachability
+always ( rise (sig1 == sig2) -> always [t1:t2] (eventually [0:t3] (sig3 >= val1)) ),stabilization_recurrence
+always ( rise (sig1 > val1) -> fall ((sig2 >= val2) until [0:t1] (rise (sig3 == val3))) ),temporal_response
+eventually [0:t1] (rise (sig1 >= val1 and sig1 <= val2)),invariance_reachability
+always ( sig1 < val1 and (sig2 > val2 and sig2 < val3) -> historically [0:t1] (sig3 <= val4) ),temporal_response
+always ( rise (sig1 < val1) -> eventually (always (not (sig2 >= val2 and sig2 <= val3))) ),stabilization_recurrence
+always ( rise (sig1 > val1) -> always (eventually (sig2 <= val2)) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> eventually (always (sig2 < val2)) ),stabilization_recurrence
+always ( rise (sig1 > val1 and sig1 < val2) -> (sig2 >= val3) until [0:t1] (sig3 == sig4) ),temporal_response
+always ( sig1 == val1 -> eventually [t1:t2] (sig2 > val2 and sig2 < val3) ),temporal_response
+always ( not (sig1 > val1) and sig2 == val2 -> rise ((sig3 <= val3) until [0:t1] (rise (sig4 > val4 and sig4 < val5))) ),temporal_response
+always [t1:t2] (sig1 == val1),invariance_reachability
+always ( rise (sig1 < val1) -> sig2 <= val2 ),immediate_response
+always ( sig1 < val1 or sig2 == sig3 -> once (sig4 >= val2 and sig4 <= val3) ),temporal_response
+always (not fall (sig1 > val1)),invariance_reachability
+always ( fall (sig1 == val1) -> (sig2 == val2) until [t1:t2] (rise (sig3 < val3)) ),temporal_response
+always ( sig1 == val1 and sig2 > val2 -> sig3 > val3 ),immediate_response
+eventually [t1:t2] (not (sig1 <= val1)),invariance_reachability
+eventually [0:t1] (rise (sig1 > val1 and sig1 < val2) and rise (sig2 <= val3)),invariance_reachability
+always ( sig1 <= val1 -> not (always (sig2 >= val2 and sig2 <= val3)) ),temporal_response
+always ( rise (sig1 > val1) or rise (sig2 < val2) -> eventually [0:t1] (always [0:t2] (sig3 <= val3)) ),stabilization_recurrence
+always ( rise (sig1 > val1) -> rise (sig2 == val2) and sig3 > val3 ),immediate_response
+always ( sig1 == sig2 and sig3 > val1 -> eventually [0:t1] (always [0:t2] (not (sig4 == val2))) ),stabilization_recurrence
+always ( rise (sig1 <= val1) -> sig2 == val2 ),immediate_response
+always ( rise (sig1 == val1) -> not (eventually [0:t1] (rise (sig2 < val2))) ),temporal_response
+always [t1:t2] (sig1 == val1 and not (sig2 == val2)),invariance_reachability
+always ( eventually [t1:t2] (fall (sig1 > val1 and sig1 < val2)) -> eventually [t3:t4] (always (sig2 == val3)) ),stabilization_recurrence
+always ( once [0:t1] (rise (sig1 <= val1)) -> always [0:t2] (eventually [0:t3] (fall (sig2 == val2))) ),stabilization_recurrence
+always [0:t1] (sig1 == val1),invariance_reachability
+always ( historically (sig1 >= val1 and sig1 <= val2) -> always (eventually [t1:t2] (fall (sig2 == sig3))) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> sig2 <= val2 ),immediate_response
+always ( historically [t1:t2] (sig1 == val1) -> always [t3:t4] (eventually (not (sig2 < val2))) ),stabilization_recurrence
+always ( historically [0:t1] (sig1 > val1) -> always [t2:t3] (eventually [t4:t5] (rise (sig2 == sig3))) ),stabilization_recurrence
+always ( not (sig1 == val1) -> eventually [0:t1] (always (sig2 > val2 and sig2 < val3)) ),stabilization_recurrence
+always [0:t1] (sig1 >= val1),invariance_reachability
+always ( sig1 == val1 and sig2 == val2 -> eventually [0:t1] (always [0:t2] (sig3 == val3)) ),stabilization_recurrence
+always ( rise (sig1 > val1) and sig2 <= val2 -> always [0:t1] (eventually [0:t2] (sig3 == sig4)) ),stabilization_recurrence
+always [0:t1] (not (sig1 <= val1)),invariance_reachability
+always ( rise (sig1 == sig2) -> always (eventually (sig3 > val1)) ),stabilization_recurrence
+always ( rise (sig1 > val1 and sig1 < val2) -> not rise (sig2 == sig3) ),immediate_response
+always ( rise (sig1 < val1) and sig2 == val2 -> eventually [t1:t2] (sig3 == sig4) ),temporal_response
+eventually [0:t1] (sig1 < val1),invariance_reachability
+always ( sig1 >= val1 and rise (sig2 <= val2) -> sig3 == val3 ),immediate_response
+always ( rise (sig1 < val1) -> (sig2 > val2 and sig2 < val3) since [0:t1] (not (sig3 == sig4)) ),temporal_response
+always ( sig1 > val1 or sig2 == sig3 -> always [0:t1] (eventually [0:t2] (sig4 == sig5)) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> sig2 < val2 ),immediate_response
+always ( sig1 > val1 or sig2 > val2 -> sig3 == sig4 or sig5 <= val3 ),immediate_response
+always ( sig1 > val1 or rise (sig2 > val2) -> eventually [0:t1] (always [0:t2] (sig3 > val3 and sig3 <= val4)) ),stabilization_recurrence
+eventually [0:t1] (sig1 >= val1 and sig1 <= val2),invariance_reachability
+always ( sig1 < val1 and rise (sig2 == val2) -> rise (sig3 <= val3) ),immediate_response
+always ( sig1 >= val1 -> eventually [0:t1] (sig2 < val2) ),temporal_response
+always ( rise (sig1 == val1) -> sig2 < val2 ),immediate_response
+eventually [0:t1] (not fall (sig1 >= val1) or sig2 == sig3),invariance_reachability
+eventually [0:t1] ((sig1 >= val1 and sig1 <= val2) or sig2 <= val3),invariance_reachability
+always ( eventually (sig1 > val1) -> always [0:t1] (eventually (not fall (sig2 > val2))) ),stabilization_recurrence
+always ( sig1 == val1 -> always (sig2 >= val2) ),temporal_response
+eventually (sig1 > val1 and not rise (sig2 == sig3)),invariance_reachability
+always ( fall (sig1 == val1) -> always [0:t1] (eventually [t2:t3] (fall (sig2 == sig3))) ),stabilization_recurrence
+always ( sig1 >= val1 or sig2 > val2 -> always [0:t1] (eventually [0:t2] (rise (sig3 == sig4))) ),stabilization_recurrence
+always ( fall (sig1 == val1) -> rise (sig2 < val2) and sig3 <= val3 ),immediate_response
+always [t1:t2] (not (sig1 > val1 and sig1 < val2)),invariance_reachability
+always ( once (not fall (sig1 >= val1)) -> not rise ((sig2 == val2) since [t1:t2] (sig3 <= val3)) ),temporal_response
+always ( rise (sig1 > val1) -> always [t1:t2] (eventually (sig2 == sig3)) ),stabilization_recurrence
+always ( historically [0:t1] (sig1 > val1 and sig1 <= val2) -> always [t2:t3] (sig2 >= val3 and sig2 <= val4) ),temporal_response
+eventually [t1:t2] (not (sig1 >= val1 and sig1 <= val2)),invariance_reachability
+always (not fall (sig1 == val1)),invariance_reachability
+always ( once [t1:t2] (sig1 <= val1) -> eventually [t3:t4] (always [t5:t6] (sig2 >= val2 and sig2 <= val3)) ),stabilization_recurrence
+always ( sig1 == sig2 or sig3 == sig4 -> sig5 >= val1 ),immediate_response
+always ( rise (sig1 >= val1) -> sig2 >= val2 and sig2 <= val3 ),immediate_response
+always ( rise (sig1 < val1) -> sig2 == val2 ),immediate_response
+always ( (sig1 < val1) since [0:t1] (sig2 > val2 and sig2 < val3) -> eventually [0:t2] (always [0:t3] (sig3 >= val2)) ),stabilization_recurrence
+always ( rise (sig1 < val1) -> sig2 == val2 ),immediate_response
+always ( rise (sig1 == val1) -> always [0:t1] (sig2 == val2) ),temporal_response
+eventually [t1:t2] ((sig1 >= val1 and sig1 <= val2) and sig2 == sig3),invariance_reachability
+always ( rise (sig1 > val1 and sig1 < val2) -> always (sig2 == val3) ),temporal_response
+always ( fall (sig1 == sig2) -> always (sig3 < val1) ),temporal_response
+always ( fall (sig1 > val1 and sig1 < val2) -> not ((sig2 > val3) until [t1:t2] (sig3 == sig4)) ),temporal_response
+always ( rise (sig1 > val1 and sig1 <= val2) and sig2 >= val3 -> always [0:t1] (sig3 == sig4) ),temporal_response
+always ( sig1 <= val1 and sig2 <= val2 -> sig3 <= val3 ),immediate_response
+always [0:t1] (not (sig1 >= val1 and sig1 <= val2)),invariance_reachability
+always ( rise (sig1 < val1) -> always [0:t1] (eventually [t2:t3] (rise (sig2 > val2))) ),stabilization_recurrence
+always ( sig1 < val1 -> eventually (sig2 == val2) ),temporal_response
+always ( rise (sig1 <= val1) -> eventually [t1:t2] (sig2 == sig3) ),temporal_response
+always ( rise (sig1 < val1) -> always [t1:t2] (eventually [t3:t4] (sig2 == sig3)) ),stabilization_recurrence
+always ( sig1 < val1 -> always [t1:t2] (eventually [0:t3] (sig2 > val2)) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> not fall (sig2 > val2 and sig2 < val3) and rise (sig3 == val4) ),immediate_response
+always ( fall (sig1 == val1) -> always [t1:t2] (eventually (sig2 < val2)) ),stabilization_recurrence
+always ( not ((sig1 == sig2) since (sig3 == val1)) -> eventually [0:t1] (not rise (sig4 == sig5)) ),temporal_response
+always ( rise (sig1 == sig2) -> sig3 < val1 or sig4 == sig5 ),immediate_response
+always ( not (sig1 == val1) and sig2 == sig3 -> (sig4 > val2) until [0:t1] (sig5 == sig6) ),temporal_response
+always ( sig1 > val1 and sig1 < val2 -> always [0:t1] (eventually [0:t2] (sig2 == val3)) ),stabilization_recurrence
+always ( fall (sig1 == sig2) -> (sig3 == sig4) until [0:t1] (not (sig5 >= val1 and sig5 <= val2)) ),temporal_response
+eventually [0:t1] (sig1 <= val1),invariance_reachability
+eventually (sig1 == sig2 and sig3 > val1),invariance_reachability
+always [0:t1] (not (sig1 == val1) and sig2 > val2),invariance_reachability
+eventually [t1:t2] (sig1 == sig2),invariance_reachability
+always ( sig1 <= val1 or sig2 == val2 -> (sig3 > val3 and sig3 < val4) until [0:t1] (sig4 == val5) ),temporal_response
+always [t1:t2] (sig1 >= val1),invariance_reachability
+always [t1:t2] (sig1 >= val1 and sig1 <= val2),invariance_reachability
+always ( sig1 < val1 or sig2 == val2 -> eventually [0:t1] (always [0:t2] (sig3 <= val3)) ),stabilization_recurrence
+always ( sig1 == sig2 and sig3 == val1 -> not (sig4 == val2) and sig5 == val3 ),immediate_response
+always [0:t1] (not (sig1 == sig2)),invariance_reachability
+always ( not (sig1 == sig2) or sig3 == sig4 -> always (eventually (not (sig5 > val1 and sig5 <= val2))) ),stabilization_recurrence
+always ( rise (sig1 > val1 and sig1 < val2) -> sig2 == sig3 ),immediate_response
+always ( sig1 == val1 or rise (sig2 <= val2) -> sig3 > val3 or sig4 >= val4 ),immediate_response
+always ( rise (sig1 >= val1 and sig1 < val2) -> always [0:t1] (eventually [0:t2] (sig2 < val3)) ),stabilization_recurrence
+eventually [0:t1] (not (sig1 >= val1)),invariance_reachability
+eventually [t1:t2] (rise (sig1 > val1)),invariance_reachability
+always ( rise (sig1 < val1) and sig2 == sig3 -> sig4 > val2 and sig4 < val3 ),immediate_response
+always ( (sig1 > val1) until [0:t1] (sig2 == sig3) -> always [t2:t3] (eventually (rise (sig4 == sig5))) ),stabilization_recurrence
+always ( not (sig1 == sig2) -> eventually [0:t1] (always [0:t2] (sig3 <= val1)) ),stabilization_recurrence
+always ( sig1 > val1 and sig1 < val2 -> sig2 == sig3 ),immediate_response
+always ( fall (sig1 > val1 and sig1 < val2) -> not (sig2 == sig3) ),immediate_response
+always [0:t1] (sig1 <= val1),invariance_reachability
+always ( rise (sig1 == val1) -> (sig2 > val2 and sig2 < val3) until [t1:t2] (not (sig3 <= val4)) ),temporal_response
+always ( sig1 == val1 -> not fall (sig2 == val2) ),immediate_response
+eventually [t1:t2] (not (sig1 >= val1) and sig2 > val2),invariance_reachability
+always ( rise (sig1 <= val1) or rise (sig2 > val2) -> sig3 <= val3 ),immediate_response
+eventually [t1:t2] (sig1 > val1 and sig1 < val2),invariance_reachability
+always ( rise (sig1 == val1) -> always [t1:t2] (sig2 < val2) ),temporal_response
+always ( rise (sig1 >= val1 and sig1 <= val2) -> not ((sig2 == sig3) until [0:t1] (sig4 > val3 and sig4 < val4)) ),temporal_response
+always (sig1 > val1 or not rise (sig2 == sig3)),invariance_reachability
+eventually [0:t1] (rise (sig1 == val1)),invariance_reachability
+always ( rise (sig1 == sig2) -> eventually [0:t1] (not (sig3 == val1)) ),temporal_response
+always [t1:t2] (sig1 > val1 and sig2 == val2),invariance_reachability
+always ( sig1 > val1 and sig2 <= val2 -> sig3 > val3 ),immediate_response
+always (sig1 == val1),invariance_reachability
+always ( rise (sig1 <= val1) -> eventually [t1:t2] (always (sig2 >= val2)) ),stabilization_recurrence
+always ( rise (sig1 >= val1) -> (sig2 <= val2) until [0:t1] (rise (sig3 < val3)) ),temporal_response
+always ( rise (sig1 >= val1) -> sig2 == sig3 ),immediate_response
+always [0:t1] (sig1 <= val1 or not fall (sig2 > val2)),invariance_reachability
+always ( eventually [t1:t2] (not (sig1 == sig2)) -> not fall (eventually (sig3 > val1)) ),temporal_response
+always ( rise (sig1 > val1 and sig1 < val2) -> not (sig2 >= val3) and fall (sig3 == val4) ),immediate_response
+always [0:t1] (sig1 > val1 and sig1 < val2),invariance_reachability
+always [0:t1] (sig1 == sig2),invariance_reachability
+always ( rise (sig1 == sig2) -> sig3 == val1 ),immediate_response
+eventually (sig1 == sig2 and rise (sig3 >= val1)),invariance_reachability
+always (sig1 <= val1),invariance_reachability
+always ( fall (sig1 == val1) -> (sig2 == val2) until [0:t1] (sig3 <= val3) ),temporal_response
+always ( not (sig1 == sig2) or not (sig3 == sig4) -> eventually [t1:t2] (rise (sig5 < val1)) ),temporal_response
+always ( eventually [t1:t2] (not (sig1 < val1)) -> historically [0:t3] (sig2 >= val2 and sig2 <= val3) ),temporal_response
+always (sig1 == val1 and sig2 <= val2),invariance_reachability
+eventually [0:t1] (sig1 > val1 or (sig2 > val2 and sig2 < val3)),invariance_reachability
+always ( rise (sig1 <= val1) -> eventually [0:t1] (rise (sig2 > val2 and sig2 <= val3)) ),temporal_response
+always ( rise (sig1 < val1) -> sig2 == val2 ),immediate_response
+always ( rise (sig1 <= val1) -> eventually [0:t1] (always [0:t2] (sig2 > val2)) ),stabilization_recurrence
+eventually [0:t1] (sig1 <= val1),invariance_reachability
+always ( fall (sig1 == val1) -> rise (sig2 >= val2 and sig2 <= val3) or sig3 == sig4 ),immediate_response
+always [0:t1] (sig1 >= val1 or sig2 <= val2),invariance_reachability
+always ( rise (sig1 > val1) -> sig2 <= val2 ),immediate_response
+always ( rise (sig1 == val1) -> not (sig2 > val2) ),immediate_response
+always (not (sig1 <= val1) or sig2 == sig3),invariance_reachability
+always ( rise (sig1 == sig2) -> always [t1:t2] (eventually [0:t3] (sig3 >= val1)) ),stabilization_recurrence
+always ( not (eventually (rise (sig1 > val1))) -> always [t1:t2] (eventually (rise (sig2 <= val2))) ),stabilization_recurrence
+always ( rise (sig1 > val1 and sig1 < val2) -> not ((sig2 < val3) until (not (sig3 > val4 and sig3 < val5))) ),temporal_response
+always ( fall (sig1 > val1 and sig1 < val2) -> sig2 <= val3 ),immediate_response
+always ( rise (sig1 < val1) -> sig2 <= val2 ),immediate_response
+always ( not ((sig1 <= val1) since [0:t1] (rise (sig2 == val2))) -> eventually [0:t2] (rise (sig3 < val3)) ),temporal_response
+eventually [t1:t2] (sig1 == val1 or sig2 < val2),invariance_reachability
+always ( historically [t1:t2] (sig1 == val1) -> not (eventually (sig2 == val2)) ),temporal_response
+always ( once (sig1 >= val1 and sig1 <= val2) -> not ((sig2 < val3) until [t1:t2] (rise (sig3 >= val4))) ),temporal_response
+always ( rise (sig1 == val1) -> eventually [0:t1] (always [0:t2] (sig2 == val2)) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> sig2 >= val2 ),immediate_response
+always ( fall (sig1 == val1) -> sig2 >= val2 and sig2 <= val3 ),immediate_response
+always ( not ((not (sig1 < val1)) since (rise (sig2 <= val2))) -> historically [0:t1] (sig3 > val3) ),temporal_response
+always ( rise (sig1 >= val1) -> rise (sig2 >= val2) ),immediate_response
+always ( rise (sig1 <= val1) -> eventually [0:t1] (always [0:t2] (sig2 < val2)) ),stabilization_recurrence
+always ( fall (sig1 >= val1 and sig1 <= val2) -> always [0:t1] (sig2 > val3) ),temporal_response
+always [0:t1] ((sig1 > val1 and sig1 < val2) and (sig2 > val3 and sig2 < val4)),invariance_reachability
+always ( not fall (historically [t1:t2] (sig1 == val1)) -> always [0:t3] (eventually [0:t4] (rise (sig2 >= val2))) ),stabilization_recurrence
+always ( fall (sig1 >= val1 and sig1 <= val2) or sig2 >= val3 -> always [t1:t2] (not fall (sig3 == val4)) ),temporal_response
+always ( rise (sig1 == val1) -> eventually (sig2 == val2) ),temporal_response
+always ( rise (sig1 > val1) -> always [0:t1] (sig2 >= val2) ),temporal_response
+always ( rise (sig1 == sig2) -> always [0:t1] (eventually [0:t2] (rise (sig3 < val1))) ),stabilization_recurrence
+always ( not (sig1 == val1) and rise (sig2 >= val2 and sig2 <= val3) -> always [t1:t2] (eventually [0:t3] (rise (sig3 >= val4))) ),stabilization_recurrence
+always ( fall (sig1 == sig2) -> eventually [0:t1] (always [0:t2] (sig3 <= val1)) ),stabilization_recurrence
+always ( sig1 == val1 -> always [0:t1] (eventually [0:t2] (rise (sig2 >= val2))) ),stabilization_recurrence
+always ( fall (sig1 >= val1 and sig1 <= val2) -> sig2 > val3 and sig2 < val4 ),immediate_response
+always ( sig1 <= val1 or sig2 == sig3 -> eventually [t1:t2] (always [0:t3] (sig4 == val2)) ),stabilization_recurrence
+always ( rise (sig1 <= val1) -> always [0:t1] (sig2 == sig3) ),temporal_response
+always ( not fall (sig1 >= val1 and sig1 <= val2) -> rise (sig2 < val3) or sig3 == sig4 ),immediate_response
+always ( rise (sig1 < val1) -> always [0:t1] (eventually (not (sig2 == val2))) ),stabilization_recurrence
+always [t1:t2] (not (sig1 > val1 and sig1 < val2) and not rise (sig2 == sig3)),invariance_reachability
+always ( sig1 == sig2 -> eventually [0:t1] (always [t2:t3] (sig3 >= val1)) ),stabilization_recurrence
+always (not (sig1 == val1) or sig2 == val2),invariance_reachability
+always ( rise (sig1 > val1) -> eventually (rise (sig2 < val2)) ),temporal_response
+always [t1:t2] (sig1 > val1 and sig1 < val2),invariance_reachability
+always ( rise (sig1 >= val1) -> eventually (always [0:t1] (sig2 == sig3)) ),stabilization_recurrence
+eventually [0:t1] (sig1 >= val1 and not fall (sig2 == val2)),invariance_reachability
+always ( not (sig1 < val1) and not (sig2 >= val2 and sig2 <= val3) -> (not (sig3 < val4)) until [0:t1] (sig4 == sig5) ),temporal_response
+always ( sig1 > val1 and (sig2 > val2 and sig2 < val3) -> eventually (sig3 < val4) ),temporal_response
+always ( sig1 >= val1 and sig1 <= val2 -> not (sig2 > val3) ),immediate_response
+always ( fall (sig1 == val1) -> (sig2 >= val2) until [0:t1] (fall (sig3 >= val3 and sig3 < val4)) ),temporal_response
+always ( sig1 == sig2 and sig3 == val1 -> eventually [0:t1] (always [0:t2] (sig4 < val2)) ),stabilization_recurrence
+always ( not ((sig1 <= val1) until (sig2 == val2)) -> eventually [0:t1] (always [0:t2] (sig3 >= val3)) ),stabilization_recurrence
+always ( rise (sig1 == sig2) -> always (sig3 > val1) ),temporal_response
+always ( fall (sig1 == sig2) -> eventually [0:t1] (always [0:t2] (sig3 == sig4)) ),stabilization_recurrence
+always ( rise (sig1 == sig2) -> eventually (always [t1:t2] (sig3 <= val1)) ),stabilization_recurrence
+always ( rise (sig1 == sig2) -> always (eventually [0:t1] (sig3 == sig4)) ),stabilization_recurrence
+always ( fall (once (sig1 >= val1)) -> (not (sig2 == val2)) until [0:t1] (not (sig3 > val3)) ),temporal_response
+eventually [0:t1] (rise (sig1 > val1) and sig2 == val2),invariance_reachability
+always ( eventually [0:t1] (sig1 == val1) -> once (fall (sig2 == val2)) ),temporal_response
+always ( rise (sig1 <= val1) -> sig2 == sig3 ),immediate_response
+always ( once (sig1 == sig2) -> always (eventually [t1:t2] (not (sig3 > val1))) ),stabilization_recurrence
+always ( not ((sig1 <= val1) since (sig2 >= val1 and sig2 <= val2)) -> always [0:t1] (eventually [0:t2] (rise (sig3 >= val3 and sig3 <= val4))) ),stabilization_recurrence
+always ( not (always [t1:t2] (sig1 == val1)) -> always (eventually [t3:t4] (sig2 == sig3)) ),stabilization_recurrence
+always ( historically [0:t1] (sig1 <= val1) -> always (eventually [0:t2] (rise (sig2 > val2 and sig2 < val3))) ),stabilization_recurrence
+always ( rise (sig1 == sig2) -> sig3 == val1 ),immediate_response
+always ( rise (sig1 == sig2) -> eventually [0:t1] (fall (sig3 > val1 and sig3 < val2)) ),temporal_response
+always [0:t1] (sig1 >= val1 or sig2 == val2),invariance_reachability
+always ( sig1 <= val1 or not (sig2 > val2) -> (sig3 > val3) since [t1:t2] (sig4 > val4 and sig4 < val5) ),temporal_response
+always ( rise (sig1 < val1) -> always [0:t1] (sig2 >= val2) ),temporal_response
+always ( sig1 == sig2 or sig3 == sig4 -> always (eventually (rise (sig5 < val1))) ),stabilization_recurrence
+always ( not (sig1 == val1) and sig2 == val2 -> eventually [0:t1] (always (sig3 >= val3 and sig3 <= val4)) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> always [0:t1] (eventually [0:t2] (rise (sig2 == val2))) ),stabilization_recurrence
+always ( fall (historically [0:t1] (sig1 > val1)) -> not ((sig2 == val2) until [0:t2] (sig3 >= val3 and sig3 <= val4)) ),temporal_response
+always ( historically [0:t1] (not (sig1 >= val1 and sig1 <= val2)) -> eventually [t2:t3] (always [0:t4] (sig2 > val3)) ),stabilization_recurrence
+eventually [0:t1] (sig1 == sig2 or rise (sig3 >= val1)),invariance_reachability
+always [t1:t2] (not (sig1 == sig2)),invariance_reachability
+always ( sig1 == sig2 -> sig3 == val1 ),immediate_response
+always ( rise (sig1 <= val1) -> (sig2 == sig3) until (sig4 == sig5) ),temporal_response
+eventually [0:t1] (fall (sig1 >= val1 and sig1 < val2)),invariance_reachability
+always ( sig1 > val1 or not rise (sig2 > val2 and sig2 < val3) -> (not (sig3 == sig4)) until [0:t1] (sig5 == val4) ),temporal_response
+always ( not (sig1 > val1 and sig1 < val2) and (sig2 > val3 and sig2 <= val4) -> eventually [0:t1] (rise (sig3 == val5)) ),temporal_response
+always ( not (sig1 < val1) -> eventually [0:t1] (always [0:t2] (not (sig2 == val2))) ),stabilization_recurrence
+always [0:t1] (sig1 < val1),invariance_reachability
+always ( rise (sig1 > val1 and sig1 < val2) -> (sig2 < val3) until [0:t1] (rise (sig3 <= val4)) ),temporal_response
+always [t1:t2] (sig1 >= val1),invariance_reachability
+always ( rise (sig1 > val1 and sig1 < val2) and sig2 == sig3 -> eventually [0:t1] (always [0:t2] (sig4 > val3 and sig4 < val4)) ),stabilization_recurrence
+eventually (sig1 <= val1 or sig2 >= val2),invariance_reachability
+always ( rise (sig1 >= val1) -> not (sig2 == val2) or sig3 == val3 ),immediate_response
+always (sig1 >= val1 and sig2 == sig3),invariance_reachability
+always (sig1 >= val1),invariance_reachability
+always ( rise (sig1 > val1) -> (sig2 <= val2) until (fall (sig3 == sig4)) ),temporal_response
+always ( fall (sig1 == val1) -> (sig2 >= val2 and sig2 <= val3) and fall (sig3 == val4) ),immediate_response
+always ( rise (sig1 >= val1 and sig1 <= val2) -> always (sig2 >= val3 and sig2 < val4) ),temporal_response
+always ( fall (sig1 == sig2) -> eventually [0:t1] (always [t2:t3] (sig3 >= val1)) ),stabilization_recurrence
+always ( not (sig1 == val1) -> not (eventually (sig2 == sig3)) ),temporal_response
+always ( fall (sig1 == val1) -> sig2 == sig3 ),immediate_response
+always ( rise (sig1 == sig2) -> always [t1:t2] (eventually (rise (sig3 == val1))) ),stabilization_recurrence
+always ( sig1 <= val1 -> rise (sig2 <= val2) or rise (sig3 <= val3) ),immediate_response
+always ( sig1 == val1 -> sig2 < val2 ),immediate_response
+always ( rise (sig1 == sig2) -> not (always [t1:t2] (sig3 >= val1 and sig3 <= val2)) ),temporal_response
+always ( rise (sig1 >= val1) -> rise (sig2 == val2) or sig3 == val3 ),immediate_response
+always ( rise (sig1 == sig2) -> eventually [0:t1] (always [0:t2] (sig3 <= val1)) ),stabilization_recurrence
+eventually [0:t1] (rise (sig1 <= val1) or fall (sig2 >= val2 and sig2 <= val3)),invariance_reachability
+always ( (not fall (sig1 == val1)) until [0:t1] (sig2 <= val2) -> not ((sig3 < val3) until (rise (sig4 < val4))) ),temporal_response
+always ( rise (sig1 >= val1) or sig2 >= val2 -> always (eventually [0:t1] (rise (sig3 < val3))) ),stabilization_recurrence
+always ( rise (sig1 < val1) -> sig2 < val2 ),immediate_response
+always ( sig1 == val1 -> sig2 == val2 ),immediate_response
+always ( rise (sig1 > val1 and sig1 < val2) -> eventually [t1:t2] (sig2 < val3) ),temporal_response
+always [0:t1] (sig1 >= val1 and sig2 == sig3),invariance_reachability
+eventually [t1:t2] ((sig1 > val1 and sig1 < val2) and not (sig2 > val3 and sig2 < val4)),invariance_reachability
+always ( fall (sig1 >= val1 and sig1 <= val2) -> always [0:t1] (eventually [0:t2] (sig2 == sig3)) ),stabilization_recurrence
+always (sig1 > val1),invariance_reachability
+always ( fall (sig1 == val1) -> sig2 == sig3 ),immediate_response
+always ( sig1 >= val1 and sig1 <= val2 -> rise (sig2 > val3 and sig2 < val4) or rise (sig3 > val5 and sig3 < val6) ),immediate_response
+always ( rise (sig1 > val1) -> not ((sig2 == val2) until [0:t1] (rise (sig3 > val3))) ),temporal_response
+always ( not (sig1 == val1) and fall (sig2 > val2 and sig2 < val3) -> always [0:t1] (sig3 == val4) ),temporal_response
+always ( rise (sig1 <= val1) -> sig2 > val2 ),immediate_response
+eventually [0:t1] (sig1 == val1),invariance_reachability
+always ( rise (sig1 <= val1) -> sig2 < val2 ),immediate_response
+always ( rise (sig1 == sig2) -> always [0:t1] (eventually [0:t2] (sig3 > val1 and sig3 <= val2)) ),stabilization_recurrence
+always ( historically (sig1 > val1) -> always [0:t1] (eventually [0:t2] (sig2 <= val2)) ),stabilization_recurrence
+eventually [t1:t2] ((sig1 > val1 and sig1 < val2) and sig2 == val3),invariance_reachability
+always [0:t1] (sig1 >= val1 and sig1 <= val2),invariance_reachability
+always ( sig1 > val1 -> eventually [0:t1] (fall (sig2 > val2 and sig2 < val3)) ),temporal_response
+always ( rise (sig1 == val1) -> sig2 >= val2 and sig2 <= val3 ),immediate_response
+always ( rise (sig1 == val1) or fall (sig2 > val2 and sig2 < val3) -> historically [t1:t2] (sig3 == val1) ),temporal_response
+always ( sig1 >= val1 and not rise (sig2 == sig3) -> sig4 >= val2 or (sig5 >= val3 and sig5 <= val4) ),immediate_response
+always ( rise (sig1 > val1 and sig1 < val2) -> rise (sig2 > val3 and sig2 <= val4) ),immediate_response
+always ( sig1 > val1 -> eventually [0:t1] (always (sig2 > val2 and sig2 < val3)) ),stabilization_recurrence
+always ( fall (sig1 == val1) -> not rise (sig2 == sig3) ),immediate_response
+eventually [t1:t2] (sig1 == sig2 and not (sig3 == val1)),invariance_reachability
+always [t1:t2] (sig1 == sig2),invariance_reachability
+always ( fall (sig1 == val1) -> eventually [t1:t2] (fall (sig2 == val2)) ),temporal_response
+always ( historically [t1:t2] (sig1 == val1) -> eventually [t3:t4] (always [0:t5] (sig2 > val2)) ),stabilization_recurrence
+always ( eventually [t1:t2] (not (sig1 >= val1)) -> (sig2 <= val2) until [0:t3] (sig3 == sig4) ),temporal_response
+eventually [t1:t2] (not (sig1 == val1)),invariance_reachability
+always ( rise (sig1 > val1) -> always [0:t1] (eventually [0:t2] (rise (sig2 >= val2))) ),stabilization_recurrence
+eventually [0:t1] (sig1 == sig2),invariance_reachability
+always ( historically [0:t1] (sig1 >= val1) -> always [t2:t3] (eventually [t4:t5] (sig2 < val2)) ),stabilization_recurrence
+eventually (sig1 == val1),invariance_reachability
+always ( rise (sig1 == sig2) -> sig3 == sig4 ),immediate_response
+always ( fall (sig1 == val1) -> always [t1:t2] (eventually [0:t3] (rise (sig2 < val2))) ),stabilization_recurrence
+always ( rise (sig1 < val1) -> rise ((sig2 >= val1) until (sig3 < val2)) ),temporal_response
+always ( not (sig1 < val1) and sig2 == sig3 -> sig4 >= val2 and sig5 > val3 ),immediate_response
+always ( fall (sig1 == sig2) -> sig3 >= val1 or rise (sig4 > val2 and sig4 < val3) ),immediate_response
+always (not (sig1 > val1) and sig2 == val2),invariance_reachability
+always ( rise (sig1 > val1 and sig1 < val2) -> sig2 > val3 ),immediate_response
+always ( historically (not (sig1 < val1)) -> not ((sig2 == sig3) until [0:t1] (not (sig4 < val2))) ),temporal_response
+always ( (sig1 >= val1 and sig1 <= val2) and rise (sig2 > val3) -> eventually [t1:t2] (sig3 == sig4) ),temporal_response
+always [0:t1] (sig1 == val1),invariance_reachability
+always ( rise (sig1 < val1) -> sig2 == sig3 ),immediate_response
+eventually [0:t1] (not (sig1 < val1)),invariance_reachability
+always ( sig1 >= val1 -> eventually [0:t1] (always [0:t2] (not (sig2 > val2 and sig2 < val3))) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> sig2 == sig3 ),immediate_response
+always (not (sig1 > val1) or sig2 > val2),invariance_reachability
+always ( sig1 == sig2 -> eventually [0:t1] (always (sig3 > val1)) ),stabilization_recurrence
+eventually (sig1 > val1 and sig2 == sig3),invariance_reachability
+always ( rise (sig1 == sig2) -> eventually [0:t1] (rise (sig3 == val1)) ),temporal_response
+always ( rise (sig1 == sig2) -> sig3 >= val1 ),immediate_response
+always ( fall (sig1 == sig2) -> always [0:t1] (eventually [0:t2] (rise (sig3 <= val1))) ),stabilization_recurrence
+eventually [t1:t2] (sig1 < val1),invariance_reachability
+always ( rise (sig1 >= val1) -> eventually [0:t1] (rise (sig2 <= val2)) ),temporal_response
+always ( rise (sig1 == val1) -> (sig2 == val2) until [0:t1] (sig3 == val3) ),temporal_response
+always ( rise (sig1 >= val1) -> always [0:t1] (eventually [t2:t3] (sig2 > val2 and sig2 < val3)) ),stabilization_recurrence
+eventually [0:t1] (sig1 > val1),invariance_reachability
+always ( rise (sig1 >= val1) -> always [0:t1] (sig2 == sig3) ),temporal_response
+always ( fall (sig1 == val1) -> sig2 < val2 ),immediate_response
+always [0:t1] (sig1 == sig2),invariance_reachability
+always ( sig1 >= val1 and sig2 == sig3 -> sig4 >= val2 and sig4 <= val3 ),immediate_response
+always ( rise (sig1 >= val1) -> eventually (always [t1:t2] (sig2 >= val2)) ),stabilization_recurrence
+eventually (sig1 < val1),invariance_reachability
+always [0:t1] (sig1 <= val1 or sig2 == val2),invariance_reachability
+always ( not (sig1 == val1) -> always [t1:t2] (eventually [0:t3] (sig2 >= val2 and sig2 <= val3)) ),stabilization_recurrence
+always ( (sig1 >= val1 and sig1 <= val2) and sig2 == sig3 -> (sig4 >= val3 and sig4 <= val4) and sig5 == sig6 ),immediate_response
+eventually [t1:t2] (sig1 > val1 and sig1 < val2),invariance_reachability
+always ( fall (sig1 == val1) -> eventually [0:t1] (always [0:t2] (not (sig2 >= val2 and sig2 <= val3))) ),stabilization_recurrence
+always ( rise (sig1 == val1) or rise (sig2 >= val2) -> sig3 > val3 and sig3 < val4 ),immediate_response
+always [0:t1] (not (sig1 <= val1) and (sig2 >= val2 and sig2 <= val3)),invariance_reachability
+always ( sig1 == sig2 or sig3 == val1 -> not (sig4 == sig5) ),immediate_response
+always [0:t1] (sig1 < val1),invariance_reachability
+always ( fall (sig1 == val1) -> always [0:t1] (eventually [0:t2] (sig2 >= val2 and sig2 <= val3)) ),stabilization_recurrence
+always [t1:t2] (not (sig1 < val1) or sig2 == val2),invariance_reachability
+always ( fall (sig1 == val1) -> not fall ((not (sig2 > val2)) until [t1:t2] (not rise (sig3 >= val3 and sig3 <= val4))) ),temporal_response
+always ( historically (sig1 == val1) -> eventually [t1:t2] (always (sig2 <= val2)) ),stabilization_recurrence
+always ( sig1 < val1 and sig2 >= val2 -> eventually [0:t1] (sig3 > val3 and sig3 < val4) ),temporal_response
+always ( rise (sig1 >= val1) -> always (sig2 > val2) ),temporal_response
+always ( once [0:t1] (sig1 >= val1 and sig1 <= val2) -> eventually (always (sig2 > val3)) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> rise (sig2 < val2) ),immediate_response
+always ( sig1 == val1 or sig2 == val2 -> eventually [t1:t2] (always [t3:t4] (sig3 == sig4)) ),stabilization_recurrence
+always ( fall (sig1 > val1 and sig1 < val2) -> historically [0:t1] (sig2 <= val1) ),temporal_response
+always ( (sig1 > val1 and sig1 < val2) and fall (sig2 == val3) -> always (eventually (sig3 > val4)) ),stabilization_recurrence
+always ( historically [0:t1] (sig1 > val1) -> (sig2 > val2) since (sig3 == sig4) ),temporal_response
+always ( rise (sig1 == sig2) -> not (eventually [t1:t2] (rise (sig3 == sig4))) ),temporal_response
+always ( (sig1 >= val1 and sig1 <= val2) and sig2 > val3 -> not fall (eventually (rise (sig3 >= val4))) ),temporal_response
+always ( sig1 > val1 and sig2 > val2 -> always [t1:t2] (eventually [t3:t4] (rise (sig3 > val3 and sig3 <= val4))) ),stabilization_recurrence
+always [0:t1] (sig1 >= val1),invariance_reachability
+always ( rise (sig1 >= val1) -> always [t1:t2] (eventually [0:t3] (rise (sig2 == sig3))) ),stabilization_recurrence
+always ( rise (sig1 >= val1) -> always [0:t1] (eventually [0:t2] (sig2 >= val2 and sig2 <= val3)) ),stabilization_recurrence
+eventually (rise (sig1 == val1)),invariance_reachability
+always ( not (sig1 >= val1 and sig1 < val2) -> always [0:t1] (eventually [0:t2] (rise (sig2 > val3))) ),stabilization_recurrence
+always ( rise (sig1 >= val1 and sig1 <= val2) -> always [0:t1] (eventually (sig2 == val3)) ),stabilization_recurrence
+always ( historically (sig1 > val1 and sig1 < val2) -> once [0:t1] (not (sig2 > val3)) ),temporal_response
+always ( rise (sig1 > val1 and sig1 < val2) -> always [t1:t2] (eventually [t3:t4] (sig2 >= val3)) ),stabilization_recurrence
+always ( rise (sig1 > val1 and sig1 < val2) -> always [0:t1] (eventually (sig2 == val3)) ),stabilization_recurrence
+always ( sig1 == val1 -> not (eventually [0:t1] (sig2 > val2 and sig2 < val3)) ),temporal_response
+always ( (sig1 >= val1 and sig1 <= val2) or sig2 == sig3 -> always [0:t1] (eventually [0:t2] (fall (sig4 == val3))) ),stabilization_recurrence
+always ( (sig1 >= val1 and sig1 <= val2) since [0:t1] (sig2 >= val3) -> eventually [0:t2] (always [0:t3] (not (sig3 <= val4))) ),stabilization_recurrence
+always ( sig1 >= val1 -> not (sig2 <= val2) ),immediate_response
+eventually (fall (sig1 >= val1 and sig1 <= val2)),invariance_reachability
+eventually [0:t1] (sig1 >= val1),invariance_reachability
+always [t1:t2] (sig1 == sig2 and sig3 < val1),invariance_reachability
+always [t1:t2] (sig1 < val1 or sig2 == sig3),invariance_reachability
+eventually (sig1 < val1),invariance_reachability
+always ( sig1 <= val1 -> sig2 >= val2 and sig2 <= val3 ),immediate_response
+eventually [0:t1] (sig1 >= val1 and sig1 <= val2),invariance_reachability
+eventually [0:t1] (sig1 <= val1),invariance_reachability
+always ( rise (sig1 == sig2) -> fall (sig3 >= val1 and sig3 <= val2) ),immediate_response
+always ( sig1 == sig2 -> always (eventually [0:t1] (sig3 <= val1)) ),stabilization_recurrence
+always ( fall (sig1 >= val1 and sig1 < val2) and not (sig2 == val3) -> sig3 <= val4 ),immediate_response
+always ( fall (sig1 == sig2) -> sig3 == sig4 ),immediate_response
+always ( fall (sig1 >= val1 and sig1 <= val2) -> eventually (always [0:t1] (sig2 == val3)) ),stabilization_recurrence
+eventually (sig1 == val1 and fall (sig2 == val2)),invariance_reachability
+always ( fall (sig1 > val1 and sig1 < val2) -> sig2 >= val3 or sig3 >= val4 ),immediate_response
+always ( sig1 >= val1 or sig2 == val2 -> historically [t1:t2] (sig3 > val3 and sig3 < val4) ),temporal_response
+always ( rise (sig1 < val1) -> always [0:t1] (eventually [0:t2] (rise (sig2 > val2 and sig2 < val3))) ),stabilization_recurrence
+always ( once [t1:t2] (not (sig1 < val1)) -> (sig2 == sig3) since [0:t3] (not fall (sig4 == sig5)) ),temporal_response
+always ( fall (sig1 == val1) -> eventually (sig2 == val2) ),temporal_response
+always ( rise (sig1 <= val1) -> not (eventually [0:t1] (sig2 >= val2)) ),temporal_response
+always ( rise (sig1 <= val1) -> sig2 == val2 ),immediate_response
+always (sig1 >= val1),invariance_reachability
+always [0:t1] (sig1 == sig2),invariance_reachability
+always ( rise (sig1 > val1) -> sig2 > val2 ),immediate_response
+always (sig1 >= val1),invariance_reachability
+eventually [0:t1] (sig1 >= val1 and sig1 <= val2),invariance_reachability
+always ( fall (sig1 == sig2) -> always [0:t1] (eventually [0:t2] (rise (sig3 == sig4))) ),stabilization_recurrence
+always ( sig1 == sig2 and not fall (sig3 > val1) -> sig4 > val2 and sig4 < val3 ),immediate_response
+always ( once (rise (sig1 >= val1)) -> (not (sig2 < val2)) until [t1:t2] (fall (sig3 >= val3 and sig3 <= val4)) ),temporal_response
+always ( rise (sig1 == val1) -> always [t1:t2] (eventually [t3:t4] (rise (sig2 > val2))) ),stabilization_recurrence
+eventually (rise (sig1 < val1)),invariance_reachability
+always [0:t1] (sig1 == sig2 and sig3 == val1),invariance_reachability
+always ( rise (sig1 >= val1) -> always [t1:t2] (eventually [t3:t4] (sig2 == sig3)) ),stabilization_recurrence
+always ( not (sig1 <= val1) or not (sig2 >= val2) -> sig3 > val3 and sig4 == sig5 ),immediate_response
+always ( rise (sig1 == sig2) -> eventually [0:t1] (always [0:t2] (sig3 >= val1)) ),stabilization_recurrence
+always ( sig1 == sig2 or rise (sig3 >= val1 and sig3 <= val2) -> always [0:t1] (eventually [0:t2] (not rise (sig4 > val3 and sig4 < val4))) ),stabilization_recurrence
+always ( rise (sig1 >= val1) -> always [t1:t2] (sig2 == val2) ),temporal_response
+always ( rise (sig1 <= val1) and sig2 == sig3 -> rise (sig4 == val2) and sig5 > val3 ),immediate_response
+always ( rise (sig1 >= val1) -> always [t1:t2] (eventually [t3:t4] (rise (sig2 == sig3))) ),stabilization_recurrence
+always ( not (sig1 == sig2) or sig3 == val1 -> always [0:t1] (sig4 == val2) ),temporal_response
+always ( rise (sig1 == val1) -> sig2 == val2 ),immediate_response
+eventually [0:t1] (sig1 == val1),invariance_reachability
+eventually [0:t1] (sig1 > val1),invariance_reachability
+always ( historically [0:t1] (sig1 > val1 and sig1 < val2) -> once [0:t2] (sig2 > val3 and sig2 < val4) ),temporal_response
+always ( not (sig1 <= val1) or (sig2 >= val2 and sig2 <= val3) -> not fall (sig3 == sig4) ),immediate_response
+always ( fall (sig1 == sig2) -> sig3 <= val1 ),immediate_response
+always ( sig1 >= val1 -> eventually (sig2 > val2) ),temporal_response
+always ( sig1 == sig2 and not (sig3 >= val1 and sig3 <= val2) -> always [0:t1] (eventually (not (sig4 > val3 and sig4 < val4))) ),stabilization_recurrence
+always ( (not (sig1 > val1)) since [0:t1] (sig2 >= val2) -> (not (sig3 > val3 and sig3 < val4)) since [0:t2] (sig4 > val5) ),temporal_response
+always ( sig1 == sig2 and sig3 == val1 -> eventually [t1:t2] (sig4 > val2 and sig4 < val3) ),temporal_response
+always [0:t1] (sig1 <= val1),invariance_reachability
+always ( rise (sig1 >= val1 and sig1 <= val2) -> not (sig2 == sig3) ),immediate_response
+always ( not (sig1 == val1) and sig2 >= val2 -> always [t1:t2] (not (sig3 <= val3)) ),temporal_response
+eventually [t1:t2] (sig1 >= val1 and sig1 <= val2),invariance_reachability
+always ( sig1 == sig2 and sig3 == sig4 -> always [0:t1] (sig5 < val1) ),temporal_response
+always ( sig1 == sig2 or sig3 == sig4 -> not rise (sig5 == val1) and sig6 <= val2 ),immediate_response
+always ( not (eventually [0:t1] (sig1 >= val1 and sig1 <= val2)) -> eventually (always (sig2 > val3 and sig2 <= val4)) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> always [t1:t2] (sig2 == sig3) ),temporal_response
+always [0:t1] (sig1 < val1),invariance_reachability
+always ( fall (sig1 > val1 and sig1 < val2) and sig2 == sig3 -> sig4 == sig5 ),immediate_response
+always (sig1 >= val1 and (sig2 > val2 and sig2 < val3)),invariance_reachability
+always ( not (sig1 >= val1) -> sig2 <= val2 ),immediate_response
+always ( sig1 > val1 and (sig2 >= val2 and sig2 <= val3) -> rise (sig3 >= val4) and sig4 >= val5 ),immediate_response
+always ( not (sig1 == sig2) -> (sig3 >= val1 and sig3 < val2) and sig4 == val3 ),immediate_response
+always ( (sig1 > val1 and sig1 < val2) and sig2 < val3 -> eventually (sig3 > val4) ),temporal_response
+always ( rise (sig1 > val1 and sig1 <= val2) -> sig2 == sig3 ),immediate_response
+always ( fall (sig1 == sig2) -> rise (sig3 < val1) ),immediate_response
+always [0:t1] (sig1 >= val1 and sig2 == val2),invariance_reachability
+always ( once (not rise (sig1 == sig2)) -> (not (sig3 == sig4)) until (fall (sig5 > val1 and sig5 < val2)) ),temporal_response
+always ( rise (sig1 > val1 and sig1 <= val2) -> eventually [0:t1] (always (sig2 >= val3)) ),stabilization_recurrence
+always ( sig1 >= val1 -> always [t1:t2] (eventually [0:t3] (sig2 == val2)) ),stabilization_recurrence
+always ( once [0:t1] (sig1 >= val1) -> eventually [t2:t3] (sig2 == sig3) ),temporal_response
+always ( sig1 >= val1 and sig1 < val2 -> not fall (sig2 > val3 and sig2 < val4) ),immediate_response
+always ( rise (sig1 == val1) -> eventually [0:t1] (always [0:t2] (not (sig2 <= val2))) ),stabilization_recurrence
+eventually [0:t1] (rise (sig1 >= val1 and sig1 <= val2) or sig2 == val3),invariance_reachability
+eventually [0:t1] (sig1 == val1 and rise (sig2 > val2)),invariance_reachability
+always ( not (sig1 == sig2) -> eventually [0:t1] (always [0:t2] (sig3 < val1)) ),stabilization_recurrence
+always ( sig1 == sig2 or fall (sig3 == val1) -> always [0:t1] (sig4 < val2) ),temporal_response
+always ( sig1 == val1 and rise (sig2 > val2 and sig2 < val3) -> always [0:t1] (eventually [0:t2] (sig3 >= val4)) ),stabilization_recurrence
+always ( sig1 <= val1 -> sig2 >= val2 ),immediate_response
+always ( rise (sig1 >= val1 and sig1 < val2) or sig2 > val3 -> (sig3 < val4) until [0:t1] (sig4 == val5) ),temporal_response
+always ( rise (sig1 == val1) -> eventually [0:t1] (not (sig2 > val2)) ),temporal_response
+always ( rise (sig1 < val1) -> always [0:t1] (sig2 > val2) ),temporal_response
+always ( rise (sig1 == sig2) -> historically [t1:t2] (sig3 == sig4) ),temporal_response
+always ( rise (sig1 <= val1) and sig2 == sig3 -> once [0:t1] (fall (sig4 >= val2 and sig4 <= val3)) ),temporal_response
+always ( rise (sig1 > val1) -> (sig2 <= val2) until (rise (sig3 < val3)) ),temporal_response
+always ( sig1 <= val1 or fall (sig2 == val2) -> sig3 > val3 and sig3 < val4 ),immediate_response
+eventually [0:t1] (sig1 < val1),invariance_reachability
+always ( always [t1:t2] (not rise (sig1 >= val1)) -> always [0:t3] (sig2 < val2) ),temporal_response
+always ( rise (sig1 <= val1) -> sig2 == val2 ),immediate_response
+always ( rise (sig1 > val1) -> eventually [0:t1] (always [0:t2] (sig2 <= val2)) ),stabilization_recurrence
+always ( not (sig1 >= val1 and sig1 < val2) or sig2 == val3 -> sig3 == sig4 ),immediate_response
+eventually ((sig1 > val1 and sig1 < val2) and rise (sig2 == val3)),invariance_reachability
+eventually [t1:t2] ((sig1 > val1 and sig1 < val2) and sig2 < val3),invariance_reachability
+eventually [0:t1] (rise (sig1 > val1 and sig1 < val2)),invariance_reachability
+always ( sig1 == val1 -> sig2 == sig3 ),immediate_response
+always ( rise (sig1 >= val1) -> sig2 >= val2 and sig2 <= val3 ),immediate_response
+always ( rise (sig1 == sig2) -> eventually [0:t1] (not fall (sig3 == val1)) ),temporal_response
+always ( sig1 <= val1 -> rise (sig2 <= val2) ),immediate_response
+always [0:t1] (not (sig1 > val1) or sig2 >= val2),invariance_reachability
+always ( rise (sig1 == val1) -> sig2 < val1 and sig3 == val2 ),immediate_response
+always ( rise (sig1 < val1) -> sig2 > val2 and sig2 < val3 ),immediate_response
+always ( historically [0:t1] (sig1 == sig2) -> historically [0:t2] (sig3 == val1) ),temporal_response
+always [0:t1] (sig1 >= val1),invariance_reachability
+always ( sig1 == val1 and sig2 <= val2 -> (not rise (sig3 >= val3)) until [0:t1] (sig4 <= val4) ),temporal_response
+eventually (sig1 > val1),invariance_reachability
+eventually [0:t1] (rise (sig1 == val1)),invariance_reachability
+always ( fall (sig1 == val1) or (sig2 >= val2 and sig2 < val3) -> sig3 > val4 ),immediate_response
+eventually [t1:t2] (sig1 >= val1),invariance_reachability
+always ( rise (sig1 == val1) and rise (sig2 >= val2 and sig2 <= val3) -> rise (sig3 == val2) ),immediate_response
+eventually [t1:t2] (sig1 < val1 or sig2 < val2),invariance_reachability
+always ( rise (sig1 > val1 and sig1 < val2) and sig2 < val3 -> (sig3 > val4) until [0:t1] (rise (sig4 < val5)) ),temporal_response
+always ( sig1 > val1 -> not (sig2 < val2) ),immediate_response
+always ( (sig1 == sig2) since [0:t1] (sig3 == sig4) -> eventually [0:t2] (sig5 > val1) ),temporal_response
+always ( rise (sig1 > val1 and sig1 < val2) -> fall (historically (not (sig2 == sig3))) ),temporal_response
+always ( fall (sig1 == val1) -> always (eventually [t1:t2] (rise (sig2 <= val2))) ),stabilization_recurrence
+always [0:t1] (sig1 > val1 and sig2 == val2),invariance_reachability
+always ( rise (sig1 >= val1) -> always [0:t1] (eventually [0:t2] (fall (sig2 == val2))) ),stabilization_recurrence
+always ( rise (sig1 <= val1) -> sig2 == sig3 and rise (sig4 >= val2) ),immediate_response
+always ( rise (sig1 == sig2) -> sig3 == val1 ),immediate_response
+always ( rise (sig1 < val1) and rise (sig2 == val2) -> fall (sig3 == val3) ),immediate_response
+always ( rise (sig1 > val1 and sig1 <= val2) and rise (sig2 == val3) -> sig3 == val4 and (sig4 >= val5 and sig4 <= val6) ),immediate_response
+always ( fall (sig1 == val1) or sig2 > val2 -> eventually [0:t1] (always [0:t2] (sig3 < val3)) ),stabilization_recurrence
+always ( fall (sig1 == sig2) -> sig3 >= val1 ),immediate_response
+always ( historically [0:t1] (sig1 > val1 and sig1 < val2) -> eventually [0:t1] (always [t2:t3] (sig2 < val3)) ),stabilization_recurrence
+always (sig1 <= val1),invariance_reachability
+always ( rise (sig1 == val1) -> not ((sig2 == val2) until [t1:t2] (sig3 <= val3)) ),temporal_response
+always ( rise (sig1 >= val1) -> (sig2 >= val2 and sig2 <= val3) until (rise (sig3 <= val4)) ),temporal_response
+always ( rise (sig1 < val1) -> not (always [0:t1] (not (sig2 >= val2))) ),temporal_response
+always ( rise (sig1 == val1) -> eventually (rise (sig2 == val2)) ),temporal_response
+always [0:t1] (sig1 >= val1 and not (sig2 == sig3)),invariance_reachability
+always ( historically [0:t1] (sig1 == sig2) -> eventually [0:t2] (always [0:t3] (not rise (sig3 >= val1 and sig3 <= val2))) ),stabilization_recurrence
+always ( (not fall (sig1 > val1 and sig1 < val2)) until [0:t1] (not (sig2 >= val3)) -> not (always [0:t2] (sig3 == sig4)) ),temporal_response
+always ( rise (sig1 == sig2) -> sig3 < val1 ),immediate_response
+always ( rise (sig1 < val1) -> sig2 > val2 and sig2 < val3 ),immediate_response
+always ( rise (sig1 == sig2) -> always (eventually (sig3 == val1)) ),stabilization_recurrence
+always ( rise (sig1 > val1 and sig1 < val2) -> not fall (eventually (sig2 >= val3 and sig2 <= val4)) ),temporal_response
+always ( (sig1 >= val1) since (sig2 > val2 and sig2 < val3) -> eventually (sig3 == val4) ),temporal_response
+always ( rise (sig1 <= val1) -> always [0:t1] (eventually (rise (sig2 == sig3))) ),stabilization_recurrence
+always ( sig1 > val1 and sig2 > val2 -> always [0:t1] (sig3 >= val3 and sig3 <= val4) ),temporal_response
+always [t1:t2] (sig1 > val1),invariance_reachability
+always ( rise (sig1 >= val1) -> always [t1:t2] (eventually (fall (sig2 == sig3))) ),stabilization_recurrence
+always ( rise (sig1 <= val1) -> sig2 <= val2 and fall (sig3 == val3) ),immediate_response
+always ( rise (sig1 < val1) -> eventually [0:t1] (always [0:t2] (not (sig2 <= val2))) ),stabilization_recurrence
+eventually (rise (sig1 > val1)),invariance_reachability
+always [t1:t2] (sig1 > val1 or sig2 >= val2),invariance_reachability
+eventually [0:t1] ((sig1 >= val1 and sig1 <= val2) or rise (sig2 > val3)),invariance_reachability
+always ( sig1 == val1 and rise (sig2 > val2) -> always [t1:t2] (eventually [t3:t4] (rise (sig3 <= val3))) ),stabilization_recurrence
+always ( sig1 > val1 and sig2 <= val2 -> sig3 > val3 ),immediate_response
+eventually [0:t1] (rise (sig1 >= val1 and sig1 <= val2) or rise (sig2 < val3)),invariance_reachability
+always ( historically [0:t1] (sig1 <= val1) -> always [t1:t2] (eventually [0:t3] (sig2 >= val2)) ),stabilization_recurrence
+always ( rise (sig1 <= val1) -> always [0:t1] (eventually [0:t2] (sig2 == val2)) ),stabilization_recurrence
+always [0:t1] (not (sig1 == sig2) and not (sig3 == val1)),invariance_reachability
+always (sig1 == sig2 and (sig3 > val1 and sig3 < val2)),invariance_reachability
+always ( not (sig1 >= val1 and sig1 <= val2) and sig2 < val3 -> always [0:t1] (eventually [0:t2] (sig3 >= val4 and sig3 < val5)) ),stabilization_recurrence
+always [0:t1] (sig1 <= val1 or (sig2 > val2 and sig2 <= val3)),invariance_reachability
+always ( rise (sig1 > val1) -> once [0:t1] (not (sig2 > val2 and sig2 <= val3)) ),temporal_response
+always ( historically [t1:t2] (sig1 == sig2) -> eventually [0:t3] (always [0:t4] (sig3 <= val1)) ),stabilization_recurrence
+always ( always (not rise (sig1 == sig2)) -> always (eventually [t1:t2] (fall (sig3 == val1))) ),stabilization_recurrence
+always ( sig1 >= val1 and sig1 <= val2 -> (sig2 <= val3) since [0:t1] (rise (sig3 == sig4)) ),temporal_response
+eventually (sig1 <= val1 or (sig2 > val2 and sig2 < val3)),invariance_reachability
+always ( fall (sig1 >= val1 and sig1 <= val2) -> not (eventually [t1:t2] (sig2 == sig3)) ),temporal_response
+always (sig1 >= val1 or sig2 == sig3),invariance_reachability
+always ( sig1 == sig2 -> sig3 <= val1 ),immediate_response
+always ( fall (sig1 == val1) -> always [t1:t2] (eventually [0:t3] (rise (sig2 >= val2 and sig2 <= val3))) ),stabilization_recurrence
+always ( sig1 == val1 and (sig2 > val2 and sig2 < val3) -> (sig3 == sig4) until (sig5 >= val4) ),temporal_response
+always (not (sig1 <= val1)),invariance_reachability
+always ( historically (sig1 >= val1) -> always (eventually (sig2 > val2)) ),stabilization_recurrence
+always ( (sig1 > val1) since [t1:t2] (not (sig2 < val2)) -> (sig3 < val3) until [t3:t4] (rise (sig4 == _ val3)) ),temporal_response
+always ( not (sig1 >= val1 and sig1 <= val2) -> eventually (always (sig2 == sig3)) ),stabilization_recurrence
+always ( sig1 < val1 -> eventually [t1:t2] (always [t3:t4] (sig2 == val2)) ),stabilization_recurrence
+always ( historically (sig1 > val1 and sig1 < val2) -> eventually [0:t1] (always (sig2 == sig3)) ),stabilization_recurrence
+always ( rise (sig1 > val1 and sig1 < val2) or (sig2 >= val3 and sig2 <= val4) -> historically [0:t1] (sig3 > val5 and sig3 < val6) ),temporal_response
+always ( sig1 > val1 or rise (sig2 > val2 and sig2 < val3) -> (not fall (sig3 >= val4 and sig3 <= val5)) until (sig4 > val6) ),temporal_response
+always ( sig1 <= val1 or rise (sig2 > val2) -> eventually (always [t1:t2] (sig3 > val3)) ),stabilization_recurrence
+always ( sig1 == sig2 or sig3 == val1 -> sig4 >= val2 and sig4 <= val3 ),immediate_response
+always ( rise (sig1 >= val1) -> sig2 == sig3 ),immediate_response
+always ( (sig1 > val1 and sig1 < val2) or sig2 >= val3 -> sig3 <= val4 ),immediate_response
+always ( once [0:t1] (sig1 < val1) -> not ((sig2 == sig3) until (sig4 == sig5)) ),temporal_response
+always ( sig1 >= val1 and sig2 == sig3 -> always (eventually [0:t1] (sig4 == sig5)) ),stabilization_recurrence
+always [0:t1] (sig1 == val1),invariance_reachability
+always ( not (historically [0:t1] (sig1 > val1 and sig1 < val2)) -> eventually [0:t2] (rise (sig2 == sig3)) ),temporal_response
+always [0:t1] (sig1 < val1 or (sig2 > val2 and sig2 < val3)),invariance_reachability
+always ( sig1 == sig2 or sig3 == val1 -> eventually (always (sig4 <= val2)) ),stabilization_recurrence
+always ( once [t1:t2] (sig1 < val1) -> (sig2 > val2) until (sig3 == sig4) ),temporal_response
+always ( fall (sig1 == sig2) -> not ((sig3 == sig4) until [0:t1] (rise (sig5 == sig6))) ),temporal_response
+always ( sig1 == val1 -> eventually [0:t1] (not fall (sig2 == val2)) ),temporal_response
+always ( fall (sig1 == val1) -> always [0:t1] (sig2 == val2) ),temporal_response
+always ( rise (sig1 == val1) -> once [t1:t2] (sig2 == val2) ),temporal_response
+always ( rise (sig1 <= val1) or sig2 == val2 -> always [0:t1] (sig3 < val3) ),temporal_response
+always ( rise (sig1 == sig2) -> historically [t1:t2] (sig3 <= val1) ),temporal_response
+always [t1:t2] (sig1 > val1),invariance_reachability
+eventually [0:t1] ((sig1 >= val1 and sig1 <= val2) and sig2 < val3),invariance_reachability
+always ( (sig1 >= val1 and sig1 <= val2) and sig2 < val3 -> (sig3 < val4) until [0:t1] (not (sig4 == val5)) ),temporal_response
+always ( fall (sig1 == val1) -> rise (sig2 > val2) ),immediate_response
+always [0:t1] (sig1 == val1 or not fall (sig2 == sig3)),invariance_reachability
+always ( fall (sig1 == val1) -> sig2 > val2 and sig2 <= val3 ),immediate_response
+always ( rise (sig1 >= val1) -> sig2 > val2 and sig2 < val1 ),immediate_response
+always ( rise (sig1 >= val1 and sig1 <= val2) -> once (sig2 >= val3) ),temporal_response
+eventually (sig1 >= val1 or sig2 > val2),invariance_reachability
+always ( historically [0:t1] (sig1 >= val1) -> not ((sig2 >= val2 and sig2 <= val3) until [0:t2] (rise (sig3 == val4))) ),temporal_response
+always ( sig1 > val1 -> sig2 == val2 ),immediate_response
+always ( sig1 > val1 and sig2 == val2 -> eventually [0:t1] (sig3 == sig4) ),temporal_response
+always ( sig1 == val1 or sig2 >= val2 -> sig3 < val3 ),immediate_response
+always [0:t1] ((sig1 >= val1 and sig1 <= val2) and sig2 <= val3),invariance_reachability
+always ( rise (sig1 >= val1) -> eventually [0:t1] (fall (sig2 >= val2 and sig2 <= val3)) ),temporal_response
+always ( sig1 <= val1 -> always [0:t1] (eventually [0:t2] (rise (sig2 >= val2 and sig2 <= val3))) ),stabilization_recurrence
+always ( rise (sig1 >= val1) -> historically [t1:t2] (sig2 > val2 and sig2 < val3) ),temporal_response
+always (sig1 == val1 and not rise (sig2 == sig3)),invariance_reachability
+eventually [t1:t2] (sig1 == sig2 and not (sig3 == val1)),invariance_reachability
+always ( not (sig1 < val1) and not rise (sig2 == val2) -> always [0:t1] (eventually [0:t2] (fall (sig3 > val3 and sig3 <= val4))) ),stabilization_recurrence
+always ( rise (sig1 > val1) -> sig2 <= val2 ),immediate_response
+always ( rise (sig1 == sig2) -> sig3 == val1 ),immediate_response
+always ( rise (sig1 == sig2) -> sig3 > val1 and sig3 <= val2 ),immediate_response
+always ( rise (sig1 < val1) -> rise (sig2 <= val2) and (sig3 > val3 and sig3 < val4) ),immediate_response
+eventually [t1:t2] (rise (sig1 < val1) or sig2 >= val2),invariance_reachability
+always [0:t1] (sig1 >= val1),invariance_reachability
+eventually (not (sig1 > val1) and not (sig2 > val2)),invariance_reachability
+always ( rise (sig1 > val1 and sig1 <= val2) -> eventually [0:t1] (always [0:t2] (sig2 == val3)) ),stabilization_recurrence
+always ( rise (sig1 < val1) -> always [0:t1] (eventually [0:t2] (rise (sig2 > val2))) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> eventually [0:t1] (always [0:t2] (sig2 < val2)) ),stabilization_recurrence
+always (sig1 >= val1 and sig2 <= val2),invariance_reachability
+eventually [0:t1] (sig1 == sig2 or sig3 < val1),invariance_reachability
+always ( rise (sig1 == val1) -> (sig2 == val2) until [0:t1] (sig3 > val3 and sig3 < val4) ),temporal_response
+always ( not (once [0:t1] (not (sig1 >= val1 and sig1 <= val2))) -> fall (always [t2:t3] (not (sig2 <= val3))) ),temporal_response
+always ( fall (sig1 == sig2) -> always (eventually [0:t1] (not fall (sig3 == sig4))) ),stabilization_recurrence
+always ( rise (sig1 <= val1) -> eventually [0:t1] (always [0:t2] (sig2 == val2)) ),stabilization_recurrence
+always ( sig1 == sig2 and sig3 == sig4 -> once (sig5 >= val1) ),temporal_response
+always ( rise (sig1 == val1) -> eventually [0:t1] (always [0:t2] (sig2 == sig3)) ),stabilization_recurrence
+always [0:t1] (not (sig1 <= val1)),invariance_reachability
+always ( rise (sig1 >= val1) -> always [t1:t2] (eventually [0:t3] (sig2 < val2)) ),stabilization_recurrence
+always ( rise (sig1 == sig2) -> (sig3 <= val1) until [t1:t2] (sig4 >= val2) ),temporal_response
+always ( sig1 <= val1 -> not (always (sig2 == sig3)) ),temporal_response
+always ( (not (sig1 == val1)) since [0:t1] (rise (sig2 >= val2 and sig2 <= val3)) -> always [0:t2] (sig3 == val4) ),temporal_response
+always ( fall (sig1 == sig2) -> not (sig3 == sig4) ),immediate_response
+always ( rise (sig1 >= val1) -> always [t1:t2] (sig2 == val2) ),temporal_response
+always ( rise (sig1 >= val1) -> sig2 >= val2 or sig3 == val3 ),immediate_response
+always ( rise (sig1 == sig2) -> rise (sig3 > val1) ),immediate_response
+always (sig1 > val1),invariance_reachability
+always ( rise (sig1 == val1) -> not (sig2 >= val2) and (sig3 > val3 and sig3 < val4) ),immediate_response
+always ( fall (sig1 == val1) -> historically (not (sig2 == sig3)) ),temporal_response
+always (sig1 < val1),invariance_reachability
+eventually [0:t1] (sig1 <= val1 or sig2 <= val2),invariance_reachability
+always ( rise (sig1 >= val1 and sig1 <= val2) -> sig2 == sig3 or not fall (sig4 == val3) ),immediate_response
+always ( sig1 == val1 or (sig2 > val2 and sig2 <= val3) -> (not (sig3 >= val4)) until (sig4 == val5) ),temporal_response
+always ( sig1 < val1 or fall (sig2 == val2) -> eventually [t1:t2] (always (sig3 >= val3 and sig3 <= val4)) ),stabilization_recurrence
+always ( fall (sig1 > val1 and sig1 < val2) -> sig2 == sig3 ),immediate_response
+always ( sig1 == val1 or fall (sig2 == val2) -> not (always [t1:t2] (not fall (sig3 >= val3 and sig3 <= val4))) ),temporal_response
+always ( rise (sig1 > val1) -> eventually (always [0:t1] (sig2 == sig3)) ),stabilization_recurrence
+always ( rise (sig1 <= val1) -> not (sig2 == val2) or rise (sig3 > val3) ),immediate_response
+eventually [0:t1] (sig1 == sig2),invariance_reachability
+always ( fall (sig1 > val1 and sig1 < val2) -> eventually [0:t1] (always [t2:t3] (sig2 <= val3)) ),stabilization_recurrence
+always ( sig1 <= val1 and rise (sig2 > val2 and sig2 <= val3) -> always [t1:t2] (sig3 <= val4) ),temporal_response
+always [t1:t2] (not rise (sig1 > val1 and sig1 < val2) and sig2 < val3),invariance_reachability
+always ( sig1 == sig2 and sig3 == val1 -> sig4 == sig5 ),immediate_response
+always ( historically [t1:t2] (not (sig1 > val1 and sig1 < val2)) -> eventually [0:t3] (always [0:t4] (not fall (sig2 == sig3))) ),stabilization_recurrence
+always ( rise (sig1 <= val1) -> not fall (sig2 >= val2 and sig2 <= val3) ),immediate_response
+eventually [t1:t2] (sig1 == val1),invariance_reachability
+always ( rise (sig1 >= val1 and sig1 <= val2) -> sig2 < val3 ),immediate_response
+always ( rise (sig1 == sig2) -> fall (eventually [t1:t2] (sig3 == sig4)) ),temporal_response
+always ( rise (sig1 < val1) -> rise (sig2 == val2) ),immediate_response
+always ( rise (sig1 == val1) and not (sig2 < val2) -> rise (sig3 > val3) and fall (sig4 > val4 and sig4 < val5) ),immediate_response
+always ( rise (sig1 <= val1) -> sig2 >= val2 ),immediate_response
+always ( rise (sig1 <= val1) -> not fall (sig2 > val2) ),immediate_response
+always ( sig1 <= val1 -> once [0:t1] (sig2 == sig3) ),temporal_response
+always ( rise (sig1 >= val1) -> once [0:t1] (rise (sig2 < val2)) ),temporal_response
+always [t1:t2] (sig1 >= val1 and sig2 == val2),invariance_reachability
+always [0:t1] (sig1 == val1 or sig2 < val2),invariance_reachability
+always ( rise (sig1 > val1 and sig1 < val2) -> eventually [t1:t2] (always [t3:t4] (sig2 > val3 and sig2 < val4)) ),stabilization_recurrence
+always ( fall (sig1 >= val1 and sig1 <= val2) -> always [t1:t2] (sig2 == sig3) ),temporal_response
+always ( rise (sig1 < val1) -> always (eventually [0:t1] (not (sig2 > val2))) ),stabilization_recurrence
+always ( sig1 >= val1 and sig2 == val2 -> sig3 < val3 ),immediate_response
+always ( once (sig1 >= val1 and sig1 <= val2) -> eventually [0:t1] (always [0:t2] (sig2 == sig3)) ),stabilization_recurrence
+always ( sig1 == val1 -> eventually [0:t1] (always [0:t2] (not (sig2 >= val2 and sig2 <= val3))) ),stabilization_recurrence
+always ( rise (sig1 > val1) -> sig2 < val2 or sig3 <= val3 ),immediate_response
+always ( rise (sig1 > val1 and sig1 < val2) -> rise (sig2 == val3) or rise (sig3 > val4 and sig3 < val5) ),immediate_response
+eventually [0:t1] (sig1 == val1 and sig2 > val2),invariance_reachability
+always ( not (once [t1:t2] (sig1 == val1)) -> always (eventually [t3:t4] (rise (sig2 == sig3))) ),stabilization_recurrence
+always (not (sig1 >= val1 and sig1 < val2)),invariance_reachability
+always ( rise (sig1 == sig2) -> historically [t1:t2] (sig3 < val1) ),temporal_response
+always ( sig1 == val1 and sig2 == sig3 -> always (sig4 >= val2 and sig4 <= val3) ),temporal_response
+always ( sig1 > val1 and sig1 < val2 -> eventually [0:t1] (always [0:t2] (not (sig2 <= val1))) ),stabilization_recurrence
+always [0:t1] (sig1 == sig2),invariance_reachability
+eventually [0:t1] (sig1 >= val1 and sig2 < val2),invariance_reachability
+always ( rise (sig1 <= val1) -> rise (sig2 >= val2) ),immediate_response
+eventually [0:t1] (sig1 <= val1),invariance_reachability
+always ( fall (sig1 == sig2) -> rise (sig3 <= val1) or (sig4 >= val2 and sig4 < val3) ),immediate_response
+always ( sig1 <= val1 or rise (sig2 > val2) -> always [0:t1] (eventually [0:t2] (rise (sig3 == sig4))) ),stabilization_recurrence
+always ( (sig1 > val1 and sig1 <= val2) until [0:t1] (sig2 == val3) -> eventually [t2:t3] (rise (sig3 > val4)) ),temporal_response
+always ( fall (sig1 == sig2) -> eventually [t1:t2] (always (sig3 > val1)) ),stabilization_recurrence
+always ( rise (sig1 <= val1) -> eventually [0:t1] (always (sig2 == sig3)) ),stabilization_recurrence
+always ( fall (sig1 > val1 and sig1 < val2) -> sig2 < val3 ),immediate_response
+eventually (sig1 > val1 and sig1 < val2),invariance_reachability
+always (sig1 > val1 and sig1 < val2),invariance_reachability
+always ( rise (sig1 == sig2) -> always (eventually (sig3 > val1)) ),stabilization_recurrence
+always ( rise (sig1 >= val1) -> (sig2 >= val2) until (sig3 > val3 and sig3 < val4) ),temporal_response
+always (not fall (sig1 == val1)),invariance_reachability
+always ( fall (sig1 > val1 and sig1 < val2) -> eventually [0:t1] (always [0:t2] (sig2 >= val3)) ),stabilization_recurrence
+always ( fall (sig1 == val1) -> eventually (not (sig2 == val2)) ),temporal_response
+always ( sig1 == val1 and sig2 == sig3 -> sig4 == sig5 or (sig6 > val2 and sig6 < val3) ),immediate_response
+always ( fall (sig1 == sig2) -> always [t1:t2] (sig3 < val1) ),temporal_response
+always ( sig1 < val1 or not fall (sig2 > val2 and sig2 < val3) -> always [t1:t2] (not fall (sig3 > val4)) ),temporal_response
+always ( rise (sig1 >= val1) -> historically [0:t1] (not rise (sig2 > val2)) ),temporal_response
+always ( rise (sig1 > val1) -> sig2 == val2 ),immediate_response
+eventually [0:t1] (sig1 > val1 or rise (sig2 >= val2)),invariance_reachability
+always ( rise (sig1 == sig2) -> not (eventually (fall (sig3 == sig4))) ),temporal_response
+always ( rise (sig1 > val1) -> sig2 == sig3 ),immediate_response
+eventually [t1:t2] (sig1 < val1 or sig2 >= val2),invariance_reachability
+always ( always [0:t1] (sig1 == val1) -> always [0:t2] (eventually [0:t3] (rise (sig2 == val2))) ),stabilization_recurrence
+always ( rise (sig1 >= val1 and sig1 <= val2) -> always [t1:t2] (eventually [0:t3] (sig2 == val3)) ),stabilization_recurrence
+eventually (sig1 < val1),invariance_reachability
+always ( fall (always [t1:t2] (sig1 <= val1)) -> eventually [0:t3] (always [0:t4] (sig2 == val2)) ),stabilization_recurrence
+always ( fall (sig1 == sig2) -> historically [t1:t2] (not (sig3 <= val1)) ),temporal_response
+always ( rise (sig1 <= val1) -> sig2 <= val2 or not (sig3 == val3) ),immediate_response
+always ( always (sig1 < val1) -> (sig2 > val2) until [t1:t2] (sig3 == sig4) ),temporal_response
+eventually [0:t1] (not (sig1 > val1)),invariance_reachability
+eventually [t1:t2] (sig1 == sig2),invariance_reachability
+always ( sig1 >= val1 or (sig2 > val2 and sig2 < val3) -> sig3 == sig4 ),immediate_response
+eventually (rise (sig1 > val1)),invariance_reachability
+always ( sig1 == val1 and not (sig2 > val2) -> sig3 <= val3 ),immediate_response
+always [0:t1] (sig1 == val1 and sig2 == sig3),invariance_reachability
+always (not (sig1 == sig2) and sig3 == sig4),invariance_reachability
+always ( (sig1 == val1) since (rise (sig2 == val2)) -> (not (sig3 < val3)) until [0:t1] (sig4 >= val4) ),temporal_response
+always ( sig1 <= val1 -> sig2 >= val2 and sig2 <= val3 ),immediate_response
+eventually [0:t1] ((sig1 >= val1 and sig1 <= val2) and sig2 <= val3),invariance_reachability
+always [t1:t2] (sig1 <= val1),invariance_reachability
+always ( sig1 < val1 -> rise (sig2 > val2) ),immediate_response
+always ( rise (sig1 == sig2) -> fall (sig3 == val1) ),immediate_response
+always ( rise (sig1 > val1 and sig1 < val2) -> not rise ((sig2 < val3) until (sig3 <= val4)) ),temporal_response
+always ( sig1 == sig2 and rise (sig3 < val1) -> not ((sig4 == val2) until [0:t1] (fall (sig5 == sig6))) ),temporal_response
+always [0:t1] (sig1 == sig2),invariance_reachability
+always ( (sig1 == sig2) since (sig3 == val1) -> always [0:t1] (not (sig4 == sig5)) ),temporal_response
+always ( rise (sig1 < val1) -> sig2 == sig3 ),immediate_response
+always ( fall (sig1 > val1 and sig1 < val2) -> eventually (rise (sig2 > val3)) ),temporal_response
+always [0:t1] (sig1 >= val1 and sig1 <= val2),invariance_reachability
+always [t1:t2] (sig1 == sig2),invariance_reachability
+always ( historically [0:t1] (not (sig1 >= val1 and sig1 <= val2)) -> fall (eventually [t2:t3] (rise (sig2 < val3))) ),temporal_response
+always ( not (sig1 == sig2) and sig3 == val1 -> eventually [0:t1] (always [0:t2] (sig4 < val2)) ),stabilization_recurrence
+eventually (rise (sig1 > val1) or sig2 < val2),invariance_reachability
+always ( rise (sig1 < val1) -> sig2 == sig3 and not (sig4 < val2) ),immediate_response
+always [t1:t2] (sig1 < val1 and sig2 > val2),invariance_reachability
+always ( once [t1:t2] (rise (sig1 == sig2)) -> always [0:t3] (eventually [0:t4] (rise (sig3 > val1))) ),stabilization_recurrence
+eventually (rise (sig1 > val1 and sig1 < val2) and sig2 < val3),invariance_reachability
+eventually (not (sig1 <= val1)),invariance_reachability
+always ( rise (sig1 < val1) -> sig2 == val2 ),immediate_response
+always ( sig1 > val1 and sig1 < val2 -> eventually [t1:t2] (always [0:t3] (sig2 < val3)) ),stabilization_recurrence
+always [0:t1] (sig1 == sig2),invariance_reachability
+always ( fall (sig1 >= val1 and sig1 <= val2) -> always [0:t1] (eventually [0:t2] (rise (sig2 >= val3))) ),stabilization_recurrence
+always ( rise (sig1 < val1) -> eventually [0:t1] (always [0:t2] (sig2 >= val2)) ),stabilization_recurrence
+always ( rise (sig1 == val1) and sig2 < val2 -> eventually [0:t1] (always [0:t2] (sig3 <= val3)) ),stabilization_recurrence
+always ( rise (sig1 < val1) -> sig2 == val2 ),immediate_response
+always ( sig1 > val1 -> not (sig2 == val2) ),immediate_response
+always ( sig1 > val1 and sig1 < val2 -> eventually [t1:t2] (sig2 == sig3) ),temporal_response
+always ( rise (sig1 > val1 and sig1 < val2) or sig2 == sig3 -> eventually [0:t1] (always (sig4 >= val3 and sig4 < val4)) ),stabilization_recurrence
+always ( (sig1 > val1 and sig1 < val2) since [0:t1] (not fall (sig2 == val3)) -> always (eventually [0:t2] (rise (sig3 == sig4))) ),stabilization_recurrence
+always ( rise (sig1 < val1) -> always [t1:t2] (eventually [t3:t4] (sig2 > val2 and sig2 < val3)) ),stabilization_recurrence
+always ( rise (sig1 < val1) or sig2 < val2 -> sig3 > val3 and sig3 < val1 ),immediate_response
+always (sig1 == val1),invariance_reachability
+always ( not fall (sig1 > val1) -> always (eventually [t1:t2] (sig2 >= val2)) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> eventually (sig2 >= val2) ),temporal_response
+eventually (rise (sig1 == val1) or not (sig2 >= val2)),invariance_reachability
+eventually [0:t1] (fall (sig1 == val1)),invariance_reachability
+always ( sig1 >= val1 and sig1 <= val2 -> always [0:t1] (eventually [0:t2] (not fall (sig2 == sig3))) ),stabilization_recurrence
+eventually [0:t1] (sig1 > val1 and sig2 >= val2),invariance_reachability
+always ( rise (sig1 <= val1) -> not (eventually [0:t1] (sig2 > val2 and sig2 < val3)) ),temporal_response
+always ( sig1 == sig2 and rise (sig3 >= val1) -> sig4 <= val2 or not (sig5 > val3 and sig5 < val4) ),immediate_response
+always ( sig1 == val1 -> fall (sig2 == val2) ),immediate_response
+eventually [0:t1] (rise (sig1 == val1) and sig2 < val2),invariance_reachability
+always [0:t1] (sig1 == val1),invariance_reachability
+always ( fall (sig1 > val1 and sig1 < val2) -> not fall (always (not (sig2 <= val3))) ),temporal_response
+always [t1:t2] (not (sig1 <= val1) and (sig2 >= val2 and sig2 <= val3)),invariance_reachability
+always ( rise (sig1 >= val1) -> not (eventually [0:t1] (rise (sig2 == sig3))) ),temporal_response
+always [t1:t2] ((sig1 >= val1 and sig1 <= val2) and sig2 == val3),invariance_reachability
+always ( sig1 >= val1 and sig1 < val2 -> always [0:t1] (eventually [0:t2] (sig2 > val3 and sig2 < val4)) ),stabilization_recurrence
+eventually [t1:t2] (fall (sig1 == val1) or sig2 >= val2),invariance_reachability
+always [0:t1] ((sig1 > val1 and sig1 < val2) and sig2 <= val3),invariance_reachability
+always ( fall (sig1 > val1 and sig1 < val2) -> always [0:t1] (sig2 == sig3) ),temporal_response
+always ( rise (sig1 >= val1 and sig1 <= val2) and sig2 == sig3 -> sig4 == sig5 ),immediate_response
+always ( rise (sig1 >= val1) or sig2 == sig3 -> sig4 > val2 ),immediate_response
+always ( sig1 > val1 or sig2 < val2 -> eventually [0:t1] (always [0:t2] (sig3 > val3)) ),stabilization_recurrence
+always [0:t1] (sig1 == val1),invariance_reachability
+always ( rise (sig1 <= val1) -> always [0:t1] (eventually [0:t2] (fall (sig2 == sig3))) ),stabilization_recurrence
+always ( sig1 == val1 and (sig2 >= val2 and sig2 <= val3) -> eventually (rise (sig3 > val4 and sig3 < val5)) ),temporal_response
+always ( sig1 == val1 or (sig2 >= val2 and sig2 <= val3) -> not (always (sig3 >= val4 and sig3 <= val5)) ),temporal_response
+always [t1:t2] (sig1 < val1 and sig2 == sig3),invariance_reachability
+always ( fall (sig1 > val1 and sig1 < val2) and (sig2 >= val3 and sig2 <= val4) -> sig3 >= val5 ),immediate_response
+always (not (sig1 > val1 and sig1 <= val2) or sig2 >= val3),invariance_reachability
+always ( sig1 < val1 or sig2 <= val2 -> not (eventually [0:t1] (sig3 == val3)) ),temporal_response
+always (sig1 == val1),invariance_reachability
+always ( fall (sig1 >= val1 and sig1 <= val2) -> sig2 == val3 ),immediate_response
+always ( rise (sig1 == val1) -> eventually [0:t1] (always [0:t2] (sig2 == val2)) ),stabilization_recurrence
+eventually [0:t1] (not fall (sig1 == val1) and sig2 == sig3),invariance_reachability
+always ( not (sig1 >= val1) -> eventually [0:t1] (rise (sig2 < val2)) ),temporal_response
+always (sig1 < val1 or sig2 <= val2),invariance_reachability
+always ( rise (sig1 > val1) -> (sig2 > val2 and sig2 < val3) or rise (sig3 >= val4) ),immediate_response
+always ( fall (sig1 == sig2) -> always [t1:t2] (eventually [0:t3] (rise (sig3 == sig4))) ),stabilization_recurrence
+always ( rise (sig1 >= val1) or rise (sig2 < val2) -> once [t1:t2] (sig3 == val1) ),temporal_response
+always ( rise (sig1 == sig2) -> eventually [t1:t2] (always [0:t3] (sig3 <= val1)) ),stabilization_recurrence
+always [t1:t2] (sig1 == val1 and sig2 == val2),invariance_reachability
+always ( once (sig1 > val1 and sig1 < val2) -> (sig2 == val3) until (not (sig3 == sig4)) ),temporal_response
+always ( rise (sig1 >= val1 and sig1 <= val2) -> eventually [t1:t2] (always [0:t3] (sig2 == sig3)) ),stabilization_recurrence
+always ( rise (sig1 > val1) -> sig2 > val2 ),immediate_response
+eventually [0:t1] (sig1 == sig2),invariance_reachability
+eventually [0:t1] (sig1 >= val1 or sig2 == sig3),invariance_reachability
+always ((sig1 >= val1 and sig1 <= val2) and not (sig2 <= val3)),invariance_reachability
+always ( fall (sig1 > val1 and sig1 <= val2) -> sig2 >= val3 and sig2 <= val4 ),immediate_response
+eventually [0:t1] (sig1 == sig2),invariance_reachability
+always ( fall (sig1 == val1) -> sig2 == sig3 ),immediate_response
+always ( rise (sig1 <= val1) -> always [t1:t2] (eventually (fall (sig2 == val2))) ),stabilization_recurrence
+always ( sig1 < val1 -> once [t1:t2] (sig2 == val2) ),temporal_response
+always ( eventually [0:t1] (sig1 < val1) -> (sig2 <= val2) until [t2:t3] (not (sig3 < val3)) ),temporal_response
+always ( fall (sig1 == val1) -> sig2 == sig3 ),immediate_response
+always ( rise (sig1 == val1) -> always [t1:t2] (sig2 == val2) ),temporal_response
+always ( fall (sig1 == val1) -> always [0:t1] (eventually (sig2 == val2)) ),stabilization_recurrence
+always ( fall (sig1 >= val1 and sig1 < val2) -> sig2 == sig3 ),immediate_response
+always ((sig1 >= val1 and sig1 <= val2) or not (sig2 <= val3)),invariance_reachability
+always ( sig1 == sig2 and sig3 == sig4 -> always [0:t1] (not (sig5 == sig6)) ),temporal_response
+always ( rise (sig1 >= val1) -> always [0:t1] (eventually [0:t2] (fall (sig2 == val2))) ),stabilization_recurrence
+always ( fall (sig1 == sig2) -> historically (sig3 >= val1 and sig3 <= val2) ),temporal_response
+eventually (sig1 == val1 and fall (sig2 == val2)),invariance_reachability
+always ( rise (sig1 == val1) -> sig2 < val2 or sig3 == val3 ),immediate_response
+always ( rise (sig1 >= val1) -> eventually [t1:t2] (always [0:t3] (sig2 > val2)) ),stabilization_recurrence
+always ( rise (sig1 > val1) -> always [0:t1] (eventually [0:t2] (rise (sig2 > val2))) ),stabilization_recurrence
+always ( sig1 == sig2 -> eventually [0:t1] (always [0:t2] (sig3 >= val1)) ),stabilization_recurrence
+always ( not fall (historically [0:t1] (sig1 == sig2)) -> eventually (sig3 == val1) ),temporal_response
+always ( not (sig1 == val1) or not fall (sig2 >= val2) -> sig3 <= val3 and rise (sig4 > val4) ),immediate_response
+always ( sig1 == sig2 -> (sig3 > val1 and sig3 < val2) or sig4 == sig5 ),immediate_response
+always ((sig1 >= val1 and sig1 <= val2) or sig2 == sig3),invariance_reachability
+always ( rise (sig1 == val1) -> always [0:t1] (eventually (rise (sig2 > val2 and sig2 < val3))) ),stabilization_recurrence
+always [0:t1] (sig1 == sig2 or sig3 < val1),invariance_reachability
+eventually [0:t1] (sig1 == sig2 and sig3 >= val1),invariance_reachability
+always [0:t1] (sig1 <= val1 and sig2 >= val2),invariance_reachability
+always ( sig1 == sig2 -> sig3 == sig4 ),immediate_response
+always ( rise (sig1 > val1) -> always [t1:t2] (sig2 > val2 and sig2 < val3) ),temporal_response
+always ( once [t1:t2] (rise (sig1 > val1)) -> eventually [0:t3] (always [0:t4] (sig2 == sig3)) ),stabilization_recurrence
+always ( fall (sig1 == sig2) -> eventually [t1:t2] (sig3 > val1 and sig3 < val2) ),temporal_response
+always ( not (sig1 == val1) -> (sig2 == sig3) since (sig4 == sig5) ),temporal_response
+eventually [0:t1] (rise (sig1 <= val1) and rise (sig2 == val2)),invariance_reachability
+always ( sig1 <= val1 and sig2 < val2 -> rise (sig3 >= val3 and sig3 <= val4) and sig4 == val5 ),immediate_response
+always [0:t1] (sig1 == sig2),invariance_reachability
+always [0:t1] (sig1 == sig2 and sig3 > val1),invariance_reachability
+always [0:t1] (sig1 == sig2),invariance_reachability
+always ( rise (sig1 == sig2) -> sig3 >= val1 and sig3 <= val2 ),immediate_response
+eventually (rise (sig1 <= val1)),invariance_reachability
+always ( not (sig1 > val1 and sig1 < val2) and fall (sig2 == val3) -> eventually [0:t1] (always [0:t2] (sig3 == val4)) ),stabilization_recurrence
+always ( rise (sig1 >= val1) -> sig2 == val2 and (sig3 >= val3 and sig3 <= val4) ),immediate_response
+always ( sig1 <= val1 or rise (sig2 > val1) -> sig3 > val2 and sig3 < val3 ),immediate_response
+always [0:t1] ((sig1 > val1 and sig1 < val2) and sig2 >= val3),invariance_reachability
+eventually [0:t1] (sig1 >= val1),invariance_reachability
+eventually [0:t1] (sig1 <= val1),invariance_reachability
+always ( sig1 > val1 and sig2 >= val2 -> not (always [0:t1] (sig3 > val3)) ),temporal_response
+eventually [t1:t2] (rise (sig1 > val1)),invariance_reachability
+always ( rise (sig1 <= val1) -> sig2 <= val2 ),immediate_response
+always ( fall (sig1 == val1) -> eventually [t1:t2] (rise (sig2 < val2)) ),temporal_response
+eventually [t1:t2] (rise (sig1 >= val1) and sig2 < val2),invariance_reachability
+always ( rise (sig1 < val1) -> rise (sig2 > val1) ),immediate_response
+always [0:t1] (sig1 > val1),invariance_reachability
+always (sig1 == val1 and not (sig2 < val2)),invariance_reachability
+always ( sig1 >= val1 and (sig2 > val2 and sig2 < val3) -> eventually [t1:t2] (always (sig3 > val4 and sig3 < val5)) ),stabilization_recurrence
+always ( fall (sig1 > val1 and sig1 <= val2) -> (sig2 == val3) until [0:t1] (sig3 > val4 and sig3 < val5) ),temporal_response
+always ( fall (sig1 == sig2) -> not ((sig3 > val1 and sig3 < val2) until (rise (sig4 == sig5))) ),temporal_response
+always ( (sig1 >= val1 and sig1 <= val2) and sig2 == val3 -> eventually [0:t1] (sig3 > val4) ),temporal_response
+always [t1:t2] (not (sig1 > val1) or sig2 < val2),invariance_reachability
+always ( sig1 >= val1 -> eventually [t1:t2] (always [0:t3] (sig2 >= val2)) ),stabilization_recurrence
+eventually (sig1 >= val1 and not (sig2 == sig3)),invariance_reachability
+always ( rise (sig1 <= val1) -> always [0:t1] (eventually [0:t2] (rise (sig2 < val2))) ),stabilization_recurrence
+always ( fall (sig1 > val1 and sig1 < val2) -> always (eventually (rise (sig2 <= val3))) ),stabilization_recurrence
+always ( sig1 == sig2 -> rise (sig3 == val1) ),immediate_response
+eventually [t1:t2] (sig1 == sig2),invariance_reachability
+always ( not (sig1 <= val1) or (sig2 >= val2 and sig2 <= val3) -> historically [0:t1] (sig3 == val4) ),temporal_response
+always ( rise (sig1 == sig2) -> sig3 == val1 ),immediate_response
+eventually (not (sig1 >= val1) and (sig2 >= val2 and sig2 <= val3)),invariance_reachability
+always ( eventually [0:t1] (sig1 > val1) -> (not fall (sig2 > val2 and sig2 < val3)) since [t2:t3] (sig3 > val1) ),temporal_response
+always ( sig1 == val1 and sig2 <= val2 -> always [0:t1] (eventually [0:t2] (sig3 > val3 and sig3 < val4)) ),stabilization_recurrence
+eventually [t1:t2] (sig1 == val1 or not (sig2 == sig3)),invariance_reachability
+always [0:t1] ((sig1 >= val1 and sig1 <= val2) and sig2 > val3),invariance_reachability
+always ( sig1 > val1 -> sig2 < val2 ),immediate_response
+always ( rise (sig1 <= val1) -> sig2 <= val2 ),immediate_response
+always ( rise (sig1 >= val1 and sig1 <= val2) -> eventually [0:t1] (fall (sig2 == sig3)) ),temporal_response
+eventually [t1:t2] (sig1 >= val1),invariance_reachability
+always [0:t1] (sig1 == sig2),invariance_reachability
+always [0:t1] (not (sig1 < val1) and sig2 > val2),invariance_reachability
+eventually [t1:t2] (sig1 == sig2),invariance_reachability
+always ( rise (sig1 > val1 and sig1 < val2) -> sig2 > val3 ),immediate_response
+always ( rise (sig1 > val1 and sig1 <= val2) -> always [t1:t2] (eventually [0:t3] (sig2 <= val3)) ),stabilization_recurrence
+always (not rise (sig1 >= val1 and sig1 <= val2) and sig2 == val3),invariance_reachability
+always ( rise (sig1 == sig2) -> always [0:t1] (eventually [t2:t3] (rise (sig3 <= val1))) ),stabilization_recurrence
+always ( fall (once (sig1 > val1 and sig1 < val2)) -> (sig2 >= val3 and sig2 <= val4) until [0:t1] (sig3 == sig4) ),temporal_response
+always ( fall (sig1 == sig2) -> sig3 == sig4 and sig5 == sig6 ),immediate_response
+always ( fall (sig1 > val1 and sig1 < val2) -> sig2 > val3 and sig2 < val4 ),immediate_response
+always ( (sig1 >= val1 and sig1 <= val2) and sig2 <= val3 -> not (sig3 > val4 and sig3 < val5) and sig4 < val6 ),immediate_response
+always ( not (once (sig1 == val1)) -> (sig2 > val2) until [t1:t2] (rise (sig3 < val3)) ),temporal_response
+eventually [t1:t2] (rise (sig1 > val1 and sig1 <= val2)),invariance_reachability
+always ( rise (sig1 > val1) -> always (sig2 <= val2) ),temporal_response
+always ( (sig1 >= val1 and sig1 <= val2) or not (sig2 == sig3) -> always (sig4 == val3) ),temporal_response
+eventually [0:t1] (sig1 == sig2),invariance_reachability
+always ( rise (sig1 == val1) -> not (sig2 >= val2) ),immediate_response
+always ( sig1 == val1 or sig2 == sig3 -> not (sig4 == sig5) ),immediate_response
+eventually (sig1 == val1),invariance_reachability
+eventually [0:t1] (sig1 <= val1 or sig2 == sig3),invariance_reachability
+always ( sig1 == sig2 -> (sig3 >= val1 and sig3 <= val2) until [0:t1] (sig4 > val3 and sig4 < val4) ),temporal_response
+always ( rise (sig1 < val1) -> historically (sig2 == sig3) ),temporal_response
+eventually (sig1 > val1 and sig2 <= val2),invariance_reachability
+always ( rise (sig1 > val1 and sig1 <= val2) -> eventually [t1:t2] (always (sig2 == sig3)) ),stabilization_recurrence
+always [0:t1] (sig1 == val1),invariance_reachability
+always ( fall (sig1 == val1) -> eventually [0:t1] (sig2 > val2) ),temporal_response
+eventually [0:t1] (not (sig1 == sig2)),invariance_reachability
+always ( rise (sig1 >= val1 and sig1 < val2) -> sig2 < val3 or sig3 > val4 ),immediate_response
+always ( sig1 == val1 -> sig2 <= val2 and not (sig3 < val3) ),immediate_response
+always [0:t1] (sig1 == val1),invariance_reachability
+always ( not (sig1 < val1) -> (sig2 == sig3) until (sig4 == sig5) ),temporal_response
+always ( fall (historically (sig1 <= val1)) -> always [0:t1] (eventually [0:t2] (rise (sig2 <= val2))) ),stabilization_recurrence
+always ( fall (sig1 >= val1 and sig1 < val2) -> eventually (not (sig2 > val3)) ),temporal_response
+always ( rise (sig1 < val1) -> once [0:t1] (rise (sig2 > val2)) ),temporal_response
+eventually [t1:t2] (rise (sig1 >= val1) or sig2 < val2),invariance_reachability
+eventually [0:t1] (sig1 > val1 and not fall (sig2 >= val2)),invariance_reachability
+always ( not (sig1 <= val1) or sig2 == sig3 -> sig4 >= val2 ),immediate_response
+always ( rise (sig1 == sig2) -> eventually (always [t1:t2] (not (sig3 >= val1))) ),stabilization_recurrence
+always [t1:t2] (sig1 > val1 and sig2 == sig3),invariance_reachability
+always ( rise (sig1 > val1) -> sig2 >= val2 or rise (sig3 >= val3 and sig3 <= val4) ),immediate_response
+always ( rise (sig1 == sig2) -> once [t1:t2] (sig3 > val1 and sig3 < val2) ),temporal_response
+always ( rise (sig1 < val1) -> eventually [0:t1] (not rise (sig2 == sig3)) ),temporal_response
+always ( sig1 == sig2 and not fall (sig3 >= val1 and sig3 <= val2) -> sig4 == val3 ),immediate_response
+always ( sig1 == sig2 -> sig3 < val1 ),immediate_response
+always [0:t1] (sig1 == sig2),invariance_reachability
+always ( not fall (sig1 > val1 and sig1 < val2) or not (sig2 > val3 and sig2 < val4) -> eventually [t1:t2] (sig3 == val5) ),temporal_response
+always ( rise (sig1 >= val1) or rise (sig2 < val2) -> once [t1:t2] (sig3 == val2) ),temporal_response
+always ( sig1 == val1 or sig2 == val2 -> sig3 == val3 ),immediate_response
+eventually [0:t1] (sig1 == sig2),invariance_reachability
+always [0:t1] ((sig1 > val1 and sig1 < val2) or sig2 < val3),invariance_reachability
+always ( rise (sig1 > val1 and sig1 < val2) -> (sig2 > val3 and sig2 < val4) until (fall (sig3 == val5)) ),temporal_response
+always ( rise (sig1 > val1) -> eventually [t1:t2] (always [0:t3] (sig2 > val2)) ),stabilization_recurrence
+always ( sig1 <= val1 -> eventually [0:t1] (always [0:t2] (sig2 <= val2)) ),stabilization_recurrence
+always ( fall (sig1 == sig2) -> always [0:t1] (eventually [0:t2] (sig3 > val1)) ),stabilization_recurrence
+always ( fall (sig1 > val1 and sig1 < val2) and sig2 == sig3 -> always [0:t1] (eventually [t2:t3] (rise (sig4 > val3 and sig4 < val4))) ),stabilization_recurrence
+always ( rise (sig1 < val1) -> eventually (sig2 == sig3) ),temporal_response
+always ( sig1 == sig2 or rise (sig3 > val1) -> not (always [0:t1] (not (sig4 >= val2))) ),temporal_response
+eventually [0:t1] (sig1 > val1 and sig2 < val2),invariance_reachability
+always ( sig1 == sig2 -> always [0:t1] (eventually [0:t2] (sig3 == sig4)) ),stabilization_recurrence
+always ( fall (sig1 == val1) -> eventually [0:t1] (always [0:t2] (not (sig2 >= val2 and sig2 <= val3))) ),stabilization_recurrence
+eventually [t1:t2] (sig1 <= val1 and not (sig2 <= val2)),invariance_reachability
+always ( sig1 == sig2 and sig3 == val1 -> always [t1:t2] (eventually [t3:t4] (not fall (sig4 == sig5))) ),stabilization_recurrence
+always ( rise (sig1 < val1) -> always [0:t1] (sig2 < val2) ),temporal_response
+always ( fall (sig1 == val1) -> always (sig2 > val2 and sig2 < val3) ),temporal_response
+always ( rise (sig1 >= val1 and sig1 <= val2) -> not ((sig2 > val3 and sig2 < val4) until [t1:t2] (rise (sig3 >= val5))) ),temporal_response
+always ( sig1 == sig2 -> sig3 == val1 ),immediate_response
+always ( (not (sig1 < val1)) since (fall (sig2 > val2 and sig2 < val3)) -> always (eventually [t1:t2] (not (sig3 <= val4))) ),stabilization_recurrence
+always ( sig1 >= val1 and sig1 <= val2 -> fall (eventually [t1:t2] (rise (sig2 < val3))) ),temporal_response
+eventually (sig1 == sig2 and rise (sig3 > val1 and sig3 <= val2)),invariance_reachability
+always ( sig1 >= val1 and sig1 <= val2 -> sig2 >= val3 ),immediate_response
+always ( rise (sig1 > val1) -> sig2 > val2 and sig2 < val3 ),immediate_response
+eventually [0:t1] (sig1 > val1),invariance_reachability
+eventually (sig1 == val1 or not (sig2 == sig3)),invariance_reachability
+always ( rise (sig1 >= val1 and sig1 <= val2) -> (sig2 > val3) until [0:t1] (sig3 < val4) ),temporal_response
+always ( rise (sig1 > val1) -> eventually [0:t1] (always (sig2 >= val2)) ),stabilization_recurrence
+always [0:t1] (sig1 >= val1 and sig2 == sig3),invariance_reachability
+always ( fall (historically [t1:t2] (sig1 == sig2)) -> not ((not fall (sig3 == sig4)) until [t3:t4] (rise (sig5 == val1))) ),temporal_response
+always ( historically [0:t1] (sig1 <= val1) -> always (eventually [0:t2] (rise (sig2 > val2 and sig2 < val3))) ),stabilization_recurrence
+eventually (rise (_ <= val1) and sig1 == sig2),invariance_reachability
+always ( once [t1:t2] (sig1 >= val1 and sig1 <= val2) -> always (eventually [0:t3] (rise (sig2 == sig3))) ),stabilization_recurrence
+always ( fall (sig1 == sig2) -> eventually [t1:t2] (sig3 >= val1 and sig3 <= val2) ),temporal_response
+eventually (not (sig1 >= val1) and (sig2 > val2 and sig2 < val3)),invariance_reachability
+always ( sig1 == sig2 -> not ((sig3 == sig4) until (sig5 <= val1)) ),temporal_response
+always [0:t1] (sig1 == val1),invariance_reachability
+always ( sig1 >= val1 and sig2 == sig3 -> sig4 == sig5 ),immediate_response
+always (sig1 > val1 or sig2 > val2),invariance_reachability
+always ( once [t1:t2] (rise (sig1 > val1 and sig1 <= val2)) -> not ((not (sig2 > val3)) until [t3:t4] (sig3 > val4)) ),temporal_response
+always ( (sig1 == val1) since [t1:t2] (sig2 >= val2) -> eventually [0:t3] (always [0:t4] (sig3 <= val3)) ),stabilization_recurrence
+always ( not (sig1 <= val1) -> not ((sig2 <= val2) until [t1:t2] (sig3 >= val3)) ),temporal_response
+always ( fall (sig1 == val1) -> sig2 == val2 ),immediate_response
+eventually [0:t1] (sig1 < val1 and sig2 == _),invariance_reachability
+eventually [0:t1] (sig1 == val1),invariance_reachability
+always [t1:t2] ((sig1 > val1 and sig1 < val2) and sig2 == sig3),invariance_reachability
+always [0:t1] (sig1 == val1 or sig2 == val2),invariance_reachability
+always ( rise (sig1 > val1) or (sig2 > val2 and sig2 < val3) -> eventually [0:t1] (sig3 > val4) ),temporal_response
+always [0:t1] (sig1 == val1 or sig2 == val2),invariance_reachability
+always ( (sig1 > val1 and sig1 <= val2) until (sig2 == val3) -> always [0:t1] (eventually [0:t2] (rise (sig3 == val4))) ),stabilization_recurrence
+always ( rise (sig1 < val1) -> not (always (sig2 == sig3)) ),temporal_response
+always ( rise (sig1 <= val1) -> sig2 <= val2 and fall (sig3 == val3) ),immediate_response
+always ( fall (sig1 > val1 and sig1 < val2) -> (sig2 > val3) until [0:t1] (sig3 == sig4) ),temporal_response
+always [0:t1] (sig1 == val1 and sig2 <= val2),invariance_reachability
+always ( sig1 <= val1 and sig2 >= val2 -> sig3 > val3 ),immediate_response
+always ( sig1 > val1 -> not (sig2 == val2) ),immediate_response
+always ( sig1 == sig2 and sig3 == sig4 -> eventually [0:t1] (always (sig5 >= val1)) ),stabilization_recurrence
+always ( fall (sig1 > val1 and sig1 <= val2) -> (sig2 == sig3) until [t1:t2] (not (sig4 < val3)) ),temporal_response
+always ( rise (sig1 == val1) -> eventually [0:t1] (always [0:t2] (sig2 >= val2 and sig2 <= val3)) ),stabilization_recurrence
+always ( not (historically [0:t1] (sig1 == val1)) -> always (eventually [0:t2] (rise (sig2 >= val2 and sig2 <= val3))) ),stabilization_recurrence
+eventually [0:t1] (fall (sig1 >= val1 and sig1 <= val2)),invariance_reachability
+always ( sig1 == sig2 or fall (sig3 == val1) -> sig4 < val2 ),immediate_response
+always ( rise (sig1 >= val1 and sig1 <= val2) and (sig2 >= val3 and sig2 < val4) -> always [0:t1] (sig3 <= val5) ),temporal_response
+eventually [t1:t2] (sig1 == sig2 and sig3 < val1),invariance_reachability
+always ( sig1 == sig2 -> eventually [t1:t2] (always (sig3 <= val1)) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> eventually [t1:t2] (always (sig2 > val2)) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> sig2 >= val2 ),immediate_response
+always [0:t1] (sig1 == val1),invariance_reachability
+always ( sig1 == val1 and not fall (sig2 == val2) -> not (sig3 >= val3) ),immediate_response
+always ( once [0:t1] (rise (sig1 > val1 and sig1 < val2)) -> always [0:t2] (eventually [0:t3] (rise (sig2 > val3))) ),stabilization_recurrence
+always ( fall (sig1 == val1) -> eventually [0:t1] (always [0:t2] (sig2 >= val2)) ),stabilization_recurrence
+eventually [0:t1] (sig1 == val1 or sig2 == val2),invariance_reachability
+always [0:t1] (sig1 >= val1),invariance_reachability
+eventually [t1:t2] (sig1 > val1 and sig1 < val2),invariance_reachability
+always ( fall (sig1 == sig2) -> always [t1:t2] (eventually [t3:t4] (sig3 > val1)) ),stabilization_recurrence
+always ( sig1 < val1 -> not (eventually [0:t1] (sig2 > val2)) ),temporal_response
+always ( rise (sig1 <= val1) -> always [0:t1] (eventually (rise (sig2 > val2))) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> always (eventually [0:t1] (rise (sig2 > val2 and sig2 < val3))) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> sig2 <= val2 ),immediate_response
+always ( sig1 <= val1 and not (sig2 >= val2) -> (sig3 <= val3) until (sig4 == val4) ),temporal_response
+always ( sig1 > val1 or sig2 >= val2 -> sig3 < val3 ),immediate_response
+always ( fall (sig1 == val1) -> always [0:t1] (eventually [t2:t3] (rise (sig2 >= val2 and sig2 < val3))) ),stabilization_recurrence
+eventually [t1:t2] (rise (sig1 > val1)),invariance_reachability
+always ( not fall (sig1 == val1) -> not (always (sig2 > val2)) ),temporal_response
+always [0:t1] (sig1 == val1 or sig2 < val2),invariance_reachability
+always ( fall (sig1 > val1 and sig1 <= val2) -> sig2 == val3 or sig3 < val4 ),immediate_response
+eventually [t1:t2] (sig1 >= val1),invariance_reachability
+always ( (sig1 >= val1 and sig1 <= val2) and (sig2 >= val3 and sig2 <= val4) -> always [0:t1] (eventually [0:t2] (rise (sig3 >= val5))) ),stabilization_recurrence
+eventually [0:t1] (not fall (sig1 == sig2) or sig3 < val1),invariance_reachability
+always ( fall (sig1 == val1) -> not (eventually (sig2 >= val2 and sig2 <= val3)) ),temporal_response
+always ( rise (sig1 <= val1) -> always [t1:t2] (eventually [0:t3] (fall (sig2 >= val2 and sig2 <= val3))) ),stabilization_recurrence
+always ( fall (sig1 == val1) -> (sig2 <= val2) until [0:t1] (sig3 <= val3) ),temporal_response
+always ( rise (sig1 == val1) -> always [t1:t2] (sig2 >= val2 and sig2 < val3) ),temporal_response
+always [t1:t2] (sig1 >= val1 or sig2 >= val2),invariance_reachability
+always ( rise (sig1 < val1) -> not ((sig2 > val2) until [t1:t2] (sig3 >= val3)) ),temporal_response
+always ( rise (sig1 <= val1) -> sig2 > val2 ),immediate_response
+always [0:t1] (sig1 == val1 or sig2 == val2),invariance_reachability
+always [0:t1] (sig1 >= val1 and sig1 <= val2),invariance_reachability
+always ( fall (historically (sig1 == val1)) -> eventually (always [0:t1] (not (sig2 == sig3))) ),stabilization_recurrence
+eventually [0:t1] (not fall (sig1 == sig2) and sig3 == val1),invariance_reachability
+always ( sig1 >= val1 or sig2 == sig3 -> sig4 == val2 and sig5 == val3 ),immediate_response
+always ( historically [t1:t2] (sig1 < val1) -> not (eventually (sig2 <= val2)) ),temporal_response
+always ( rise (sig1 < val1) -> (sig2 < val2) until [0:t1] (not rise (sig3 == val3)) ),temporal_response
+always ( rise (sig1 > val1) -> eventually [0:t1] (always [0:t2] (not (sig2 >= val2))) ),stabilization_recurrence
+always ( sig1 == sig2 or (sig3 > val1 and sig3 < val2) -> not (historically (sig4 >= val3 and sig4 <= val4)) ),temporal_response
+always ( rise (sig1 >= val1 and sig1 <= val2) or sig2 == val3 -> eventually [0:t1] (always [0:t2] (sig3 == sig4)) ),stabilization_recurrence
+always (sig1 >= val1 and sig1 < val2),invariance_reachability
+always ( sig1 == sig2 and sig3 > val1 -> always [0:t1] (sig4 == sig5) ),temporal_response
+always ( rise (sig1 >= val1) -> eventually (always [0:t1] (sig2 >= val2)) ),stabilization_recurrence
+always ( sig1 < val1 -> (sig2 >= val2 and sig2 < val3) and sig3 < val4 ),immediate_response
+always ( rise (sig1 == sig2) -> not (sig3 >= val1 and sig3 <= val2) or sig4 == val3 ),immediate_response
+always [0:t1] (sig1 == val1),invariance_reachability
+always ( (sig1 >= val1 and sig1 <= val2) or not (sig2 <= val3) -> not fall (sig3 > val4 and sig3 < val5) ),immediate_response
+always ( rise (sig1 > val1) -> sig2 >= val2 ),immediate_response
+always ( fall (sig1 > val1 and sig1 <= val2) -> (sig2 == sig3) until [t1:t2] (not (sig4 < val3)) ),temporal_response
+always ( not fall (sig1 == val1) -> (sig2 == val2) until [0:t1] (sig3 == val3) ),temporal_response
+always [t1:t2] (sig1 > val1 or not (sig2 >= val2)),invariance_reachability
+always ( rise (sig1 == sig2) -> not (sig3 < val1) ),immediate_response
+always ( always [0:t1] (sig1 > val1) -> eventually [0:t2] (always [0:t3] (sig2 <= val2)) ),stabilization_recurrence
+always ( rise (sig1 == sig2) -> eventually (always [t1:t2] (sig3 < val1)) ),stabilization_recurrence
+always ( not fall (sig1 == val1) -> sig2 < val2 ),immediate_response
+always ( fall (sig1 == val1) -> (sig2 == val2) until (sig3 < val3) ),temporal_response
+always ( rise (sig1 == val1) or sig2 > val2 -> sig3 == val3 ),immediate_response
+always ( (sig1 >= val1 and sig1 <= val2) until [0:t1] (sig2 <= val3) -> (sig3 == sig4) until [0:t2] (sig5 == val4) ),temporal_response
+always ( not (historically [t1:t2] (sig1 > val1 and sig1 < val2)) -> always (eventually (rise (sig2 > val3))) ),stabilization_recurrence
+always ( not (sig1 > val1 and sig1 < val2) and not (sig2 == sig3) -> eventually [0:t1] (always [0:t2] (sig4 < val3)) ),stabilization_recurrence
+always [0:t1] (sig1 == sig2),invariance_reachability
+always ( rise (sig1 <= val1) -> always [0:t1] (eventually [0:t2] (fall (sig2 == val2))) ),stabilization_recurrence
+always [0:t1] (not (sig1 == sig2)),invariance_reachability
+always ( sig1 >= val1 -> always [0:t1] (sig2 >= val2) ),temporal_response
+always ( fall (sig1 > val1 and sig1 <= val2) -> eventually (sig2 >= val3) ),temporal_response
+eventually (rise (sig1 == val1)),invariance_reachability
+always ( once [0:t1] (sig1 > val1 and sig1 < val2) -> eventually [0:t2] (always [0:t3] (not (sig2 <= val3))) ),stabilization_recurrence
+always ( fall (sig1 >= val1 and sig1 <= val2) -> (sig2 <= val3) until [t1:t2] (not (sig3 > val4)) ),temporal_response
+always ( fall (sig1 == val1) -> not (eventually [t1:t2] (sig2 == sig3)) ),temporal_response
+always [0:t1] (sig1 > val1 and (sig2 >= val2 and sig2 <= val3)),invariance_reachability
+always ( rise (sig1 == sig2) -> sig3 == val1 ),immediate_response
+always ( rise (sig1 == sig2) -> eventually [0:t1] (always [0:t2] (sig3 == val1)) ),stabilization_recurrence
+eventually [0:t1] (fall (sig1 == sig2)),invariance_reachability
+always [t1:t2] (sig1 > val1 and sig1 < val2),invariance_reachability
+always ( fall (sig1 >= val1 and sig1 <= val2) or (sig2 >= val3 and sig2 <= val4) -> once [0:t1] (sig3 >= val5 and sig3 <= val6) ),temporal_response
+always ( rise (sig1 > val1) -> eventually [0:t1] (always (sig2 >= val2)) ),stabilization_recurrence
+always ( not (historically (not (sig1 == sig2))) -> eventually [0:t1] (always [0:t2] (sig3 >= val1)) ),stabilization_recurrence
+eventually ((sig1 >= val1 and sig1 <= val2) or sig2 == val3),invariance_reachability
+always [t1:t2] (sig1 == val1),invariance_reachability
+always ( sig1 == sig2 -> eventually (always (sig3 == sig4)) ),stabilization_recurrence
+always ( rise (sig1 >= val1) -> not (sig2 < val2) and sig3 < val3 ),immediate_response
+always [0:t1] ((sig1 >= val1 and sig1 <= val2) or sig2 > val3),invariance_reachability
+always ( rise (sig1 > val1 and sig1 < val2) -> (sig2 >= val3 and sig2 <= val1) until [0:t1] (sig3 <= val4) ),temporal_response
+always ( sig1 == sig2 and sig3 == val1 -> once [t1:t2] (not (sig4 >= val2 and sig4 <= val3)) ),temporal_response
+always ( once [0:t1] (sig1 < val1) -> eventually [0:t2] (always (sig2 > val2)) ),stabilization_recurrence
+always ( rise (sig1 < val1) and sig2 == val2 -> historically [0:t1] (sig3 == val3) ),temporal_response
+always ( rise (sig1 >= val1) -> (not rise (sig2 == sig3)) until [0:t1] (sig4 == val2) ),temporal_response
+always [0:t1] (sig1 < val1 or sig2 < val2),invariance_reachability
+always ( rise (sig1 == sig2) -> always [0:t1] (eventually [t2:t3] (sig3 >= val1 and sig3 <= val2)) ),stabilization_recurrence
+always ( sig1 == val1 and rise (sig2 <= val2) -> eventually [0:t1] (always (sig3 == sig4)) ),stabilization_recurrence
+always [0:t1] (sig1 == val1),invariance_reachability
+always ( (sig1 == val1) until (rise (sig2 > val2)) -> always [t1:t2] (sig3 <= val3) ),temporal_response
+always ( rise (sig1 == sig2) -> always [0:t1] (eventually [0:t2] (fall (sig3 >= val1 and sig3 <= val2))) ),stabilization_recurrence
+always ( fall (sig1 == val1) -> (sig2 == sig3) until [0:t1] (sig4 > val2 and sig4 < val3) ),temporal_response
+always ( rise (sig1 == val1) -> not (always (sig2 == sig3)) ),temporal_response
+always ( rise (sig1 == sig2) -> eventually [0:t1] (always [0:t2] (sig3 < val1)) ),stabilization_recurrence
+always (sig1 < val1),invariance_reachability
+always ( rise (sig1 > val1 and sig1 < val2) -> sig2 == sig3 ),immediate_response
+eventually [0:t1] (sig1 == sig2 and sig3 == val1),invariance_reachability
+always [0:t1] (sig1 >= val1),invariance_reachability
+always [0:t1] (sig1 == sig2 and sig3 < val1),invariance_reachability
+always ( rise (sig1 <= val1) -> eventually [0:t1] (sig2 == sig3) ),temporal_response
+always ( sig1 <= val1 and rise (sig2 >= val2) -> always [0:t1] (eventually (fall (sig3 == sig4))) ),stabilization_recurrence
+always ( rise (sig1 > val1 and sig1 <= val2) -> sig2 == sig3 ),immediate_response
+always ( fall (sig1 == sig2) -> eventually [0:t1] (always [0:t2] (sig3 <= val1)) ),stabilization_recurrence
+eventually (rise (sig1 == val1)),invariance_reachability
+always ( rise (sig1 <= val1) -> eventually [t1:t2] (always [t3:t4] (sig2 == sig3)) ),stabilization_recurrence
+always (sig1 >= val1),invariance_reachability
+always ( fall (sig1 == val1) and (sig2 >= val2 and sig2 <= val3) -> always [t1:t2] (sig3 >= val4 and sig3 <= val5) ),temporal_response
+eventually [0:t1] (fall (sig1 > val1 and sig1 < val2) and not (sig2 >= val3)),invariance_reachability
+always ( rise (sig1 == val1) -> not fall (always [0:t1] (sig2 < val2)) ),temporal_response
+always ( rise (sig1 > val1) -> not fall (sig2 == val2) and sig3 < val1 ),immediate_response
+always ( sig1 == sig2 -> eventually [0:t1] (always [0:t2] (not (sig3 == sig4))) ),stabilization_recurrence
+always ( rise (sig1 >= val1) -> always [t1:t2] (eventually [0:t3] (sig2 == sig3)) ),stabilization_recurrence
+always ( (not (sig1 >= val1)) since (sig2 > val2 and sig2 <= val3) -> historically [t1:t2] (not fall (sig3 > val4)) ),temporal_response
+eventually [0:t1] (sig1 == sig2),invariance_reachability
+always ( rise (sig1 > val1) -> sig2 > val2 ),immediate_response
+always ( once [0:t1] (sig1 >= val1 and sig1 <= val2) -> eventually [0:t2] (always [0:t3] (sig2 >= val3 and sig2 <= val4)) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> sig2 <= val2 ),immediate_response
+always [0:t1] ((sig1 >= val1 and sig1 <= val2) and (sig2 >= val3 and sig2 <= val4)),invariance_reachability
+always ( not (sig1 >= val1 and sig1 < val2) or sig2 > val3 -> fall ((sig3 == sig4) until [0:t1] (sig5 == val4)) ),temporal_response
+always ( rise (sig1 < val1) -> always [0:t1] (eventually [0:t2] (fall (sig2 == sig3))) ),stabilization_recurrence
+eventually [t1:t2] (rise (sig1 <= val1) and sig2 > val2),invariance_reachability
+always ( sig1 == val1 -> sig2 == sig3 ),immediate_response
+always ( fall (sig1 == val1) -> eventually [0:t1] (rise (sig2 > val2)) ),temporal_response
+always ( rise (sig1 >= val1) -> always (sig2 >= val2) ),temporal_response
+always ( rise (sig1 > val1) -> always [t1:t2] (eventually (sig2 >= val2 and sig2 <= val3)) ),stabilization_recurrence
+always ( sig1 > val1 and sig2 < val2 -> sig3 == val3 ),immediate_response
+always ( sig1 > val1 or sig2 < val2 -> eventually [0:t1] (sig3 < val3) ),temporal_response
+eventually (not rise (sig1 == sig2) or sig3 > val1),invariance_reachability
+always ( (sig1 >= val1) since [0:t1] (sig2 <= val2) -> (sig3 == val3) until [0:t2] (sig4 == sig5) ),temporal_response
+always ( rise (sig1 >= val1) -> always (sig2 > val2 and sig2 < val3) ),temporal_response
+always ( once [0:t1] (sig1 == val1) -> eventually [0:t2] (always [0:t3] (sig2 < val2)) ),stabilization_recurrence
+always ( (not fall (sig1 == sig2)) since (sig3 == val1) -> always [0:t1] (eventually [0:t2] (sig4 >= val2 and sig4 < val3)) ),stabilization_recurrence
+always ( sig1 >= val1 -> sig2 <= val2 and sig3 == val3 ),immediate_response
+eventually [t1:t2] (not (sig1 >= val1 and sig1 < val2) or rise (sig2 > val3)),invariance_reachability
+eventually (rise (sig1 >= val1 and sig1 <= val2) or sig2 < val3),invariance_reachability
+always ( rise (sig1 == sig2) -> sig3 > val1 ),immediate_response
+always [0:t1] (sig1 >= val1 and sig2 == sig3),invariance_reachability
+always ( not fall ((sig1 == val1) since (not (sig2 <= val2))) -> eventually [0:t1] (always [t2:t3] (sig3 > val3)) ),stabilization_recurrence
+eventually [0:t1] (rise (sig1 >= val1) and not (sig2 > val2)),invariance_reachability
+always ( rise (sig1 == val1) -> (sig2 == sig3) until [0:t1] (sig4 == sig5) ),temporal_response
+eventually [0:t1] (rise (sig1 >= val1)),invariance_reachability
+always ( rise (sig1 > val1) -> not (sig2 > val2 and sig2 < val3) ),immediate_response
+always ( rise (sig1 < val1) -> always [0:t1] (eventually [t2:t3] (not fall (sig2 >= val2))) ),stabilization_recurrence
+always ( fall (sig1 >= val1 and sig1 <= val2) -> eventually [0:t1] (always [t2:t3] (sig2 == sig3)) ),stabilization_recurrence
+always ( rise (sig1 < val1) -> sig2 < val2 ),immediate_response
+always ( rise (sig1 < val1) -> always (eventually [0:t1] (rise (sig2 >= val2))) ),stabilization_recurrence
+always ( not (once [0:t1] (not (sig1 > val1 and sig1 < val2))) -> always [t2:t3] (sig2 > val3) ),temporal_response
+always ( fall (sig1 == sig2) -> sig3 > val1 ),immediate_response
+always [0:t1] (sig1 >= val1 and sig2 < val2),invariance_reachability
+always (sig1 == val1),invariance_reachability
+always (sig1 > val1),invariance_reachability
+always [0:t1] (sig1 == val1 or sig2 == val2),invariance_reachability
+always ( rise (sig1 > val1) or not (sig2 < val2) -> always [0:t1] (eventually [0:t2] (rise (sig3 == val3))) ),stabilization_recurrence
+always ( once [0:t1] (rise (sig1 == val1)) -> fall (eventually [0:t2] (sig2 < val2)) ),temporal_response
+eventually [0:t1] (sig1 == val1),invariance_reachability
+always ( rise (sig1 == sig2) -> sig3 > val1 ),immediate_response
+eventually [0:t1] (sig1 == sig2),invariance_reachability
+always ( sig1 == val1 or sig2 == val2 -> (sig3 == sig4) since [0:t1] (sig5 >= val3) ),temporal_response
+always ( rise (sig1 == val1) -> rise (sig2 <= val2) and (sig3 > val3 and sig3 < val4) ),immediate_response
+always ( rise (sig1 >= val1) and sig2 >= val2 -> sig3 > val3 and sig3 < val4 ),immediate_response
+always ( rise (sig1 >= val1) -> (sig2 == sig3) until [t1:t2] (sig4 == val2) ),temporal_response
+always ( fall (sig1 == val1) -> fall (sig2 >= val2 and sig2 <= val3) and (sig3 >= val4 and sig3 <= val5) ),immediate_response
+eventually [t1:t2] (not rise (sig1 == val1) and rise (sig2 >= val2 and sig2 <= val3)),invariance_reachability
+eventually [0:t1] (sig1 > val1),invariance_reachability
+always [t1:t2] (not (sig1 < val1)),invariance_reachability
+always ( rise (sig1 >= val1) -> (sig2 < val2) since [0:t1] (rise (sig3 == sig4)) ),temporal_response
+always ( rise (sig1 > val1 and sig1 < val2) or sig2 == sig3 -> eventually [0:t1] (always (sig4 >= val3 and sig4 < val4)) ),stabilization_recurrence
+always [0:t1] (sig1 == sig2),invariance_reachability
+always (sig1 == val1 and sig2 < val2),invariance_reachability
+always ( sig1 == sig2 -> not (eventually [0:t1] (rise (sig3 > val1))) ),temporal_response
+always ( (not fall (sig1 == sig2)) since (sig3 == val1) -> always [0:t1] (eventually [0:t2] (sig4 >= val2 and sig4 < val3)) ),stabilization_recurrence
+always ( fall (sig1 == sig2) -> not (eventually [0:t1] (sig3 >= val1 and sig3 <= val2)) ),temporal_response
+always ( rise (sig1 >= val1 and sig1 <= val2) -> always (eventually (sig2 == sig3)) ),stabilization_recurrence
+always ( sig1 == val1 and sig2 == sig3 -> sig4 == sig5 ),immediate_response
+always ( fall (sig1 > val1 and sig1 <= val2) -> once [t1:t2] (sig2 > val3) ),temporal_response
+eventually [0:t1] (sig1 < val1 or sig2 == val2),invariance_reachability
+always ( sig1 > val1 and sig1 < val2 -> always [0:t1] (eventually [0:t2] (rise (sig2 > val3))) ),stabilization_recurrence
+always ( sig1 < val1 and not (sig2 == val2) -> (not (sig3 >= val3 and sig3 <= val4)) since [t1:t2] (sig4 == sig5) ),temporal_response
+always ( rise (sig1 == val1) and sig2 == sig3 -> (sig4 > val2) until [0:t1] (not (sig5 == sig6)) ),temporal_response
+eventually (sig1 == sig2 and rise (sig3 < val1)),invariance_reachability
+always (sig1 > val1),invariance_reachability
+always ( fall (sig1 >= val1 and sig1 <= val2) -> always [0:t1] (eventually [0:t2] (sig2 == sig3)) ),stabilization_recurrence
+always ( sig1 > val1 and sig1 < val2 -> sig2 >= val3 and sig2 <= val4 ),immediate_response
+always ( rise (sig1 > val1) -> sig2 <= val2 ),immediate_response
+always ( rise (sig1 > val1 and sig1 < val2) -> not ((sig2 <= val3) until [t1:t2] (not (sig3 >= val4 and sig3 <= val5))) ),temporal_response
+always ( rise (sig1 == val1) -> rise (sig2 >= val2) and rise (sig3 <= val3) ),immediate_response
+always ( sig1 == sig2 -> always [0:t1] (eventually [t2:t3] (rise (sig3 > val1 and sig3 < val2))) ),stabilization_recurrence
+always ( sig1 > val1 -> historically (sig2 == sig3) ),temporal_response
+always ( rise (sig1 >= val1 and sig1 < val2) -> eventually (always (sig2 <= val3)) ),stabilization_recurrence
+always ( rise (sig1 >= val1 and sig1 <= val2) -> not (sig2 == val3) ),immediate_response
+always [t1:t2] (sig1 >= val1 and sig1 <= val2),invariance_reachability
+always [t1:t2] (sig1 == val1 and sig2 < val2),invariance_reachability
+always ( (not rise (sig1 == sig2)) until [0:t1] (not (sig3 == sig4)) -> eventually [0:t2] (always [0:t3] (sig5 >= val1 and sig5 <= val2)) ),stabilization_recurrence
+always ( not fall (sig1 == val1) and rise (sig2 < val2) -> (not (sig3 == sig4)) until [t1:t2] (sig5 == sig6) ),temporal_response
+always ( rise (sig1 <= val1) or sig2 < val2 -> rise (sig3 > val3) or not (sig4 > val4 and sig4 <= val5) ),immediate_response
+eventually (sig1 > val1),invariance_reachability
+always ( rise (sig1 == sig2) -> always [0:t1] (eventually [t2:t3] (_ == val1)) ),stabilization_recurrence
+always [0:t1] (sig1 == val1 and not (sig2 < val2)),invariance_reachability
+always ( fall (sig1 == val1) -> once [0:t1] (not fall (sig2 == val2)) ),temporal_response
+always ( (sig1 >= val1 and sig1 <= val2) and rise (sig2 <= val3) -> not ((sig3 == sig4) until [0:t1] (sig5 == sig6)) ),temporal_response
+always ( not rise (sig1 >= val1) -> sig2 <= val2 ),immediate_response
+always ( rise (sig1 <= val1) -> not (always [0:t1] (sig2 > val2 and sig2 < val3)) ),temporal_response
+always ( rise (sig1 <= val1) -> always [t1:t2] (not (sig2 > val2)) ),temporal_response
+always ( (sig1 > val1 and sig1 < val2) until [0:t1] (rise (sig2 < val3)) -> not ((not rise (sig3 > val4)) since [t2:t3] (sig4 <= val5)) ),temporal_response
+always ( rise (sig1 == sig2) -> sig3 >= val1 and sig3 <= val2 ),immediate_response
+always ( rise (sig1 < val1) -> sig2 < val2 ),immediate_response
+always ( not ((sig1 == val1) since [0:t1] (sig2 > val2)) -> eventually [0:t2] (always [0:t2] (sig3 > val3 and sig3 < val4)) ),stabilization_recurrence
+always ( always [0:t1] (sig1 >= val1) -> not (eventually [0:t2] (rise (sig2 >= val2))) ),temporal_response
+always ( sig1 > val1 -> always [0:t1] (eventually [0:t2] (rise (sig2 <= val2))) ),stabilization_recurrence
+eventually [t1:t2] (sig1 < val1 or (sig2 > val2 and sig2 < val3)),invariance_reachability
+always ( rise (sig1 == val1) -> sig2 >= val2 and sig3 == sig4 ),immediate_response
+always ( rise (sig1 > val1 and sig1 < val2) -> sig2 >= val3 and sig2 <= val4 ),immediate_response
+always ( fall (sig1 > val1 and sig1 < val2) -> (not (sig2 == val3)) until [0:t1] (sig3 > val4 and sig3 < val5) ),temporal_response
+always [t1:t2] (not (sig1 < val1)),invariance_reachability
+always ( rise (sig1 > val1) -> (sig2 >= val2 and sig2 <= val3) and sig3 > val4 ),immediate_response
+always ( fall (sig1 == val1) or sig2 == val2 -> historically [0:t1] (sig3 > val3) ),temporal_response
+always ( fall (sig1 == sig2) -> (sig3 == sig4) since [0:t1] (rise (sig5 >= val1)) ),temporal_response
+always [0:t1] (sig1 <= val1 and sig2 == val2),invariance_reachability
+always ( rise (sig1 == sig2) -> not rise (eventually [t1:t2] (sig3 > val1)) ),temporal_response
+always ( rise (sig1 == sig2) -> eventually [0:t1] (always [0:t2] (sig3 >= val1)) ),stabilization_recurrence
+always ( not (sig1 > val1 and sig1 < val2) and (sig2 >= val3 and sig2 <= val4) -> (sig3 >= val5 and sig3 < val6) and sig4 < val7 ),immediate_response
+always ( rise (sig1 == val1) -> sig2 > val2 and sig2 < val3 ),immediate_response
+always ( sig1 > val1 and sig2 < val2 -> sig3 == val3 ),immediate_response
+eventually [0:t1] (sig1 < val1 and sig2 >= val2),invariance_reachability
+always ( rise (sig1 == sig2) -> (sig3 == sig4) until (sig5 >= val1 and sig5 <= val2) ),temporal_response
+always ( fall (sig1 >= val1 and sig1 <= val2) -> eventually (always [t1:t2] (sig2 == sig3)) ),stabilization_recurrence
+always ( not (once (rise (sig1 >= val1))) -> eventually [0:t1] (always [0:t2] (sig2 == sig3)) ),stabilization_recurrence
+always ( rise (sig1 == val1) -> always [0:t1] (eventually [0:t2] (sig2 >= val2 and sig2 <= val3)) ),stabilization_recurrence
+always ( historically [0:t1] (not fall (sig1 == val1)) -> always [0:t2] (eventually (rise (sig2 > val2))) ),stabilization_recurrence
+always ( rise (sig1 == val1) and sig2 == val2 -> eventually (always (sig3 >= val3 and sig3 < val4)) ),stabilization_recurrence
+always ( sig1 >= val1 or sig2 > val2 -> (sig3 >= val3 and sig3 <= val4) until (sig4 == val5) ),temporal_response
+eventually [0:t1] ((sig1 > val1 and sig1 < val2) or sig2 == val3),invariance_reachability
+always [0:t1] (sig1 < val1),invariance_reachability
+always [0:t1] (sig1 <= val1 and sig2 > val2),invariance_reachability
+always ( rise (sig1 >= val1) -> always (eventually [t1:t2] (not (sig2 <= val2))) ),stabilization_recurrence
+always ( rise (sig1 >= val1) -> (sig2 == sig3) until [0:t1] (sig4 >= val2) ),temporal_response
+always ( fall (sig1 == val1) -> eventually (always (sig2 <= val2)) ),stabilization_recurrence
+eventually [0:t1] (rise (sig1 <= val1) and sig2 == val2),invariance_reachability
+always ( sig1 == sig2 or sig3 >= val1 -> always [0:t1] (eventually [0:t2] (not (sig4 < val2))) ),stabilization_recurrence
+always ( fall (sig1 == val1) -> always [t1:t2] (eventually [t3:t4] (not (sig2 == sig3))) ),stabilization_recurrence
+always ( rise (sig1 >= val1 and sig1 <= val2) -> always [0:t1] (eventually [0:t2] (sig2 == sig3)) ),stabilization_recurrence
+always ( historically [t1:t2] (sig1 < val1) -> eventually [0:t3] (always [0:t4] (sig2 == sig3)) ),stabilization_recurrence
+always ( rise (sig1 >= val1) -> always [0:t1] (eventually [0:t2] (fall (sig2 == val2))) ),stabilization_recurrence
+always ( sig1 == sig2 -> (sig3 >= val1 and sig3 <= val2) or sig4 > val3 ),immediate_response
+always ( rise (sig1 == val1) -> not ((sig2 == val2) until [t1:t2] (sig3 <= val3)) ),temporal_response
+always ( rise (sig1 > val1) -> sig2 > val2 and sig2 < val3 ),immediate_response
+always ( rise (sig1 < val1) -> not fall (sig2 >= val2) ),immediate_response
+eventually [0:t1] (sig1 > val1),invariance_reachability
+always ( sig1 == sig2 -> eventually (always [t1:t2] (not fall (sig3 > val1))) ),stabilization_recurrence
+always [0:t1] (sig1 > val1 and sig2 == sig3),invariance_reachability
+eventually [0:t1] (sig1 == sig2 and rise (sig3 >= val1)),invariance_reachability
+always ( rise (sig1 >= val1) -> historically [t1:t2] (not (sig2 == sig3)) ),temporal_response
+always (sig1 == val1 and sig2 > val2),invariance_reachability
+always ( fall (sig1 > val1 and sig1 < val2) -> always [0:t1] (sig2 < val3) ),temporal_response
+always [0:t1] (not (sig1 == sig2) or sig3 == sig4),invariance_reachability
+always (sig1 > val1 and sig1 < val2),invariance_reachability
+always ( rise (sig1 == sig2) -> eventually (always [t1:t2] (sig3 < val1)) ),stabilization_recurrence
+always ( sig1 >= val1 and (sig2 >= val2 and sig2 <= val3) -> eventually (always [0:t1] (sig3 == val1)) ),stabilization_recurrence
+always ( fall (sig1 == val1) -> eventually [t1:t2] (always [t3:t4] (sig2 == sig3)) ),stabilization_recurrence
+always [t1:t2] (sig1 == val1),invariance_reachability
+always ( fall (sig1 > val1 and sig1 < val2) -> (sig2 == sig3) until [0:t1] (sig4 == val3) ),temporal_response
+always ( historically [t1:t2] (sig1 >= val1) -> not ((not (sig2 >= val2)) until [t3:t4] (sig3 <= val3)) ),temporal_response
+eventually ((sig1 >= val1 and sig1 <= val2) and not (sig2 == val3)),invariance_reachability
+always [0:t1] (not fall (sig1 == val1) and sig2 == sig3),invariance_reachability
+always ( (sig1 >= val1) since [0:t1] (rise (sig2 == sig3)) -> (not rise (sig4 == sig5)) until [0:t2] (sig6 > val2 and sig6 < val3) ),temporal_response
+eventually [t1:t2] (not (sig1 >= val1 and sig1 <= val2) and sig2 == sig3),invariance_reachability
+eventually [0:t1] (sig1 > val1 or not (sig2 == val2)),invariance_reachability
+always [t1:t2] (sig1 == val1),invariance_reachability
+always ( sig1 < val1 -> eventually [0:t1] (sig2 == val2) ),temporal_response
+always ( sig1 == val1 and rise (sig2 == val2) -> sig3 > val3 ),immediate_response
+eventually [0:t1] ((sig1 > val1 and sig1 < val2) or rise (sig2 <= val3)),invariance_reachability
+always ( sig1 < val1 -> rise (sig2 == sig3) ),immediate_response
+always [t1:t2] (sig1 > val1 or not fall (sig2 >= val2 and sig2 <= val3)),invariance_reachability
+always ( not rise (sig1 == sig2) -> (sig3 >= val1 and sig3 <= val2) and sig4 == val3 ),immediate_response
+always ( historically [t1:t2] (sig1 == val1) -> eventually [t3:t4] (always (sig2 > val2 and sig2 < val3)) ),stabilization_recurrence
+always ( not (historically [t1:t2] (sig1 <= val1)) -> (not (sig2 > val2 and sig2 <= val3)) until [0:t3] (fall (sig3 >= val4 and sig3 <= val5)) ),temporal_response
+always ( sig1 >= val1 -> not ((sig2 <= val2) until [t1:t2] (fall (sig3 > val3 and sig3 < val4))) ),temporal_response
+eventually [0:t1] (rise (sig1 <= val1)),invariance_reachability
+always [t1:t2] (sig1 == sig2),invariance_reachability
+always ( sig1 >= val1 -> (not (sig2 == sig3)) until [0:t1] (sig4 == val2) ),temporal_response
+eventually [0:t1] (sig1 == val1 and sig2 == sig3),invariance_reachability
+always ( sig1 == sig2 and rise (sig3 <= val1) -> sig4 > val2 ),immediate_response
+always ( historically [0:t1] (sig1 == sig2) -> always (eventually [0:t2] (rise (sig3 == sig4))) ),stabilization_recurrence
+always ( rise (sig1 >= val1) -> sig2 == val2 ),immediate_response
+always ( rise (sig1 > val1) -> sig2 < val2 ),immediate_response
+always (sig1 == val1 and sig2 > val2),invariance_reachability
+always ( not (historically [0:t1] (sig1 > val1 and sig1 < val2)) -> always [t2:t3] (eventually [t4:t3] (sig2 > val3 and sig2 < val4)) ),stabilization_recurrence
+always ( fall (sig1 == sig2) -> sig3 > val1 and (sig4 >= val2 and sig4 <= val3) ),immediate_response
+always ( sig1 == val1 -> always [0:t1] (eventually [0:t2] (sig2 < val2)) ),stabilization_recurrence
+always [0:t1] (sig1 == val1),invariance_reachability
+always ( rise (sig1 == sig2) -> eventually [t1:t2] (fall (sig3 == sig4)) ),temporal_response
+always ( fall (sig1 == sig2) -> sig3 <= val1 and (sig4 > val2 and sig4 < val3) ),immediate_response
+always ( not (sig1 < val1) or sig2 == sig3 -> not fall (always (sig4 > val2)) ),temporal_response
+always [t1:t2] (sig1 <= val1 or sig2 < val2),invariance_reachability
+always [0:t1] (sig1 == val1 or sig2 > val2),invariance_reachability
+always [t1:t2] (not (sig1 <= val1) or not fall (sig2 > val2)),invariance_reachability
+always ( sig1 >= val1 and sig1 <= val2 -> sig2 == sig3 ),immediate_response
+eventually [0:t1] (sig1 >= val1 and sig1 <= val2),invariance_reachability
+always ( rise (sig1 == sig2) -> sig3 >= val1 and sig3 <= val2 ),immediate_response
+always ( rise (sig1 > val1 and sig1 < val2) -> not (sig2 <= val3) ),immediate_response
+always ( rise (sig1 == sig2) -> not fall (sig3 >= val1 and sig3 <= val2) ),immediate_response
+eventually (rise (sig1 < val1) or not (sig2 <= val2)),invariance_reachability
+always ( eventually [0:t1] (not (sig1 <= val1)) -> (sig2 == val2) until (rise (sig3 >= val3 and sig3 <= val4)) ),temporal_response
+eventually [0:t1] (rise (sig1 >= val1 and sig1 <= val2) and sig2 >= val3),invariance_reachability
+always ( rise (sig1 <= val1) and (sig2 > val2 and sig2 < val3) -> sig3 < val4 ),immediate_response
+always ( rise (sig1 >= val1 and sig1 <= val2) or sig2 == val3 -> sig3 >= val4 and sig3 < val5 ),immediate_response
+always ( rise (sig1 <= val1) -> once (sig2 > val2) ),temporal_response
+eventually (sig1 == sig2 or rise (sig3 >= val1)),invariance_reachability
+always ( sig1 > val1 and sig1 < val2 -> sig2 <= val3 ),immediate_response
+always [t1:t2] (sig1 == val1),invariance_reachability
+always ( rise (sig1 == sig2) -> not (sig3 >= val1) ),immediate_response
+eventually [t1:t2] (sig1 >= val1 and sig2 < val2),invariance_reachability
+always ( (sig1 >= val1 and sig1 <= val2) or rise (sig2 > val3) -> eventually [0:t1] (not (sig3 == sig4)) ),temporal_response
+always ( sig1 == val1 or sig2 == sig3 -> not (sig4 == sig5) ),immediate_response
+always ( sig1 == val1 and sig2 > val2 -> eventually [0:t1] (sig3 == sig4) ),temporal_response
+always ( rise (sig1 <= val1) -> sig2 == sig3 ),immediate_response
+always ( not ((sig1 == val1) since [t1:t2] (sig2 >= val2 and sig2 <= val3)) -> always (sig3 == sig4) ),temporal_response
+always ( rise (sig1 >= val1) -> always (sig2 > val2) ),temporal_response
+always ( once [0:t1] (sig1 > val1) -> eventually (sig2 > val2) ),temporal_response
+always ( (sig1 >= val1 and sig1 <= val2) and sig2 == val3 -> (sig3 > val4 and sig3 < val5) or (sig4 >= val6 and sig4 <= val7) ),immediate_response
+always ( sig1 > val1 and sig2 >= val2 -> eventually [t1:t2] (always [t3:t4] (sig3 >= val3)) ),stabilization_recurrence
+always [0:t1] (not rise (sig1 == sig2)),invariance_reachability
+eventually [0:t1] (sig1 == val1 or sig2 > val2),invariance_reachability
+always ( fall (sig1 == val1) -> (sig2 >= val2) until [0:t1] (sig3 == val3) ),temporal_response
+always ( rise (sig1 > val1) -> always (sig2 >= val2 and sig2 <= val3) ),temporal_response
+always ( (sig1 > val1 and sig1 < val2) and sig2 == sig3 -> always [t1:t2] (eventually [0:t3] (sig4 == val3)) ),stabilization_recurrence
+always ( (sig1 >= val1 and sig1 <= val2) and sig2 <= val3 -> sig3 == sig4 ),immediate_response
+always ( rise (sig1 == val1) -> always [0:t1] (sig2 == val2) ),temporal_response
+always ( fall (sig1 == val1) -> not (always [t1:t2] (sig2 > val2)) ),temporal_response
+always ( not (sig1 <= val1) or sig2 > val2 -> always [0:t1] (eventually [0:t2] (rise (sig3 == val3))) ),stabilization_recurrence
+always (sig1 == val1),invariance_reachability
+eventually [0:t1] (sig1 == val1),invariance_reachability
+always ( sig1 > val1 or sig2 < val2 -> not rise ((sig3 == sig4) until [t1:t2] (sig5 == sig6)) ),temporal_response
+always ( once [0:t1] (sig1 == sig2) -> eventually [t2:t3] (rise (sig3 == val1)) ),temporal_response
+always ( fall ((sig1 == val1) until [t1:t2] (sig2 == sig3)) -> always (eventually (sig4 > val2)) ),stabilization_recurrence
+always ( fall (sig1 == val1) -> eventually [t1:t2] (always [0:t3] (sig2 > val2)) ),stabilization_recurrence
+always ( historically [t1:t2] (sig1 == sig2) -> always [0:t3] (sig3 <= val1) ),temporal_response
+always ((sig1 > val1 and sig1 < val2) or sig2 >= val3),invariance_reachability
+always ( rise (sig1 == val1) -> not (sig2 <= val2) and rise (sig3 > val3 and sig3 < val4) ),immediate_response
+always ( rise (sig1 < val1) -> eventually [0:t1] (always [0:t2] (sig2 == val2)) ),stabilization_recurrence
+eventually [0:t1] (sig1 >= val1 and sig2 == val2),invariance_reachability
+always ( rise (sig1 == val1) -> eventually (always (sig2 < val2)) ),stabilization_recurrence
+always ( (sig1 <= val1) since (sig2 > val2) -> eventually (always [0:t1] (not (sig3 < val3))) ),stabilization_recurrence
+always ( sig1 >= val1 and sig2 == sig3 -> eventually [0:t1] (rise (sig4 >= val2 and sig4 <= val3)) ),temporal_response
+always ( fall (sig1 == val1) -> (sig2 == sig3) until [0:t1] (not rise (sig4 >= val2 and sig4 <= val3)) ),temporal_response
+always ( not (sig1 <= val1) -> eventually (not fall (sig2 > val2)) ),temporal_response
+eventually [0:t1] (rise (sig1 == val1)),invariance_reachability

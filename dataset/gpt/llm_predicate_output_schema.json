@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "STL": {
+      "type": "string"
+    },
+    "English": {
+      "type": "string"
+    },
+    "Predicate_Map": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "STL",
+    "English",
+    "Predicate_Map"
+  ]
+}
