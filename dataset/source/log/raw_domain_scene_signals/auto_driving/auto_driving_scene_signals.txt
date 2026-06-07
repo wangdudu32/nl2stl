@@ -1,0 +1,301 @@
+{
+  "domain": "Autonomous Driving",
+  "domain_description": "智能驾驶真实道路高频场景的模板生成信号子集。",
+  "scenarios": [
+    {
+      "scenario": "AEB",
+      "description": "Automatic Emergency Braking. The system detects collision risk and intervenes when a front obstacle, vehicle, or pedestrian is too close.",
+      "signals": {
+        "state": [
+          "ego_speed",
+          "longitudinal_acceleration"
+        ],
+        "environment": [
+          "front_obstacle_distance",
+          "front_vehicle_speed",
+          "front_vehicle_distance"
+        ],
+        "derived_state": [
+          "front_vehicle_closing_speed",
+          "ttc",
+          "collision_risk"
+        ],
+        "control": [
+          "brake_active"
+        ],
+        "event_or_mode": [
+          "aeb_active",
+          "collision_warning"
+        ]
+      },
+      "recommended_predicates": [
+        "ego_speed > 30",
+        "front_obstacle_distance < 10",
+        "front_vehicle_distance < 15",
+        "front_vehicle_closing_speed > 10",
+        "ttc < 2.5",
+        "collision_risk > 0.8",
+        "longitudinal_acceleration < -3",
+        "brake_active == 1",
+        "aeb_active == 1",
+        "collision_warning == 1"
+      ]
+    },
+    {
+      "scenario": "ACC",
+      "description": "Adaptive Cruise Control. The system adjusts throttle and braking to approach the target speed while maintaining a safe distance from the front vehicle.",
+      "signals": {
+        "state": [
+          "ego_speed",
+          "longitudinal_acceleration"
+        ],
+        "target": [
+          "target_speed"
+        ],
+        "environment": [
+          "front_vehicle_speed",
+          "front_vehicle_distance"
+        ],
+        "derived_state": [
+          "front_vehicle_closing_speed",
+          "headway_time"
+        ],
+        "control": [
+          "throttle_command_pct",
+          "brake_active"
+        ],
+        "event_or_mode": [
+          "acc_active"
+        ]
+      },
+      "recommended_predicates": [
+        "ego_speed < 120",
+        "target_speed == 100",
+        "front_vehicle_speed < ego_speed",
+        "front_vehicle_distance > 20",
+        "front_vehicle_closing_speed < 5",
+        "headway_time > 2",
+        "throttle_command_pct > 0",
+        "throttle_command_pct < 20",
+        "brake_active == 1",
+        "longitudinal_acceleration < 2",
+        "-3 < longitudinal_acceleration && longitudinal_acceleration < 0",
+        "acc_active == 1"
+      ]
+    },
+    {
+      "scenario": "Lane Keeping",
+      "description": "Lane keeping control. The system detects lane boundaries and controls steering to keep the vehicle near the lane center.",
+      "signals": {
+        "state": [
+          "lane_offset",
+          "yaw_rate",
+          "heading_error"
+        ],
+        "environment": [
+          "lane_detected"
+        ],
+        "control": [
+          "steering_wheel_angle"
+        ],
+        "event_or_mode": [
+          "lane_departure_warning",
+          "lkas_active"
+        ]
+      },
+      "recommended_predicates": [
+        "lane_offset > -0.3 and lane_offset < 0.3",
+        "steering_wheel_angle > -10 and steering_wheel_angle < 10",
+        "yaw_rate > -3 and yaw_rate < 3",
+        "heading_error > -5 and heading_error < 5",
+        "lane_departure_warning == 1",
+        "lkas_active == 1",
+        "lane_detected == 1"
+      ]
+    },
+    {
+      "scenario": "Traffic Light",
+      "description": "Traffic light response. The vehicle detects the signal state and slows or stops before the stop line when required.",
+      "signals": {
+        "state": [
+          "ego_speed",
+          "longitudinal_acceleration"
+        ],
+        "environment": [
+          "traffic_light_red",
+          "traffic_light_yellow",
+          "traffic_light_green",
+          "traffic_light_detected",
+          "stop_line_distance"
+        ],
+        "derived_state": [
+          "time_to_stop_line"
+        ],
+        "control": [
+          "brake_active",
+          "throttle_command_pct"
+        ]
+      },
+      "recommended_predicates": [
+        "ego_speed < 50",
+        "longitudinal_acceleration < 0",
+        "traffic_light_red == 1",
+        "traffic_light_yellow == 1",
+        "traffic_light_green == 1",
+        "traffic_light_detected == 1",
+        "stop_line_distance < 30",
+        "time_to_stop_line < 3",
+        "brake_active == 1",
+        "throttle_command_pct < 10"
+      ]
+    },
+    {
+      "scenario": "Speed Limit",
+      "description": "Speed limit compliance. The vehicle detects the applicable road speed limit and avoids sustained speeding.",
+      "signals": {
+        "state": [
+          "ego_speed",
+          "longitudinal_acceleration"
+        ],
+        "environment": [
+          "speed_limit",
+          "speed_limit_detected"
+        ],
+        "derived_state": [
+          "speeding_margin"
+        ],
+        "control": [
+          "throttle_command_pct"
+        ],
+        "event_or_mode": [
+          "overspeed_warning"
+        ]
+      },
+      "recommended_predicates": [
+        "ego_speed > speed_limit",
+        "longitudinal_acceleration < 0",
+        "speed_limit == 60",
+        "speed_limit_detected == 1",
+        "speeding_margin > 0",
+        "speeding_margin > 5",
+        "throttle_command_pct < 20",
+        "overspeed_warning == 1"
+      ]
+    },
+    {
+      "scenario": "Intersection",
+      "description": "Intersection handling. The vehicle evaluates right of way and cross traffic, then slows or stops when the intersection cannot be entered safely.",
+      "signals": {
+        "state": [
+          "ego_speed",
+          "longitudinal_acceleration"
+        ],
+        "environment": [
+          "intersection_detected",
+          "intersection_distance",
+          "cross_traffic_distance",
+          "intersection_occupied",
+          "right_of_way"
+        ],
+        "derived_state": [
+          "time_to_intersection"
+        ],
+        "control": [
+          "brake_active",
+          "throttle_command_pct"
+        ]
+      },
+      "recommended_predicates": [
+        "ego_speed < 30",
+        "longitudinal_acceleration < 0",
+        "intersection_detected == 1",
+        "intersection_distance < 30",
+        "cross_traffic_distance < 20",
+        "intersection_occupied == 1",
+        "right_of_way == 0",
+        "right_of_way == 1",
+        "time_to_intersection < 3",
+        "brake_active == 1",
+        "throttle_command_pct < 20"
+      ]
+    },
+    {
+      "scenario": "Pedestrian and Cyclist",
+      "description": "Vulnerable road user protection. The vehicle detects pedestrians and cyclists and warns, slows, or brakes when they are close to or crossing its path.",
+      "signals": {
+        "state": [
+          "ego_speed"
+        ],
+        "environment": [
+          "pedestrian_detected",
+          "cyclist_detected",
+          "pedestrian_distance",
+          "cyclist_distance",
+          "pedestrian_crossing",
+          "cyclist_crossing"
+        ],
+        "derived_state": [
+          "vulnerable_road_user_risk"
+        ],
+        "control": [
+          "brake_active"
+        ],
+        "event_or_mode": [
+          "collision_warning"
+        ]
+      },
+      "recommended_predicates": [
+        "ego_speed > 10",
+        "pedestrian_detected == 1",
+        "cyclist_detected == 1",
+        "pedestrian_distance < 15",
+        "cyclist_distance < 15",
+        "pedestrian_crossing == 1",
+        "cyclist_crossing == 1",
+        "vulnerable_road_user_risk > 0.7",
+        "brake_active == 1",
+        "collision_warning == 1"
+      ]
+    },
+    {
+      "scenario": "Lane Change",
+      "description": "Lane change. The vehicle checks target-lane availability and blind spots, signals its intent, and completes the maneuver safely.",
+      "signals": {
+        "state": [
+          "ego_speed",
+          "target_lane_offset",
+          "yaw_rate"
+        ],
+        "environment": [
+          "target_lane_available",
+          "target_lane_clear",
+          "blind_spot_occupied"
+        ],
+        "control": [
+          "left_turn_signal_active",
+          "right_turn_signal_active",
+          "steering_wheel_angle"
+        ],
+        "event_or_mode": [
+          "lane_change_requested",
+          "lane_change_active",
+          "lane_change_completed_event"
+        ]
+      },
+      "recommended_predicates": [
+        "ego_speed > 20",
+        "target_lane_offset > -0.3 and target_lane_offset < 0.3",
+        "yaw_rate > -5 and yaw_rate < 5",
+        "target_lane_available == 1",
+        "target_lane_clear == 1",
+        "blind_spot_occupied == 0",
+        "left_turn_signal_active == 1",
+        "right_turn_signal_active == 1",
+        "steering_wheel_angle > -15 and steering_wheel_angle < 15",
+        "lane_change_requested == 1",
+        "lane_change_active == 1",
+        "lane_change_completed_event == 1"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,585 @@
+智能驾驶领域:
+一、通用车辆信号池
+
+这些信号几乎所有自动驾驶/车辆控制场景都可以用。
+
+信号名	含义	单位/取值	适合构造的谓词
+speed / velocity	车速	m/s, km/h	speed < 30
+acceleration	纵向加速度	m/s²	acceleration > 2
+deceleration	减速度	m/s²	deceleration > 3
+jerk	加加速度，舒适性指标	m/s³	abs(jerk) < 2
+brake	制动信号	0/1 或百分比	brake = 1
+brake_pressure	制动压力	bar / %	brake_pressure > 60
+throttle	油门开度	%	throttle < 20
+steering_angle	方向盘转角	degree/rad	abs(steering_angle) < 15
+yaw_rate	横摆角速度	deg/s	abs(yaw_rate) < 5
+heading_angle	航向角	degree	abs(heading_error) < 3
+mode	当前驾驶模式	枚举值	mode = ACC
+system_active	系统是否激活	0/1	system_active = 1
+warning_signal	警告信号	0/1	warning_signal = 1
+driver_override	驾驶员接管	0/1	driver_override = 1
+二、AEB：自动紧急制动场景
+
+AEB 的核心是：前方有碰撞风险时，系统应及时制动或减速。
+
+1. 推荐信号池
+信号名	含义	类型	典型谓词
+ego_speed	自车速度	状态	ego_speed > 30
+relative_speed	自车与前车相对速度	环境/派生	relative_speed > 10
+obstacle_distance	与障碍物距离	环境	obstacle_distance < 10
+front_vehicle_distance	与前车距离	环境	front_vehicle_distance < 15
+pedestrian_distance	与行人距离	环境	pedestrian_distance < 8
+ttc	碰撞时间 Time-To-Collision	派生	ttc < 2.5
+brake	是否制动	控制	brake = 1
+brake_pressure	制动压力	控制	brake_pressure > 70
+deceleration	减速度	状态	deceleration > 3
+aeb_active	AEB 是否触发	模式/事件	aeb_active = 1
+collision_warning	碰撞预警	事件	collision_warning = 1
+collision_risk	碰撞风险等级	派生/状态	collision_risk > 0.8
+
+2. 适合构造的自然语言需求
+复制
+当自车速度较高且前方障碍物距离过近时，AEB 系统应在短时间内触发制动。
+对应信号：
+复制
+ego_speed > 30
+obstacle_distance < 10
+aeb_active = 1
+brake = 1
+￼
+三、ACC：自适应巡航控制场景
+ACC 的核心是：根据前车距离和相对速度自动调节油门/刹车，保持安全跟车距离。
+1. 推荐信号池
+信号名
+含义
+类型
+典型谓词
+ego_speed
+自车速度
+状态
+ego_speed < 120
+target_speed
+设定巡航速度
+目标
+target_speed = 100
+front_vehicle_speed
+前车速度
+环境
+front_vehicle_speed < ego_speed
+front_vehicle_distance
+与前车距离
+环境
+front_vehicle_distance > 20
+relative_speed
+相对速度
+派生
+relative_speed < 5
+headway_time
+车头时距
+派生
+headway_time > 2
+safe_distance
+安全距离
+派生
+safe_distance > 30
+distance_error
+实际距离与期望距离差
+派生
+abs(distance_error) < 5
+throttle
+油门开度
+控制
+throttle > 0
+brake
+制动信号
+控制
+brake = 1
+acceleration
+加速度
+状态
+acceleration < 2
+deceleration
+减速度
+状态
+deceleration < 3
+acc_active
+ACC 是否激活
+模式
+acc_active = 1
+cruise_mode
+巡航模式
+模式
+cruise_mode = FOLLOW
+复制表格
+2. 适合构造的自然语言需求
+复制
+当 ACC 处于跟车模式且前车距离低于安全距离时，车辆应减小油门并开始减速。
+对应信号：
+复制
+acc_active = 1
+front_vehicle_distance < safe_distance
+throttle < 20
+deceleration > 0
+￼
+四、Lane Keeping：车道保持场景
+车道保持的核心是：车辆不能偏离车道，并且应通过转向控制维持在车道中心附近。
+1. 推荐信号池
+信号名
+含义
+类型
+典型谓词
+lane_offset
+车辆相对车道中心的横向偏移
+状态
+abs(lane_offset) < 0.3
+lateral_distance
+到车道线距离
+环境
+lateral_distance > 0.2
+left_lane_distance
+到左车道线距离
+环境
+left_lane_distance > 0.3
+right_lane_distance
+到右车道线距离
+环境
+right_lane_distance > 0.3
+lane_width
+车道宽度
+环境
+lane_width > 3
+steering_angle
+方向盘转角
+控制
+abs(steering_angle) < 10
+steering_rate
+转向角变化率
+控制
+abs(steering_rate) < 5
+yaw_rate
+横摆角速度
+状态
+abs(yaw_rate) < 3
+heading_error
+车辆航向与车道方向偏差
+状态
+abs(heading_error) < 5
+lateral_velocity
+横向速度
+状态
+abs(lateral_velocity) < 0.5
+lane_departure_warning
+车道偏离预警
+事件
+lane_departure_warning = 1
+lkas_active
+车道保持系统是否激活
+模式
+lkas_active = 1
+lane_detected
+是否检测到车道线
+环境/感知
+lane_detected = 1
+复制表格
+2. 适合构造的自然语言需求
+复制
+当车道保持系统处于激活状态并且车道线被检测到时，车辆应持续保持较小的横向偏移。
+对应信号：
+复制
+lkas_active = 1
+lane_detected = 1
+abs(lane_offset) < 0.3
+￼
+五、Parking：自动泊车/辅助泊车场景
+泊车场景的核心是：低速、安全、精确控制转向，避免碰撞并完成入库。
+1. 推荐信号池
+信号名
+含义
+类型
+典型谓词
+parking_mode
+是否处于泊车模式
+模式
+parking_mode = 1
+ego_speed
+自车速度
+状态
+ego_speed < 5
+parking_slot_detected
+是否检测到车位
+感知
+parking_slot_detected = 1
+parking_slot_distance
+到车位距离
+环境
+parking_slot_distance < 2
+front_obstacle_distance
+前方障碍物距离
+环境
+front_obstacle_distance > 0.5
+rear_obstacle_distance
+后方障碍物距离
+环境
+rear_obstacle_distance > 0.5
+left_obstacle_distance
+左侧障碍物距离
+环境
+left_obstacle_distance > 0.3
+right_obstacle_distance
+右侧障碍物距离
+环境
+right_obstacle_distance > 0.3
+steering_angle
+方向盘转角
+控制
+abs(steering_angle) < 35
+gear_position
+挡位
+控制/状态
+gear_position = R
+brake
+制动信号
+控制
+brake = 1
+throttle
+油门开度
+控制
+throttle < 10
+vehicle_position_error
+车辆最终位置误差
+派生
+vehicle_position_error < 0.2
+parking_complete
+是否完成泊车
+事件
+parking_complete = 1
+collision_risk
+碰撞风险
+派生
+collision_risk < 0.2
+复制表格
+2. 适合构造的自然语言需求
+复制
+当车辆处于自动泊车模式时，车辆应保持低速，并且与周围障碍物保持安全距离。
+对应信号：
+复制
+parking_mode = 1
+ego_speed < 5
+front_obstacle_distance > 0.5
+rear_obstacle_distance > 0.5
+￼
+六、Fuel Monitoring：燃油监控场景
+燃油监控的核心是：监测油量、油耗和异常燃油变化。
+1. 推荐信号池
+信号名
+含义
+类型
+典型谓词
+fuel_level
+当前油量
+状态
+fuel_level < 15
+fuel_rate
+燃油消耗率
+派生
+fuel_rate > 8
+fuel_consumption
+总油耗
+状态/派生
+fuel_consumption < 10
+remaining_range
+剩余续航
+派生
+remaining_range < 50
+ego_speed
+车速
+状态
+ego_speed > 0
+engine_speed
+发动机转速
+状态
+engine_speed > 3000
+engine_load
+发动机负载
+状态
+engine_load > 80
+throttle
+油门开度
+控制
+throttle > 70
+fuel_warning
+低油量报警
+事件
+fuel_warning = 1
+fuel_leak_warning
+燃油泄漏报警
+事件
+fuel_leak_warning = 1
+fuel_drop_rate
+油量下降速度
+派生
+fuel_drop_rate > 2
+idle_time
+怠速时间
+派生
+idle_time > 300
+复制表格
+2. 适合构造的自然语言需求
+复制
+当燃油余量低于阈值时，系统应在短时间内触发低油量报警。
+对应信号：
+复制
+fuel_level < 15
+fuel_warning = 1
+￼
+七、Traction Control：牵引力控制/防打滑场景
+牵引力控制的核心是：检测车轮打滑，并通过限制油门、制动或扭矩控制恢复抓地力。
+1. 推荐信号池
+信号名
+含义
+类型
+典型谓词
+wheel_speed_fl
+左前轮速度
+状态
+wheel_speed_fl > vehicle_speed + 5
+wheel_speed_fr
+右前轮速度
+状态
+wheel_speed_fr > vehicle_speed + 5
+wheel_speed_rl
+左后轮速度
+状态
+wheel_speed_rl > vehicle_speed + 5
+wheel_speed_rr
+右后轮速度
+状态
+wheel_speed_rr > vehicle_speed + 5
+vehicle_speed
+车辆实际速度
+状态
+vehicle_speed > 10
+slip_ratio
+车轮滑移率
+派生
+slip_ratio > 0.2
+traction_loss
+是否失去牵引力
+派生/事件
+traction_loss = 1
+throttle
+油门开度
+控制
+throttle < 30
+engine_torque
+发动机扭矩
+控制
+engine_torque < 100
+brake
+制动信号
+控制
+brake = 1
+brake_pressure
+制动压力
+控制
+brake_pressure > 30
+acceleration
+纵向加速度
+状态
+acceleration < 3
+yaw_rate
+横摆角速度
+状态
+abs(yaw_rate) < 5
+road_friction
+路面附着系数
+环境
+road_friction < 0.4
+tcs_active
+牵引力控制系统是否激活
+模式
+tcs_active = 1
+复制表格
+2. 适合构造的自然语言需求
+复制
+当车轮滑移率过高时，牵引力控制系统应被激活，并降低发动机扭矩。
+对应信号：
+复制
+slip_ratio > 0.2
+tcs_active = 1
+engine_torque < 100
+
+
+八、Traffic Light：交通灯响应场景
+
+交通灯场景的核心是：车辆应识别交通灯状态，并在红灯或黄灯条件下根据停车线距离及时减速和停车。
+
+1. 推荐信号池
+信号名	含义	类型	典型谓词
+ego_speed	自车速度	状态	ego_speed < 50
+acceleration	纵向加速度	状态	acceleration < 0
+traffic_light_state	交通灯状态	环境	traffic_light_state = RED
+traffic_light_detected	是否检测到交通灯	环境/事件	traffic_light_detected = 1
+stop_line_distance	到停车线的纵向距离	环境	stop_line_distance < 30
+time_to_stop_line	按当前速度估计的到达停车线时间	派生	time_to_stop_line < 3
+brake_active	是否制动	控制	brake_active = 1
+throttle	油门开度	控制	throttle < 10
+
+2. 适合构造的自然语言需求
+当检测到前方红灯且车辆接近停车线时，车辆应减小油门并制动。
+对应信号：
+traffic_light_detected = 1
+traffic_light_state = RED
+stop_line_distance < 30
+throttle < 10
+brake_active = 1
+
+
+九、Speed Limit：限速遵循场景
+
+限速场景的核心是：车辆应识别当前道路限速，并避免持续超过限速行驶。
+
+1. 推荐信号池
+信号名	含义	类型	典型谓词
+ego_speed	自车速度	状态	ego_speed > speed_limit
+acceleration	纵向加速度	状态	acceleration < 0
+speed_limit	当前道路限速	环境/地图	speed_limit = 60
+speed_limit_detected	是否获得有效限速	环境/事件	speed_limit_detected = 1
+speeding_margin	自车速度超过限速的差值	派生	speeding_margin > 5
+throttle	油门开度	控制	throttle < 20
+brake_active	是否制动	控制	brake_active = 1
+overspeed_warning	是否发出超速警告	事件	overspeed_warning = 1
+
+2. 适合构造的自然语言需求
+当车辆超过当前道路限速时，系统应降低油门并发出超速警告。
+对应信号：
+ego_speed > speed_limit
+speeding_margin > 0
+throttle < 20
+overspeed_warning = 1
+
+
+十、Intersection：路口通行场景
+
+路口场景的核心是：车辆接近路口时应判断通行权和交叉交通，并在不能安全通行时减速或停车。
+
+1. 推荐信号池
+信号名	含义	类型	典型谓词
+ego_speed	自车速度	状态	ego_speed < 30
+acceleration	纵向加速度	状态	acceleration < 0
+intersection_detected	是否检测到前方路口	环境/事件	intersection_detected = 1
+intersection_distance	到路口入口的距离	环境	intersection_distance < 30
+cross_traffic_distance	与冲突方向车辆的距离	环境	cross_traffic_distance < 20
+intersection_occupied	冲突区域是否被占用	环境	intersection_occupied = 1
+right_of_way	自车是否具有通行权	环境/规则	right_of_way = 1
+time_to_intersection	按当前速度估计的到达路口时间	派生	time_to_intersection < 3
+brake_active	是否制动	控制	brake_active = 1
+throttle	油门开度	控制	throttle < 20
+
+2. 适合构造的自然语言需求
+当车辆接近路口且没有通行权或冲突区域被占用时，车辆应减速并准备停车。
+对应信号：
+intersection_distance < 30
+right_of_way = 0
+intersection_occupied = 1
+acceleration < 0
+brake_active = 1
+
+
+十一、Pedestrian and Cyclist：行人和骑行者避让场景
+
+该场景的核心是：车辆应检测道路中的行人和骑行者，并在其距离过近或正在横穿时减速、告警或制动。
+
+1. 推荐信号池
+信号名	含义	类型	典型谓词
+ego_speed	自车速度	状态	ego_speed > 10
+pedestrian_detected	是否检测到相关行人	环境	pedestrian_detected = 1
+cyclist_detected	是否检测到相关骑行者	环境	cyclist_detected = 1
+pedestrian_distance	与相关行人的距离	环境	pedestrian_distance < 15
+cyclist_distance	与相关骑行者的距离	环境	cyclist_distance < 15
+pedestrian_crossing	行人是否正在横穿车辆路径	环境/事件	pedestrian_crossing = 1
+cyclist_crossing	骑行者是否正在横穿车辆路径	环境/事件	cyclist_crossing = 1
+vulnerable_road_user_risk	行人或骑行者碰撞风险	派生	vulnerable_road_user_risk > 0.7
+brake_active	是否制动	控制	brake_active = 1
+collision_warning	是否发出碰撞预警	事件	collision_warning = 1
+
+2. 适合构造的自然语言需求
+当检测到行人正在近距离横穿车辆路径时，车辆应及时发出警告并制动。
+对应信号：
+pedestrian_detected = 1
+pedestrian_crossing = 1
+pedestrian_distance < 15
+collision_warning = 1
+brake_active = 1
+
+
+十二、Lane Change：变道场景
+
+变道场景的核心是：车辆只有在目标车道可用且盲区没有车辆时才能执行变道，并通过转向灯和转向控制完成操作。
+
+1. 推荐信号池
+信号名	含义	类型	典型谓词
+ego_speed	自车速度	状态	ego_speed > 20
+lane_offset	车辆相对当前车道中心的横向偏移	状态	abs(lane_offset) < 0.3
+yaw_rate	车辆横摆角速度	状态	abs(yaw_rate) < 5
+target_lane_available	目标车道是否存在且允许驶入	环境	target_lane_available = 1
+target_lane_clear	目标车道是否具有安全变道空间	环境	target_lane_clear = 1
+blind_spot_occupied	目标侧盲区是否有车辆	环境	blind_spot_occupied = 0
+turn_signal	转向灯状态	控制/事件	turn_signal = LEFT
+steering_angle	方向盘转角	控制	abs(steering_angle) < 15
+lane_change_requested	是否请求变道	事件	lane_change_requested = 1
+lane_change_active	是否正在执行变道	模式	lane_change_active = 1
+lane_change_complete	变道是否完成	事件	lane_change_complete = 1
+
+2. 适合构造的自然语言需求
+当收到变道请求且目标车道安全、盲区无车辆时，车辆应打开转向灯并开始变道。
+对应信号：
+lane_change_requested = 1
+target_lane_available = 1
+target_lane_clear = 1
+blind_spot_occupied = 0
+lane_change_active = 1
+
+
+十三、建议你准备成这种结构
+你后面让 LLM 填充随机 STL 模板时，不要只给它一个信号列表，而是给它一个场景知识卡片。
+例如：
+JSON
+复制
+￼
+{
+  "domain": "Autonomous Driving",
+  "scenario": "AEB",
+  "description": "Automatic Emergency Braking. The system should detect collision risk and trigger braking when the front obstacle is too close.",
+  "signals": {
+    "state": [
+      "ego_speed",
+      "acceleration",
+      "deceleration"
+    ],
+    "environment": [
+      "obstacle_distance",
+      "front_vehicle_distance",
+      "pedestrian_distance",
+      "relative_speed",
+      "ttc"
+    ],
+    "control": [
+      "brake",
+      "brake_pressure"
+    ],
+    "event_or_mode": [
+      "aeb_active",
+      "collision_warning",
+      "collision_risk"
+    ]
+  },
+  "recommended_predicates": [
+    "ego_speed > 30",
+    "obstacle_distance < 10",
+    "ttc < 2.5",
+    "brake = 1",
+    "aeb_active = 1"
+  ]
+}
+这样 LLM 生成数据时更稳定，因为它不仅知道有哪些信号，还知道这些信号之间的语义关系。
