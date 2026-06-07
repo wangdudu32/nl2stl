@@ -4,11 +4,12 @@
   "scenarios": [
     {
       "scenario": "AEB",
-      "description": "Automatic Emergency Braking. The system detects collision risk and intervenes when a front obstacle, vehicle, or pedestrian is too close.",
+      "description": "Automatic Emergency Braking. The system detects collision risk and intervenes when a front obstacle or vehicle is too close.",
       "signals": {
         "state": [
           "ego_speed",
-          "longitudinal_acceleration"
+          "longitudinal_acceleration",
+          "collision_warning"
         ],
         "environment": [
           "front_obstacle_distance",
@@ -24,8 +25,7 @@
           "brake_active"
         ],
         "event_or_mode": [
-          "aeb_active",
-          "collision_warning"
+          "aeb_active"
         ]
       },
       "recommended_predicates": [
@@ -90,7 +90,8 @@
           "lane_offset",
           "yaw_rate",
           "heading_error",
-          "driver_override"
+          "driver_override",
+          "lane_departure_warning"
         ],
         "environment": [
           "lane_detected"
@@ -100,14 +101,13 @@
           "steering_rate"
         ],
         "event_or_mode": [
-          "lane_departure_warning",
           "lkas_active"
         ]
       },
       "recommended_predicates": [
         "lane_offset > -0.3 and lane_offset < 0.3",
-        "steering_wheel_angle > -10 and steering_wheel_angle < 10",
-        "steering_rate > -5 and steering_rate < 5",
+        "steering_wheel_angle > -STEERING_WHEEL_ANGLE_LIMIT and steering_wheel_angle < STEERING_WHEEL_ANGLE_LIMIT",
+        "steering_rate > -STEERING_RATE_LIMIT and steering_rate < STEERING_RATE_LIMIT",
         "yaw_rate > -3 and yaw_rate < 3",
         "heading_error > -5 and heading_error < 5",
         "lane_departure_warning == 1",
@@ -122,7 +122,8 @@
       "signals": {
         "state": [
           "ego_speed",
-          "driver_override"
+          "driver_override",
+          "reverse_gear_active"
         ],
         "environment": [
           "parking_slot_detected",
@@ -139,8 +140,7 @@
         "control": [
           "steering_wheel_angle",
           "brake_active",
-          "throttle_command_pct",
-          "reverse_gear_active"
+          "throttle_command_pct"
         ],
         "event_or_mode": [
           "parking_mode",
@@ -156,7 +156,7 @@
         "rear_obstacle_distance > 0.5",
         "left_obstacle_distance > 0.3",
         "right_obstacle_distance > 0.3",
-        "steering_wheel_angle > -35 and steering_wheel_angle < 35",
+        "steering_wheel_angle > -PARKING_STEERING_WHEEL_ANGLE_LIMIT and steering_wheel_angle < PARKING_STEERING_WHEEL_ANGLE_LIMIT",
         "reverse_gear_active == 1",
         "brake_active == 1",
         "throttle_command_pct < 10",
@@ -193,10 +193,9 @@
       "recommended_predicates": [
         "ego_speed > 10",
         "road_friction < 0.4",
-        "slip_ratio > 0.2",
+        "slip_ratio > SLIP_ON",
         "traction_loss == 1",
         "throttle_command_pct < 30",
-        "engine_torque < 100",
         "brake_active == 1",
         "tcs_active == 1",
         "driver_override == 1"
@@ -208,13 +207,13 @@
       "signals": {
         "state": [
           "ego_speed",
-          "longitudinal_acceleration"
+          "longitudinal_acceleration",
+          "traffic_light_detected"
         ],
         "environment": [
           "traffic_light_red",
           "traffic_light_yellow",
           "traffic_light_green",
-          "traffic_light_detected",
           "stop_line_distance"
         ],
         "derived_state": [
@@ -232,7 +231,7 @@
         "traffic_light_yellow == 1",
         "traffic_light_green == 1",
         "traffic_light_detected == 1",
-        "stop_line_distance < 30",
+        "stop_line_distance > 0 and stop_line_distance < 30",
         "time_to_stop_line < 3",
         "brake_active == 1",
         "throttle_command_pct < 10"
@@ -244,11 +243,12 @@
       "signals": {
         "state": [
           "ego_speed",
-          "longitudinal_acceleration"
+          "longitudinal_acceleration",
+          "speed_limit_detected",
+          "overspeed_warning"
         ],
         "environment": [
-          "speed_limit",
-          "speed_limit_detected"
+          "speed_limit"
         ],
         "derived_state": [
           "speeding_margin"
@@ -256,9 +256,7 @@
         "control": [
           "throttle_command_pct"
         ],
-        "event_or_mode": [
-          "overspeed_warning"
-        ]
+        "event_or_mode": []
       },
       "recommended_predicates": [
         "ego_speed > speed_limit",
@@ -276,14 +274,14 @@
       "signals": {
         "state": [
           "ego_speed",
-          "longitudinal_acceleration"
+          "longitudinal_acceleration",
+          "intersection_detected",
+          "right_of_way"
         ],
         "environment": [
-          "intersection_detected",
           "intersection_distance",
           "cross_traffic_distance",
-          "intersection_occupied",
-          "right_of_way"
+          "intersection_occupied"
         ],
         "derived_state": [
           "time_to_intersection"
@@ -297,7 +295,7 @@
         "ego_speed < 30",
         "longitudinal_acceleration < 0",
         "intersection_detected == 1",
-        "intersection_distance < 30",
+        "intersection_distance > 0 and intersection_distance < 30",
         "cross_traffic_distance < 20",
         "intersection_occupied == 1",
         "right_of_way == 0",
@@ -312,7 +310,8 @@
       "description": "Vulnerable road user protection. The vehicle detects pedestrians and cyclists and warns, slows, or brakes when they are close to or crossing its path.",
       "signals": {
         "state": [
-          "ego_speed"
+          "ego_speed",
+          "collision_warning"
         ],
         "environment": [
           "pedestrian_detected",
@@ -328,9 +327,7 @@
         "control": [
           "brake_active"
         ],
-        "event_or_mode": [
-          "collision_warning"
-        ]
+        "event_or_mode": []
       },
       "recommended_predicates": [
         "ego_speed > 10",
@@ -353,16 +350,18 @@
           "ego_speed",
           "target_lane_offset",
           "yaw_rate",
-          "driver_override"
+          "driver_override",
+          "left_turn_signal_active",
+          "right_turn_signal_active"
         ],
         "environment": [
           "target_lane_available",
-          "target_lane_clear",
           "blind_spot_occupied"
         ],
+        "derived_state": [
+          "target_lane_clear"
+        ],
         "control": [
-          "left_turn_signal_active",
-          "right_turn_signal_active",
           "steering_wheel_angle"
         ],
         "event_or_mode": [
@@ -380,7 +379,7 @@
         "blind_spot_occupied == 0",
         "left_turn_signal_active == 1",
         "right_turn_signal_active == 1",
-        "steering_wheel_angle > -15 and steering_wheel_angle < 15",
+        "steering_wheel_angle > -LANE_CHANGE_STEERING_WHEEL_ANGLE_LIMIT and steering_wheel_angle < LANE_CHANGE_STEERING_WHEEL_ANGLE_LIMIT",
         "lane_change_requested == 1",
         "lane_change_active == 1",
         "lane_change_completed_event == 1",
