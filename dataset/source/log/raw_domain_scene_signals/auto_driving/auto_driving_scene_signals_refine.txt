@@ -47,7 +47,8 @@
       "signals": {
         "state": [
           "ego_speed",
-          "longitudinal_acceleration"
+          "longitudinal_acceleration",
+          "driver_override"
         ],
         "target": [
           "target_speed"
@@ -69,8 +70,6 @@
         ]
       },
       "recommended_predicates": [
-        "ego_speed < 120",
-        "target_speed == 100",
         "front_vehicle_speed < ego_speed",
         "front_vehicle_distance > 20",
         "front_vehicle_closing_speed < 5",
@@ -78,9 +77,9 @@
         "throttle_command_pct > 0",
         "throttle_command_pct < 20",
         "brake_active == 1",
-        "longitudinal_acceleration < 2",
         "-3 < longitudinal_acceleration && longitudinal_acceleration < 0",
-        "acc_active == 1"
+        "acc_active == 1",
+        "driver_override == 1"
       ]
     },
     {
@@ -90,13 +89,15 @@
         "state": [
           "lane_offset",
           "yaw_rate",
-          "heading_error"
+          "heading_error",
+          "driver_override"
         ],
         "environment": [
           "lane_detected"
         ],
         "control": [
-          "steering_wheel_angle"
+          "steering_wheel_angle",
+          "steering_rate"
         ],
         "event_or_mode": [
           "lane_departure_warning",
@@ -106,11 +107,99 @@
       "recommended_predicates": [
         "lane_offset > -0.3 and lane_offset < 0.3",
         "steering_wheel_angle > -10 and steering_wheel_angle < 10",
+        "steering_rate > -5 and steering_rate < 5",
         "yaw_rate > -3 and yaw_rate < 3",
         "heading_error > -5 and heading_error < 5",
         "lane_departure_warning == 1",
         "lkas_active == 1",
-        "lane_detected == 1"
+        "lane_detected == 1",
+        "driver_override == 1"
+      ]
+    },
+    {
+      "scenario": "Parking",
+      "description": "Automatic or assisted parking. The vehicle moves at low speed, maintains clearance from surrounding obstacles, and completes parking accurately.",
+      "signals": {
+        "state": [
+          "ego_speed",
+          "driver_override"
+        ],
+        "environment": [
+          "parking_slot_detected",
+          "parking_slot_distance",
+          "front_obstacle_distance",
+          "rear_obstacle_distance",
+          "left_obstacle_distance",
+          "right_obstacle_distance"
+        ],
+        "derived_state": [
+          "vehicle_position_error",
+          "collision_risk"
+        ],
+        "control": [
+          "steering_wheel_angle",
+          "brake_active",
+          "throttle_command_pct",
+          "reverse_gear_active"
+        ],
+        "event_or_mode": [
+          "parking_mode",
+          "parking_completed_event"
+        ]
+      },
+      "recommended_predicates": [
+        "parking_mode == 1",
+        "ego_speed < 5",
+        "parking_slot_detected == 1",
+        "parking_slot_distance < 2",
+        "front_obstacle_distance > 0.5",
+        "rear_obstacle_distance > 0.5",
+        "left_obstacle_distance > 0.3",
+        "right_obstacle_distance > 0.3",
+        "steering_wheel_angle > -35 and steering_wheel_angle < 35",
+        "reverse_gear_active == 1",
+        "brake_active == 1",
+        "throttle_command_pct < 10",
+        "vehicle_position_error < 0.2",
+        "collision_risk < 0.2",
+        "parking_completed_event == 1",
+        "driver_override == 1"
+      ]
+    },
+    {
+      "scenario": "Traction Control",
+      "description": "Traction control. The system detects wheel slip and restores traction by reducing throttle or engine torque and applying braking.",
+      "signals": {
+        "state": [
+          "ego_speed",
+          "driver_override"
+        ],
+        "environment": [
+          "road_friction"
+        ],
+        "derived_state": [
+          "slip_ratio",
+          "traction_loss"
+        ],
+        "control": [
+          "throttle_command_pct",
+          "engine_torque",
+          "brake_active"
+        ],
+        "event_or_mode": [
+          "tcs_active"
+        ]
+      },
+      "recommended_predicates": [
+        "ego_speed > 10",
+        "road_friction < 0.4",
+        "slip_ratio > 0.2",
+        "traction_loss == 1",
+        "throttle_command_pct < 30",
+        "engine_torque < 100",
+        "brake_active == 1",
+        "tcs_active == 1",
+        "driver_override == 1"
       ]
     },
     {
@@ -176,7 +265,6 @@
         "longitudinal_acceleration < 0",
         "speed_limit == 60",
         "speed_limit_detected == 1",
-        "speeding_margin > 0",
         "speeding_margin > 5",
         "throttle_command_pct < 20",
         "overspeed_warning == 1"
@@ -264,7 +352,8 @@
         "state": [
           "ego_speed",
           "target_lane_offset",
-          "yaw_rate"
+          "yaw_rate",
+          "driver_override"
         ],
         "environment": [
           "target_lane_available",
@@ -294,7 +383,8 @@
         "steering_wheel_angle > -15 and steering_wheel_angle < 15",
         "lane_change_requested == 1",
         "lane_change_active == 1",
-        "lane_change_completed_event == 1"
+        "lane_change_completed_event == 1",
+        "driver_override == 1"
       ]
     }
   ]
