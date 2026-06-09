@@ -1,0 +1,312 @@
+ID: 00000
+STL: always (rise (ttc < 2.5) -> eventually [0:0.5] (collision_warning == 1 and brake_active == 1))
+
+中文追踪：
+always (rise (...) -> eventually (...)) -> “每当……时，AEB 系统应……”
+rise (ttc < 2.5) -> “与前车的预计碰撞时间降至 2.5 秒以内时”
+eventually [0:0.5] (collision_warning == 1 and brake_active == 1) -> “确保碰撞预警和制动请求在 0.5 秒内均已生效”
+
+English trace:
+always (rise (...) -> eventually (...)) -> “Whenever ..., the AEB system shall ...”
+rise (ttc < 2.5) -> “the predicted time to collision with the lead vehicle drops below 2.5 seconds”
+eventually [0:0.5] (collision_warning == 1 and brake_active == 1) -> “ensure that both the collision warning and the braking request are active within 0.5 seconds”
+
+ID: 00001
+中文追踪：always (headway_time > 2) -> “ACC 跟车过程中……始终保持”
+English trace: always (headway_time > 2) -> “During ACC car-following ... always maintain”
+
+ID: 00002
+中文追踪：always (lane_offset > -0.3 and lane_offset < 0.3) -> “车道保持控制期间……始终严格小于”
+English trace: always (lane_offset > -0.3 and lane_offset < 0.3) -> “During lane-keeping control ... shall always be strictly less than”
+
+ID: 00003
+中文追踪：always (ego_speed < 5) -> “整个泊车过程中……始终低于”
+English trace: always (ego_speed < 5) -> “Throughout the parking maneuver ... shall remain below”
+
+ID: 00004
+中文追踪：always (throttle_command_pct < 30) -> “牵引力控制运行期间……始终保持”
+English trace: always (throttle_command_pct < 30) -> “While traction control is operating ... shall always remain”
+
+ID: 00005
+中文追踪：always (ego_speed <= speed_limit) -> “在所有时刻……不得超过”
+English trace: always (ego_speed <= speed_limit) -> “At all times ... shall not exceed”
+
+ID: 00006
+中文追踪：always (ego_speed < 30) -> “车辆通过路口期间……始终低于”
+English trace: always (ego_speed < 30) -> “While traversing the intersection scene ... shall remain below”
+
+ID: 00007
+中文追踪：always (blind_spot_occupied == 0) -> “整个变道过程中……始终保持无占用”
+English trace: always (blind_spot_occupied == 0) -> “Throughout the lane-change maneuver ... shall remain clear”
+
+ID: 00008
+中文追踪：always [0:2] (...) -> “AEB 监测区间开始后的 2 秒内……持续保持”
+English trace: always [0:2] (...) -> “During the first 2 seconds ... continuously maintain”
+
+ID: 00009
+中文追踪：always [0:10] (...) -> “10 秒的 ACC 跟车观测窗口内……持续保持”
+English trace: always [0:10] (...) -> “During the 10-second ACC observation window ... continuously maintain”
+
+ID: 00010
+中文追踪：always [0:10] (...) -> “10 秒的车道保持观测窗口内……持续”
+English trace: always [0:10] (...) -> “During the 10-second lane-keeping observation window ... remain”
+
+ID: 00011
+中文追踪：always [0:20] (...) -> “20 秒的泊车区间内……持续”
+English trace: always [0:20] (...) -> “Throughout the 20-second parking segment ... continuously remain”
+
+ID: 00012
+中文追踪：always [0:5] (...) -> “5 秒的牵引力控制区间内……持续保持”
+English trace: always [0:5] (...) -> “During the 5-second traction-control interval ... continuously remain”
+
+ID: 00013
+中文追踪：always [0:5] (...) -> “5 秒的信号灯接近区间内……持续”
+English trace: always [0:5] (...) -> “During the 5-second traffic-light approach window ... continuously remain”
+
+ID: 00014
+中文追踪：always [0:10] (...) -> “10 秒的限速合规观测窗口内……不得超过”
+English trace: always [0:10] (...) -> “Throughout the 10-second speed-compliance window ... shall not exceed”
+
+ID: 00015
+中文追踪：always [0:5] (...) -> “5 秒的路口通行区间内……持续”
+English trace: always [0:5] (...) -> “During the 5-second intersection traversal window ... continuously remain”
+
+ID: 00016
+中文追踪：always [0:5] (...) -> “5 秒的变道区间内……持续保持无占用”
+English trace: always [0:5] (...) -> “Throughout the 5-second lane-change segment ... shall remain clear”
+
+ID: 00017
+中文追踪：always [1:3] (...) -> “从第 1 秒开始至第 3 秒结束……持续保持”
+English trace: always [1:3] (...) -> “beginning at 1 second and ending at 3 seconds ... continuously maintain”
+
+ID: 00018
+中文追踪：always [2:10] (...) -> “第 2 秒至第 10 秒……持续保持”
+English trace: always [2:10] (...) -> “from the second through the tenth second ... continuously maintain”
+
+ID: 00019
+中文追踪：always [2:10] (...) -> “第 2 秒至第 10 秒……持续严格小于”
+English trace: always [2:10] (...) -> “from the second through the tenth second ... remain strictly below”
+
+ID: 00020
+中文追踪：always [5:20] (...) -> “第 5 秒至第 20 秒……持续低于”
+English trace: always [5:20] (...) -> “from the fifth through the twentieth second ... continuously remain below”
+
+ID: 00021
+中文追踪：always [1:5] (...) -> “第 1 秒至第 5 秒……持续保持”
+English trace: always [1:5] (...) -> “from the first through the fifth second ... continuously remain”
+
+ID: 00022
+中文追踪：always [1:5] (...) -> “第 1 秒至第 5 秒……持续低于”
+English trace: always [1:5] (...) -> “from the first through the fifth second ... continuously remain below”
+
+ID: 00023
+中文追踪：always [2:10] (...) -> “第 2 秒至第 10 秒……不得超过”
+English trace: always [2:10] (...) -> “from the second through the tenth second ... shall not exceed”
+
+ID: 00024
+中文追踪：always [1:5] (...) -> “第 1 秒至第 5 秒……持续低于”
+English trace: always [1:5] (...) -> “from the first through the fifth second ... continuously remain below”
+
+ID: 00025
+中文追踪：always [1:5] (...) -> “第 1 秒至第 5 秒……持续保持无占用”
+English trace: always [1:5] (...) -> “from the first through the fifth second ... shall remain clear”
+
+ID: 00026
+中文追踪：eventually (...) -> “当前或之后某个时刻”
+English trace: eventually (...) -> “now or at some later time”
+
+ID: 00027
+中文追踪：eventually (...) -> “当前或之后某个时刻”
+English trace: eventually (...) -> “now or at some later time”
+
+ID: 00028
+中文追踪：eventually (...) -> “当前或之后某个时刻”
+English trace: eventually (...) -> “now or at some later time”
+
+ID: 00029
+中文追踪：eventually (...) -> “当前或之后某个时刻”
+English trace: eventually (...) -> “now or at some later time”
+
+ID: 00030
+中文追踪：eventually (...) -> “当前或之后某个时刻”
+English trace: eventually (...) -> “now or at some later time”
+
+ID: 00031
+中文追踪：eventually (...) -> “当前或之后某个时刻”
+English trace: eventually (...) -> “now or at some later time”
+
+ID: 00032
+中文追踪：eventually (...) -> “当前或之后某个时刻”
+English trace: eventually (...) -> “now or at some later time”
+
+ID: 00033
+中文追踪：eventually (...) -> “当前或之后某个时刻”
+English trace: eventually (...) -> “now or at some later time”
+
+ID: 00034
+中文追踪：eventually (...) -> “当前或之后某个时刻”
+English trace: eventually (...) -> “now or at some later time”
+
+ID: 00035
+中文追踪：eventually (...) -> “当前或之后某个时刻”
+English trace: eventually (...) -> “now or at some later time”
+
+ID: 00036
+中文追踪：eventually [0:0.5] (...) -> “在 0.5 秒内生效”
+English trace: eventually [0:0.5] (...) -> “shall be active within 0.5 seconds”
+
+ID: 00037
+中文追踪：eventually [0:5] (...) -> “包含当前时刻的 5 秒窗口内……至少有一个时刻”
+English trace: eventually [0:5] (...) -> “Within the 5-second window including now ... at least once”
+
+ID: 00038
+中文追踪：eventually [0:2] (...) -> “包含当前时刻的 2 秒窗口内……至少有一个时刻”
+English trace: eventually [0:2] (...) -> “Within the 2-second window including now ... at least once”
+
+ID: 00039
+中文追踪：eventually [0:60] (...) -> “在 60 秒内被记录为完成”
+English trace: eventually [0:60] (...) -> “recorded as complete within 60 seconds”
+
+ID: 00040
+中文追踪：eventually [0:3] (...) -> “包含当前时刻的 3 秒窗口内……至少有一个时刻”
+English trace: eventually [0:3] (...) -> “Within the 3-second window including now ... at least once”
+
+ID: 00041
+中文追踪：eventually [0:1] (...) -> “包含当前时刻的 1 秒窗口内……至少有一个时刻”
+English trace: eventually [0:1] (...) -> “Within the 1-second window including now ... at least once”
+
+ID: 00042
+中文追踪：eventually [0:5] (...) -> “包含当前时刻的 5 秒窗口内……至少有一个时刻”
+English trace: eventually [0:5] (...) -> “Within the 5-second window including now ... at least once”
+
+ID: 00043
+中文追踪：eventually [0:5] (...) -> “包含当前时刻的 5 秒窗口内……至少有一个时刻”
+English trace: eventually [0:5] (...) -> “Within the 5-second window including now ... at least once”
+
+ID: 00044
+中文追踪：eventually [0:3] (...) -> “包含当前时刻的 3 秒窗口内……至少有一个时刻”
+English trace: eventually [0:3] (...) -> “Within the 3-second window including now ... at least once”
+
+ID: 00045
+中文追踪：eventually [0:8] (...) -> “包含当前时刻的 8 秒窗口内……至少有一个时刻”
+English trace: eventually [0:8] (...) -> “Within the 8-second window including now ... at least once”
+
+ID: 00046
+中文追踪：eventually [0.2:0.5] (...) -> “第 0.2 秒至第 0.5 秒的响应窗口内至少生效一次”
+English trace: eventually [0.2:0.5] (...) -> “at least once during the response window from 0.2 to 0.5 seconds”
+
+ID: 00047
+中文追踪：eventually [2:5] (...) -> “第 2 秒至第 5 秒的窗口内……至少有一个时刻”
+English trace: eventually [2:5] (...) -> “from the second through the fifth second ... at least once”
+
+ID: 00048
+中文追踪：eventually [1:3] (...) -> “第 1 秒至第 3 秒的窗口内……至少有一个时刻”
+English trace: eventually [1:3] (...) -> “from the first through the third second ... at least once”
+
+ID: 00049
+中文追踪：eventually [30:60] (...) -> “第 30 秒至第 60 秒的窗口内……至少有一个时刻”
+English trace: eventually [30:60] (...) -> “during the window from 30 to 60 seconds ... at least once”
+
+ID: 00050
+中文追踪：eventually [1:3] (...) -> “第 1 秒至第 3 秒的窗口内……至少有一个时刻”
+English trace: eventually [1:3] (...) -> “from the first through the third second ... at least once”
+
+ID: 00051
+中文追踪：eventually [0.2:1] (...) -> “第 0.2 秒至第 1 秒的窗口内……至少有一个时刻”
+English trace: eventually [0.2:1] (...) -> “during the window from 0.2 to 1 second ... at least once”
+
+ID: 00052
+中文追踪：eventually [2:5] (...) -> “第 2 秒至第 5 秒的窗口内……至少有一个时刻”
+English trace: eventually [2:5] (...) -> “from the second through the fifth second ... at least once”
+
+ID: 00053
+中文追踪：eventually [2:5] (...) -> “第 2 秒至第 5 秒的窗口内……至少有一个时刻”
+English trace: eventually [2:5] (...) -> “from the second through the fifth second ... at least once”
+
+ID: 00054
+中文追踪：eventually [1:3] (...) -> “第 1 秒至第 3 秒的窗口内……至少有一个时刻”
+English trace: eventually [1:3] (...) -> “from the first through the third second ... at least once”
+
+ID: 00055
+中文追踪：eventually [4:8] (...) -> “第 4 秒至第 8 秒的窗口内……至少有一个时刻”
+English trace: eventually [4:8] (...) -> “during the window from 4 to 8 seconds ... at least once”
+
+ID: 00056
+中文追踪：eventually (rise (...)) -> “未来某个时刻”；rise (aeb_active == 1) -> “AEB 开始介入”
+English trace: eventually (rise (...)) -> “at some future time”; rise (aeb_active == 1) -> “AEB shall begin intervening”
+
+ID: 00057
+中文追踪：eventually (rise (...)) -> “未来某个时刻”；rise (acc_active == 1) -> “ACC 启动巡航或跟车控制”
+English trace: eventually (rise (...)) -> “at some future time”; rise (acc_active == 1) -> “ACC shall engage”
+
+ID: 00058
+中文追踪：eventually (rise (...)) -> “未来某个时刻”；rise (lkas_active == 1) -> “车道保持系统开始执行控制”
+English trace: eventually (rise (...)) -> “at some future time”; rise (lkas_active == 1) -> “begin active control”
+
+ID: 00059
+中文追踪：eventually (rise (...)) -> “未来某个时刻”；rise (parking_mode == 1) -> “进入自动或辅助泊车模式”
+English trace: eventually (rise (...)) -> “at some future time”; rise (parking_mode == 1) -> “enter automatic or assisted parking mode”
+
+ID: 00060
+中文追踪：eventually (rise (...)) -> “未来某个时刻”；rise (tcs_active == 1) -> “牵引力控制系统开始介入”
+English trace: eventually (rise (...)) -> “at some future time”; rise (tcs_active == 1) -> “Traction control shall begin intervening”
+
+ID: 00061
+中文追踪：eventually (rise (...)) -> “未来某个时刻”；rise (traffic_light_red == 1) -> “交通信号转为红灯”
+English trace: eventually (rise (...)) -> “at some future time”; rise (traffic_light_red == 1) -> “traffic signal ... shall turn red”
+
+ID: 00062
+中文追踪：eventually (rise (...)) -> “未来某个时刻”；rise (speeding_margin > 5) -> “超过限速的幅度增至 5 千米每小时以上”
+English trace: eventually (rise (...)) -> “at some future time”; rise (speeding_margin > 5) -> “excess ... shall rise above 5 km/h”
+
+ID: 00063
+中文追踪：eventually (rise (...)) -> “未来某个时刻”；rise (intersection_occupied == 1) -> “冲突区域开始被占用”
+English trace: eventually (rise (...)) -> “at some future time”; rise (intersection_occupied == 1) -> “conflict area shall become occupied”
+
+ID: 00064
+中文追踪：eventually (rise (...)) -> “未来某个时刻”；rise (vulnerable_road_user_risk > 0.7) -> “风险评估值升至 0.7 以上”
+English trace: eventually (rise (...)) -> “at some future time”; rise (vulnerable_road_user_risk > 0.7) -> “risk shall rise above 0.7”
+
+ID: 00065
+中文追踪：eventually (rise (...)) -> “未来某个时刻”；rise (lane_change_active == 1) -> “开始执行变道”
+English trace: eventually (rise (...)) -> “at some future time”; rise (lane_change_active == 1) -> “begin executing the lane change”
+
+ID: 00066
+中文追踪：eventually (fall (...)) -> “未来某个时刻”；fall (aeb_active == 1) -> “AEB 结束介入”
+English trace: eventually (fall (...)) -> “at some future time”; fall (aeb_active == 1) -> “AEB shall end its intervention”
+
+ID: 00067
+中文追踪：eventually (fall (...)) -> “未来某个时刻”；fall (acc_active == 1) -> “ACC 退出巡航或跟车控制”
+English trace: eventually (fall (...)) -> “at some future time”; fall (acc_active == 1) -> “ACC shall disengage”
+
+ID: 00068
+中文追踪：eventually (fall (...)) -> “未来某个时刻”；fall (lkas_active == 1) -> “结束主动控制”
+English trace: eventually (fall (...)) -> “at some future time”; fall (lkas_active == 1) -> “end active control”
+
+ID: 00069
+中文追踪：eventually (fall (...)) -> “未来某个时刻”；fall (parking_mode == 1) -> “退出自动或辅助泊车模式”
+English trace: eventually (fall (...)) -> “at some future time”; fall (parking_mode == 1) -> “exit automatic or assisted parking mode”
+
+ID: 00070
+中文追踪：eventually (fall (...)) -> “未来某个时刻”；fall (tcs_active == 1) -> “牵引力控制系统结束介入”
+English trace: eventually (fall (...)) -> “at some future time”; fall (tcs_active == 1) -> “end its intervention”
+
+ID: 00071
+中文追踪：eventually (fall (...)) -> “未来某个时刻”；fall (traffic_light_red == 1) -> “结束红灯状态”
+English trace: eventually (fall (...)) -> “at some future time”; fall (traffic_light_red == 1) -> “cease showing red”
+
+ID: 00072
+中文追踪：eventually (fall (...)) -> “未来某个时刻”；fall (speeding_margin > 5) -> “回到 5 千米每小时或以下”
+English trace: eventually (fall (...)) -> “at some future time”; fall (speeding_margin > 5) -> “return to 5 km/h or less”
+
+ID: 00073
+中文追踪：eventually (fall (...)) -> “未来某个时刻”；fall (intersection_occupied == 1) -> “解除占用”
+English trace: eventually (fall (...)) -> “at some future time”; fall (intersection_occupied == 1) -> “become unoccupied”
+
+ID: 00074
+中文追踪：eventually (fall (...)) -> “未来某个时刻”；fall (vulnerable_road_user_risk > 0.7) -> “回到 0.7 或以下”
+English trace: eventually (fall (...)) -> “at some future time”; fall (vulnerable_road_user_risk > 0.7) -> “return to 0.7 or less”
+
+ID: 00075
+中文追踪：eventually (fall (...)) -> “未来某个时刻”；fall (lane_change_active == 1) -> “结束变道执行”
+English trace: eventually (fall (...)) -> “at some future time”; fall (lane_change_active == 1) -> “finish executing the lane change”

@@ -1,0 +1,34 @@
+Combination: template_0001::AEB
+Template: always (pred1)
+Scene: AEB
+Signals/predicates considered: ttc < 2.5; collision_risk > 0.8; brake_active == 1; aeb_active == 1; collision_warning == 1
+Numeric assessment: The supplied thresholds are individually plausible, but none should be required unconditionally throughout an AEB scene.
+Reason: AEB risk, warning, intervention, and braking predicates are event- or condition-dependent. Filling an unconditional global template would incorrectly require danger or intervention at every time and would not form a natural engineering requirement.
+
+Combination: template_0001::Traffic_Light
+Template: always (pred1)
+Scene: Traffic Light
+Signals/predicates considered: traffic_light_red == 1; traffic_light_green == 1; brake_active == 1; throttle_command_pct < 10; ego_speed < 50
+Numeric assessment: The candidate values are plausible only under particular light phases or approach conditions.
+Reason: Light colors and braking actions are conditional and cannot naturally be required for the entire scene. The generic speed predicate is too context-dependent to justify as an unconditional traffic-light requirement without a trigger or validity condition.
+
+Combination: template_0001::Pedestrian_and_Cyclist
+Template: always (pred1)
+Scene: Pedestrian and Cyclist
+Signals/predicates considered: pedestrian_detected == 1; cyclist_detected == 1; vulnerable_road_user_risk > 0.7; brake_active == 1; collision_warning == 1
+Numeric assessment: The 0.7 risk threshold is plausible when a relevant road user is present, but it must not hold continuously.
+Reason: Detection, crossing risk, warning, and braking are conditional events or states. Requiring any of them unconditionally at every time would describe a permanently hazardous scene or permanent intervention and would be unnatural.
+
+Combination: template_0002::Pedestrian_and_Cyclist
+Template: always [0:t1] (pred1)
+Scene: Pedestrian and Cyclist
+Signals/predicates considered: pedestrian_detected == 1; cyclist_detected == 1; vulnerable_road_user_risk > 0.7; brake_active == 1; collision_warning == 1; ego_speed > 10
+Numeric assessment: The detection, risk, and action thresholds are meaningful only when a relevant road user and conflict condition exist. The available speed predicate is a lower bound and is not a suitable unconditional safety requirement.
+Reason: A bounded but unconditional always formula would still require detection, danger, warning, braking, or a minimum speed throughout the entire interval. None yields a natural and defensible requirement without an explicit trigger or guard.
+
+Combination: template_0003::Pedestrian_and_Cyclist
+Template: always [t1:t2] (pred1)
+Scene: Pedestrian and Cyclist
+Signals/predicates considered: pedestrian_detected == 1; cyclist_detected == 1; vulnerable_road_user_risk > 0.7; brake_active == 1; collision_warning == 1; ego_speed > 10
+Numeric assessment: The available risk and action thresholds are plausible only under an explicit road-user conflict condition; the available minimum-speed predicate is not a safety invariant.
+Reason: Delaying the bounded window does not make any detection, hazard, warning, braking, or minimum-speed predicate suitable as an unconditional continuous requirement. A trigger or guard is required for a natural specification.

@@ -1,0 +1,41 @@
+{
+  "id": "00000",
+  "stl_template": "always (rise (pred1) -> eventually [0:t1] (pred2 and pred3))",
+  "domain": "Autonomous Driving",
+  "scene": "AEB",
+  "trace_info": {
+    "pred1": "ttc < 2.5",
+    "pred2": "collision_warning == 1",
+    "pred3": "brake_active == 1",
+    "t1": "0.5 s"
+  },
+  "stl": "always (rise (ttc < 2.5) -> eventually [0:0.5] (collision_warning == 1 and brake_active == 1))",
+  "signals_info": [
+    {
+      "signal": "ttc",
+      "description": "Time to collision with the selected lead vehicle under the constant-speed assumption; a value below 2.5 s represents an imminent longitudinal collision risk.",
+      "unit": "s"
+    },
+    {
+      "signal": "collision_warning",
+      "description": "Indicates whether the AEB system's collision warning is active; 1 means active and 0 means inactive.",
+      "unit": "dimensionless (0/1)"
+    },
+    {
+      "signal": "brake_active",
+      "description": "Indicates whether the AEB system is issuing or maintaining a braking request; 1 means active and 0 means inactive.",
+      "unit": "dimensionless (0/1)"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 0.5,
+      "unit": "s",
+      "description": "Maximum allowed response time after the predicted time to collision enters the below-2.5-second risk region."
+    }
+  ],
+  "nl_Literal_translation_en": "At all times, if the time to collision has just dropped below 2.5 seconds, there shall be a time within the next 0 to 0.5 seconds when both the collision warning and the braking request are active.",
+  "nl_Literal_translation_zh": "在所有时刻，如果预计碰撞时间刚缩短至 2.5 秒以内，则在接下来的 0 至 0.5 秒内，应存在某一时刻碰撞预警和制动请求同时处于生效状态。",
+  "nl_Paraphrase_en": "Whenever the predicted time to collision with the lead vehicle drops below 2.5 seconds, the AEB system shall ensure that both the collision warning and the braking request are active within 0.5 seconds.",
+  "nl_Paraphrase_zh": "每当与前车的预计碰撞时间降至 2.5 秒以内时，AEB 系统应确保碰撞预警和制动请求在 0.5 秒内均已生效。"
+}

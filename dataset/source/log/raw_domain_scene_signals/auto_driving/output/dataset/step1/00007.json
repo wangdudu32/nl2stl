@@ -1,0 +1,14 @@
+{
+  "id": "00007",
+  "stl_template": "always (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Lane Change",
+  "trace_info": {"pred1": "blind_spot_occupied == 0"},
+  "stl": "always (blind_spot_occupied == 0)",
+  "signals_info": [{"signal": "blind_spot_occupied", "description": "Indicates whether the target-side blind spot is occupied; 0 means unoccupied and 1 means occupied.", "unit": "dimensionless (0/1)"}],
+  "time_info": [],
+  "nl_Literal_translation_en": "At all times, the target-side blind spot shall be unoccupied.",
+  "nl_Literal_translation_zh": "在所有时刻，目标侧盲区应处于未被占用状态。",
+  "nl_Paraphrase_en": "Throughout the lane-change maneuver, the target-side blind spot shall remain clear.",
+  "nl_Paraphrase_zh": "整个变道过程中，目标侧盲区应始终保持无占用。"
+}

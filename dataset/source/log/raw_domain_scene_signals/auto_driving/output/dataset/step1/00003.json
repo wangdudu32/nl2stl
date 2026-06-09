@@ -1,0 +1,14 @@
+{
+  "id": "00003",
+  "stl_template": "always (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Parking",
+  "trace_info": {"pred1": "ego_speed < 5"},
+  "stl": "always (ego_speed < 5)",
+  "signals_info": [{"signal": "ego_speed", "description": "Ego-vehicle speed during the parking maneuver.", "unit": "km/h"}],
+  "time_info": [],
+  "nl_Literal_translation_en": "At all times, the ego vehicle speed shall be less than 5 kilometers per hour.",
+  "nl_Literal_translation_zh": "在所有时刻，自车速度应低于 5 千米每小时。",
+  "nl_Paraphrase_en": "Throughout the parking maneuver, the vehicle shall remain below 5 km/h.",
+  "nl_Paraphrase_zh": "整个泊车过程中，车辆速度应始终低于 5 千米每小时。"
+}

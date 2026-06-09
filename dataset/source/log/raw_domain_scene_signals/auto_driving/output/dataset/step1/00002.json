@@ -1,0 +1,14 @@
+{
+  "id": "00002",
+  "stl_template": "always (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Lane Keeping",
+  "trace_info": {"pred1": "lane_offset > -0.3 and lane_offset < 0.3"},
+  "stl": "always (lane_offset > -0.3 and lane_offset < 0.3)",
+  "signals_info": [{"signal": "lane_offset", "description": "Signed lateral displacement of the vehicle center from the lane center.", "unit": "m"}],
+  "time_info": [],
+  "nl_Literal_translation_en": "At all times, the lane offset shall be greater than -0.3 meters and less than 0.3 meters.",
+  "nl_Literal_translation_zh": "在所有时刻，车道横向偏移应大于 -0.3 米且小于 0.3 米。",
+  "nl_Paraphrase_en": "During lane-keeping control, the magnitude of the vehicle's lateral displacement from the lane center shall always be strictly less than 0.3 meters.",
+  "nl_Paraphrase_zh": "车道保持控制期间，车辆相对车道中心的横向偏移绝对值应始终严格小于 0.3 米。"
+}

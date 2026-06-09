@@ -1,0 +1,25 @@
+{
+  "scene": "AEB",
+  "template": "always (rise (pred1) -> eventually [0:t1] (pred2 and pred3))",
+  "stl": "always (rise (ttc < 2.5) -> eventually [0:0.5] (collision_warning == 1 and brake_active == 1))",
+  "signals_info": [
+    "ttc: time to collision, unit s; ttc < 2.5 is an AEB recommended risk predicate.",
+    "collision_warning: Boolean 0/1; 1 means active.",
+    "brake_active: Boolean 0/1; 1 means the AEB braking request is active."
+  ],
+  "numeric_rationale": [
+    "2.5 s is supplied by the scene's recommended predicates.",
+    "0.5 s is a short response window for a safety-critical AEB reaction."
+  ],
+  "operator_semantics": [
+    "always checks the implication at every time.",
+    "rise(ttc < 2.5) means TTC has just crossed into the below-2.5-second region.",
+    "eventually[0,0.5](Q and R) requires one time in the window when Q and R are both true; it does not require simultaneous activation edges."
+  ],
+  "translations": {
+    "nl_Literal_translation_en": "At all times, if the time to collision has just dropped below 2.5 seconds, there shall be a time within the next 0 to 0.5 seconds when both the collision warning and the braking request are active.",
+    "nl_Literal_translation_zh": "在所有时刻，如果预计碰撞时间刚缩短至 2.5 秒以内，则在接下来的 0 至 0.5 秒内，应存在某一时刻碰撞预警和制动请求同时处于生效状态。",
+    "nl_Paraphrase_en": "Whenever the predicted time to collision with the lead vehicle drops below 2.5 seconds, the AEB system shall ensure that both the collision warning and the braking request are active within 0.5 seconds.",
+    "nl_Paraphrase_zh": "每当与前车的预计碰撞时间降至 2.5 秒以内时，AEB 系统应确保碰撞预警和制动请求在 0.5 秒内均已生效。"
+  }
+}
