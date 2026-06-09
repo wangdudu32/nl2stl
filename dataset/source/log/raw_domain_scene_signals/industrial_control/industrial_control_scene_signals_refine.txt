@@ -1,0 +1,213 @@
+{
+  "domain": "Industrial Control",
+  "domain_description": "工业控制高频安全、联锁和闭环控制场景的 NL-to-STL 模板生成信号子集。",
+  "scenarios": [
+    {
+      "scenario": "Process Safety Monitoring",
+      "description": "过程安全边界监控，持续监测温度、压力、液位、流量和物料性质是否处于安全范围。",
+      "signals": {
+        "state": [
+          "temperature",
+          "pressure",
+          "level",
+          "flow_rate",
+          "concentration",
+          "ph_value"
+        ],
+        "derived_state": [
+          "temperature_rate",
+          "pressure_rate",
+          "safety_margin"
+        ],
+        "environment": [
+          "gas_concentration"
+        ],
+        "event_or_mode": [
+          "alarm_active",
+          "process_stable"
+        ]
+      },
+      "recommended_predicates": [
+        "temperature < temp_max",
+        "pressure < p_max",
+        "level > level_min",
+        "level < level_max",
+        "flow_rate > flow_min",
+        "flow_rate < flow_max",
+        "concentration < c_max",
+        "ph_value > ph_min",
+        "ph_value < ph_max",
+        "abs(temperature_rate) < rate_max",
+        "abs(pressure_rate) < rate_max",
+        "gas_concentration < gas_max",
+        "alarm_active = 0",
+        "safety_margin > margin_min",
+        "process_stable = 1"
+      ]
+    },
+    {
+      "scenario": "Safety Interlock and ESD",
+      "description": "安全联锁与紧急停车，在检测到高压、高温、泄漏、火灾或人工急停后执行报警、隔离和停机。",
+      "signals": {
+        "event_or_mode": [
+          "pressure_high",
+          "temperature_high",
+          "level_low",
+          "gas_leak_detected",
+          "fire_detected",
+          "emergency_stop_button",
+          "emergency_shutdown_active",
+          "interlock_active",
+          "safety_valve_open",
+          "safety_plc_healthy"
+        ],
+        "control": [
+          "shutdown_command",
+          "pump_shutdown"
+        ]
+      },
+      "recommended_predicates": [
+        "pressure_high = 1",
+        "temperature_high = 1",
+        "level_low = 1",
+        "gas_leak_detected = 0",
+        "fire_detected = 0",
+        "emergency_stop_button = 1",
+        "shutdown_command = 1",
+        "emergency_shutdown_active = 1",
+        "interlock_active = 1",
+        "safety_valve_open = 1",
+        "pump_shutdown = 1",
+        "safety_plc_healthy = 1"
+      ]
+    },
+    {
+      "scenario": "Reactor Process Control",
+      "description": "反应釜与化工过程控制，约束反应温度、压力、液位、组分、搅拌、投料和冷却过程。",
+      "signals": {
+        "state": [
+          "reactor_temperature",
+          "reactor_pressure",
+          "reactor_level",
+          "reactor_ph",
+          "reactant_concentration",
+          "product_concentration",
+          "coolant_flow_rate",
+          "stirrer_speed"
+        ],
+        "derived_state": [
+          "heat_release_rate",
+          "temperature_rate",
+          "runaway_risk_index"
+        ],
+        "event_or_mode": [
+          "reactor_alarm_active"
+        ]
+      },
+      "recommended_predicates": [
+        "reactor_temperature < temp_max",
+        "reactor_pressure < p_max",
+        "reactor_level > level_min",
+        "reactor_level < level_max",
+        "reactor_ph > ph_min",
+        "reactor_ph < ph_max",
+        "reactant_concentration < c_max",
+        "product_concentration > c_min",
+        "coolant_flow_rate > flow_min",
+        "stirrer_speed > rpm_min",
+        "stirrer_speed < rpm_max",
+        "heat_release_rate < heat_rate_max",
+        "temperature_rate < rate_max",
+        "runaway_risk_index < risk_max",
+        "reactor_alarm_active = 0"
+      ]
+    },
+    {
+      "scenario": "Boiler and Steam Control",
+      "description": "锅炉与蒸汽系统控制，维持汽包水位、蒸汽压力、燃烧和给水系统安全稳定。",
+      "signals": {
+        "state": [
+          "steam_pressure",
+          "drum_level",
+          "steam_temperature",
+          "feedwater_flow_rate",
+          "furnace_pressure",
+          "fuel_flow_rate",
+          "air_flow_rate"
+        ],
+        "event_or_mode": [
+          "burner_flame_detected",
+          "safety_valve_open",
+          "boiler_trip"
+        ],
+        "derived_state": [
+          "air_fuel_ratio"
+        ],
+        "environment": [
+          "oxygen_content"
+        ]
+      },
+      "recommended_predicates": [
+        "steam_pressure < p_max",
+        "drum_level > level_min",
+        "drum_level < level_max",
+        "steam_temperature < temp_max",
+        "feedwater_flow_rate > flow_min",
+        "furnace_pressure > furnace_pressure_min",
+        "furnace_pressure < furnace_pressure_max",
+        "burner_flame_detected = 1",
+        "fuel_flow_rate < fuel_max",
+        "air_flow_rate > air_min",
+        "air_fuel_ratio > afr_min",
+        "air_fuel_ratio < afr_max",
+        "oxygen_content > o2_min",
+        "oxygen_content < o2_max",
+        "safety_valve_open = 1",
+        "boiler_trip = 1"
+      ]
+    },
+    {
+      "scenario": "Motor and Drive Control",
+      "description": "电机、变频器与伺服驱动控制，监测速度、位置、转矩、电气量、温度和驱动故障。",
+      "signals": {
+        "state": [
+          "motor_speed",
+          "motor_torque",
+          "motor_current",
+          "dc_bus_voltage",
+          "motor_temperature",
+          "vibration_level"
+        ],
+        "target": [
+          "speed_reference",
+          "position_reference"
+        ],
+        "derived_state": [
+          "speed_error",
+          "position_error"
+        ],
+        "event_or_mode": [
+          "overcurrent_fault",
+          "emergency_stop_active"
+        ],
+        "control": [
+          "drive_enable"
+        ]
+      },
+      "recommended_predicates": [
+        "abs(motor_speed - speed_reference) < e_max",
+        "abs(speed_error) < e_max",
+        "motor_torque < torque_max",
+        "motor_current < current_max",
+        "dc_bus_voltage > v_min",
+        "dc_bus_voltage < v_max",
+        "motor_temperature < temp_max",
+        "vibration_level < vib_max",
+        "abs(position_error) < e_max",
+        "overcurrent_fault = 0",
+        "drive_enable = 1",
+        "emergency_stop_active = 0"
+      ]
+    }
+  ]
+}

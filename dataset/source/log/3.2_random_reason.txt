@@ -1,0 +1,53 @@
+Random 100 DeepSTL template sampling rationale
+==============================================
+
+Source
+Samples were drawn from template_difficulty_level.txt after it had been sorted by difficulty level and outside-to-inside operator signature.
+
+Sampling goal
+Select 100 templates while balancing complexity coverage and structural diversity. The output random_100_template.txt contains only template text, one template per line.
+
+Reproducibility
+Random seed: 20260603.
+
+Complexity quotas
+The sample intentionally includes every difficulty level C1-C7. Quotas give enough examples to simple levels while reserving most slots for the dense middle/high-complexity regions.
+C1 atomic_temporal: selected 8 of 12; quota 8; available outside-to-inside operator-signature groups 6.
+C2 basic_unary_or_window: selected 10 of 50; quota 10; available outside-to-inside operator-signature groups 33.
+C3 simple_boolean_or_trigger: selected 14 of 119; quota 14; available outside-to-inside operator-signature groups 85.
+C4 standard_composite: selected 18 of 225; quota 18; available outside-to-inside operator-signature groups 177.
+C5 nested_temporal: selected 20 of 311; quota 20; available outside-to-inside operator-signature groups 217.
+C6 complex_event_until_since: selected 18 of 234; quota 18; available outside-to-inside operator-signature groups 209.
+C7 extreme_composite: selected 12 of 87; quota 12; available outside-to-inside operator-signature groups 84.
+
+Diversity rule inside each level
+Within each difficulty level, templates were grouped by outside-to-inside operator signature. The signature records operators by parenthesis depth, comparing shallower operators before deeper operators and preserving left-to-right order at the same depth. One median-score representative was sampled from as many signature groups as possible; if the level quota was not full, remaining slots were filled randomly from unselected templates in that level.
+
+Sample summary
+Total templates selected: 100.
+Unique outside-to-inside operator signatures selected: 96.
+Score range in sample: 1.2-21.5.
+Selected count by difficulty level:
+C1 atomic_temporal: 8
+C2 basic_unary_or_window: 10
+C3 simple_boolean_or_trigger: 14
+C4 standard_composite: 18
+C5 nested_temporal: 20
+C6 complex_event_until_since: 18
+C7 extreme_composite: 12
+
+Selected count by outermost operator:
+always: 84
+eventually: 16
+
+Important feature coverage:
+with_edge: 63
+with_until_since: 20
+with_past_time: 11
+with_implication: 73
+with_negation: 50
+with_intervals: 62
+four_or_more_predicates: 30
+
+Ordering of random_100_template.txt
+The selected templates are written in difficulty order. Within each difficulty level they are ordered by outside-to-inside operator signature, then score, then original source order.

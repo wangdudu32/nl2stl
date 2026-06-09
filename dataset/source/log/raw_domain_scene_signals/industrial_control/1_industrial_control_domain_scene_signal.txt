@@ -1,0 +1,202 @@
+工业控制领域:
+
+一、通用工业控制信号池
+
+这些信号可用于多个工业过程安全监测和控制场景。
+
+信号名	含义	单位/取值	适合构造的谓词
+temperature	过程温度	degree C	temperature < temp_max
+pressure	过程压力	Pa	pressure < p_max
+level	液位/料位	%	level > level_min; level < level_max
+flow_rate	流量	m^3/s	flow_rate > flow_min; flow_rate < flow_max
+temperature_rate	温度变化率	degree C/s	abs(temperature_rate) < rate_max
+pressure_rate	压力变化率	Pa/s	abs(pressure_rate) < rate_max
+alarm_active	安全报警是否激活	0/1	alarm_active = 0
+safety_margin	安全裕度	dimensionless	safety_margin > margin_min
+
+二、Process Safety Monitoring：过程安全边界监控
+
+过程安全边界监控，持续监测温度、压力、液位、流量和物料性质是否处于安全范围。
+
+1. 推荐信号池
+信号名	含义	类型	单位/取值	典型谓词
+temperature	过程温度	state	degree C	temperature < temp_max
+pressure	过程压力	state	Pa	pressure < p_max
+level	液位/料位	state	%	level > level_min; level < level_max
+flow_rate	流量	state	m^3/s	flow_rate > flow_min; flow_rate < flow_max
+concentration	物料浓度	state	%	concentration < c_max
+ph_value	pH 值	state	pH	ph_value > ph_min; ph_value < ph_max
+density	密度	state	kg/m^3	density > density_min; density < density_max
+viscosity	黏度	state	Pa*s	viscosity < viscosity_max
+mass_flow_rate	质量流量	state	kg/s	mass_flow_rate < mf_max
+volume_flow_rate	体积流量	state	m^3/s	volume_flow_rate < vf_max
+inlet_temperature	入口温度	state	degree C	inlet_temperature < temp_max
+outlet_temperature	出口温度	state	degree C	outlet_temperature < temp_max
+inlet_pressure	入口压力	state	Pa	inlet_pressure < p_max
+outlet_pressure	出口压力	state	Pa	outlet_pressure < p_max
+pressure_difference	压差	derived_state	Pa	pressure_difference < dp_max
+temperature_rate	温度变化率	derived_state	degree C/s	abs(temperature_rate) < rate_max
+pressure_rate	压力变化率	derived_state	Pa/s	abs(pressure_rate) < rate_max
+level_rate	液位变化率	derived_state	%/s	abs(level_rate) < rate_max
+oxygen_concentration	氧气浓度	environment	%	oxygen_concentration < o2_max
+gas_concentration	可燃/有毒气体浓度	environment	ppm	gas_concentration < gas_max
+vapor_concentration	蒸汽浓度	environment	ppm	vapor_concentration < vapor_max
+turbidity	浊度	environment	NTU	turbidity < turbidity_max
+conductivity	电导率	environment	S/m	conductivity < cond_max
+alarm_active	安全报警是否激活	event_or_mode	0/1	alarm_active = 0
+safety_margin	安全裕度	derived_state	dimensionless	safety_margin > margin_min
+process_stable	过程是否稳定	event_or_mode	0/1	process_stable = 1
+
+三、Safety Interlock and ESD：安全联锁 / 紧急停车 ESD
+
+安全联锁与紧急停车，在检测到高压、高温、泄漏、火灾或人工急停后执行报警、隔离和停机。
+
+1. 推荐信号池
+信号名	含义	类型	单位/取值	典型谓词
+pressure_high	高压触发信号	event_or_mode	0/1	pressure_high = 1
+temperature_high	高温触发信号	event_or_mode	0/1	temperature_high = 1
+level_high	高液位触发信号	event_or_mode	0/1	level_high = 1
+level_low	低液位触发信号	event_or_mode	0/1	level_low = 1
+flow_low	低流量触发信号	event_or_mode	0/1	flow_low = 1
+gas_leak_detected	气体泄漏检测	event_or_mode	0/1	gas_leak_detected = 0
+fire_detected	火灾检测	event_or_mode	0/1	fire_detected = 0
+emergency_stop_button	急停按钮状态	event_or_mode	0/1	emergency_stop_button = 1
+shutdown_command	停机命令	control	0/1	shutdown_command = 1
+emergency_shutdown_active	ESD 是否激活	event_or_mode	0/1	emergency_shutdown_active = 1
+trip_signal	跳闸信号	event_or_mode	0/1	trip_signal = 1
+interlock_active	联锁是否激活	event_or_mode	0/1	interlock_active = 1
+safety_valve_open	安全阀是否打开	event_or_mode	0/1	safety_valve_open = 1
+relief_valve_open	泄压阀是否打开	event_or_mode	0/1	relief_valve_open = 1
+inlet_valve_closed	入口阀是否关闭	event_or_mode	0/1	inlet_valve_closed = 1
+outlet_valve_closed	出口阀是否关闭	event_or_mode	0/1	outlet_valve_closed = 1
+fuel_valve_closed	燃料阀是否关闭	event_or_mode	0/1	fuel_valve_closed = 1
+feed_valve_closed	进料阀是否关闭	event_or_mode	0/1	feed_valve_closed = 1
+pump_shutdown	泵是否停机	control	0/1	pump_shutdown = 1
+compressor_shutdown	压缩机是否停机	control	0/1	compressor_shutdown = 1
+motor_trip	电机跳闸	event_or_mode	0/1	motor_trip = 1
+power_cutoff	电源切断	control	0/1	power_cutoff = 1
+vent_open	放空阀是否打开	event_or_mode	0/1	vent_open = 1
+cooling_enabled	冷却是否启动	event_or_mode	0/1	cooling_enabled = 1
+alarm_acknowledged	报警是否确认	event_or_mode	0/1	alarm_acknowledged = 1
+manual_override_active	人工旁路/强制模式	event_or_mode	0/1	manual_override_active = 0
+safety_plc_healthy	安全 PLC 是否正常	event_or_mode	0/1	safety_plc_healthy = 1
+sensor_fault_detected	传感器故障	event_or_mode	0/1	sensor_fault_detected = 0
+actuator_fault_detected	执行器故障	event_or_mode	0/1	actuator_fault_detected = 0
+
+四、Reactor Process Control：反应釜 / 化工过程控制
+
+反应釜与化工过程控制，约束反应温度、压力、液位、组分、搅拌、投料和冷却过程。
+
+1. 推荐信号池
+信号名	含义	类型	单位/取值	典型谓词
+reactor_temperature	反应釜温度	state	degree C	reactor_temperature < temp_max
+reactor_pressure	反应釜压力	state	Pa	reactor_pressure < p_max
+reactor_level	反应釜液位	state	%	reactor_level > level_min; reactor_level < level_max
+reactor_ph	反应釜 pH	state	pH	reactor_ph > ph_min; reactor_ph < ph_max
+reactant_concentration	反应物浓度	state	%	reactant_concentration < c_max
+product_concentration	产物浓度	state	%	product_concentration > c_min
+impurity_concentration	杂质浓度	state	%	impurity_concentration < c_max
+coolant_flow_rate	冷却剂流量	state	m^3/s	coolant_flow_rate > flow_min
+coolant_temperature	冷却剂温度	state	degree C	coolant_temperature < temp_max
+jacket_temperature	夹套温度	state	degree C	jacket_temperature < temp_max
+jacket_pressure	夹套压力	state	Pa	jacket_pressure < p_max
+feed_flow_rate	进料流量	state	m^3/s	feed_flow_rate < flow_max
+discharge_flow_rate	出料流量	state	m^3/s	discharge_flow_rate < flow_max
+stirrer_speed	搅拌器转速	state	rpm	stirrer_speed > rpm_min; stirrer_speed < rpm_max
+agitator_torque	搅拌器扭矩	state	N*m	agitator_torque < torque_max
+reaction_rate	反应速率	derived_state	unit depends on reaction	reaction_rate < rate_max
+heat_release_rate	放热速率	derived_state	W	heat_release_rate < heat_rate_max
+temperature_rate	反应温升速率	derived_state	degree C/s	temperature_rate < rate_max
+pressure_rate	压力上升速率	derived_state	Pa/s	pressure_rate < rate_max
+oxygen_concentration	氧含量	environment	%	oxygen_concentration < o2_max
+nitrogen_flow_rate	氮气保护流量	state	m^3/s	nitrogen_flow_rate > flow_min
+inert_gas_pressure	惰性气体压力	environment	Pa	inert_gas_pressure > p_min
+valve_opening	调节阀开度	control	%	valve_opening <= 100
+cooling_valve_opening	冷却阀开度	control	%	
+feed_valve_opening	进料阀开度	control	%	
+vent_valve_opening	放空阀开度	control	%	
+reactor_mode	反应釜运行模式	event_or_mode	unit depends on data source	
+batch_phase	批次阶段	event_or_mode	unit depends on data source	
+runaway_risk_index	热失控风险指标	derived_state	dimensionless	runaway_risk_index < risk_max
+reactor_alarm_active	反应釜报警状态	event_or_mode	0/1	reactor_alarm_active = 0
+
+五、Boiler and Steam Control：锅炉 / 蒸汽系统控制
+
+锅炉与蒸汽系统控制，维持汽包水位、蒸汽压力、燃烧和给水系统安全稳定。
+
+1. 推荐信号池
+信号名	含义	类型	单位/取值	典型谓词
+steam_pressure	蒸汽压力	state	Pa	steam_pressure < p_max
+drum_level	汽包水位	state	%	drum_level > level_min; drum_level < level_max
+steam_temperature	蒸汽温度	state	degree C	steam_temperature < temp_max
+feedwater_flow_rate	给水流量	state	kg/s	feedwater_flow_rate > flow_min
+steam_flow_rate	蒸汽流量	state	kg/s	steam_flow_rate < flow_max
+furnace_pressure	炉膛压力	state	Pa	furnace_pressure > furnace_pressure_min; furnace_pressure < furnace_pressure_max
+furnace_temperature	炉膛温度	state	degree C	furnace_temperature < temp_max
+water_level_high	水位高报警	event_or_mode	0/1	water_level_high = 0
+water_level_low	水位低报警	event_or_mode	0/1	water_level_low = 0
+burner_state	燃烧器状态	event_or_mode	unit depends on data source	
+burner_flame_detected	火焰是否检测到	event_or_mode	0/1	burner_flame_detected = 1
+fuel_flow_rate	燃料流量	state	kg/s	fuel_flow_rate < fuel_max
+air_flow_rate	助燃空气流量	state	kg/s	air_flow_rate > air_min
+air_fuel_ratio	空燃比	derived_state	dimensionless	air_fuel_ratio > afr_min; air_fuel_ratio < afr_max
+oxygen_content	烟气氧含量	environment	%	oxygen_content > o2_min; oxygen_content < o2_max
+exhaust_gas_temperature	排烟温度	environment	degree C	exhaust_gas_temperature < temp_max
+superheater_temperature	过热器温度	state	degree C	superheater_temperature < temp_max
+reheater_temperature	再热器温度	state	degree C	reheater_temperature < temp_max
+economizer_outlet_temperature	省煤器出口温度	state	degree C	economizer_outlet_temperature < temp_max
+feedwater_temperature	给水温度	state	degree C	feedwater_temperature > temp_min
+feedwater_pressure	给水压力	state	Pa	feedwater_pressure > p_min
+blowdown_valve_opening	排污阀开度	control	%	
+safety_valve_open	安全阀是否打开	event_or_mode	0/1	safety_valve_open = 1
+main_steam_valve_opening	主蒸汽阀开度	control	%	
+feedwater_valve_opening	给水阀开度	control	%	
+fuel_valve_opening	燃料阀开度	control	%	
+draft_fan_speed	引风机转速	state	rpm	
+forced_draft_fan_speed	送风机转速	state	rpm	
+boiler_load	锅炉负荷	state	%	boiler_load < load_max
+boiler_trip	锅炉跳闸	event_or_mode	0/1	boiler_trip = 1
+purge_active	炉膛吹扫是否激活	event_or_mode	0/1	purge_active = 1
+ignition_active	点火是否激活	event_or_mode	0/1	ignition_active = 1
+
+六、Motor and Drive Control：电机 / 变频器 / 伺服驱动控制
+
+电机、变频器与伺服驱动控制，监测速度、位置、转矩、电气量、温度和驱动故障。
+
+1. 推荐信号池
+信号名	含义	类型	单位/取值	典型谓词
+motor_speed	电机转速	state	rpm	abs(motor_speed - speed_reference) < e_max
+speed_reference	目标转速	target	rpm	
+speed_error	转速误差	derived_state	rpm	abs(speed_error) < e_max
+motor_torque	电机输出转矩	state	N*m	motor_torque < torque_max
+torque_reference	目标转矩	target	N*m	
+torque_error	转矩误差	derived_state	N*m	abs(torque_error) < e_max
+motor_current	电机电流	state	A	motor_current < current_max
+phase_current_a	A 相电流	state	A	abs(phase_current_a) < i_max
+phase_current_b	B 相电流	state	A	abs(phase_current_b) < i_max
+phase_current_c	C 相电流	state	A	abs(phase_current_c) < i_max
+dc_bus_voltage	直流母线电压	state	V	dc_bus_voltage > v_min; dc_bus_voltage < v_max
+motor_voltage	电机端电压	state	V	motor_voltage < v_max
+motor_temperature	电机温度	state	degree C	motor_temperature < temp_max
+drive_temperature	变频器/驱动器温度	state	degree C	drive_temperature < temp_max
+bearing_temperature	轴承温度	state	degree C	bearing_temperature < temp_max
+vibration_level	振动水平	state	unit depends on sensor	vibration_level < vib_max
+position	伺服位置	state	unit depends on actuator	abs(position - position_reference) < e_max
+position_reference	目标位置	target	unit depends on actuator	
+position_error	位置误差	derived_state	unit depends on actuator	abs(position_error) < e_max
+acceleration	加速度	state	unit depends on actuator	abs(acceleration) < acc_max
+jerk	加加速度	state	unit depends on actuator	abs(jerk) < jerk_max
+frequency_command	变频器频率指令	control	Hz	
+output_frequency	变频器输出频率	state	Hz	output_frequency < f_max
+slip_frequency	转差频率	state	Hz	slip_frequency < slip_max
+load_ratio	负载率	derived_state	%	load_ratio < load_max
+overcurrent_fault	过流故障	event_or_mode	0/1	overcurrent_fault = 0
+overvoltage_fault	过压故障	event_or_mode	0/1	overvoltage_fault = 0
+undervoltage_fault	欠压故障	event_or_mode	0/1	undervoltage_fault = 0
+overtemperature_fault	过温故障	event_or_mode	0/1	overtemperature_fault = 0
+overspeed_fault	超速故障	event_or_mode	0/1	overspeed_fault = 0
+drive_ready	驱动器就绪	event_or_mode	0/1	drive_ready = 1
+drive_enable	驱动使能	control	0/1	drive_enable = 1
+brake_released	抱闸释放	event_or_mode	0/1	brake_released = 1
+servo_on	伺服使能	control	0/1	servo_on = 1
+emergency_stop_active	急停是否激活	event_or_mode	0/1	emergency_stop_active = 0

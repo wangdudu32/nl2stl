@@ -1,0 +1,52 @@
+DeepSTL template difficulty grading explanation
+==============================================
+
+Purpose
+The grading is based on the actual structural complexity of templates in deepstl_template.txt. It does not force the result into a fixed 1-5 scale. The final scale has seven levels, C1-C7. Difficulty means expected NL2STL parsing/translation difficulty, not runtime monitoring cost.
+
+Feature basis
+1. Predicate breadth: more unique predN placeholders require more signal grounding and Boolean binding.
+2. Temporal operators: always/eventually/historically/once increase temporal scope complexity.
+3. Until/since operators: until and since are weighted higher because they bind two formulas and introduce ordering/dependency semantics.
+4. Edge operators: rise/fall add event-detection semantics; they become harder when nested under temporal scopes or used with until/since.
+5. Boolean structure: and/or/-> and not increase precedence and grouping ambiguity.
+6. Time intervals: each [..] interval adds parameterization; non-zero lower-bound windows such as [t1:t2] are slightly harder than [0:t1].
+7. Parenthesis depth: deeper nesting indicates more composed formulas and higher precedence risk.
+
+Scoring formula
+score = 1.3*(unique_predicates-1) + 1.2*(always/eventually/historically/once count) + 2.0*(until/since count) + 1.1*(rise/fall count) + 0.9*(and/or/-> count) + 0.6*(not count) + 0.7*(interval count) + 0.4*(non-zero-lower-bound interval count) + 0.5*max(parenthesis_depth-2, 0).
+Additional combination penalties: +1.2 for implication with at least two temporal operators; +1.0 for edge operators with at least two temporal/heavy temporal operators; +1.0 for edge with until/since; +0.8 for not combined with edge or until/since; +1.5 for five or more unique predicates; +1.0 for four or more intervals; +1.0 for parenthesis depth six or more.
+
+Level mapping
+C1 atomic_temporal: score <= 2.5.
+C2 basic_unary_or_window: 2.5 < score <= 4.8.
+C3 simple_boolean_or_trigger: 4.8 < score <= 7.5.
+C4 standard_composite: 7.5 < score <= 10.5.
+C5 nested_temporal: 10.5 < score <= 13.5.
+C6 complex_event_until_since: 13.5 < score <= 17.0.
+C7 extreme_composite: score > 17.0.
+
+Internal grouping inside each level
+For templates with the same difficulty level, grouping is based on operator structure from outside to inside. For each template, an operator signature is built by recording operators at their parenthesis depth, sorting shallower operators before deeper operators, and preserving left-to-right order at the same depth. Examples of operators included in the signature are always, eventually, historically, once, not, rise, fall, and, or, ->, until, and since. Templates in the same level are then sorted by this outside-to-inside operator signature, then by score, then by original line number.
+The grouping is applied only as ordering in template_difficulty_level.txt, so that file remains a pure one-template-per-line list without headers or extra columns.
+
+Output file
+template_difficulty_level.txt contains only template text, sorted by difficulty level and then by outside-to-inside operator signature.
+
+Level distribution
+C1 atomic_temporal: 12 templates
+C2 basic_unary_or_window: 50 templates
+C3 simple_boolean_or_trigger: 119 templates
+C4 standard_composite: 225 templates
+C5 nested_temporal: 311 templates
+C6 complex_event_until_since: 234 templates
+C7 extreme_composite: 87 templates
+
+Operator-signature group counts by level
+C1: 6 groups
+C2: 31 groups
+C3: 80 groups
+C4: 169 groups
+C5: 216 groups
+C6: 208 groups
+C7: 84 groups
