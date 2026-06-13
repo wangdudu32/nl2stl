@@ -1,1 +1,35 @@
-{"id":"00025","stl_template":"always [t1:t2] (pred1)","domain":"Autonomous Driving","scene":"Lane Change","trace_info":{"pred1":"blind_spot_occupied == 0","t1":"1 s","t2":"5 s"},"stl":"always [1:5] (blind_spot_occupied == 0)","signals_info":[{"signal":"blind_spot_occupied","description":"Whether the target-side blind spot is occupied; 0 means clear.","unit":"dimensionless (0/1)"}],"time_info":[{"value":1,"unit":"s","description":"Start of lane-change window."},{"value":5,"unit":"s","description":"End of lane-change window."}],"nl_Literal_translation_en":"From 1 to 5 seconds from now, the target-side blind spot shall remain unoccupied.","nl_Literal_translation_zh":"从现在起第 1 秒到第 5 秒之间，目标侧盲区应始终处于未被占用状态。","nl_Paraphrase_en":"During the lane-change window from the first through the fifth second, the target-side blind spot shall remain clear.","nl_Paraphrase_zh":"在第 1 秒至第 5 秒的变道窗口内，目标侧盲区应持续保持无占用。"}
+{
+  "id": "00025",
+  "stl_template": "always [t1:t2] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Lane Change",
+  "trace_info": {
+    "pred1": "blind_spot_occupied == 0",
+    "t1": "1 s",
+    "t2": "5 s"
+  },
+  "stl": "always [1:5] (blind_spot_occupied == 0)",
+  "signals_info": [
+    {
+      "signal": "blind_spot_occupied",
+      "description": "Whether the target-side blind spot is occupied; 0 means clear.",
+      "unit": "dimensionless (0/1)"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 1,
+      "unit": "s",
+      "description": "Start of lane-change window."
+    },
+    {
+      "value": 5,
+      "unit": "s",
+      "description": "End of lane-change window."
+    }
+  ],
+  "nl_Literal_translation_en": "From 1 to 5 seconds from now, the target-side blind spot shall remain unoccupied.",
+  "nl_Literal_translation_zh": "从现在起第 1 秒到第 5 秒之间，目标侧盲区应始终处于未被占用状态。",
+  "nl_Paraphrase_en": "During the lane-change window from the first through the fifth second, the target-side blind spot shall remain clear.",
+  "nl_Paraphrase_zh": "在第 1 秒至第 5 秒的变道窗口内，目标侧盲区应持续保持无占用。"
+}

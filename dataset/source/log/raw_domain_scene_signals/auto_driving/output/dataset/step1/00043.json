@@ -1,1 +1,29 @@
-{"id":"00043","stl_template":"eventually [0:t1] (pred1)","domain":"Autonomous Driving","scene":"Intersection","trace_info":{"pred1":"intersection_occupied == 0","t1":"5 s"},"stl":"eventually [0:5] (intersection_occupied == 0)","signals_info":[{"signal":"intersection_occupied","description":"Whether the associated intersection conflict area is occupied; 0 means unoccupied.","unit":"dimensionless (0/1)"}],"time_info":[{"value":5,"unit":"s","description":"Bounded conflict-area state window including the current time."}],"nl_Literal_translation_en":"At some time from now through the next 5 seconds, the intersection conflict area shall be unoccupied.","nl_Literal_translation_zh":"从当前起至接下来的 5 秒内，路口冲突区域应至少有一个时刻处于未被占用状态。","nl_Paraphrase_en":"Within the 5-second window including now, the intersection conflict area shall be clear at least once.","nl_Paraphrase_zh":"在包含当前时刻的 5 秒窗口内，路口冲突区域应至少有一个时刻处于无占用状态。"}
+{
+  "id": "00043",
+  "stl_template": "eventually [0:t1] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Intersection",
+  "trace_info": {
+    "pred1": "intersection_occupied == 0",
+    "t1": "5 s"
+  },
+  "stl": "eventually [0:5] (intersection_occupied == 0)",
+  "signals_info": [
+    {
+      "signal": "intersection_occupied",
+      "description": "Whether the associated intersection conflict area is occupied; 0 means unoccupied.",
+      "unit": "dimensionless (0/1)"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 5,
+      "unit": "s",
+      "description": "Bounded conflict-area state window including the current time."
+    }
+  ],
+  "nl_Literal_translation_en": "At some time from now through the next 5 seconds, the intersection conflict area shall be unoccupied.",
+  "nl_Literal_translation_zh": "从当前起至接下来的 5 秒内，路口冲突区域应至少有一个时刻处于未被占用状态。",
+  "nl_Paraphrase_en": "Within the 5-second window including now, the intersection conflict area shall be clear at least once.",
+  "nl_Paraphrase_zh": "在包含当前时刻的 5 秒窗口内，路口冲突区域应至少有一个时刻处于无占用状态。"
+}

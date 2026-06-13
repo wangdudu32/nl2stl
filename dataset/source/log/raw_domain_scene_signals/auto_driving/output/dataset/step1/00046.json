@@ -1,1 +1,35 @@
-{"id":"00046","stl_template":"eventually [t1:t2] (pred1)","domain":"Autonomous Driving","scene":"AEB","trace_info":{"pred1":"brake_active == 1","t1":"0.2 s","t2":"0.5 s"},"stl":"eventually [0.2:0.5] (brake_active == 1)","signals_info":[{"signal":"brake_active","description":"Whether the AEB braking request is active.","unit":"dimensionless (0/1)"}],"time_info":[{"value":0.2,"unit":"s","description":"Start of delayed response window."},{"value":0.5,"unit":"s","description":"End of delayed response window."}],"nl_Literal_translation_en":"At some time between 0.2 and 0.5 seconds from now, the AEB braking request shall be active.","nl_Literal_translation_zh":"从现在起第 0.2 秒到第 0.5 秒之间，AEB 制动请求应至少有一个时刻处于生效状态。","nl_Paraphrase_en":"The AEB braking request shall be active at least once during the response window from 0.2 to 0.5 seconds.","nl_Paraphrase_zh":"AEB 制动请求应在第 0.2 秒至第 0.5 秒的响应窗口内至少生效一次。"}
+{
+  "id": "00046",
+  "stl_template": "eventually [t1:t2] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "AEB",
+  "trace_info": {
+    "pred1": "brake_active == 1",
+    "t1": "0.2 s",
+    "t2": "0.5 s"
+  },
+  "stl": "eventually [0.2:0.5] (brake_active == 1)",
+  "signals_info": [
+    {
+      "signal": "brake_active",
+      "description": "Whether the AEB braking request is active.",
+      "unit": "dimensionless (0/1)"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 0.2,
+      "unit": "s",
+      "description": "Start of delayed response window."
+    },
+    {
+      "value": 0.5,
+      "unit": "s",
+      "description": "End of delayed response window."
+    }
+  ],
+  "nl_Literal_translation_en": "At some time between 0.2 and 0.5 seconds from now, the AEB braking request shall be active.",
+  "nl_Literal_translation_zh": "从现在起第 0.2 秒到第 0.5 秒之间，AEB 制动请求应至少有一个时刻处于生效状态。",
+  "nl_Paraphrase_en": "The AEB braking request shall be active at least once during the response window from 0.2 to 0.5 seconds.",
+  "nl_Paraphrase_zh": "AEB 制动请求应在第 0.2 秒至第 0.5 秒的响应窗口内至少生效一次。"
+}

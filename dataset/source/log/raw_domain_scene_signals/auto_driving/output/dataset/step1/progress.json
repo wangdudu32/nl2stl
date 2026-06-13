@@ -9,6 +9,8 @@
   "total_success_count": 76,
   "total_failure_count": 5,
   "last_completed_combination": "template_0008::Lane_Change",
-  "preexisting_completed_combinations": ["template_0431::AEB"],
+  "preexisting_completed_combinations": [
+    "template_0431::AEB"
+  ],
   "notes": "00000.json is the approved pilot example for template 431 and AEB. Templates 1 through 8 have been evaluated for all 10 scenes. Execution paused at the user's request before template 9."
 }

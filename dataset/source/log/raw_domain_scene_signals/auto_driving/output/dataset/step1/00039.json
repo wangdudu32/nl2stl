@@ -1,1 +1,29 @@
-{"id":"00039","stl_template":"eventually [0:t1] (pred1)","domain":"Autonomous Driving","scene":"Parking","trace_info":{"pred1":"parking_completed_event == 1","t1":"60 s"},"stl":"eventually [0:60] (parking_completed_event == 1)","signals_info":[{"signal":"parking_completed_event","description":"One-sample Boolean parking-completion event.","unit":"dimensionless (0/1)"}],"time_info":[{"value":60,"unit":"s","description":"Maximum parking-completion observation window including the current time."}],"nl_Literal_translation_en":"At some time from now through the next 60 seconds, the parking completion event shall equal 1.","nl_Literal_translation_zh":"从当前起至接下来的 60 秒内，泊车完成事件应至少有一个时刻为 1。","nl_Paraphrase_en":"The parking maneuver shall be recorded as complete within 60 seconds.","nl_Paraphrase_zh":"泊车操作应在 60 秒内被记录为完成。"}
+{
+  "id": "00039",
+  "stl_template": "eventually [0:t1] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Parking",
+  "trace_info": {
+    "pred1": "parking_completed_event == 1",
+    "t1": "60 s"
+  },
+  "stl": "eventually [0:60] (parking_completed_event == 1)",
+  "signals_info": [
+    {
+      "signal": "parking_completed_event",
+      "description": "One-sample Boolean parking-completion event.",
+      "unit": "dimensionless (0/1)"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 60,
+      "unit": "s",
+      "description": "Maximum parking-completion observation window including the current time."
+    }
+  ],
+  "nl_Literal_translation_en": "At some time from now through the next 60 seconds, the parking completion event shall equal 1.",
+  "nl_Literal_translation_zh": "从当前起至接下来的 60 秒内，泊车完成事件应至少有一个时刻为 1。",
+  "nl_Paraphrase_en": "The parking maneuver shall be recorded as complete within 60 seconds.",
+  "nl_Paraphrase_zh": "泊车操作应在 60 秒内被记录为完成。"
+}

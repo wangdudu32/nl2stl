@@ -1,1 +1,29 @@
-{"id":"00012","stl_template":"always [0:t1] (pred1)","domain":"Autonomous Driving","scene":"Traction Control","trace_info":{"pred1":"throttle_command_pct < 30","t1":"5 s"},"stl":"always [0:5] (throttle_command_pct < 30)","signals_info":[{"signal":"throttle_command_pct","description":"Throttle command during traction-control operation.","unit":"%"}],"time_info":[{"value":5,"unit":"s","description":"Bounded traction-control interval."}],"nl_Literal_translation_en":"For the next 5 seconds, the throttle command shall remain below 30 percent.","nl_Literal_translation_zh":"在接下来的 5 秒内，油门指令应始终低于 30%。","nl_Paraphrase_en":"During the 5-second traction-control interval, the commanded throttle shall continuously remain below 30 percent.","nl_Paraphrase_zh":"在 5 秒的牵引力控制区间内，油门指令应持续保持在 30% 以下。"}
+{
+  "id": "00012",
+  "stl_template": "always [0:t1] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Traction Control",
+  "trace_info": {
+    "pred1": "throttle_command_pct < 30",
+    "t1": "5 s"
+  },
+  "stl": "always [0:5] (throttle_command_pct < 30)",
+  "signals_info": [
+    {
+      "signal": "throttle_command_pct",
+      "description": "Throttle command during traction-control operation.",
+      "unit": "%"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 5,
+      "unit": "s",
+      "description": "Bounded traction-control interval."
+    }
+  ],
+  "nl_Literal_translation_en": "For the next 5 seconds, the throttle command shall remain below 30 percent.",
+  "nl_Literal_translation_zh": "在接下来的 5 秒内，油门指令应始终低于 30%。",
+  "nl_Paraphrase_en": "During the 5-second traction-control interval, the commanded throttle shall continuously remain below 30 percent.",
+  "nl_Paraphrase_zh": "在 5 秒的牵引力控制区间内，油门指令应持续保持在 30% 以下。"
+}

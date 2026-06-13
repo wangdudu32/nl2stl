@@ -1,1 +1,29 @@
-{"id":"00008","stl_template":"always [0:t1] (pred1)","domain":"Autonomous Driving","scene":"AEB","trace_info":{"pred1":"front_obstacle_distance > 10","t1":"2 s"},"stl":"always [0:2] (front_obstacle_distance > 10)","signals_info":[{"signal":"front_obstacle_distance","description":"Distance from the ego vehicle to the nearest relevant front obstacle.","unit":"m"}],"time_info":[{"value":2,"unit":"s","description":"Bounded AEB monitoring interval."}],"nl_Literal_translation_en":"For the next 2 seconds, the distance to the front obstacle shall remain greater than 10 meters.","nl_Literal_translation_zh":"在接下来的 2 秒内，与前方障碍物的距离应始终大于 10 米。","nl_Paraphrase_en":"During the first 2 seconds of the AEB monitoring interval, the vehicle shall continuously maintain more than 10 meters of clearance from the front obstacle.","nl_Paraphrase_zh":"在 AEB 监测区间开始后的 2 秒内，车辆与前方障碍物应持续保持大于 10 米的距离。"}
+{
+  "id": "00008",
+  "stl_template": "always [0:t1] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "AEB",
+  "trace_info": {
+    "pred1": "front_obstacle_distance > 10",
+    "t1": "2 s"
+  },
+  "stl": "always [0:2] (front_obstacle_distance > 10)",
+  "signals_info": [
+    {
+      "signal": "front_obstacle_distance",
+      "description": "Distance from the ego vehicle to the nearest relevant front obstacle.",
+      "unit": "m"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 2,
+      "unit": "s",
+      "description": "Bounded AEB monitoring interval."
+    }
+  ],
+  "nl_Literal_translation_en": "For the next 2 seconds, the distance to the front obstacle shall remain greater than 10 meters.",
+  "nl_Literal_translation_zh": "在接下来的 2 秒内，与前方障碍物的距离应始终大于 10 米。",
+  "nl_Paraphrase_en": "During the first 2 seconds of the AEB monitoring interval, the vehicle shall continuously maintain more than 10 meters of clearance from the front obstacle.",
+  "nl_Paraphrase_zh": "在 AEB 监测区间开始后的 2 秒内，车辆与前方障碍物应持续保持大于 10 米的距离。"
+}

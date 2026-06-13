@@ -1,1 +1,22 @@
-{"id":"00074","stl_template":"eventually (fall (pred1))","domain":"Autonomous Driving","scene":"Pedestrian and Cyclist","trace_info":{"pred1":"vulnerable_road_user_risk > 0.7"},"stl":"eventually (fall (vulnerable_road_user_risk > 0.7))","signals_info":[{"signal":"vulnerable_road_user_risk","description":"Normalized risk for the selected pedestrian or cyclist.","unit":"dimensionless [0,1]"}],"time_info":[],"nl_Literal_translation_en":"At some future time, the condition vulnerable_road_user_risk > 0.7 shall cease to be true.","nl_Literal_translation_zh":"在未来某个时刻，vulnerable_road_user_risk > 0.7 这一条件应刚停止成立。","nl_Paraphrase_en":"At some future time, the assessed pedestrian-or-cyclist risk shall return to 0.7 or less.","nl_Paraphrase_zh":"在未来某个时刻，行人或骑行者风险评估值应回到 0.7 或以下。"}
+{
+  "id": "00074",
+  "stl_template": "eventually (fall (pred1))",
+  "domain": "Autonomous Driving",
+  "scene": "Pedestrian and Cyclist",
+  "trace_info": {
+    "pred1": "vulnerable_road_user_risk > 0.7"
+  },
+  "stl": "eventually (fall (vulnerable_road_user_risk > 0.7))",
+  "signals_info": [
+    {
+      "signal": "vulnerable_road_user_risk",
+      "description": "Normalized risk for the selected pedestrian or cyclist.",
+      "unit": "dimensionless [0,1]"
+    }
+  ],
+  "time_info": [],
+  "nl_Literal_translation_en": "At some future time, the condition vulnerable_road_user_risk > 0.7 shall cease to be true.",
+  "nl_Literal_translation_zh": "在未来某个时刻，vulnerable_road_user_risk > 0.7 这一条件应刚停止成立。",
+  "nl_Paraphrase_en": "At some future time, the assessed pedestrian-or-cyclist risk shall return to 0.7 or less.",
+  "nl_Paraphrase_zh": "在未来某个时刻，行人或骑行者风险评估值应回到 0.7 或以下。"
+}

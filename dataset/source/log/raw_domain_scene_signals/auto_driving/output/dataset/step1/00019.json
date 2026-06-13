@@ -1,1 +1,35 @@
-{"id":"00019","stl_template":"always [t1:t2] (pred1)","domain":"Autonomous Driving","scene":"Lane Keeping","trace_info":{"pred1":"lane_offset > -0.3 and lane_offset < 0.3","t1":"2 s","t2":"10 s"},"stl":"always [2:10] (lane_offset > -0.3 and lane_offset < 0.3)","signals_info":[{"signal":"lane_offset","description":"Signed lateral displacement from lane center.","unit":"m"}],"time_info":[{"value":2,"unit":"s","description":"Start of observation window."},{"value":10,"unit":"s","description":"End of observation window."}],"nl_Literal_translation_en":"From 2 to 10 seconds from now, the lane offset shall remain greater than -0.3 meters and less than 0.3 meters.","nl_Literal_translation_zh":"从现在起第 2 秒到第 10 秒之间，车道横向偏移应始终大于 -0.3 米且小于 0.3 米。","nl_Paraphrase_en":"During the lane-keeping observation window from the second through the tenth second, the lateral offset magnitude shall remain strictly below 0.3 meters.","nl_Paraphrase_zh":"在第 2 秒至第 10 秒的车道保持观测窗口内，横向偏移绝对值应持续严格小于 0.3 米。"}
+{
+  "id": "00019",
+  "stl_template": "always [t1:t2] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Lane Keeping",
+  "trace_info": {
+    "pred1": "lane_offset > -0.3 and lane_offset < 0.3",
+    "t1": "2 s",
+    "t2": "10 s"
+  },
+  "stl": "always [2:10] (lane_offset > -0.3 and lane_offset < 0.3)",
+  "signals_info": [
+    {
+      "signal": "lane_offset",
+      "description": "Signed lateral displacement from lane center.",
+      "unit": "m"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 2,
+      "unit": "s",
+      "description": "Start of observation window."
+    },
+    {
+      "value": 10,
+      "unit": "s",
+      "description": "End of observation window."
+    }
+  ],
+  "nl_Literal_translation_en": "From 2 to 10 seconds from now, the lane offset shall remain greater than -0.3 meters and less than 0.3 meters.",
+  "nl_Literal_translation_zh": "从现在起第 2 秒到第 10 秒之间，车道横向偏移应始终大于 -0.3 米且小于 0.3 米。",
+  "nl_Paraphrase_en": "During the lane-keeping observation window from the second through the tenth second, the lateral offset magnitude shall remain strictly below 0.3 meters.",
+  "nl_Paraphrase_zh": "在第 2 秒至第 10 秒的车道保持观测窗口内，横向偏移绝对值应持续严格小于 0.3 米。"
+}

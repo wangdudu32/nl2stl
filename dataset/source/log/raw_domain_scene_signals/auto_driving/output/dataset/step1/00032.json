@@ -1,1 +1,27 @@
-{"id":"00032","stl_template":"eventually (pred1)","domain":"Autonomous Driving","scene":"Speed Limit","trace_info":{"pred1":"ego_speed <= speed_limit"},"stl":"eventually (ego_speed <= speed_limit)","signals_info":[{"signal":"ego_speed","description":"Actual ego-vehicle speed.","unit":"km/h"},{"signal":"speed_limit","description":"Applicable road speed limit.","unit":"km/h"}],"time_info":[],"nl_Literal_translation_en":"At the current time or at some future time, the ego vehicle speed shall be less than or equal to the applicable speed limit.","nl_Literal_translation_zh":"在当前或未来某个时刻，自车速度应小于或等于当前适用限速。","nl_Paraphrase_en":"The vehicle shall comply with the applicable speed limit now or at some later time.","nl_Paraphrase_zh":"车辆应在当前或之后某个时刻达到当前限速要求。"}
+{
+  "id": "00032",
+  "stl_template": "eventually (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Speed Limit",
+  "trace_info": {
+    "pred1": "ego_speed <= speed_limit"
+  },
+  "stl": "eventually (ego_speed <= speed_limit)",
+  "signals_info": [
+    {
+      "signal": "ego_speed",
+      "description": "Actual ego-vehicle speed.",
+      "unit": "km/h"
+    },
+    {
+      "signal": "speed_limit",
+      "description": "Applicable road speed limit.",
+      "unit": "km/h"
+    }
+  ],
+  "time_info": [],
+  "nl_Literal_translation_en": "At the current time or at some future time, the ego vehicle speed shall be less than or equal to the applicable speed limit.",
+  "nl_Literal_translation_zh": "在当前或未来某个时刻，自车速度应小于或等于当前适用限速。",
+  "nl_Paraphrase_en": "The vehicle shall comply with the applicable speed limit now or at some later time.",
+  "nl_Paraphrase_zh": "车辆应在当前或之后某个时刻达到当前限速要求。"
+}

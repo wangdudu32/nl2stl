@@ -1,1 +1,22 @@
-{"id":"00061","stl_template":"eventually (rise (pred1))","domain":"Autonomous Driving","scene":"Traffic Light","trace_info":{"pred1":"traffic_light_red == 1"},"stl":"eventually (rise (traffic_light_red == 1))","signals_info":[{"signal":"traffic_light_red","description":"Whether the valid traffic light associated with the current path is red.","unit":"dimensionless (0/1)"}],"time_info":[],"nl_Literal_translation_en":"At some future time, the condition traffic_light_red == 1 shall newly become true.","nl_Literal_translation_zh":"在未来某个时刻，traffic_light_red == 1 这一条件应刚开始成立。","nl_Paraphrase_en":"The traffic signal governing the vehicle's path shall turn red at some future time.","nl_Paraphrase_zh":"控制车辆当前行驶路径的交通信号应在未来某个时刻转为红灯。"}
+{
+  "id": "00061",
+  "stl_template": "eventually (rise (pred1))",
+  "domain": "Autonomous Driving",
+  "scene": "Traffic Light",
+  "trace_info": {
+    "pred1": "traffic_light_red == 1"
+  },
+  "stl": "eventually (rise (traffic_light_red == 1))",
+  "signals_info": [
+    {
+      "signal": "traffic_light_red",
+      "description": "Whether the valid traffic light associated with the current path is red.",
+      "unit": "dimensionless (0/1)"
+    }
+  ],
+  "time_info": [],
+  "nl_Literal_translation_en": "At some future time, the condition traffic_light_red == 1 shall newly become true.",
+  "nl_Literal_translation_zh": "在未来某个时刻，traffic_light_red == 1 这一条件应刚开始成立。",
+  "nl_Paraphrase_en": "The traffic signal governing the vehicle's path shall turn red at some future time.",
+  "nl_Paraphrase_zh": "控制车辆当前行驶路径的交通信号应在未来某个时刻转为红灯。"
+}

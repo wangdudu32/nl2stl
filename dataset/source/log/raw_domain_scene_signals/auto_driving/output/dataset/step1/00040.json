@@ -1,1 +1,29 @@
-{"id":"00040","stl_template":"eventually [0:t1] (pred1)","domain":"Autonomous Driving","scene":"Traction Control","trace_info":{"pred1":"traction_loss == 0","t1":"3 s"},"stl":"eventually [0:3] (traction_loss == 0)","signals_info":[{"signal":"traction_loss","description":"Whether effective traction is lost; 0 means effective traction is available.","unit":"dimensionless (0/1)"}],"time_info":[{"value":3,"unit":"s","description":"Bounded traction-state satisfaction window including the current time."}],"nl_Literal_translation_en":"At some time from now through the next 3 seconds, traction loss shall equal 0.","nl_Literal_translation_zh":"从当前起至接下来的 3 秒内，牵引力丧失状态应至少有一个时刻为 0。","nl_Paraphrase_en":"Within the 3-second window including now, the vehicle shall have effective traction at least once.","nl_Paraphrase_zh":"在包含当前时刻的 3 秒窗口内，车辆应至少有一个时刻具备有效牵引力。"}
+{
+  "id": "00040",
+  "stl_template": "eventually [0:t1] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Traction Control",
+  "trace_info": {
+    "pred1": "traction_loss == 0",
+    "t1": "3 s"
+  },
+  "stl": "eventually [0:3] (traction_loss == 0)",
+  "signals_info": [
+    {
+      "signal": "traction_loss",
+      "description": "Whether effective traction is lost; 0 means effective traction is available.",
+      "unit": "dimensionless (0/1)"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 3,
+      "unit": "s",
+      "description": "Bounded traction-state satisfaction window including the current time."
+    }
+  ],
+  "nl_Literal_translation_en": "At some time from now through the next 3 seconds, traction loss shall equal 0.",
+  "nl_Literal_translation_zh": "从当前起至接下来的 3 秒内，牵引力丧失状态应至少有一个时刻为 0。",
+  "nl_Paraphrase_en": "Within the 3-second window including now, the vehicle shall have effective traction at least once.",
+  "nl_Paraphrase_zh": "在包含当前时刻的 3 秒窗口内，车辆应至少有一个时刻具备有效牵引力。"
+}

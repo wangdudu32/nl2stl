@@ -1,1 +1,29 @@
-{"id":"00041","stl_template":"eventually [0:t1] (pred1)","domain":"Autonomous Driving","scene":"Traffic Light","trace_info":{"pred1":"traffic_light_detected == 1","t1":"1 s"},"stl":"eventually [0:1] (traffic_light_detected == 1)","signals_info":[{"signal":"traffic_light_detected","description":"Whether a valid traffic light has been detected and associated with the current path.","unit":"dimensionless (0/1)"}],"time_info":[{"value":1,"unit":"s","description":"Bounded traffic-light association window including the current time."}],"nl_Literal_translation_en":"At some time from now through the next 1 second, a valid associated traffic light shall be detected.","nl_Literal_translation_zh":"从当前起至接下来的 1 秒内，应至少有一个时刻检测到有效的关联交通灯。","nl_Paraphrase_en":"Within the 1-second window including now, the system shall have a valid traffic-light association at least once.","nl_Paraphrase_zh":"在包含当前时刻的 1 秒窗口内，系统应至少有一个时刻具备有效的交通灯关联结果。"}
+{
+  "id": "00041",
+  "stl_template": "eventually [0:t1] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Traffic Light",
+  "trace_info": {
+    "pred1": "traffic_light_detected == 1",
+    "t1": "1 s"
+  },
+  "stl": "eventually [0:1] (traffic_light_detected == 1)",
+  "signals_info": [
+    {
+      "signal": "traffic_light_detected",
+      "description": "Whether a valid traffic light has been detected and associated with the current path.",
+      "unit": "dimensionless (0/1)"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 1,
+      "unit": "s",
+      "description": "Bounded traffic-light association window including the current time."
+    }
+  ],
+  "nl_Literal_translation_en": "At some time from now through the next 1 second, a valid associated traffic light shall be detected.",
+  "nl_Literal_translation_zh": "从当前起至接下来的 1 秒内，应至少有一个时刻检测到有效的关联交通灯。",
+  "nl_Paraphrase_en": "Within the 1-second window including now, the system shall have a valid traffic-light association at least once.",
+  "nl_Paraphrase_zh": "在包含当前时刻的 1 秒窗口内，系统应至少有一个时刻具备有效的交通灯关联结果。"
+}

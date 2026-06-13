@@ -1,1 +1,22 @@
-{"id":"00030","stl_template":"eventually (pred1)","domain":"Autonomous Driving","scene":"Traction Control","trace_info":{"pred1":"traction_loss == 0"},"stl":"eventually (traction_loss == 0)","signals_info":[{"signal":"traction_loss","description":"Boolean state indicating loss of effective traction; 0 means effective traction is available.","unit":"dimensionless (0/1)"}],"time_info":[],"nl_Literal_translation_en":"At the current time or at some future time, traction loss shall equal 0.","nl_Literal_translation_zh":"在当前或未来某个时刻，牵引力丧失状态应为 0。","nl_Paraphrase_en":"The vehicle shall have effective traction now or at some later time.","nl_Paraphrase_zh":"车辆应在当前或之后某个时刻具备有效牵引力。"}
+{
+  "id": "00030",
+  "stl_template": "eventually (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Traction Control",
+  "trace_info": {
+    "pred1": "traction_loss == 0"
+  },
+  "stl": "eventually (traction_loss == 0)",
+  "signals_info": [
+    {
+      "signal": "traction_loss",
+      "description": "Boolean state indicating loss of effective traction; 0 means effective traction is available.",
+      "unit": "dimensionless (0/1)"
+    }
+  ],
+  "time_info": [],
+  "nl_Literal_translation_en": "At the current time or at some future time, traction loss shall equal 0.",
+  "nl_Literal_translation_zh": "在当前或未来某个时刻，牵引力丧失状态应为 0。",
+  "nl_Paraphrase_en": "The vehicle shall have effective traction now or at some later time.",
+  "nl_Paraphrase_zh": "车辆应在当前或之后某个时刻具备有效牵引力。"
+}

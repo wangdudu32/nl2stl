@@ -1,1 +1,22 @@
-{"id":"00066","stl_template":"eventually (fall (pred1))","domain":"Autonomous Driving","scene":"AEB","trace_info":{"pred1":"aeb_active == 1"},"stl":"eventually (fall (aeb_active == 1))","signals_info":[{"signal":"aeb_active","description":"Whether AEB is actively intervening in vehicle control.","unit":"dimensionless (0/1)"}],"time_info":[],"nl_Literal_translation_en":"At some future time, the condition aeb_active == 1 shall cease to be true.","nl_Literal_translation_zh":"在未来某个时刻，aeb_active == 1 这一条件应刚停止成立。","nl_Paraphrase_en":"AEB shall end its intervention at some future time.","nl_Paraphrase_zh":"AEB 应在未来某个时刻结束介入。"}
+{
+  "id": "00066",
+  "stl_template": "eventually (fall (pred1))",
+  "domain": "Autonomous Driving",
+  "scene": "AEB",
+  "trace_info": {
+    "pred1": "aeb_active == 1"
+  },
+  "stl": "eventually (fall (aeb_active == 1))",
+  "signals_info": [
+    {
+      "signal": "aeb_active",
+      "description": "Whether AEB is actively intervening in vehicle control.",
+      "unit": "dimensionless (0/1)"
+    }
+  ],
+  "time_info": [],
+  "nl_Literal_translation_en": "At some future time, the condition aeb_active == 1 shall cease to be true.",
+  "nl_Literal_translation_zh": "在未来某个时刻，aeb_active == 1 这一条件应刚停止成立。",
+  "nl_Paraphrase_en": "AEB shall end its intervention at some future time.",
+  "nl_Paraphrase_zh": "AEB 应在未来某个时刻结束介入。"
+}

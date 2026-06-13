@@ -1,1 +1,22 @@
-{"id":"00072","stl_template":"eventually (fall (pred1))","domain":"Autonomous Driving","scene":"Speed Limit","trace_info":{"pred1":"speeding_margin > 5"},"stl":"eventually (fall (speeding_margin > 5))","signals_info":[{"signal":"speeding_margin","description":"Ego speed minus the applicable speed limit; positive values indicate speeding.","unit":"km/h"}],"time_info":[],"nl_Literal_translation_en":"At some future time, the condition speeding_margin > 5 shall cease to be true.","nl_Literal_translation_zh":"在未来某个时刻，speeding_margin > 5 这一条件应刚停止成立。","nl_Paraphrase_en":"At some future time, the vehicle's excess over the applicable speed limit shall return to 5 km/h or less.","nl_Paraphrase_zh":"在未来某个时刻，车辆超过适用限速的幅度应回到 5 千米每小时或以下。"}
+{
+  "id": "00072",
+  "stl_template": "eventually (fall (pred1))",
+  "domain": "Autonomous Driving",
+  "scene": "Speed Limit",
+  "trace_info": {
+    "pred1": "speeding_margin > 5"
+  },
+  "stl": "eventually (fall (speeding_margin > 5))",
+  "signals_info": [
+    {
+      "signal": "speeding_margin",
+      "description": "Ego speed minus the applicable speed limit; positive values indicate speeding.",
+      "unit": "km/h"
+    }
+  ],
+  "time_info": [],
+  "nl_Literal_translation_en": "At some future time, the condition speeding_margin > 5 shall cease to be true.",
+  "nl_Literal_translation_zh": "在未来某个时刻，speeding_margin > 5 这一条件应刚停止成立。",
+  "nl_Paraphrase_en": "At some future time, the vehicle's excess over the applicable speed limit shall return to 5 km/h or less.",
+  "nl_Paraphrase_zh": "在未来某个时刻，车辆超过适用限速的幅度应回到 5 千米每小时或以下。"
+}

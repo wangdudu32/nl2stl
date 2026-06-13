@@ -1,1 +1,35 @@
-{"id":"00022","stl_template":"always [t1:t2] (pred1)","domain":"Autonomous Driving","scene":"Traffic Light","trace_info":{"pred1":"ego_speed < 50","t1":"1 s","t2":"5 s"},"stl":"always [1:5] (ego_speed < 50)","signals_info":[{"signal":"ego_speed","description":"Ego-vehicle speed while approaching a traffic light.","unit":"km/h"}],"time_info":[{"value":1,"unit":"s","description":"Start of approach window."},{"value":5,"unit":"s","description":"End of approach window."}],"nl_Literal_translation_en":"From 1 to 5 seconds from now, the ego vehicle speed shall remain below 50 kilometers per hour.","nl_Literal_translation_zh":"从现在起第 1 秒到第 5 秒之间，自车速度应始终低于 50 千米每小时。","nl_Paraphrase_en":"During the traffic-light approach window from the first through the fifth second, the vehicle shall continuously remain below 50 km/h.","nl_Paraphrase_zh":"在第 1 秒至第 5 秒的信号灯接近窗口内，车辆速度应持续低于 50 千米每小时。"}
+{
+  "id": "00022",
+  "stl_template": "always [t1:t2] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Traffic Light",
+  "trace_info": {
+    "pred1": "ego_speed < 50",
+    "t1": "1 s",
+    "t2": "5 s"
+  },
+  "stl": "always [1:5] (ego_speed < 50)",
+  "signals_info": [
+    {
+      "signal": "ego_speed",
+      "description": "Ego-vehicle speed while approaching a traffic light.",
+      "unit": "km/h"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 1,
+      "unit": "s",
+      "description": "Start of approach window."
+    },
+    {
+      "value": 5,
+      "unit": "s",
+      "description": "End of approach window."
+    }
+  ],
+  "nl_Literal_translation_en": "From 1 to 5 seconds from now, the ego vehicle speed shall remain below 50 kilometers per hour.",
+  "nl_Literal_translation_zh": "从现在起第 1 秒到第 5 秒之间，自车速度应始终低于 50 千米每小时。",
+  "nl_Paraphrase_en": "During the traffic-light approach window from the first through the fifth second, the vehicle shall continuously remain below 50 km/h.",
+  "nl_Paraphrase_zh": "在第 1 秒至第 5 秒的信号灯接近窗口内，车辆速度应持续低于 50 千米每小时。"
+}

@@ -1,1 +1,35 @@
-{"id":"00050","stl_template":"eventually [t1:t2] (pred1)","domain":"Autonomous Driving","scene":"Traction Control","trace_info":{"pred1":"traction_loss == 0","t1":"1 s","t2":"3 s"},"stl":"eventually [1:3] (traction_loss == 0)","signals_info":[{"signal":"traction_loss","description":"Whether effective traction is lost; 0 means effective traction is available.","unit":"dimensionless (0/1)"}],"time_info":[{"value":1,"unit":"s","description":"Start of delayed satisfaction window."},{"value":3,"unit":"s","description":"End of delayed satisfaction window."}],"nl_Literal_translation_en":"At some time between 1 and 3 seconds from now, traction loss shall equal 0.","nl_Literal_translation_zh":"从现在起第 1 秒到第 3 秒之间，牵引力丧失状态应至少有一个时刻为 0。","nl_Paraphrase_en":"During the window from the first through the third second, the vehicle shall have effective traction at least once.","nl_Paraphrase_zh":"在第 1 秒至第 3 秒的窗口内，车辆应至少有一个时刻具备有效牵引力。"}
+{
+  "id": "00050",
+  "stl_template": "eventually [t1:t2] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Traction Control",
+  "trace_info": {
+    "pred1": "traction_loss == 0",
+    "t1": "1 s",
+    "t2": "3 s"
+  },
+  "stl": "eventually [1:3] (traction_loss == 0)",
+  "signals_info": [
+    {
+      "signal": "traction_loss",
+      "description": "Whether effective traction is lost; 0 means effective traction is available.",
+      "unit": "dimensionless (0/1)"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 1,
+      "unit": "s",
+      "description": "Start of delayed satisfaction window."
+    },
+    {
+      "value": 3,
+      "unit": "s",
+      "description": "End of delayed satisfaction window."
+    }
+  ],
+  "nl_Literal_translation_en": "At some time between 1 and 3 seconds from now, traction loss shall equal 0.",
+  "nl_Literal_translation_zh": "从现在起第 1 秒到第 3 秒之间，牵引力丧失状态应至少有一个时刻为 0。",
+  "nl_Paraphrase_en": "During the window from the first through the third second, the vehicle shall have effective traction at least once.",
+  "nl_Paraphrase_zh": "在第 1 秒至第 3 秒的窗口内，车辆应至少有一个时刻具备有效牵引力。"
+}

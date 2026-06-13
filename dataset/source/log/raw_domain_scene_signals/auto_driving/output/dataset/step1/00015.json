@@ -1,1 +1,29 @@
-{"id":"00015","stl_template":"always [0:t1] (pred1)","domain":"Autonomous Driving","scene":"Intersection","trace_info":{"pred1":"ego_speed < 30","t1":"5 s"},"stl":"always [0:5] (ego_speed < 30)","signals_info":[{"signal":"ego_speed","description":"Ego-vehicle speed in the intersection scene.","unit":"km/h"}],"time_info":[{"value":5,"unit":"s","description":"Bounded intersection traversal interval."}],"nl_Literal_translation_en":"For the next 5 seconds, the ego vehicle speed shall remain below 30 kilometers per hour.","nl_Literal_translation_zh":"在接下来的 5 秒内，自车速度应始终低于 30 千米每小时。","nl_Paraphrase_en":"During the 5-second intersection traversal window, the vehicle shall continuously remain below 30 km/h.","nl_Paraphrase_zh":"在 5 秒的路口通行区间内，车辆速度应持续低于 30 千米每小时。"}
+{
+  "id": "00015",
+  "stl_template": "always [0:t1] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Intersection",
+  "trace_info": {
+    "pred1": "ego_speed < 30",
+    "t1": "5 s"
+  },
+  "stl": "always [0:5] (ego_speed < 30)",
+  "signals_info": [
+    {
+      "signal": "ego_speed",
+      "description": "Ego-vehicle speed in the intersection scene.",
+      "unit": "km/h"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 5,
+      "unit": "s",
+      "description": "Bounded intersection traversal interval."
+    }
+  ],
+  "nl_Literal_translation_en": "For the next 5 seconds, the ego vehicle speed shall remain below 30 kilometers per hour.",
+  "nl_Literal_translation_zh": "在接下来的 5 秒内，自车速度应始终低于 30 千米每小时。",
+  "nl_Paraphrase_en": "During the 5-second intersection traversal window, the vehicle shall continuously remain below 30 km/h.",
+  "nl_Paraphrase_zh": "在 5 秒的路口通行区间内，车辆速度应持续低于 30 千米每小时。"
+}

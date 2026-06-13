@@ -1,1 +1,35 @@
-{"id":"00017","stl_template":"always [t1:t2] (pred1)","domain":"Autonomous Driving","scene":"AEB","trace_info":{"pred1":"front_obstacle_distance > 10","t1":"1 s","t2":"3 s"},"stl":"always [1:3] (front_obstacle_distance > 10)","signals_info":[{"signal":"front_obstacle_distance","description":"Distance to the relevant front obstacle.","unit":"m"}],"time_info":[{"value":1,"unit":"s","description":"Start of monitoring window."},{"value":3,"unit":"s","description":"End of monitoring window."}],"nl_Literal_translation_en":"From 1 to 3 seconds from now, the distance to the front obstacle shall remain greater than 10 meters.","nl_Literal_translation_zh":"从现在起第 1 秒到第 3 秒之间，与前方障碍物的距离应始终大于 10 米。","nl_Paraphrase_en":"During the AEB monitoring window beginning at 1 second and ending at 3 seconds, the vehicle shall continuously maintain more than 10 meters of front-obstacle clearance.","nl_Paraphrase_zh":"在从第 1 秒开始至第 3 秒结束的 AEB 监测窗口内，车辆与前方障碍物应持续保持大于 10 米的距离。"}
+{
+  "id": "00017",
+  "stl_template": "always [t1:t2] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "AEB",
+  "trace_info": {
+    "pred1": "front_obstacle_distance > 10",
+    "t1": "1 s",
+    "t2": "3 s"
+  },
+  "stl": "always [1:3] (front_obstacle_distance > 10)",
+  "signals_info": [
+    {
+      "signal": "front_obstacle_distance",
+      "description": "Distance to the relevant front obstacle.",
+      "unit": "m"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 1,
+      "unit": "s",
+      "description": "Start of monitoring window."
+    },
+    {
+      "value": 3,
+      "unit": "s",
+      "description": "End of monitoring window."
+    }
+  ],
+  "nl_Literal_translation_en": "From 1 to 3 seconds from now, the distance to the front obstacle shall remain greater than 10 meters.",
+  "nl_Literal_translation_zh": "从现在起第 1 秒到第 3 秒之间，与前方障碍物的距离应始终大于 10 米。",
+  "nl_Paraphrase_en": "During the AEB monitoring window beginning at 1 second and ending at 3 seconds, the vehicle shall continuously maintain more than 10 meters of front-obstacle clearance.",
+  "nl_Paraphrase_zh": "在从第 1 秒开始至第 3 秒结束的 AEB 监测窗口内，车辆与前方障碍物应持续保持大于 10 米的距离。"
+}

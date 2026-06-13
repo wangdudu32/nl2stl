@@ -3,9 +3,17 @@
   "stl_template": "always (pred1)",
   "domain": "Autonomous Driving",
   "scene": "Intersection",
-  "trace_info": {"pred1": "ego_speed < 30"},
+  "trace_info": {
+    "pred1": "ego_speed < 30"
+  },
   "stl": "always (ego_speed < 30)",
-  "signals_info": [{"signal": "ego_speed", "description": "Ego-vehicle speed while approaching or traversing an intersection.", "unit": "km/h"}],
+  "signals_info": [
+    {
+      "signal": "ego_speed",
+      "description": "Ego-vehicle speed while approaching or traversing an intersection.",
+      "unit": "km/h"
+    }
+  ],
   "time_info": [],
   "nl_Literal_translation_en": "At all times, the ego vehicle speed shall be less than 30 kilometers per hour.",
   "nl_Literal_translation_zh": "在所有时刻，自车速度应低于 30 千米每小时。",

@@ -1,1 +1,35 @@
-{"id":"00054","stl_template":"eventually [t1:t2] (pred1)","domain":"Autonomous Driving","scene":"Pedestrian and Cyclist","trace_info":{"pred1":"vulnerable_road_user_risk <= 0.7","t1":"1 s","t2":"3 s"},"stl":"eventually [1:3] (vulnerable_road_user_risk <= 0.7)","signals_info":[{"signal":"vulnerable_road_user_risk","description":"Normalized risk for the selected pedestrian or cyclist.","unit":"dimensionless [0,1]"}],"time_info":[{"value":1,"unit":"s","description":"Start of delayed risk-state window."},{"value":3,"unit":"s","description":"End of delayed risk-state window."}],"nl_Literal_translation_en":"At some time between 1 and 3 seconds from now, the vulnerable-road-user risk shall be less than or equal to 0.7.","nl_Literal_translation_zh":"从现在起第 1 秒到第 3 秒之间，弱势道路使用者风险应至少有一个时刻小于或等于 0.7。","nl_Paraphrase_en":"During the window from the first through the third second, the assessed pedestrian-or-cyclist risk shall be no greater than 0.7 at least once.","nl_Paraphrase_zh":"在第 1 秒至第 3 秒的窗口内，行人或骑行者风险评估值应至少有一个时刻不高于 0.7。"}
+{
+  "id": "00054",
+  "stl_template": "eventually [t1:t2] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Pedestrian and Cyclist",
+  "trace_info": {
+    "pred1": "vulnerable_road_user_risk <= 0.7",
+    "t1": "1 s",
+    "t2": "3 s"
+  },
+  "stl": "eventually [1:3] (vulnerable_road_user_risk <= 0.7)",
+  "signals_info": [
+    {
+      "signal": "vulnerable_road_user_risk",
+      "description": "Normalized risk for the selected pedestrian or cyclist.",
+      "unit": "dimensionless [0,1]"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 1,
+      "unit": "s",
+      "description": "Start of delayed risk-state window."
+    },
+    {
+      "value": 3,
+      "unit": "s",
+      "description": "End of delayed risk-state window."
+    }
+  ],
+  "nl_Literal_translation_en": "At some time between 1 and 3 seconds from now, the vulnerable-road-user risk shall be less than or equal to 0.7.",
+  "nl_Literal_translation_zh": "从现在起第 1 秒到第 3 秒之间，弱势道路使用者风险应至少有一个时刻小于或等于 0.7。",
+  "nl_Paraphrase_en": "During the window from the first through the third second, the assessed pedestrian-or-cyclist risk shall be no greater than 0.7 at least once.",
+  "nl_Paraphrase_zh": "在第 1 秒至第 3 秒的窗口内，行人或骑行者风险评估值应至少有一个时刻不高于 0.7。"
+}

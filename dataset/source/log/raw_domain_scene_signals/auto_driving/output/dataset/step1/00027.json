@@ -1,1 +1,22 @@
-{"id":"00027","stl_template":"eventually (pred1)","domain":"Autonomous Driving","scene":"ACC","trace_info":{"pred1":"headway_time > 2"},"stl":"eventually (headway_time > 2)","signals_info":[{"signal":"headway_time","description":"Time headway to the selected lead vehicle.","unit":"s"}],"time_info":[],"nl_Literal_translation_en":"At the current time or at some future time, the time headway to the lead vehicle shall be greater than 2 seconds.","nl_Literal_translation_zh":"在当前或未来某个时刻，与前车的时间车头时距应大于 2 秒。","nl_Paraphrase_en":"The vehicle shall have more than 2 seconds of headway to the lead vehicle now or at some later time.","nl_Paraphrase_zh":"车辆与前车的时间车头时距应在当前或之后某个时刻大于 2 秒。"}
+{
+  "id": "00027",
+  "stl_template": "eventually (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "ACC",
+  "trace_info": {
+    "pred1": "headway_time > 2"
+  },
+  "stl": "eventually (headway_time > 2)",
+  "signals_info": [
+    {
+      "signal": "headway_time",
+      "description": "Time headway to the selected lead vehicle.",
+      "unit": "s"
+    }
+  ],
+  "time_info": [],
+  "nl_Literal_translation_en": "At the current time or at some future time, the time headway to the lead vehicle shall be greater than 2 seconds.",
+  "nl_Literal_translation_zh": "在当前或未来某个时刻，与前车的时间车头时距应大于 2 秒。",
+  "nl_Paraphrase_en": "The vehicle shall have more than 2 seconds of headway to the lead vehicle now or at some later time.",
+  "nl_Paraphrase_zh": "车辆与前车的时间车头时距应在当前或之后某个时刻大于 2 秒。"
+}

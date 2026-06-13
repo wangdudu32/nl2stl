@@ -1,1 +1,40 @@
-{"id":"00052","stl_template":"eventually [t1:t2] (pred1)","domain":"Autonomous Driving","scene":"Speed Limit","trace_info":{"pred1":"ego_speed <= speed_limit","t1":"2 s","t2":"5 s"},"stl":"eventually [2:5] (ego_speed <= speed_limit)","signals_info":[{"signal":"ego_speed","description":"Actual ego-vehicle speed.","unit":"km/h"},{"signal":"speed_limit","description":"Time-varying applicable speed limit.","unit":"km/h"}],"time_info":[{"value":2,"unit":"s","description":"Start of delayed compliance window."},{"value":5,"unit":"s","description":"End of delayed compliance window."}],"nl_Literal_translation_en":"At some time between 2 and 5 seconds from now, the ego vehicle speed shall be less than or equal to the speed limit applicable at that time.","nl_Literal_translation_zh":"从现在起第 2 秒到第 5 秒之间，自车速度应至少有一个时刻小于或等于该时刻适用的限速。","nl_Paraphrase_en":"During the window from the second through the fifth second, the vehicle shall comply at least once with the speed limit applicable at the satisfying time.","nl_Paraphrase_zh":"在第 2 秒至第 5 秒的窗口内，车辆应至少有一个时刻满足该时刻适用的限速要求。"}
+{
+  "id": "00052",
+  "stl_template": "eventually [t1:t2] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Speed Limit",
+  "trace_info": {
+    "pred1": "ego_speed <= speed_limit",
+    "t1": "2 s",
+    "t2": "5 s"
+  },
+  "stl": "eventually [2:5] (ego_speed <= speed_limit)",
+  "signals_info": [
+    {
+      "signal": "ego_speed",
+      "description": "Actual ego-vehicle speed.",
+      "unit": "km/h"
+    },
+    {
+      "signal": "speed_limit",
+      "description": "Time-varying applicable speed limit.",
+      "unit": "km/h"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 2,
+      "unit": "s",
+      "description": "Start of delayed compliance window."
+    },
+    {
+      "value": 5,
+      "unit": "s",
+      "description": "End of delayed compliance window."
+    }
+  ],
+  "nl_Literal_translation_en": "At some time between 2 and 5 seconds from now, the ego vehicle speed shall be less than or equal to the speed limit applicable at that time.",
+  "nl_Literal_translation_zh": "从现在起第 2 秒到第 5 秒之间，自车速度应至少有一个时刻小于或等于该时刻适用的限速。",
+  "nl_Paraphrase_en": "During the window from the second through the fifth second, the vehicle shall comply at least once with the speed limit applicable at the satisfying time.",
+  "nl_Paraphrase_zh": "在第 2 秒至第 5 秒的窗口内，车辆应至少有一个时刻满足该时刻适用的限速要求。"
+}

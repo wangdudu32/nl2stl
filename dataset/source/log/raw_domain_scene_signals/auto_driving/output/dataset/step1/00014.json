@@ -1,1 +1,34 @@
-{"id":"00014","stl_template":"always [0:t1] (pred1)","domain":"Autonomous Driving","scene":"Speed Limit","trace_info":{"pred1":"ego_speed <= speed_limit","t1":"10 s"},"stl":"always [0:10] (ego_speed <= speed_limit)","signals_info":[{"signal":"ego_speed","description":"Actual ego-vehicle speed.","unit":"km/h"},{"signal":"speed_limit","description":"Applicable road speed limit.","unit":"km/h"}],"time_info":[{"value":10,"unit":"s","description":"Bounded speed-compliance observation window."}],"nl_Literal_translation_en":"For the next 10 seconds, the ego vehicle speed shall remain less than or equal to the applicable speed limit.","nl_Literal_translation_zh":"在接下来的 10 秒内，自车速度应始终小于或等于当前适用限速。","nl_Paraphrase_en":"Throughout the 10-second speed-compliance window, the vehicle shall not exceed the applicable speed limit.","nl_Paraphrase_zh":"在 10 秒的限速合规观测窗口内，车辆不得超过当前适用限速。"}
+{
+  "id": "00014",
+  "stl_template": "always [0:t1] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Speed Limit",
+  "trace_info": {
+    "pred1": "ego_speed <= speed_limit",
+    "t1": "10 s"
+  },
+  "stl": "always [0:10] (ego_speed <= speed_limit)",
+  "signals_info": [
+    {
+      "signal": "ego_speed",
+      "description": "Actual ego-vehicle speed.",
+      "unit": "km/h"
+    },
+    {
+      "signal": "speed_limit",
+      "description": "Applicable road speed limit.",
+      "unit": "km/h"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 10,
+      "unit": "s",
+      "description": "Bounded speed-compliance observation window."
+    }
+  ],
+  "nl_Literal_translation_en": "For the next 10 seconds, the ego vehicle speed shall remain less than or equal to the applicable speed limit.",
+  "nl_Literal_translation_zh": "在接下来的 10 秒内，自车速度应始终小于或等于当前适用限速。",
+  "nl_Paraphrase_en": "Throughout the 10-second speed-compliance window, the vehicle shall not exceed the applicable speed limit.",
+  "nl_Paraphrase_zh": "在 10 秒的限速合规观测窗口内，车辆不得超过当前适用限速。"
+}

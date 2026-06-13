@@ -1,1 +1,35 @@
-{"id":"00021","stl_template":"always [t1:t2] (pred1)","domain":"Autonomous Driving","scene":"Traction Control","trace_info":{"pred1":"throttle_command_pct < 30","t1":"1 s","t2":"5 s"},"stl":"always [1:5] (throttle_command_pct < 30)","signals_info":[{"signal":"throttle_command_pct","description":"Throttle command during traction control.","unit":"%"}],"time_info":[{"value":1,"unit":"s","description":"Start of intervention window."},{"value":5,"unit":"s","description":"End of intervention window."}],"nl_Literal_translation_en":"From 1 to 5 seconds from now, the throttle command shall remain below 30 percent.","nl_Literal_translation_zh":"从现在起第 1 秒到第 5 秒之间，油门指令应始终低于 30%。","nl_Paraphrase_en":"During the traction-control window from the first through the fifth second, the commanded throttle shall continuously remain below 30 percent.","nl_Paraphrase_zh":"在第 1 秒至第 5 秒的牵引力控制窗口内，油门指令应持续保持在 30% 以下。"}
+{
+  "id": "00021",
+  "stl_template": "always [t1:t2] (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Traction Control",
+  "trace_info": {
+    "pred1": "throttle_command_pct < 30",
+    "t1": "1 s",
+    "t2": "5 s"
+  },
+  "stl": "always [1:5] (throttle_command_pct < 30)",
+  "signals_info": [
+    {
+      "signal": "throttle_command_pct",
+      "description": "Throttle command during traction control.",
+      "unit": "%"
+    }
+  ],
+  "time_info": [
+    {
+      "value": 1,
+      "unit": "s",
+      "description": "Start of intervention window."
+    },
+    {
+      "value": 5,
+      "unit": "s",
+      "description": "End of intervention window."
+    }
+  ],
+  "nl_Literal_translation_en": "From 1 to 5 seconds from now, the throttle command shall remain below 30 percent.",
+  "nl_Literal_translation_zh": "从现在起第 1 秒到第 5 秒之间，油门指令应始终低于 30%。",
+  "nl_Paraphrase_en": "During the traction-control window from the first through the fifth second, the commanded throttle shall continuously remain below 30 percent.",
+  "nl_Paraphrase_zh": "在第 1 秒至第 5 秒的牵引力控制窗口内，油门指令应持续保持在 30% 以下。"
+}

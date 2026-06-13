@@ -1,1 +1,22 @@
-{"id":"00068","stl_template":"eventually (fall (pred1))","domain":"Autonomous Driving","scene":"Lane Keeping","trace_info":{"pred1":"lkas_active == 1"},"stl":"eventually (fall (lkas_active == 1))","signals_info":[{"signal":"lkas_active","description":"Whether the lane-keeping system is actively controlling the vehicle.","unit":"dimensionless (0/1)"}],"time_info":[],"nl_Literal_translation_en":"At some future time, the condition lkas_active == 1 shall cease to be true.","nl_Literal_translation_zh":"在未来某个时刻，lkas_active == 1 这一条件应刚停止成立。","nl_Paraphrase_en":"The lane-keeping system shall end active control at some future time.","nl_Paraphrase_zh":"车道保持系统应在未来某个时刻结束主动控制。"}
+{
+  "id": "00068",
+  "stl_template": "eventually (fall (pred1))",
+  "domain": "Autonomous Driving",
+  "scene": "Lane Keeping",
+  "trace_info": {
+    "pred1": "lkas_active == 1"
+  },
+  "stl": "eventually (fall (lkas_active == 1))",
+  "signals_info": [
+    {
+      "signal": "lkas_active",
+      "description": "Whether the lane-keeping system is actively controlling the vehicle.",
+      "unit": "dimensionless (0/1)"
+    }
+  ],
+  "time_info": [],
+  "nl_Literal_translation_en": "At some future time, the condition lkas_active == 1 shall cease to be true.",
+  "nl_Literal_translation_zh": "在未来某个时刻，lkas_active == 1 这一条件应刚停止成立。",
+  "nl_Paraphrase_en": "The lane-keeping system shall end active control at some future time.",
+  "nl_Paraphrase_zh": "车道保持系统应在未来某个时刻结束主动控制。"
+}

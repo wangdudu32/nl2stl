@@ -1,1 +1,22 @@
-{"id":"00031","stl_template":"eventually (pred1)","domain":"Autonomous Driving","scene":"Traffic Light","trace_info":{"pred1":"traffic_light_green == 1"},"stl":"eventually (traffic_light_green == 1)","signals_info":[{"signal":"traffic_light_green","description":"Whether the valid traffic light associated with the vehicle's path is green.","unit":"dimensionless (0/1)"}],"time_info":[],"nl_Literal_translation_en":"At the current time or at some future time, the associated traffic light shall be green.","nl_Literal_translation_zh":"在当前或未来某个时刻，关联交通灯应为绿灯。","nl_Paraphrase_en":"The traffic signal governing the vehicle's path shall be green now or at some later time.","nl_Paraphrase_zh":"控制车辆当前行驶路径的交通信号应在当前或之后某个时刻为绿灯。"}
+{
+  "id": "00031",
+  "stl_template": "eventually (pred1)",
+  "domain": "Autonomous Driving",
+  "scene": "Traffic Light",
+  "trace_info": {
+    "pred1": "traffic_light_green == 1"
+  },
+  "stl": "eventually (traffic_light_green == 1)",
+  "signals_info": [
+    {
+      "signal": "traffic_light_green",
+      "description": "Whether the valid traffic light associated with the vehicle's path is green.",
+      "unit": "dimensionless (0/1)"
+    }
+  ],
+  "time_info": [],
+  "nl_Literal_translation_en": "At the current time or at some future time, the associated traffic light shall be green.",
+  "nl_Literal_translation_zh": "在当前或未来某个时刻，关联交通灯应为绿灯。",
+  "nl_Paraphrase_en": "The traffic signal governing the vehicle's path shall be green now or at some later time.",
+  "nl_Paraphrase_zh": "控制车辆当前行驶路径的交通信号应在当前或之后某个时刻为绿灯。"
+}
