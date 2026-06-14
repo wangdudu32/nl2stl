@@ -117,6 +117,35 @@ def test_extract_json_object_ignores_surrounding_text() -> None:
     assert extract_json_object('结果如下：{"value": "OK"} 完成') == '{"value": "OK"}'
 
 
+def test_candidate_normalizes_source_type_misplaced_in_candidate_type() -> None:
+    candidate = Candidate.model_validate(
+        {
+            "id": "inferred_trigger",
+            "candidate_type": "llm_inference",
+            "value": "ttc <= ttc_brake",
+            "explanation": "使用参数化 TTC 阈值",
+            "parameters": ["ttc_brake"],
+            "source_type": "llm_inference",
+            "source_reference": "LLM 工程推断",
+        }
+    )
+    assert candidate.candidate_type == "parameterized"
+
+
+def test_candidate_infers_numeric_type_for_bare_value() -> None:
+    candidate = Candidate.model_validate(
+        {
+            "id": "distance_2m",
+            "candidate_type": "tavily",
+            "value": "2 m",
+            "explanation": "固定距离",
+            "source_type": "tavily",
+            "source_reference": "https://example.com/distance",
+        }
+    )
+    assert candidate.candidate_type == "numeric"
+
+
 def test_parking_scope_prefers_parking_mode() -> None:
     result = generate_local_candidates(
         {

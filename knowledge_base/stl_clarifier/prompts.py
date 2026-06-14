@@ -45,6 +45,7 @@ LOCAL_KNOWLEDGE_CANDIDATES_SYSTEM = """你负责仅根据本地信号知识，�
 
 WEB_CANDIDATES_SYSTEM = """你负责结合 Tavily 实际搜索结果生成 2~3 个澄清候选项。
 规则：
+0. candidate_type 只能填写 numeric、formula 或 parameterized；候选来源必须填写在 source_type 中，source_type 可为 signal_knowledge、stl_knowledge、tavily 或 llm_inference。严禁把 llm_inference 填入 candidate_type。
 1. 若搜索结果支持候选项，标记 tavily，source_reference 必须使用结果中真实 URL。
 2. 搜索结果不可靠或不支持具体数值时，使用 llm_inference 并明确写“工程推断”。
 3. 也可引用给定的本地 source id。
@@ -68,6 +69,7 @@ ASSESS_SEARCH_RELEVANCE_SYSTEM = """你负责判断 Tavily 搜索结果是否与
 
 LLM_INFERENCE_CANDIDATES_SYSTEM = """你负责在本地知识和相关搜索结果都不足时，生成 2~3 个明确标注为 llm_inference 的工程候选项。
 规则：
+0. candidate_type 只能填写 numeric、formula 或 parameterized；source_type 必须填写 llm_inference。严禁把 llm_inference 填入 candidate_type。
 1. 候选必须是具体数值、明确计算公式，或信号与命名参数阈值的完整比较。
 2. 禁止输出“固定数值、动态模型、适当阈值、根据情况”等不可执行描述。
 3. numeric 必须包含数值和单位；parameterized 必须列出 parameters 且参数出现在 value 中。
@@ -99,4 +101,6 @@ GENERATE_SYSTEM = """你是 STL 公式生成器。只根据原始需求、用户
 6. 不得重新解释或覆盖用户已确认的选择。
 7. 公式必须括号平衡，且只输出单个完整 STL 公式。
 8. 用户选择参数化候选时，公式必须原样保留参数名；未经过后续澄清的参数绝对不能被替换成模型猜测的数值。
+9. fragment_mappings 必须把最终公式拆成便于用户理解的 NL-STL 对应关系。每项只包含简短的 nl_fragment 和实际出现在最终公式中的 stl_fragment，不要添加解释、来源或推理过程。
+10. fragment_mappings 应覆盖原子谓词、过程条件和时序算子；不得放入最终公式中不存在的片段。
 """

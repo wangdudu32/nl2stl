@@ -47,6 +47,7 @@ from .services import ChatAnywhereService, TavilyService
 
 Progress = Callable[[str], None]
 AskUser = Callable[[Ambiguity, list[Candidate]], str]
+InteractionUpdate = Callable[[list[Ambiguity], list[Clarification]], None]
 
 
 class ClarificationWorkflow:
@@ -56,11 +57,13 @@ class ClarificationWorkflow:
         tavily: TavilyService,
         knowledge: KnowledgeBase,
         progress: Progress,
+        interaction_update: InteractionUpdate | None = None,
     ) -> None:
         self.chat = chat
         self.tavily = tavily
         self.knowledge = knowledge
         self.progress = progress
+        self.interaction_update = interaction_update or (lambda _pending, _resolved: None)
 
     def close(self) -> None:
         self.chat.close()
@@ -136,6 +139,10 @@ class ClarificationWorkflow:
                     evidence.context,
                     evidence.source_ids,
                 )
+            self.interaction_update(
+                [Ambiguity.model_validate(item) for item in state.get("ambiguities", [])],
+                [Clarification.model_validate(item) for item in state.get("clarifications", [])],
+            )
             value, selected = self._obtain_valid_answer(
                 description,
                 context,
@@ -146,6 +153,7 @@ class ClarificationWorkflow:
             )
             clarification = Clarification(
                 ambiguity_id=ambiguity.id,
+                ambiguity_description=ambiguity.description,
                 issue_type=ambiguity.issue_type,
                 category=ambiguity.category,
                 question=ambiguity.question,

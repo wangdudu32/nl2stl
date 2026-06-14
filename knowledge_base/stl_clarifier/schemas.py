@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+import re
 from enum import StrEnum
 from typing import Literal, TypedDict
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 class SourceType(StrEnum):
@@ -50,6 +51,31 @@ class Candidate(BaseModel):
     source_type: SourceType
     source_reference: str
 
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_candidate_type(cls, value: object) -> object:
+        if not isinstance(value, dict):
+            return value
+        valid_types = {"numeric", "formula", "parameterized"}
+        if value.get("candidate_type") in valid_types:
+            return value
+
+        normalized = dict(value)
+        candidate_value = str(normalized.get("value", "")).strip()
+        parameters = normalized.get("parameters") or []
+        if parameters:
+            candidate_type = "parameterized"
+        elif re.fullmatch(
+            r"[-+]?\d+(?:\.\d+)?\s*(?:km/h|m/s|ms|s|m|%)?",
+            candidate_value,
+            flags=re.IGNORECASE,
+        ):
+            candidate_type = "numeric"
+        else:
+            candidate_type = "formula"
+        normalized["candidate_type"] = candidate_type
+        return normalized
+
 
 class CandidateAssessment(BaseModel):
     local_knowledge_sufficient: bool
@@ -63,6 +89,7 @@ class CandidateSet(BaseModel):
 
 class Clarification(BaseModel):
     ambiguity_id: str
+    ambiguity_description: str = ""
     issue_type: Literal["vagueness", "ambiguity"] = "ambiguity"
     category: Literal["signal", "threshold", "scope", "time", "operator", "other"]
     question: str
@@ -90,12 +117,18 @@ class SearchRelevanceAssessment(BaseModel):
     reason: str
 
 
+class TranslationFragment(BaseModel):
+    nl_fragment: str
+    stl_fragment: str
+
+
 class STLResult(BaseModel):
     clarified_description: str
     formula: str
     explanation: str
     signals_used: list[str]
     assumptions: list[str] = Field(default_factory=list)
+    fragment_mappings: list[TranslationFragment] = Field(default_factory=list)
 
 
 class GraphState(TypedDict, total=False):
