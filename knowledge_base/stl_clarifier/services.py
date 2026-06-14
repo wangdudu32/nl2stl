@@ -13,6 +13,7 @@ from .schemas import SearchResult
 
 
 SchemaT = TypeVar("SchemaT", bound=BaseModel)
+MAX_GENERATION_ATTEMPTS = 3
 
 
 class ExternalServiceError(RuntimeError):
@@ -49,33 +50,61 @@ class ChatAnywhereService:
             ]
         )
         messages = prompt.format_messages(system=system, schema_json=schema_json, user=user)
-        payload = {
-            "model": self.model,
-            "temperature": 0,
-            "messages": [
-                {"role": message.type if message.type != "human" else "user", "content": message.content}
-                for message in messages
-            ],
-        }
-        try:
-            response = self.client.post(
-                self.url,
-                headers={"Authorization": f"Bearer {self.api_key}"},
-                json=payload,
-            )
-            response.raise_for_status()
-            raw = response.json()
-            content = raw["choices"][0]["message"]["content"]
-            return schema.model_validate_json(extract_json_object(content))
-        except httpx.TimeoutException as exc:
-            raise ExternalServiceError("ChatAnywhere 请求超时") from exc
-        except httpx.HTTPStatusError as exc:
-            detail = exc.response.text[:300]
-            raise ExternalServiceError(
-                f"ChatAnywhere 返回 HTTP {exc.response.status_code}: {detail}"
-            ) from exc
-        except (httpx.HTTPError, KeyError, TypeError, ValueError, ValidationError) as exc:
-            raise ExternalServiceError(f"ChatAnywhere 响应无效: {exc}") from exc
+        request_messages = [
+            {
+                "role": message.type if message.type != "human" else "user",
+                "content": message.content,
+            }
+            for message in messages
+        ]
+        last_error: ValueError | ValidationError | KeyError | TypeError | None = None
+        for attempt in range(1, MAX_GENERATION_ATTEMPTS + 1):
+            payload = {
+                "model": self.model,
+                "temperature": 0,
+                "messages": request_messages,
+            }
+            try:
+                response = self.client.post(
+                    self.url,
+                    headers={"Authorization": f"Bearer {self.api_key}"},
+                    json=payload,
+                )
+                response.raise_for_status()
+                raw = response.json()
+                content = raw["choices"][0]["message"]["content"]
+            except httpx.TimeoutException as exc:
+                raise ExternalServiceError("ChatAnywhere 请求超时") from exc
+            except httpx.HTTPStatusError as exc:
+                detail = exc.response.text[:300]
+                raise ExternalServiceError(
+                    f"ChatAnywhere 返回 HTTP {exc.response.status_code}: {detail}"
+                ) from exc
+            except httpx.HTTPError as exc:
+                raise ExternalServiceError(f"ChatAnywhere 请求失败: {exc}") from exc
+            except (KeyError, TypeError, ValueError) as exc:
+                raise ExternalServiceError(f"ChatAnywhere 响应无效: {exc}") from exc
+
+            try:
+                return schema.model_validate_json(extract_json_object(content))
+            except (ValueError, ValidationError, TypeError) as exc:
+                last_error = exc
+                if attempt == MAX_GENERATION_ATTEMPTS:
+                    break
+                request_messages.extend(
+                    [
+                        {"role": "assistant", "content": content},
+                        {
+                            "role": "user",
+                            "content": _repair_instruction(exc, schema_json),
+                        },
+                    ]
+                )
+
+        raise ExternalServiceError(
+            f"ChatAnywhere 响应连续 {MAX_GENERATION_ATTEMPTS} 次未通过结构校验: "
+            f"{_validation_error_text(last_error)}"
+        ) from last_error
 
 
 class TavilyService:
@@ -134,3 +163,23 @@ def extract_json_object(text: str) -> str:
         raise ValueError("响应中没有 JSON 对象")
     _, end = json.JSONDecoder().raw_decode(stripped[start:])
     return stripped[start : start + end]
+
+
+def _repair_instruction(error: Exception, schema_json: str) -> str:
+    return (
+        "上一条响应未通过结构校验。请保持原有分析结论和候选内容不变，"
+        "只修正字段名、字段类型、枚举值、缺失字段或 JSON 格式，并重新输出完整 JSON 对象。"
+        "不要解释，不要使用 Markdown。\n\n"
+        f"校验错误：\n{_validation_error_text(error)}\n\n"
+        f"目标 JSON Schema：\n{schema_json}"
+    )
+
+
+def _validation_error_text(error: Exception | None) -> str:
+    if isinstance(error, ValidationError):
+        details = []
+        for item in error.errors(include_url=False):
+            location = ".".join(str(part) for part in item["loc"])
+            details.append(f"{location}: {item['msg']}；收到 {item.get('input')!r}")
+        return "\n".join(details)
+    return str(error or "未知结构错误")
