@@ -75,6 +75,19 @@ LLM_INFERENCE_CANDIDATES_SYSTEM = """你负责在本地知识和相关搜索结�
 3. numeric 必须包含数值和单位；parameterized 必须列出 parameters 且参数出现在 value 中。
 4. source_reference 统一写“LLM 工程推断”，explanation 简要说明推断逻辑和不确定性。
 5. 不得冒充知识库、标准、论文或搜索来源。
+6. 必须直接回答当前歧义，禁止回答其他待澄清问题。例如安全距离问题不能输出刹车触发公式；响应时限问题不能输出车速、功能保持时长或启用条件。
+"""
+
+CANDIDATE_REVIEW_SYSTEM = """你是 STL 澄清候选审核器。逐项判断候选是否直接、完整地回答当前唯一歧义。
+规则：
+1. 不要因为候选与整体需求相关就接受；它必须消除当前问题，而不是回答其他待澄清问题。
+2. 安全距离问题只能接受距离阈值、时间车头时距、TTC 或明确的安全距离计算公式；刹车动作或触发条件不能作为安全距离定义。
+3. 刹车触发问题必须给出可计算的触发谓词；单独定义安全距离、响应时间或刹车保持时间不合格。
+4. 响应时限问题必须给出带时间单位的具体时限，或 eventually[0,T](动作信号 == 1) 形式的参数化时间上界；车速、功能启用条件、最长保持时间均不合格。
+5. parameters 只能列命名阈值参数，不得把知识库信号名列为参数。
+6. 若语义正确但表达需要规范化，可 accepted=true 并返回 normalized_candidate；规范化不得改变数值、单位、来源或工程含义。
+7. normalized_candidate 若为时间响应规则，应使用 eventually[0,T](action == 1)，不得用 always[0,T](action == 1) 表示“在 T 内响应”。
+8. 每个输入候选必须恰好返回一条 review，candidate_id 必须与输入一致。
 """
 
 VALIDATE_CUSTOM_ANSWER_SYSTEM = """你负责判断用户的自定义回答是否真正解决当前 STL 建模歧义。
@@ -91,16 +104,20 @@ VALIDATE_CUSTOM_ANSWER_SYSTEM = """你负责判断用户的自定义回答是否
 10. 无效时 normalized_answer 必须为 null，reason 说明缺少什么，follow_up_question 给出一个简短追问。
 """
 
-GENERATE_SYSTEM = """你是 STL 公式生成器。只根据原始需求、用户已经确认的澄清和给定知识生成结果。
+GENERATE_SEMANTIC_PLAN_SYSTEM = """你是 STL 结构化语义建模器。只根据原始需求、用户已经确认的澄清和给定知识生成 SemanticPlan，不直接编写 STL 字符串。
 规则：
-1. 信号名只能使用知识条目中的 `信号名=` 后面的原始叶子名称，例如 ego_speed；禁止拼接领域或场景前缀。
-2. 场景路径只用于选择正确知识条目，不得出现在 STL 公式中。
-3. 使用 stl_operators.md 中的文本语法，例如 always(...)、always[a,b](...)。
-4. 保持单位一致；公式中的数值不附带单位，单位写在解释中。
-5. 公式中使用的信号必须来自已识别 knowledge_scenes 对应的知识条目；场景已唯一确定时可自动绑定信号，不要求用户确认底层信号名。
-6. 不得重新解释或覆盖用户已确认的选择。
-7. 公式必须括号平衡，且只输出单个完整 STL 公式。
-8. 用户选择参数化候选时，公式必须原样保留参数名；未经过后续澄清的参数绝对不能被替换成模型猜测的数值。
-9. fragment_mappings 必须把最终公式拆成便于用户理解的 NL-STL 对应关系。每项只包含简短的 nl_fragment 和实际出现在最终公式中的 stl_fragment，不要添加解释、来源或推理过程。
-10. fragment_mappings 应覆盖原子谓词、过程条件和时序算子；不得放入最终公式中不存在的片段。
+1. 信号名只能使用知识条目中的原始叶子名称。场景路径不得作为信号名。
+2. requirement.kind=invariant 表示整个监测周期持续满足 condition；若有 scope，表示 scope 成立时 condition 必须成立。
+3. requirement.kind=response 表示 trigger 每次成立后，target 必须在 deadline 内至少成立一次。响应语义必须使用 response，不得用 invariant 代替。
+4. NumericExpression 必须显式声明单位。constant 必须有 value 和 unit；parameter 必须有 name 和 unit。
+5. 不得把不同量纲直接比较或相加。速度乘无量纲常数仍是速度，不能作为距离。但是用户明确说“安全距离为 N 倍时速距离”时，表示数值映射：每 1 km/h 对应 N m；应把 N 建模为 unit=m/(km/h) 的比例系数，生成距离表达式 N * ego_speed，不得改写成时间头距。
+6. 单位换算必须使用 kind=convert。例如把 ego_speed 从 km/h 转为 m/s，应使用 convert(operand=ego_speed, target_unit=m/s)。
+   若输入候选已经写成 ego_speed / 3.6，也必须在 SemanticPlan 中规范化为 convert；3.6 是单位系统换算常数，不得标记为来自 original 或用户澄清。
+7. 区分两种规则：若用户说“2 秒时间头距”，建模为 front_vehicle_distance >= convert(ego_speed,m/s) * 2 s；若用户说“两倍时速距离”，建模为 front_vehicle_distance >= 2 m/(km/h) * ego_speed。两者不得互相替换。
+8. 布尔动作必须明确比较，例如 brake_active == 1，其中常量 1 的 unit=boolean。
+9. 用户确认的参数名必须原样保留，禁止自行替换成数值。
+10. 每个 requirement.clarification_ids 必须列出该需求使用的澄清 ID；所有已确认澄清都必须至少被一个 requirement 覆盖。
+11. 每个非布尔 constant 和每个 parameter 都必须填写 source_clarification_id，指向真实提供该数值、单位或参数名的澄清；若信息直接来自原始需求则填写 original。禁止给不存在于来源文本中的常量补单位。
+12. 必须遵守澄清的 semantic_role：response_trigger 进入 response.trigger，response_deadline 进入 response.deadline，scope 进入 requirement.scope，temporal_scope 决定需求的时间覆盖范围。
+13. 若已确认信息量纲不完整或互相矛盾，也要忠实建模；本地类型检查会拒绝并反馈错误。禁止自行补充用户没有确认的时间、单位或换算公式。
 """

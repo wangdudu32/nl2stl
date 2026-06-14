@@ -21,7 +21,8 @@ from .prompts import (
     ANALYZE_SYSTEM,
     ASSESS_SYSTEM,
     ASSESS_SEARCH_RELEVANCE_SYSTEM,
-    GENERATE_SYSTEM,
+    CANDIDATE_REVIEW_SYSTEM,
+    GENERATE_SEMANTIC_PLAN_SYSTEM,
     LLM_INFERENCE_CANDIDATES_SYSTEM,
     LOCAL_KNOWLEDGE_CANDIDATES_SYSTEM,
     VALIDATE_CUSTOM_ANSWER_SYSTEM,
@@ -33,21 +34,30 @@ from .schemas import (
     AnswerAssessment,
     Candidate,
     CandidateAssessment,
+    CandidateReviewSet,
     CandidateSet,
     Clarification,
     DomainContext,
     GraphState,
     SearchResult,
     SearchRelevanceAssessment,
+    SemanticPlan,
     SourceType,
     STLResult,
 )
 from .services import ChatAnywhereService, TavilyService
+from .semantics import (
+    SemanticCompiler,
+    SemanticValidationError,
+    normalize_standard_conversions,
+    validate_plan_provenance,
+)
 
 
 Progress = Callable[[str], None]
 AskUser = Callable[[Ambiguity, list[Candidate]], str]
 InteractionUpdate = Callable[[list[Ambiguity], list[Clarification]], None]
+MAX_SEMANTIC_PLAN_ATTEMPTS = 3
 
 
 class ClarificationWorkflow:
@@ -139,6 +149,14 @@ class ClarificationWorkflow:
                     evidence.context,
                     evidence.source_ids,
                 )
+            candidates = self._review_and_regenerate_candidates(
+                description,
+                context,
+                ambiguity,
+                candidates,
+                evidence.context,
+                evidence.source_ids,
+            )
             self.interaction_update(
                 [Ambiguity.model_validate(item) for item in state.get("ambiguities", [])],
                 [Clarification.model_validate(item) for item in state.get("clarifications", [])],
@@ -158,6 +176,8 @@ class ClarificationWorkflow:
                 category=ambiguity.category,
                 question=ambiguity.question,
                 answer=value,
+                supporting_text=selected.explanation if selected else "",
+                semantic_role=self._semantic_role(ambiguity),
                 selected_candidate_id=selected.id if selected else None,
                 source_type=selected.source_type if selected else SourceType.USER_INPUT,
                 source_reference=(
@@ -172,20 +192,75 @@ class ClarificationWorkflow:
             ]
             state = remove_current_ambiguity(state)
 
-        result = self._step(
-            "4/4 正在调用 ChatAnywhere 生成 STL 公式",
-            lambda: self.chat.generate(
-                STLResult,
-                GENERATE_SYSTEM,
-                f"原始需求：{description}\n\n"
-                f"领域与场景：\n{context.model_dump_json(indent=2)}\n\n"
-                f"已确认澄清：\n{_json(state.get('clarifications', []))}\n\n"
-                f"信号和算子知识：\n"
-                f"{self.knowledge.retrieve_for_scenes(description, 'STL formula signals operators', context.knowledge_scenes, limit=20).context}",
-            ),
+        result = self._generate_compiled_result(
+            description,
+            context,
+            [Clarification.model_validate(item) for item in state.get("clarifications", [])],
         )
         errors = validate_formula(result.formula, result.signals_used, self.knowledge.signal_names())
         return result, errors
+
+    @staticmethod
+    def _semantic_role(ambiguity: Ambiguity) -> str:
+        text = f"{ambiguity.id} {ambiguity.description} {ambiguity.question}"
+        if ambiguity.category == "scope":
+            return "scope"
+        if ambiguity.id == "define_braking_response_deadline" or any(
+            token in text for token in ("响应时限", "及时刹车", "多长时间内")
+        ):
+            return "response_deadline"
+        if ambiguity.id == "define_braking_trigger" or any(
+            token in text for token in ("触发条件", "必要的时候", "刹车时机")
+        ):
+            return "response_trigger"
+        if ambiguity.category == "time":
+            return "temporal_scope"
+        return "predicate"
+
+    def _generate_compiled_result(
+        self,
+        description: str,
+        context: DomainContext,
+        clarifications: list[Clarification],
+    ) -> STLResult:
+        evidence = self.knowledge.retrieve_for_scenes(
+            description,
+            "STL formula signals operators units",
+            context.knowledge_scenes,
+            limit=20,
+        )
+        feedback = ""
+        last_error: SemanticValidationError | None = None
+        for attempt in range(1, MAX_SEMANTIC_PLAN_ATTEMPTS + 1):
+            plan = self._step(
+                "4/4 正在调用 ChatAnywhere 构建类型化 STL 语义",
+                lambda: self.chat.generate(
+                    SemanticPlan,
+                    GENERATE_SEMANTIC_PLAN_SYSTEM,
+                    f"原始需求：{description}\n\n"
+                    f"领域与场景：\n{context.model_dump_json(indent=2)}\n\n"
+                    f"已确认澄清：\n{_json([item.model_dump(mode='json') for item in clarifications])}\n\n"
+                    f"信号和单位知识：\n{evidence.context}\n\n"
+                    f"上一轮本地类型检查反馈：\n{feedback or '无'}",
+                ),
+            )
+            try:
+                signal_units = self.knowledge.signal_units(context.knowledge_scenes)
+                plan = normalize_standard_conversions(plan, signal_units)
+                validate_plan_provenance(plan, clarifications, description)
+                compiler = SemanticCompiler(signal_units)
+                return compiler.compile(plan)
+            except SemanticValidationError as exc:
+                last_error = exc
+                feedback = (
+                    f"第 {attempt} 轮 SemanticPlan 未通过本地类型/量纲检查：{exc}。"
+                    "请保持用户已确认语义不变，只修正结构、单位或需求类型；"
+                    "不得自行补充用户未确认的信息。"
+                )
+                self.progress(feedback)
+        raise RuntimeError(
+            f"类型化语义连续 {MAX_SEMANTIC_PLAN_ATTEMPTS} 次未通过本地校验：{last_error}"
+        )
 
     @staticmethod
     def _resolve_knowledge_scenes(context: DomainContext) -> list[str]:
@@ -272,7 +347,11 @@ class ClarificationWorkflow:
             raw_answer = ask_user(ambiguity, candidates)
             value, selected = resolve_answer(raw_answer, candidates)
             if selected is not None:
-                return value, selected
+                problem = self._candidate_semantic_problem(ambiguity, selected)
+                if problem is None:
+                    return value, selected
+                self.progress(f"所选候选未能解决当前歧义：{problem}")
+                continue
 
             assessment = self._step(
                 "正在调用 ChatAnywhere 校验自定义回答",
@@ -391,6 +470,196 @@ class ClarificationWorkflow:
             combined = self._merge_candidates(combined, fallbacks)
             self.progress("模型候选不足，已补充明确的参数化工程候选，流程继续执行")
         return combined[:3]
+
+    def _review_and_regenerate_candidates(
+        self,
+        description: str,
+        context: DomainContext,
+        ambiguity: Ambiguity,
+        candidates: list[Candidate],
+        local_context: str,
+        local_source_ids: list[str],
+    ) -> list[Candidate]:
+        current = candidates
+        accepted: list[Candidate] = []
+        rejection_history: list[str] = []
+        for round_number in range(1, 4):
+            accepted, rejected = self._review_candidates(
+                description, context, ambiguity, current, local_context
+            )
+            rejection_history.extend(rejected)
+            if len(accepted) >= 2:
+                return accepted[:3]
+            if round_number == 3:
+                break
+            self.progress(
+                f"候选审核后不足 2 个，正在根据拒绝原因重新生成（{round_number}/2）"
+            )
+            regenerated = self._step(
+                "正在调用 ChatAnywhere 重新生成匹配当前问题的候选项",
+                lambda: self.chat.generate(
+                    CandidateSet,
+                    LLM_INFERENCE_CANDIDATES_SYSTEM,
+                    f"原始需求：{description}\n\n"
+                    f"领域与场景：\n{context.model_dump_json(indent=2)}\n\n"
+                    f"当前唯一歧义：\n{ambiguity.model_dump_json(indent=2)}\n\n"
+                    f"可用信号知识：\n{local_context or '无'}\n\n"
+                    f"上一轮候选被拒绝的原因：\n{_json(rejection_history)}\n\n"
+                    "请只生成直接回答当前唯一歧义的新候选，不要回答其他问题。",
+                ),
+            )
+            current = sanitize_candidates(
+                regenerated.candidates, set(local_source_ids), set()
+            )
+
+        fallbacks = self._deterministic_parameterized_fallbacks(
+            context, ambiguity, local_source_ids
+        )
+        fallback_valid, fallback_rejected = self._rule_review_candidates(
+            ambiguity, fallbacks
+        )
+        rejection_history.extend(fallback_rejected)
+        combined = self._merge_candidates(accepted, fallback_valid)
+        if not combined:
+            raise RuntimeError(
+                "候选审核连续 3 轮未得到可回答当前问题的候选："
+                + "；".join(rejection_history[-5:])
+            )
+        self.progress("候选审核后已使用与当前问题匹配的参数化候选兜底")
+        return combined[:3]
+
+    def _review_candidates(
+        self,
+        description: str,
+        context: DomainContext,
+        ambiguity: Ambiguity,
+        candidates: list[Candidate],
+        local_context: str,
+    ) -> tuple[list[Candidate], list[str]]:
+        rule_valid, rejected = self._rule_review_candidates(ambiguity, candidates)
+        if not rule_valid:
+            return [], rejected
+        review = self._step(
+            "正在调用 ChatAnywhere 审核候选项是否回答当前问题",
+            lambda: self.chat.generate(
+                CandidateReviewSet,
+                CANDIDATE_REVIEW_SYSTEM,
+                f"原始需求：{description}\n\n"
+                f"领域与场景：\n{context.model_dump_json(indent=2)}\n\n"
+                f"当前唯一歧义：\n{ambiguity.model_dump_json(indent=2)}\n\n"
+                f"本地知识：\n{local_context or '无'}\n\n"
+                f"待审核候选：\n{_json([item.model_dump(mode='json') for item in rule_valid])}",
+            ),
+        )
+        by_id = {item.id: item for item in rule_valid}
+        accepted: list[Candidate] = []
+        reviewed_ids: set[str] = set()
+        for item in review.reviews:
+            original = by_id.get(item.candidate_id)
+            if original is None or item.candidate_id in reviewed_ids:
+                continue
+            reviewed_ids.add(item.candidate_id)
+            if not item.accepted:
+                rejected.append(f"{item.candidate_id}: {item.reason}")
+                continue
+            candidate = item.normalized_candidate or original
+            candidate = candidate.model_copy(
+                update={
+                    "id": original.id,
+                    "source_type": original.source_type,
+                    "source_reference": original.source_reference,
+                }
+            )
+            normalized_valid, normalized_rejected = self._rule_review_candidates(
+                ambiguity, [candidate]
+            )
+            accepted.extend(normalized_valid)
+            rejected.extend(normalized_rejected)
+        for candidate_id in by_id.keys() - reviewed_ids:
+            rejected.append(f"{candidate_id}: 审核模型未返回该候选的审核结果")
+        if rejected:
+            self.progress(f"候选审核已拒绝：{'；'.join(rejected)}")
+        return accepted, rejected
+
+    def _rule_review_candidates(
+        self, ambiguity: Ambiguity, candidates: list[Candidate]
+    ) -> tuple[list[Candidate], list[str]]:
+        known_signals = self.knowledge.signal_names()
+        normalized = [
+            candidate.model_copy(
+                update={
+                    "parameters": [
+                        item for item in candidate.parameters if item not in known_signals
+                    ]
+                }
+            )
+            for candidate in candidates
+        ]
+        executable, rejected = executable_candidates(
+            ambiguity, normalized, known_signals
+        )
+        accepted: list[Candidate] = []
+        for candidate in executable:
+            problem = self._candidate_semantic_problem(ambiguity, candidate)
+            if problem:
+                rejected.append(f"{candidate.id}: {problem}")
+            else:
+                accepted.append(candidate)
+        return accepted, rejected
+
+    @staticmethod
+    def _candidate_semantic_problem(
+        ambiguity: Ambiguity, candidate: Candidate
+    ) -> str | None:
+        question = f"{ambiguity.id} {ambiguity.description} {ambiguity.question}".lower()
+        value = candidate.value.lower()
+        combined = f"{value} {candidate.explanation.lower()}"
+
+        if "安全距离" in question or "safe_distance" in question:
+            if re.search(r"\b(?:brake_active|aeb_active)\b\s*(?:==|=)", value):
+                return "安全距离问题不能用刹车动作或触发公式回答"
+            if not any(
+                token in combined
+                for token in (
+                    "front_vehicle_distance",
+                    "headway_time",
+                    "ttc",
+                    "距离",
+                    "车头时距",
+                )
+            ):
+                return "候选没有定义距离、车头时距或 TTC 安全判据"
+
+        if ambiguity.id == "define_braking_trigger" or any(
+            token in question for token in ("必要的时候", "触发条件", "刹车时机")
+        ):
+            if "eventually" in value or "响应时间" in combined or "时限" in combined:
+                return "刹车触发问题不能用响应时限回答"
+            has_condition = bool(
+                re.search(r"<=|>=|<|>|==|!=|\bwhen\b|\band\b|&&", value)
+            )
+            if not has_condition:
+                return "候选没有给出可计算的刹车触发谓词"
+            if re.fullmatch(r"\s*[a-z_][a-z0-9_]*\s*=\s*[^=]+\s*", value):
+                return "候选只定义了阈值，没有定义刹车触发条件"
+
+        if ambiguity.id == "define_braking_response_deadline" or any(
+            token in question for token in ("及时刹车", "响应时限", "多长时间")
+        ):
+            if re.search(r"\balways\s*\[", value):
+                return "always[0,T] 表示持续成立，不能表示在 T 内完成响应"
+            eventual = bool(re.search(r"eventually\s*\[\s*0\s*,", value))
+            time_value = bool(
+                re.search(r"\d+(?:\.\d+)?\s*(?:ms|毫秒|s|秒)\b", value)
+            )
+            time_parameter = bool(
+                re.search(r"(?:response|deadline|t_brake|t_aeb|time)", combined)
+            )
+            if not (eventual or time_value or time_parameter):
+                return "响应时限候选缺少时间单位或参数化时间上界"
+            if re.search(r"km/h|m/s|启用|最长保持|持续时间", combined):
+                return "候选描述的是车速、功能启用条件或保持时间，不是刹车响应时限"
+        return None
 
     @staticmethod
     def _merge_candidates(*groups: list[Candidate]) -> list[Candidate]:

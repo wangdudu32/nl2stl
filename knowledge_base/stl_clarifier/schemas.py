@@ -87,6 +87,17 @@ class CandidateSet(BaseModel):
     candidates: list[Candidate] = Field(min_length=2, max_length=3)
 
 
+class CandidateReview(BaseModel):
+    candidate_id: str
+    accepted: bool
+    reason: str
+    normalized_candidate: Candidate | None = None
+
+
+class CandidateReviewSet(BaseModel):
+    reviews: list[CandidateReview] = Field(min_length=1, max_length=3)
+
+
 class Clarification(BaseModel):
     ambiguity_id: str
     ambiguity_description: str = ""
@@ -94,6 +105,10 @@ class Clarification(BaseModel):
     category: Literal["signal", "threshold", "scope", "time", "operator", "other"]
     question: str
     answer: str
+    supporting_text: str = ""
+    semantic_role: Literal[
+        "predicate", "scope", "response_trigger", "response_deadline", "temporal_scope"
+    ] = "predicate"
     selected_candidate_id: str | None = None
     source_type: SourceType
     source_reference: str
@@ -120,6 +135,41 @@ class SearchRelevanceAssessment(BaseModel):
 class TranslationFragment(BaseModel):
     nl_fragment: str
     stl_fragment: str
+
+
+class NumericExpression(BaseModel):
+    kind: Literal["signal", "parameter", "constant", "add", "subtract", "multiply", "divide", "convert"]
+    name: str | None = None
+    value: float | None = None
+    unit: str | None = None
+    left: "NumericExpression | None" = None
+    right: "NumericExpression | None" = None
+    operand: "NumericExpression | None" = None
+    target_unit: str | None = None
+    source_clarification_id: str | None = None
+
+
+class PredicateExpression(BaseModel):
+    kind: Literal["comparison", "and", "or", "not"]
+    operator: Literal["<", "<=", ">", ">=", "==", "!="] | None = None
+    left: NumericExpression | None = None
+    right: NumericExpression | None = None
+    operands: list["PredicateExpression"] = Field(default_factory=list)
+    operand: "PredicateExpression | None" = None
+
+
+class SemanticRequirement(BaseModel):
+    kind: Literal["invariant", "response"]
+    condition: PredicateExpression | None = None
+    trigger: PredicateExpression | None = None
+    target: PredicateExpression | None = None
+    deadline: NumericExpression | None = None
+    scope: PredicateExpression | None = None
+    clarification_ids: list[str] = Field(default_factory=list)
+
+
+class SemanticPlan(BaseModel):
+    requirements: list[SemanticRequirement] = Field(min_length=1)
 
 
 class STLResult(BaseModel):

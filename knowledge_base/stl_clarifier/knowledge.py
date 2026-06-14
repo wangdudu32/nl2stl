@@ -53,6 +53,32 @@ class KnowledgeBase:
     def signal_names(self) -> set[str]:
         return {path.rsplit("/", 1)[-1] for path in self.signals}
 
+    def signal_units(self, scenes: list[str] | None = None) -> dict[str, str]:
+        normalized = {scene.lower() for scene in scenes or []}
+        units: dict[str, str] = {}
+        for path, description in self.signals.items():
+            if normalized and not any(f"/{scene}/" in path.lower() for scene in normalized):
+                continue
+            name = path.rsplit("/", 1)[-1]
+            if "布尔" in description or "取值 0/1" in description:
+                unit = "boolean"
+            elif "无量纲" in description:
+                unit = "dimensionless"
+            else:
+                unit_matches = re.findall(
+                    r"单位\s*(?:均?为\s*)?"
+                    r"(km/h|m/s\^2|m/s|degree/s|degree|N\*m|ms|s|m|%|count)",
+                    description,
+                    flags=re.IGNORECASE,
+                )
+                unit = unit_matches[-1] if unit_matches else "unknown"
+            existing = units.get(name)
+            if existing is None or existing == unit:
+                units[name] = unit
+            else:
+                units[name] = "unknown"
+        return units
+
     def retrieve_for_scenes(
         self,
         request: str,
