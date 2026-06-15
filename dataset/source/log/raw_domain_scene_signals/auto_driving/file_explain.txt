@@ -1,6 +1,0 @@
-- 场景和谓词：auto_driving_scene_signals_refine.txt
-- 简明信号解释：auto_driving_scene_signals_explain_refine.txt
-- 详细领域知识：auto_driving_scene_signals.kb
-- STL 模板：6_template.txt
-- 输出要求：data_format.txt
-- STL 语法参考：STL.md

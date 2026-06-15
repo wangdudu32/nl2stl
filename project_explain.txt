@@ -1,0 +1,588 @@
+NL2STL 项目讲解
+================
+
+一、项目目标
+------------
+
+本项目把自然语言需求转换为 STL（Signal Temporal Logic）公式。
+
+系统不会在语义不完整时直接猜测。它先建立一份统一的“全局语义”，把作用域、信号、谓词、阈值、单位、时间、触发条件和逻辑关系集中管理。存在歧义时，系统给出 2～3 个简洁候选，并允许用户输入任意形式的补充信息。
+
+用户输入不是只回答当前问题。只要与当前 NL 翻译相关，就可以新增、修改、删除或推翻全局语义中的任何内容。修订通过一致性验证后，系统用新版本整体替换旧版本，再重新计算所有模糊点。
+
+最终 AST 必须依次通过：
+
+1. ast_schema.txt 的 JSON Schema 验证。
+2. 知识库信号合法性验证。
+3. 当前全局语义允许信号验证。
+4. 时间区间验证。
+5. LLM 语义复核。
+6. src/validate_ast.py 脚本验证。
+7. src/ast2stl.py 脚本转换。
+
+
+二、目录结构
+------------
+
+README.md
+    项目运行方法和工作流摘要。
+
+pyproject.toml
+    Python 包、依赖、命令行入口和 pytest 配置。
+
+src/main.py
+    直接运行入口，并确保使用项目根目录的 .venv。
+
+src/validate_ast.py
+    用户指定的最终 AST Schema 验证脚本。
+
+src/ast2stl.py
+    用户指定的最终 AST 到 STL 转换脚本。
+
+src/nl2stl_app/
+    应用主体。
+
+knowledge_base/prompt.json
+    所有 Agent 提示词的唯一管理位置。
+
+knowledge_base/data_formats.json
+    LLM 和工作流中间数据 JSON Schema 的统一管理位置。
+
+knowledge_base/signals_index.json
+    简短信号索引。第一次只把它交给 LLM，用于选择领域、场景和信号。
+
+knowledge_base/signals_explain.txt
+    信号详细知识。只加载索引阶段选中的部分，避免把整个知识库发给模型。
+
+knowledge_base/stl_operators.md
+    STL 算子知识。
+
+knowledge_base/ast_schema.txt
+    最终 STL AST 的 JSON Schema。
+
+tmp/<session_id>/ast.json
+    每个会话最终落盘的 AST。
+
+tests/
+    图流程、候选过滤、语义边界和 STL 格式化测试。
+
+
+三、整体调用关系
+----------------
+
+src/main.py
+  -> nl2stl_app.cli.main()
+     -> cli.run()
+        -> TerminalUI()
+        -> build_graph(progress=ui.update_step)
+        -> graph.invoke(initial_state)
+           -> select_signals
+           -> initialize_semantics
+           -> review_semantics
+              -> 清晰：generate_ast
+              -> 不清晰：prepare_candidates -> clarify(interrupt)
+                 -> revise_semantics
+                 -> validate_revision
+                 -> review_semantics
+           -> validate_ast
+           -> semantic_review
+           -> finalize
+              -> src/validate_ast.py
+              -> src/ast2stl.py
+        -> ui.render_result()
+
+LangGraph 的 interrupt 会保存当前状态。用户输入后，CLI 使用 Command(resume=answer) 从暂停点继续，不会重新开始整个会话。
+
+
+四、src/main.py
+---------------
+
+函数 _use_project_virtualenv()
+    检查当前 Python 是否来自项目根目录 .venv。
+    如果用户误激活了其它虚拟环境，例如 knowledge_base/.venv，则通过 os.execv 重新使用根目录 .venv/bin/python 启动当前脚本。
+    这样可以避免已安装依赖不一致导致的 ModuleNotFoundError。
+
+模块加载时先执行 _use_project_virtualenv()，然后导入 nl2stl_app.cli.main。
+
+
+五、src/nl2stl_app/config.py
+---------------------------
+
+常量 ROOT
+    项目根目录。
+
+常量 KNOWLEDGE_DIR
+    knowledge_base 目录。
+
+异常 ConfigurationError
+    配置文件、环境变量或模板无效时抛出。
+
+数据类 Settings
+    保存 ChatAnywhere、Tavily、超时和重试配置。
+
+Settings.load()
+    读取 src/.env。
+    必需项是 OPENAI_API_KEY 和 OPENAI_BASE_URL。
+    可选项包括 TAVILY_API_KEY、OPENAI_MODEL、REQUEST_TIMEOUT_SECONDS、MAX_LLM_ATTEMPTS 和 MAX_AST_REPAIRS。
+
+类 RuntimeCatalog
+    统一加载 prompt.json 和 data_formats.json。
+
+RuntimeCatalog.__init__()
+    读取提示词和格式文件，并立即做启动校验。
+
+RuntimeCatalog._load_json(path)
+    读取 JSON；文件不存在或 JSON 无效时转换为 ConfigurationError。
+
+RuntimeCatalog.prompt(prompt_id, **values)
+    按 ID 获取 system/user 模板，检查变量是否齐全，然后格式化提示词。
+
+RuntimeCatalog.schema(format_id)
+    获取指定中间格式的 JSON Schema。
+
+RuntimeCatalog.validate(format_id, value)
+    用 Draft 2020-12 Validator 校验中间数据，返回错误列表。
+
+RuntimeCatalog._validate_catalog()
+    检查 prompt.json 与 data_formats.json 版本一致、提示词只有 system/user、模板语法正确、所有 JSON Schema 合法。
+
+RuntimeCatalog._fields(template)
+    提取字符串模板中的变量名。
+
+
+六、src/nl2stl_app/knowledge.py
+------------------------------
+
+类 KnowledgeBase
+    提供分层信号知识、STL 算子和 AST Schema。
+
+KnowledgeBase.__init__()
+    加载 signals_index.json、signals_explain.txt、stl_operators.md 和 ast_schema.txt，并检查索引与详细知识一致。
+
+KnowledgeBase._load_json(path)
+    读取 JSON 文件。
+
+KnowledgeBase.compact_index()
+    返回无多余空白的信号索引字符串，减少 LLM token 消耗。
+
+KnowledgeBase.signal_details(domain, scenes, names)
+    只返回选中领域、场景和信号的详细定义。
+
+KnowledgeBase.all_signal_names()
+    返回知识库全部合法信号名，用于 AST 验证。
+
+KnowledgeBase.validate_selection(selection)
+    验证 LLM 选择的领域、场景和信号确实存在。
+
+KnowledgeBase._validate_index()
+    启动时比较简短索引和详细知识，防止索引遗漏或虚构信号。
+
+
+七、src/nl2stl_app/services.py
+-----------------------------
+
+异常 ExternalServiceError
+    外部模型连续失败达到上限时抛出。
+
+类 StructuredLLM
+    封装 ChatAnywhere 的 LangChain ChatOpenAI 调用、结构化输出、JSON Schema 验证和有限重试。
+
+StructuredLLM.__init__(settings, catalog, progress)
+    建立 httpx 客户端和 ChatOpenAI。
+    http_socket_options=() 用于保留代理自动检测行为。
+    progress 是实时步骤回调。
+
+StructuredLLM.invoke(prompt_id, format_id, output_schema, **values)
+    从 RuntimeCatalog 读取提示词和 Schema。
+    调用模型后验证结果必须是 dict 且符合 Schema。
+    网络错误、JSON 错误或 Schema 错误会有限重试，并通过 progress 显示重试进度。
+
+StructuredLLM._structured_call(system, user, schema)
+    对支持原生 JSON Schema 的端点优先使用 with_structured_output。
+    ChatAnywhere 等兼容网关使用“只输出 JSON”的文本回退模式。
+
+类 TavilyService
+    封装 LangChain 的 TavilySearch。
+
+TavilyService.__init__(settings, catalog, progress)
+    没有 TAVILY_API_KEY 时标记为不可用，系统仍可降级运行。
+
+TavilyService.search(query)
+    执行搜索并规范化为 title/url/content。
+    网络或格式错误时返回空列表，让工作流继续使用本地知识和 LLM 候选。
+
+函数 _extract_json_object(text)
+    从兼容网关返回的文本中解析第一个 JSON 对象。
+
+
+八、src/nl2stl_app/graph.py
+--------------------------
+
+类型 GraphState
+    LangGraph 的会话状态定义。
+
+关键字段：
+    original_text：原始 NL。
+    signal_selection/signal_details/signal_context：信号检索结果。
+    global_semantics：当前唯一有效的完整语义。
+    semantic_history：已被替换的旧语义快照，只用于追踪，不参与生成。
+    current_ambiguity：当前页面优先显示的问题。
+    candidates：当前候选。
+    user_update：本轮用户输入。
+    proposed_revision：LLM 拟定的完整语义修订。
+    ast/stl：生成结果。
+    validation_errors/ast_repairs：修复循环状态。
+
+函数 build_graph(...)
+    创建所有服务、定义节点和路由，然后编译带 InMemorySaver 的 LangGraph。
+    progress 参数连接 TerminalUI.update_step。
+
+节点 select_signals(state)
+    读取 signals_index.json 的简短索引，让 LLM 选择领域、场景和候选信号。
+    使用 KnowledgeBase.validate_selection 做确定性验证。
+    只加载选中信号的详细信息。
+
+节点 initialize_semantics(state)
+    调用 initialize_global_semantics Agent，把原始 NL 建立为 revision=0 的完整全局语义。
+    无法确定的内容必须进入 ambiguities，不能猜测。
+
+节点 review_semantics(state)
+    对当前完整语义重新复核。
+    重新计算 items、ambiguities、mappings 和 is_clear。
+    它可以修正内容，但不能伪造一次用户修订版本。
+
+路由 route_after_review(state)
+    有模糊点时进入 prepare_candidates；否则进入 generate_ast。
+
+节点 prepare_candidates(state)
+    按以下优先级准备候选：
+    1. 本地知识库。
+    2. Tavily 搜索。
+    3. 明确标注的 LLM 工程推断。
+
+    每轮经过 rule_filter_candidates 的确定性来源、数值证据和重复检查，再调用 review_candidates Agent 做语义审核。
+    最终保留 2～3 个实质不同候选。
+
+节点 clarify(state)
+    调用 LangGraph interrupt 暂停。
+    页面虽然显示一个优先模糊点，但用户输入可以修改全局语义中的其它相关内容。
+    _resolve_choice 会把 A/B/数字/候选 ID/候选原文转换为对应候选，其它内容按自由输入处理。
+
+节点 revise_semantics(state)
+    调用 revise_global_semantics Agent。
+    输入是原始 NL、当前完整语义、本轮用户输入、当前问题和候选信息。
+    输出不是一条澄清记录，而是一份完整 revised_semantics。
+    新版本 revision 自动加一，并再次通过 global_semantics Schema 校验。
+
+节点 validate_revision(state)
+    调用独立 validate_semantic_revision Agent。
+    检查修订是否真实反映用户最新意图、是否相关、是否误删其它语义、是否引入未确认内容。
+    用户明确推翻旧结论是合法行为，不能因为新旧不同而拒绝。
+    验证成功后，把旧状态放入 semantic_history，并原子替换 global_semantics。
+
+路由 route_after_revision(state)
+    修订无效时回到 clarify，并显示最小反馈；成功时回到 review_semantics，重新计算全部模糊点。
+
+节点 generate_ast(state)
+    只把当前 global_semantics 作为语义来源生成 AST。
+    semantic_history 中的旧结论不会传给 AST 生成 Agent。
+
+节点 validate_generated_ast(state)
+    调用 validation.validate_ast 检查 Schema、知识库信号和时间区间。
+    调用 validate_ast_against_semantics 检查 AST 没有使用当前全局语义未声明的信号。
+    然后用 STLJSONToStringConverter 做一次预转换。
+
+路由 route_after_ast_validation(state)
+    通过则进入 semantic_review。
+    未通过且还有修复次数则进入 repair_ast，否则 fail。
+
+节点 repair_ast(state)
+    把 AST、错误和当前全局语义交给 repair_ast Agent。
+    Agent 只能修结构错误，不能新增语义条件。
+
+节点 semantic_review(state)
+    对照当前 global_semantics 检查 AST/STL 是否遗漏或擅自增加语义。
+
+路由 route_after_semantic_review(state)
+    通过则 finalize；失败则按修复次数进入 repair_ast 或 fail。
+
+节点 finalize(state)
+    原子写入 tmp/<session_id>/ast.json。
+    使用子进程执行 src/validate_ast.py 和 src/ast2stl.py。
+    两个脚本都成功后构造 final_result 并再次做 Schema 校验。
+
+节点 fail(state)
+    结束流程并保留验证错误。
+
+函数 initial_state(text, session_id)
+    创建新会话初始状态。默认生成 12 位随机 session_id。
+
+函数 _signal_context(domain, details)
+    把选中的详细信号整理为含来源 ID 的模型上下文。
+
+函数 _local_source_evidence(selection, details, operators)
+    建立来源 ID 到原始知识文本的映射，供候选证据验证。
+
+函数 _merge_candidates(first, second)
+    合并两批候选并复制对象。
+
+函数 _resolve_choice(answer, candidates)
+    支持字母、从 1 开始的数字、候选 ID 和候选完整文本。
+
+函数 _run_script(script, ast_path)
+    使用当前 Python 在项目根目录执行脚本，捕获退出码和输出，超时 30 秒。
+
+函数 _require_valid(catalog, format_id, value, label)
+    中间结果 Schema 无效时立即抛出带上下文的错误。
+
+
+九、全局语义的数据结构
+----------------------
+
+global_semantics 包含：
+
+revision
+    用户修订版本号。初始是 0，每次有效用户修订加一。
+
+summary
+    当前完整语义摘要。
+
+is_clear
+    当前是否没有待澄清问题。
+
+items
+    每个语义片段，包括 NL 片段、类型、规范化值、STL 片段、resolved/pending 状态和来源。
+
+ambiguities
+    当前所有未解决问题。页面只优先询问第一项，但用户不受该问题范围限制。
+
+mappings
+    NL 片段与 STL 片段的当前映射。
+
+semantic_history 保存旧版本，但旧版本不是有效约束。AST 生成和最终复核只读取当前 global_semantics。
+
+
+十、src/nl2stl_app/validation.py
+--------------------------------
+
+函数 json_text(value)
+    把 Python 对象格式化为中文可读 JSON，传给 Agent。
+
+函数 canonical_candidate(candidate)
+    统一空白、大小写、≤/≥ 和常见单位写法，用于候选去重。
+
+函数 rule_filter_candidates(candidates, valid_local_sources, valid_urls)
+    确定性检查：
+    - 必须有直接数值、比较式或公式。
+    - 不能与已有候选语义重复。
+    - 知识库来源必须存在。
+    - 搜索来源 URL 必须来自本轮 Tavily 结果。
+    - 候选数值必须出现在所引用证据中。
+    - LLM 推断必须明确标注。
+
+函数 _matching_evidence(reference, evidence)
+    获取精确来源或带锚点来源的证据文本。
+
+函数 _numbers_supported(value, evidence)
+    比较候选中的数值集合是否被证据包含。
+
+函数 validate_ast(ast, knowledge)
+    执行 AST JSON Schema 验证、知识库未知信号检查和时间区间上下界检查。
+
+函数 validate_ast_against_semantics(ast, global_semantics, knowledge)
+    从当前 resolved items/mappings 中提取允许信号，再遍历 AST 信号。
+    如果 AST 引入全局语义没有声明的 parking_mode 等信号，则拒绝并进入修复循环。
+
+函数 _known_identifiers(text, known)
+    从文本中提取标识符，并与知识库信号集合取交集。
+
+函数 atomic_write_json(path, data)
+    先写同目录 .tmp 文件，再 replace 到目标路径，避免产生半截 AST。
+
+
+十一、src/nl2stl_app/converter.py
+--------------------------------
+
+类 STLJSONToStringConverter
+    AST 到 STL 的唯一转换实现，同时被图内部预验证和 src/ast2stl.py 使用。
+
+convert(data)
+    从根节点开始渲染，返回紧凑 STL。
+
+_render_formula(node)
+    按 nodeType 分发 predicate、boolean、temporal、pastTemporal、edge 和 statistical。
+
+_render_expression(expr)
+    渲染信号、常量、参数和算术表达式。
+    根据加减乘除优先级，只保留改变结合关系所需的括号。
+
+_render_predicate(node)
+    输出 ego_speed < 5 形式，不添加无意义外层括号。
+
+_render_boolean(node)
+    渲染 not/and/or/implies/iff。
+    按逻辑优先级决定子表达式是否需要括号。
+
+_render_temporal(node)
+    渲染 always/eventually/until/weak_until/release。
+
+_render_past_temporal(node)
+    渲染 historically/once/since。
+
+_render_binary_temporal(operands, operator)
+    处理二元时序算子的结合和必要括号。
+
+_render_edge(node)
+    渲染 rise/fall/peak 等边沿函数。
+
+_render_statistical(node)
+    渲染统计算子、区间和阈值。
+
+_render_interval(interval)
+    渲染开闭区间；[0, inf) 省略为无界算子形式。
+
+括号精简是确定性算法，不调用 LLM，因此不会借“精简”改变公式内容。
+
+
+十二、src/nl2stl_app/ui.py
+-------------------------
+
+类 TerminalUI
+    管理简洁终端页面和实时步骤状态。
+
+TerminalUI.__init__()
+    判断是否是交互终端，初始化线程锁、停止事件和当前步骤。
+
+update_step(message)
+    接收图节点和服务的状态回调。
+    交互终端在同一行显示“当前步骤”和耗时；非交互环境逐行输出阶段变化。
+
+clear_step()
+    停止刷新线程并清理状态行。
+
+close()
+    程序退出前清理实时状态。
+
+clear()
+    先停止步骤行，再清空交互终端页面。
+
+render_interrupt(payload)
+    只显示当前澄清页：未澄清、当前全局语义已确认项、NL/STL 映射、简洁候选和自定义输入。
+    不展示过往交互历史。
+
+render_result(state)
+    显示最终全局语义、映射、STL、AST 路径和脚本验证结果。
+
+_refresh_step()
+    后台定时刷新耗时。
+
+_write_step()
+    在当前终端行写步骤文本。
+
+函数 _compact(value, limit)
+    只保留候选解释首句并限制长度，避免页面啰嗦。
+
+
+十三、src/nl2stl_app/cli.py
+--------------------------
+
+函数 parse_args()
+    解析可选自然语言位置参数。
+
+函数 run()
+    没有参数时读取交互输入。
+    创建 UI 和带进度回调的图。
+    调用 graph.invoke；遇到 interrupt 时展示澄清页，再用 Command(resume=answer) 恢复。
+    最终展示结果，并在 finally 中关闭状态刷新线程。
+
+函数 main()
+    把 KeyboardInterrupt、EOFError 和其它异常转换为简洁命令行错误。
+
+
+十四、独立脚本
+--------------
+
+src/validate_ast.py
+
+load_schema()
+    从 knowledge_base/ast_schema.txt 中提取 JSON Schema。
+
+validate(data)
+    使用 Draft202012Validator 返回全部 Schema 错误。
+
+main()
+    接收 JSON 文件路径或 JSON 字符串；有效返回码 0，无效返回码 1。
+
+src/ast2stl.py
+
+main()
+    接收 JSON 文件路径或 JSON 字符串，调用 STLJSONToStringConverter 输出公式。
+    它不是另一套转换逻辑，因此最终脚本输出和应用内部预转换一致。
+
+
+十五、知识库配置文件
+--------------------
+
+prompt.json 当前 Agent：
+    select_signals
+    initialize_global_semantics
+    review_global_semantics
+    revise_global_semantics
+    validate_semantic_revision
+    generate_candidates_local
+    build_search_query
+    generate_candidates_web
+    generate_candidates_inference
+    review_candidates
+    generate_ast
+    repair_ast
+    semantic_review
+
+data_formats.json 的主要格式：
+    signal_selection
+    global_semantics
+    semantic_revision
+    semantic_revision_review
+    candidate_set
+    search_query
+    candidate_review
+    semantic_review
+    search_results
+    graph_state
+    final_result
+
+
+十六、一次典型运行
+------------------
+
+输入：
+    在整个泊车过程中，自车应始终保持低速
+
+1. select_signals 选择 Parking 场景和 ego_speed 等可能信号。
+2. initialize_semantics 识别“始终”和 ego_speed，但把“低速阈值”设为 pending。
+3. review_semantics 确认该模糊点。
+4. prepare_candidates 给出简洁候选。
+5. 用户可以输入“ego_speed <= 5 km/h”，也可以输入更广泛的修订，例如“改为仅在 parking_mode == 1 时，ego_speed < 3 km/h”。
+6. revise_semantics 根据整段输入生成完整新状态。
+7. validate_revision 验证后替换旧状态。
+8. review_semantics 重新计算全部模糊点，而不是机械进入下一个旧问题。
+9. 语义清晰后生成 AST。
+10. 本地验证阻止 AST 添加当前全局语义没有声明的信号。
+11. 脚本验证并输出紧凑 STL，例如：
+    always (parking_mode == 1 -> ego_speed < 3)
+
+
+十七、测试
+----------
+
+运行：
+    .venv/bin/python -m pytest -q
+
+tests/test_graph.py
+    覆盖明确需求、澄清中断/恢复、无效自由输入、整体语义推翻、候选审核回退、实时步骤回调和最终脚本调用。
+
+tests/test_validation.py
+    覆盖候选重复、来源数值证据和 AST 越过全局语义信号边界。
+
+tests/test_converter.py
+    覆盖 STL 冗余括号删除和算术必要括号保留。

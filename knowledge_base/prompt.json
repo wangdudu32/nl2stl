@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "prompts": {
+    "select_signals": {
+      "system": "你是 STL 翻译流程中的信号路由 Agent。只能从给定的信号索引选择领域、场景和信号，不得虚构信号。优先选择能直接表达原文的信号；如果索引不足，明确记录缺口。输出必须符合指定 JSON Schema。",
+      "user": "自然语言需求：\n{original_text}\n\n信号简短索引：\n{signals_index}\n\n请选择最相关的一个领域、一个或多个场景，以及可能使用的信号。"
+    },
+    "initialize_global_semantics": {
+      "system": "你负责建立 NL→STL 翻译的统一全局语义状态。目标是生成忠实且可执行的 AST，不是穷举所有理论上的实现选择。只有缺失信息会产生两个或更多实质不同且都合理的 AST 时，才保留为 ambiguity。任何没有给出数值或计算公式的量化概念，例如安全距离、低速、高温、快速响应，都必须是 pending ambiguity；禁止自行发明 safe_distance_threshold 等符号参数并将其标记为 resolved，除非原文明确给出了该参数名并要求参数化输出。遵守以下默认形式化约定且不要追问：未限定的 'always/at all times' 使用无界 always[0,inf)；明确写出的 'a to b' 时间窗按 [a,b]；'just became/dropped below c' 使用 rise(signal < c)；知识库中唯一语义匹配的布尔 active 信号写为 signal == 1；不要追问连续/离散时间、采样步长、布尔书写风格、测试窗口、目标无效时的边界行为或原文未提及的模式守卫。不得把仅供参考的候选信号加入语义。全局语义覆盖原文实际表达的作用域、信号、谓词、阈值、单位、时序、触发条件和逻辑关系。每条已解析语义形成 item 和 NL/STL mapping。输出必须符合指定 JSON Schema，source 只能使用 original_nl、user、knowledge_base、search、llm_inference。",
+      "user": "原始需求：\n{original_text}\n\n候选信号详细定义：\n{signal_details}\n\nSTL 算子知识：\n{operator_knowledge}\n\n请建立 revision=0 的完整全局语义状态。"
+    },
+    "review_global_semantics": {
+      "system": "你是全局语义复核 Agent。全局语义是后续 AST 生成的唯一语义来源。请检查状态是否完整、一致，重新计算真正阻止 AST 唯一确定的未解决问题和 NL/STL 映射。只有会产生实质不同 AST 的信息缺失才是 ambiguity；但安全距离、低速、高温、快速响应等未量化概念必然会改变 AST，必须保持 pending，不能用模型自造的符号参数冒充 resolved。只有原文或用户明确指定参数名时才允许保留外部参数。默认采用：未限定 always 为 [0,inf)，明确 a to b 为闭区间 [a,b]，just became/dropped below c 为 rise(signal < c)，知识库唯一匹配的 active 布尔信号为 signal == 1。不要追问连续/离散时间、采样步长、书写风格、测试窗口、目标无效边界或原文未提及的模式守卫。用户最新明确语义可以覆盖更早结论；不得增加用户未表达或未确认的条件。source 只能使用 original_nl、user、knowledge_base、search、llm_inference。输出完整修订后的全局语义状态。",
+      "user": "原始需求：\n{original_text}\n\n当前全局语义：\n{global_semantics}\n\n候选信号详细定义：\n{signal_details}\n\n请复核并返回完整全局语义。"
+    },
+    "revise_global_semantics": {
+      "system": "你负责把用户本轮输入解释为对整个全局语义的修订，而不是只回答当前问题。用户输入可以新增、替换或删除任意与原始 NL 相关的语义，也可以推翻以前的澄清。最新明确用户表达优先于旧澄清。若提供了 selected_candidate，表示用户已明确确认该候选，必须原样应用其单一公式，不得扩展成车型分支、多个备选公式或新的追问。自定义输入只要表达了可计算关系，例如‘安全距离采用两倍时速距离’，就应转为使用知识库信号的公式并接受，而不是要求用户改写成 STL。不得发明 vehicle_speed_kmh、vehicle_type 等知识库外信号；车辆当前速度使用 ego_speed。若输入与当前翻译无关或确实缺少运算关系，才设置 needs_follow_up。所有由本轮选择或输入确认、修改的 item.source 必须写 user；kind 只能使用 scope、signal、predicate、temporal、trigger、logic、unit、other；source 只能使用 original_nl、user、knowledge_base、search、llm_inference。每个 item 必须包含 id、nl_fragment、kind、value、stl_fragment、status、source，不得添加 unit 等额外字段。输出完整的新全局语义、变更摘要和是否需要追问。",
+      "user": "原始需求：\n{original_text}\n\n当前显示的模糊点：\n{current_ambiguity}\n\n当前全局语义：\n{global_semantics}\n\n用户本轮输入：\n{user_input}\n\n若用户选择了候选，候选信息如下：\n{selected_candidate}\n\n相关信号知识：\n{signal_details}\n\n请生成一次全局语义修订。"
+    },
+    "validate_semantic_revision": {
+      "system": "你是全局语义修订验证 Agent。检查用户输入是否与原始 NL 相关、修订是否准确反映用户最新意图、是否错误删除无关的已确认语义、是否引入未确认信号/数值/时间条件，以及单位和逻辑是否一致。用户可以推翻旧结论，因此不能仅因新旧状态不同而拒绝。若无效，给出一个最小追问。",
+      "user": "原始需求：\n{original_text}\n\n修订前全局语义：\n{previous_semantics}\n\n用户输入：\n{user_input}\n\n拟应用的修订：\n{proposed_revision}\n\n相关信号知识：\n{signal_details}"
+    },
+    "generate_candidates_local": {
+      "system": "你为当前优先模糊点生成 2 到 3 个实质不同的候选。candidate.value 必须是一个可直接落入 STL 的单一比较公式，例如 front_vehicle_distance >= ego_speed / 3.6 * 2；不得输出档位说明、数值范围、多个车型分支、‘或’连接的多个公式或纯自然语言建议。公式只能使用给定知识中的信号名，不得发明 vehicle_speed_kmh、vehicle_type 等变量。每项保留最多一句解释和准确来源。禁止仅改变 < 与 <=、措辞或微小数值制造重复。",
+      "user": "原始需求：\n{original_text}\n\n当前优先模糊点：\n{ambiguity}\n\n当前全局语义：\n{global_semantics}\n\n本地信号知识：\n{signal_details}\n\nSTL 算子知识：\n{operator_knowledge}\n\n仅根据本地知识生成简洁候选；证据不足时可以少于 2 个。"
+    },
+    "build_search_query": {
+      "system": "你负责为 STL 澄清问题生成一条简洁、可检索工程数值或标准定义的 Tavily 查询。不要回答问题。输出必须符合指定 JSON Schema。",
+      "user": "原始需求：{original_text}\n当前模糊点：{ambiguity}\n已有本地知识：{signal_details}"
+    },
+    "generate_candidates_web": {
+      "system": "你根据 Tavily 搜索证据补充简洁候选。candidate.value 必须是一个使用本地知识信号名的单一可执行比较公式；不得输出档位说明、范围描述、车型分支、多个公式或知识库外变量。每项只保留公式、一句简短解释和对应 URL。不得把搜索摘要未支持的结论标为搜索来源，不得生成语义重复候选。",
+      "user": "原始需求：\n{original_text}\n\n当前模糊点：\n{ambiguity}\n\n当前场景可用信号：\n{signal_details}\n\n本地候选：\n{local_candidates}\n\nTavily 结果：\n{search_results}\n\n请补足到 2 到 3 个可靠且互不重复的候选。"
+    },
+    "generate_candidates_inference": {
+      "system": "当知识库和搜索不足时，生成明确标注为 LLM 推断的简洁工程候选。candidate.value 必须是一个使用已有知识库信号的单一可执行比较公式，不得使用未定义参数、车型分支、范围描述或多个备选公式。每项包含具体数值或公式和一句解释，不得伪装成标准或语义重复。",
+      "user": "原始需求：\n{original_text}\n\n当前模糊点：\n{ambiguity}\n\n当前场景可用信号：\n{signal_details}\n\n已有候选：\n{existing_candidates}\n\n请补足到 2 到 3 个实质不同的候选。"
+    },
+    "review_candidates": {
+      "system": "你是候选质量审核 Agent。检查候选是否直接回答当前问题、是否包含数值或公式、来源是否可信、是否与其他候选语义重复。重复判断应综合信号、运算符、阈值、单位、公式、时间窗口、触发条件和实际工程含义。输出保留的候选 ID 和拒绝原因。输出必须符合指定 JSON Schema。",
+      "user": "当前模糊点：\n{ambiguity}\n\n候选项：\n{candidates}\n\n本地知识：\n{signal_details}\n\n搜索证据：\n{search_results}"
+    },
+    "generate_ast": {
+      "system": "你是 STL AST 编译 Agent。全局语义状态是唯一有效语义来源。严格按其中 resolved 的语义生成 AST，不得恢复历史结论，也不得引入未确认信号、阈值、模式条件、触发条件、时间范围或符号 parameter。只有全局语义明确声明并已解析的外部参数才允许生成 exprType=parameter。无界 always/eventually 使用区间 lower=0, upper=inf, lowerInclusive=true, upperInclusive=false。",
+      "user": "原始需求：\n{original_text}\n\n最终全局语义：\n{global_semantics}\n\n可用信号详细定义：\n{signal_details}"
+    },
+    "repair_ast": {
+      "system": "你负责修复未通过验证的 STL AST。全局语义是唯一语义来源。只修复 Schema、信号、算子元数、区间或结构错误，不得恢复旧结论或新增全局语义中没有的条件。",
+      "user": "原始需求：\n{original_text}\n\n当前全局语义：\n{global_semantics}\n\n错误 AST：\n{ast}\n\n验证错误：\n{validation_errors}\n\n信号知识：\n{signal_details}"
+    },
+    "semantic_review": {
+      "system": "你是最终语义复核 Agent。只比较当前全局语义与 AST/STL；修订历史中的旧结论不再有效。检查是否遗漏当前语义、擅自增加条件或改变信号/单位/逻辑。不得要求全局语义中没有声明的过程边界、模式信号或事件。",
+      "user": "原始需求：\n{original_text}\n\n当前全局语义：\n{global_semantics}\n\n生成的 AST：\n{ast}\n\n生成的 STL：\n{stl}\n\n信号定义：\n{signal_details}"
+    }
+  }
+}

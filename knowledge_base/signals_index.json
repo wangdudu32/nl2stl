@@ -1,0 +1,472 @@
+{
+  "version": "1.0",
+  "source": "signals_explain.txt",
+  "domains": {
+    "Autonomous_Driving": {
+      "AEB": {
+        "signals": {
+          "ego_speed": {
+            "description": "AEB 场景中的自车速度",
+            "unit_or_range": "单位 km/h"
+          },
+          "longitudinal_acceleration": {
+            "description": "AEB 场景中的有符号纵向加速度",
+            "unit_or_range": "单位 m/s^2"
+          },
+          "front_obstacle_distance": {
+            "description": "自车与前方一般障碍物之间的距离",
+            "unit_or_range": "单位 m"
+          },
+          "front_vehicle_speed": {
+            "description": "AEB 选定目标前车的纵向速度",
+            "unit_or_range": "单位 km/h"
+          },
+          "front_vehicle_distance": {
+            "description": "自车与前车之间的纵向距离",
+            "unit_or_range": "单位 m"
+          },
+          "front_vehicle_closing_speed": {
+            "description": "自车相对目标前车的纵向闭合速度",
+            "unit_or_range": "单位 km/h"
+          },
+          "ttc": {
+            "description": "目标前车的纵向碰撞时间 Time-To-Collision",
+            "unit_or_range": "单位 s"
+          },
+          "collision_risk": {
+            "description": "AEB 风险评估模块针对当前选定目标直接输出的归一化碰撞风险",
+            "unit_or_range": "无量纲，范围 [0,1]，0 表示最低风险、1 表示最高风险"
+          },
+          "brake_active": {
+            "description": "AEB 是否发出或维持制动动作",
+            "unit_or_range": "取值 0/1"
+          },
+          "aeb_active": {
+            "description": "AEB 是否正在介入车辆控制",
+            "unit_or_range": "取值 0/1"
+          },
+          "collision_warning": {
+            "description": "系统是否发出碰撞预警",
+            "unit_or_range": "取值 0/1"
+          }
+        }
+      },
+      "ACC": {
+        "signals": {
+          "ego_speed": {
+            "description": "ACC 场景中的自车实际速度",
+            "unit_or_range": "单位 km/h"
+          },
+          "longitudinal_acceleration": {
+            "description": "ACC 场景中的有符号纵向加速度",
+            "unit_or_range": "单位 m/s^2"
+          },
+          "driver_override": {
+            "description": "ACC 控制期间驾驶员是否已接管或覆盖自动控制",
+            "unit_or_range": "取值 0/1"
+          },
+          "target_speed": {
+            "description": "驾驶员或系统设定的巡航目标速度",
+            "unit_or_range": "单位 km/h"
+          },
+          "front_vehicle_speed": {
+            "description": "前车实际速度",
+            "unit_or_range": "单位 km/h"
+          },
+          "front_vehicle_distance": {
+            "description": "自车与前车之间的纵向距离",
+            "unit_or_range": "单位 m"
+          },
+          "front_vehicle_closing_speed": {
+            "description": "自车相对目标前车的纵向闭合速度",
+            "unit_or_range": "单位 km/h"
+          },
+          "headway_time": {
+            "description": "自车到目标前车的时间车头时距",
+            "unit_or_range": "单位 s"
+          },
+          "throttle_command_pct": {
+            "description": "ACC 请求的油门开度百分比",
+            "unit_or_range": "单位 %，取值范围 [0,100]"
+          },
+          "brake_active": {
+            "description": "ACC 是否请求制动",
+            "unit_or_range": "取值 0/1"
+          },
+          "acc_active": {
+            "description": "ACC 是否正在执行巡航或跟车控制",
+            "unit_or_range": "取值 0/1"
+          }
+        }
+      },
+      "Lane_Keeping": {
+        "signals": {
+          "lane_offset": {
+            "description": "车辆中心相对于车道中心的横向偏移",
+            "unit_or_range": "单位 m"
+          },
+          "yaw_rate": {
+            "description": "车道保持场景中的车辆横摆角速度",
+            "unit_or_range": "单位 degree/s"
+          },
+          "heading_error": {
+            "description": "车辆航向与当前车道方向之间的角度偏差",
+            "unit_or_range": "单位 degree，不等同于绝对航向角 heading_angle"
+          },
+          "driver_override": {
+            "description": "车道保持控制期间驾驶员是否已接管或覆盖自动转向控制",
+            "unit_or_range": "取值 0/1"
+          },
+          "lane_detected": {
+            "description": "感知系统是否检测到有效车道线",
+            "unit_or_range": "取值 0/1"
+          },
+          "steering_wheel_angle": {
+            "description": "车道保持控制使用的方向盘转角",
+            "unit_or_range": "单位 degree"
+          },
+          "steering_rate": {
+            "description": "车道保持控制中的方向盘转角变化率",
+            "unit_or_range": "单位 degree/s"
+          },
+          "lane_departure_warning": {
+            "description": "系统是否发出车道偏离预警",
+            "unit_or_range": "取值 0/1"
+          },
+          "lkas_active": {
+            "description": "车道保持系统是否正在执行控制",
+            "unit_or_range": "取值 0/1"
+          }
+        }
+      },
+      "Parking": {
+        "signals": {
+          "ego_speed": {
+            "description": "泊车过程中的自车速度",
+            "unit_or_range": "单位 km/h"
+          },
+          "driver_override": {
+            "description": "自动或辅助泊车期间驾驶员是否已接管或覆盖泊车控制",
+            "unit_or_range": "取值 0/1"
+          },
+          "parking_slot_detected": {
+            "description": "感知系统是否检测到并选定可用车位",
+            "unit_or_range": "取值 0/1"
+          },
+          "parking_slot_distance": {
+            "description": "车辆与目标车位参考点或入口之间的距离",
+            "unit_or_range": "单位 m"
+          },
+          "front_obstacle_distance": {
+            "description": "车辆与前方最近障碍物之间的距离",
+            "unit_or_range": "单位 m"
+          },
+          "rear_obstacle_distance": {
+            "description": "车辆与后方最近障碍物之间的距离",
+            "unit_or_range": "单位 m"
+          },
+          "left_obstacle_distance": {
+            "description": "车辆与左侧最近障碍物之间的距离",
+            "unit_or_range": "单位 m"
+          },
+          "right_obstacle_distance": {
+            "description": "车辆与右侧最近障碍物之间的距离",
+            "unit_or_range": "单位 m"
+          },
+          "vehicle_position_error": {
+            "description": "车辆当前位姿与目标泊车位姿之间的位置误差",
+            "unit_or_range": "单位 m"
+          },
+          "collision_risk": {
+            "description": "泊车过程中的归一化碰撞风险",
+            "unit_or_range": "无量纲，范围 [0,1]"
+          },
+          "steering_wheel_angle": {
+            "description": "泊车控制使用的方向盘转角",
+            "unit_or_range": "单位 degree"
+          },
+          "brake_active": {
+            "description": "泊车系统是否请求制动",
+            "unit_or_range": "取值 0/1"
+          },
+          "throttle_command_pct": {
+            "description": "泊车过程中的油门请求百分比",
+            "unit_or_range": "单位 %，取值范围 [0,100]"
+          },
+          "reverse_gear_active": {
+            "description": "车辆当前是否处于倒车挡",
+            "unit_or_range": "取值 0/1"
+          },
+          "parking_mode": {
+            "description": "车辆是否处于自动或辅助泊车模式",
+            "unit_or_range": "取值 0/1"
+          },
+          "parking_completed_event": {
+            "description": "泊车完成事件",
+            "unit_or_range": "布尔单采样脉冲信号；取值 0/1"
+          }
+        }
+      },
+      "Traction_Control": {
+        "signals": {
+          "ego_speed": {
+            "description": "牵引力控制场景中的自车速度",
+            "unit_or_range": "单位 km/h"
+          },
+          "driver_override": {
+            "description": "牵引力控制期间驾驶员是否已接管或覆盖自动控制请求",
+            "unit_or_range": "取值 0/1"
+          },
+          "road_friction": {
+            "description": "路面附着系数",
+            "unit_or_range": "无量纲，通常取值范围 [0,1]"
+          },
+          "slip_ratio": {
+            "description": "车辆驱动轮的代表性纵向滑移率",
+            "unit_or_range": "无量纲"
+          },
+          "traction_loss": {
+            "description": "车辆当前是否已失去有效牵引力",
+            "unit_or_range": "取值 0/1"
+          },
+          "throttle_command_pct": {
+            "description": "牵引力控制期间的油门请求百分比",
+            "unit_or_range": "单位 %，取值范围 [0,100]"
+          },
+          "engine_torque": {
+            "description": "发动机输出或控制系统请求的扭矩",
+            "unit_or_range": "单位 N*m"
+          },
+          "brake_active": {
+            "description": "牵引力控制系统是否请求车轮制动",
+            "unit_or_range": "取值 0/1"
+          },
+          "tcs_active": {
+            "description": "牵引力控制系统是否正在介入",
+            "unit_or_range": "取值 0/1"
+          }
+        }
+      },
+      "Traffic_Light": {
+        "signals": {
+          "ego_speed": {
+            "description": "交通灯场景中的自车速度",
+            "unit_or_range": "单位 km/h"
+          },
+          "longitudinal_acceleration": {
+            "description": "交通灯场景中的有符号纵向加速度",
+            "unit_or_range": "单位 m/s^2"
+          },
+          "traffic_light_red": {
+            "description": "与自车当前行驶路径关联的有效交通灯是否为红灯",
+            "unit_or_range": "取值 0/1"
+          },
+          "traffic_light_yellow": {
+            "description": "与自车当前行驶路径关联的有效交通灯是否为黄灯",
+            "unit_or_range": "取值 0/1"
+          },
+          "traffic_light_green": {
+            "description": "与自车当前行驶路径关联的有效交通灯是否为绿灯",
+            "unit_or_range": "取值 0/1"
+          },
+          "traffic_light_detected": {
+            "description": "当前是否检测并关联到有效交通灯",
+            "unit_or_range": "取值 0/1"
+          },
+          "stop_line_distance": {
+            "description": "自车参考点到当前路径停车线的有符号沿路径纵向距离",
+            "unit_or_range": "单位 m"
+          },
+          "time_to_stop_line": {
+            "description": "在当前纵向速度保持不变假设下到达停车线的时间",
+            "unit_or_range": "单位 s"
+          },
+          "brake_active": {
+            "description": "车辆是否因交通灯约束请求制动",
+            "unit_or_range": "取值 0/1"
+          },
+          "throttle_command_pct": {
+            "description": "交通灯场景中的油门请求百分比",
+            "unit_or_range": "单位 %，取值范围 [0,100]"
+          }
+        }
+      },
+      "Speed_Limit": {
+        "signals": {
+          "ego_speed": {
+            "description": "限速场景中的自车实际速度",
+            "unit_or_range": "单位 km/h"
+          },
+          "longitudinal_acceleration": {
+            "description": "限速场景中的有符号纵向加速度",
+            "unit_or_range": "单位 m/s^2"
+          },
+          "speed_limit": {
+            "description": "当前位置适用于自车的道路限速",
+            "unit_or_range": "单位 km/h"
+          },
+          "speed_limit_detected": {
+            "description": "当前是否从标志、地图或其他来源获得有效限速",
+            "unit_or_range": "取值 0/1"
+          },
+          "speeding_margin": {
+            "description": "自车速度减去当前限速的差值",
+            "unit_or_range": "单位 km/h"
+          },
+          "throttle_command_pct": {
+            "description": "限速控制中的油门请求百分比",
+            "unit_or_range": "单位 %，取值范围 [0,100]"
+          },
+          "overspeed_warning": {
+            "description": "系统是否发出超速警告",
+            "unit_or_range": "取值 0/1"
+          }
+        }
+      },
+      "Intersection": {
+        "signals": {
+          "ego_speed": {
+            "description": "路口场景中的自车速度",
+            "unit_or_range": "单位 km/h"
+          },
+          "longitudinal_acceleration": {
+            "description": "路口场景中的有符号纵向加速度",
+            "unit_or_range": "单位 m/s^2"
+          },
+          "intersection_detected": {
+            "description": "当前是否检测并关联到行驶路径上的有效路口",
+            "unit_or_range": "取值 0/1"
+          },
+          "intersection_distance": {
+            "description": "自车参考点到路口入口或关联冲突区域边界的有符号沿路径距离",
+            "unit_or_range": "单位 m"
+          },
+          "cross_traffic_distance": {
+            "description": "相关交叉方向交通参与者到其与自车路径冲突点的沿路径距离",
+            "unit_or_range": "单位 m"
+          },
+          "intersection_occupied": {
+            "description": "路口冲突区域是否被其他交通参与者占用",
+            "unit_or_range": "取值 0/1"
+          },
+          "right_of_way": {
+            "description": "自车当前计划动作是否依法具有优先通行权",
+            "unit_or_range": "取值 0/1"
+          },
+          "time_to_intersection": {
+            "description": "在当前纵向速度保持不变假设下到达路口入口或冲突区域边界的时间",
+            "unit_or_range": "单位 s"
+          },
+          "brake_active": {
+            "description": "车辆是否在路口场景中请求制动",
+            "unit_or_range": "取值 0/1"
+          },
+          "throttle_command_pct": {
+            "description": "路口场景中的油门请求百分比",
+            "unit_or_range": "单位 %，取值范围 [0,100]"
+          }
+        }
+      },
+      "Pedestrian_and_Cyclist": {
+        "signals": {
+          "ego_speed": {
+            "description": "行人和骑行者场景中的自车速度",
+            "unit_or_range": "单位 km/h"
+          },
+          "pedestrian_detected": {
+            "description": "是否检测到与自车路径相关的行人",
+            "unit_or_range": "取值 0/1"
+          },
+          "cyclist_detected": {
+            "description": "是否检测到与自车路径相关的骑行者",
+            "unit_or_range": "取值 0/1"
+          },
+          "pedestrian_distance": {
+            "description": "自车与相关行人之间的距离",
+            "unit_or_range": "单位 m"
+          },
+          "cyclist_distance": {
+            "description": "自车与相关骑行者之间的距离",
+            "unit_or_range": "单位 m"
+          },
+          "pedestrian_crossing": {
+            "description": "相关行人的当前或预测轨迹是否与自车规划路径相交",
+            "unit_or_range": "取值 0/1"
+          },
+          "cyclist_crossing": {
+            "description": "相关骑行者的当前或预测轨迹是否与自车规划路径相交",
+            "unit_or_range": "取值 0/1"
+          },
+          "vulnerable_road_user_risk": {
+            "description": "风险评估模块针对当前选定行人或骑行者直接输出的归一化碰撞风险",
+            "unit_or_range": "无量纲，范围 [0,1]，0 表示最低风险、1 表示最高风险"
+          },
+          "brake_active": {
+            "description": "车辆是否因行人或骑行者风险请求制动",
+            "unit_or_range": "取值 0/1"
+          },
+          "collision_warning": {
+            "description": "系统是否针对行人或骑行者风险发出碰撞预警",
+            "unit_or_range": "取值 0/1"
+          }
+        }
+      },
+      "Lane_Change": {
+        "signals": {
+          "ego_speed": {
+            "description": "变道场景中的自车速度",
+            "unit_or_range": "单位 km/h"
+          },
+          "target_lane_offset": {
+            "description": "车辆中心相对于目标车道中心线的有符号横向偏移",
+            "unit_or_range": "单位 m"
+          },
+          "yaw_rate": {
+            "description": "变道过程中的车辆横摆角速度",
+            "unit_or_range": "单位 degree/s"
+          },
+          "driver_override": {
+            "description": "变道控制期间驾驶员是否已接管或覆盖自动控制",
+            "unit_or_range": "取值 0/1"
+          },
+          "target_lane_available": {
+            "description": "目标侧是否存在允许自车驶入的车道",
+            "unit_or_range": "取值 0/1"
+          },
+          "target_lane_clear": {
+            "description": "目标车道前后安全区域内是否不存在阻碍变道的交通参与者",
+            "unit_or_range": "取值 0/1"
+          },
+          "blind_spot_occupied": {
+            "description": "目标侧盲区是否被其他车辆或道路参与者占用",
+            "unit_or_range": "取值 0/1"
+          },
+          "left_turn_signal_active": {
+            "description": "车辆左转向灯当前是否点亮",
+            "unit_or_range": "取值 0/1"
+          },
+          "right_turn_signal_active": {
+            "description": "车辆右转向灯当前是否点亮",
+            "unit_or_range": "取值 0/1"
+          },
+          "steering_wheel_angle": {
+            "description": "变道控制使用的方向盘转角",
+            "unit_or_range": "单位 degree"
+          },
+          "lane_change_requested": {
+            "description": "驾驶员或规划系统是否提出变道请求",
+            "unit_or_range": "取值 0/1"
+          },
+          "lane_change_active": {
+            "description": "车辆是否正在执行变道",
+            "unit_or_range": "取值 0/1"
+          },
+          "lane_change_completed_event": {
+            "description": "变道完成事件",
+            "unit_or_range": "布尔单采样脉冲信号；取值 0/1"
+          }
+        }
+      }
+    }
+  }
+}

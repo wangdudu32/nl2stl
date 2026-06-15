@@ -1,0 +1,1088 @@
+AST Schema 如下：
+{
+  "$id": "https://stl-json-schema.org/STL-EssentialWithPastAndEdges.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Essential STL Formula with Extended Temporal Operators and Edge Detectors",
+  "description": "Signal Temporal Logic (STL) JSON Schema supporting atomic predicates, boolean logic, future and past temporal operators, and edge/peak detectors (rise, fall, peak). Fully recursive and validator-safe.",
+  "$defs": {
+    "Formula": {
+      "description": "Any valid STL formula node",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/AtomicPredicate"
+        },
+        {
+          "$ref": "#/$defs/BooleanFormula"
+        },
+        {
+          "$ref": "#/$defs/TemporalFormula"
+        },
+        {
+          "$ref": "#/$defs/PastTemporalFormula"
+        },
+        {
+          "$ref": "#/$defs/EdgeFormula"
+        },
+        {
+          "$ref": "#/$defs/StatisticalFormula"
+        }
+      ]
+    },
+    "RealExpression": {
+      "description": "Real-valued signal expressions",
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "exprType": {
+              "const": "signal"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "exprType",
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "exprType": {
+              "const": "constant"
+            },
+            "value": {
+              "type": [
+                "number",
+                "string"
+              ]
+            }
+          },
+          "required": [
+            "exprType",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "exprType": {
+              "const": "parameter"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "unit": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "exprType",
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "exprType": {
+              "const": "binary"
+            },
+            "operator": {
+              "enum": [
+                "add",
+                "subtract",
+                "multiply",
+                "divide"
+              ]
+            },
+            "left": {
+              "$ref": "#/$defs/RealExpression"
+            },
+            "right": {
+              "$ref": "#/$defs/RealExpression"
+            }
+          },
+          "required": [
+            "exprType",
+            "operator",
+            "left",
+            "right"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "examples": [
+        {
+          "exprType": "signal",
+          "name": "speed"
+        },
+        {
+          "exprType": "constant",
+          "value": 100
+        },
+        {
+          "exprType": "binary",
+          "operator": "add",
+          "left": {
+            "exprType": "signal",
+            "name": "x"
+          },
+          "right": {
+            "exprType": "constant",
+            "value": 5
+          }
+        },
+        {
+          "exprType": "binary",
+          "operator": "subtract",
+          "left": {
+            "exprType": "signal",
+            "name": "target_speed"
+          },
+          "right": {
+            "exprType": "signal",
+            "name": "current_speed"
+          }
+        }
+      ]
+    },
+    "AtomicPredicate": {
+      "description": "Atomic predicate over real-valued expressions",
+      "type": "object",
+      "properties": {
+        "nodeType": {
+          "const": "predicate"
+        },
+        "left": {
+          "$ref": "#/$defs/RealExpression"
+        },
+        "relation": {
+          "enum": [
+            "<",
+            "<=",
+            ">",
+            ">=",
+            "==",
+            "!="
+          ]
+        },
+        "right": {
+          "$ref": "#/$defs/RealExpression"
+        }
+      },
+      "required": [
+        "nodeType",
+        "left",
+        "relation",
+        "right"
+      ],
+      "additionalProperties": false,
+      "examples": [
+        {
+          "nodeType": "predicate",
+          "left": {
+            "exprType": "signal",
+            "name": "speed"
+          },
+          "relation": ">",
+          "right": {
+            "exprType": "constant",
+            "value": 60
+          }
+        },
+        {
+          "nodeType": "predicate",
+          "left": {
+            "exprType": "binary",
+            "operator": "subtract",
+            "left": {
+              "exprType": "signal",
+              "name": "temp"
+            },
+            "right": {
+              "exprType": "constant",
+              "value": 20
+            }
+          },
+          "relation": "<=",
+          "right": {
+            "exprType": "constant",
+            "value": 5
+          }
+        }
+      ]
+    },
+    "TimeInterval": {
+      "description": "Closed or half-open time interval [lower, upper]",
+      "type": "object",
+      "properties": {
+        "lower": {
+          "oneOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "string",
+              "minLength": 1
+            }
+          ]
+        },
+        "upper": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "const": "inf"
+            },
+            {
+              "type": "string",
+              "minLength": 1
+            }
+          ]
+        },
+        "lowerInclusive": {
+          "type": "boolean",
+          "default": true
+        },
+        "upperInclusive": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": [
+        "lower",
+        "upper"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "upper": {
+                "const": "inf"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "upperInclusive": {
+                "const": false
+              }
+            }
+          }
+        }
+      ],
+      "examples": [
+        {
+          "lower": 0,
+          "upper": 10
+        },
+        {
+          "lower": 2,
+          "upper": 8,
+          "lowerInclusive": false,
+          "upperInclusive": true
+        },
+        {
+          "lower": 0,
+          "upper": "inf",
+          "lowerInclusive": true,
+          "upperInclusive": false
+        },
+        {
+          "lower": 1.5,
+          "upper": 5.5
+        }
+      ]
+    },
+    "BooleanFormula": {
+      "description": "Boolean STL formula",
+      "type": "object",
+      "properties": {
+        "nodeType": {
+          "const": "boolean"
+        },
+        "operator": {
+          "enum": [
+            "not",
+            "and",
+            "or",
+            "implies",
+            "iff"
+          ]
+        },
+        "operands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Formula"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "nodeType",
+        "operator",
+        "operands"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "operator": {
+                "const": "not"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "operands": {
+                "maxItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operator": {
+                "enum": [
+                  "and",
+                  "or"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "operands": {
+                "minItems": 2
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operator": {
+                "enum": [
+                  "implies",
+                  "iff"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "operands": {
+                "minItems": 2,
+                "maxItems": 2
+              }
+            }
+          }
+        }
+      ],
+      "examples": [
+        {
+          "nodeType": "boolean",
+          "operator": "not",
+          "operands": [
+            {
+              "nodeType": "predicate",
+              "left": {
+                "exprType": "signal",
+                "name": "brake"
+              },
+              "relation": ">",
+              "right": {
+                "exprType": "constant",
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "nodeType": "boolean",
+          "operator": "and",
+          "operands": [
+            {
+              "nodeType": "predicate",
+              "left": {
+                "exprType": "signal",
+                "name": "accel"
+              },
+              "relation": ">",
+              "right": {
+                "exprType": "constant",
+                "value": 0
+              }
+            },
+            {
+              "nodeType": "predicate",
+              "left": {
+                "exprType": "signal",
+                "name": "gear"
+              },
+              "relation": "==",
+              "right": {
+                "exprType": "constant",
+                "value": 1
+              }
+            }
+          ]
+        },
+        {
+          "nodeType": "boolean",
+          "operator": "implies",
+          "operands": [
+            {
+              "nodeType": "predicate",
+              "left": {
+                "exprType": "signal",
+                "name": "request"
+              },
+              "relation": "==",
+              "right": {
+                "exprType": "constant",
+                "value": 1
+              }
+            },
+            {
+              "nodeType": "predicate",
+              "left": {
+                "exprType": "signal",
+                "name": "grant"
+              },
+              "relation": "==",
+              "right": {
+                "exprType": "constant",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "TemporalFormula": {
+      "description": "Future-time temporal operators",
+      "type": "object",
+      "$comment": "Future-time operators describe how conditions should hold over upcoming time based on a specified interval.",
+      "properties": {
+        "nodeType": {
+          "const": "temporal"
+        },
+        "operator": {
+          "enum": [
+            "always",
+            "eventually",
+            "until",
+            "weak_until",
+            "release"
+          ],
+          "$comment": "always: condition must hold at all times in the interval. eventually: condition must hold at least once in the interval. until: first condition must hold continuously until the second condition becomes true. weak_until: similar to until, but the second condition is not required to ever become true; the first condition must then hold for the entire interval. release: the second condition must hold up to and including the point where the first condition becomes true; if the first condition never becomes true, the second must hold for the entire interval."
+        },
+        "interval": {
+          "$ref": "#/$defs/TimeInterval"
+        },
+        "operands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Formula"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "nodeType",
+        "operator",
+        "interval",
+        "operands"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "operator": {
+                "enum": [
+                  "always",
+                  "eventually"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "operands": {
+                "maxItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operator": {
+                "enum": [
+                  "until",
+                  "weak_until",
+                  "release"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "operands": {
+                "minItems": 2,
+                "maxItems": 2
+              }
+            }
+          }
+        }
+      ],
+      "examples": [
+        {
+          "nodeType": "temporal",
+          "operator": "always",
+          "interval": {
+            "lower": 0,
+            "upper": 10,
+            "lowerInclusive": true,
+            "upperInclusive": true
+          },
+          "operands": [
+            {
+              "nodeType": "predicate",
+              "left": {
+                "exprType": "signal",
+                "name": "speed"
+              },
+              "relation": "<=",
+              "right": {
+                "exprType": "constant",
+                "value": 120
+              }
+            }
+          ]
+        },
+        {
+          "nodeType": "temporal",
+          "operator": "eventually",
+          "interval": {
+            "lower": 0,
+            "upper": "inf",
+            "lowerInclusive": true,
+            "upperInclusive": false
+          },
+          "operands": [
+            {
+              "nodeType": "predicate",
+              "left": {
+                "exprType": "signal",
+                "name": "goal_reached"
+              },
+              "relation": "==",
+              "right": {
+                "exprType": "constant",
+                "value": 1
+              }
+            }
+          ]
+        },
+        {
+          "nodeType": "temporal",
+          "operator": "until",
+          "interval": {
+            "lower": 0,
+            "upper": 5,
+            "lowerInclusive": true,
+            "upperInclusive": true
+          },
+          "operands": [
+            {
+              "nodeType": "predicate",
+              "left": {
+                "exprType": "signal",
+                "name": "accelerating"
+              },
+              "relation": "==",
+              "right": {
+                "exprType": "constant",
+                "value": 1
+              }
+            },
+            {
+              "nodeType": "predicate",
+              "left": {
+                "exprType": "signal",
+                "name": "speed"
+              },
+              "relation": ">=",
+              "right": {
+                "exprType": "constant",
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "PastTemporalFormula": {
+      "description": "Past-time temporal operators",
+      "type": "object",
+      "$comment": "Past-time operators evaluate conditions with respect to historical signal behavior over a specified interval.",
+      "properties": {
+        "nodeType": {
+          "const": "pastTemporal"
+        },
+        "operator": {
+          "enum": [
+            "historically",
+            "once",
+            "since"
+          ],
+          "$comment": "historically: condition has continuously held throughout the entire past interval. once: condition has held at least once at some point in the past interval. since: the second condition occurred in the past interval, and from that point onward the first condition has held continuously until now."
+        },
+        "interval": {
+          "$ref": "#/$defs/TimeInterval"
+        },
+        "operands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Formula"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "nodeType",
+        "operator",
+        "interval",
+        "operands"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "operator": {
+                "enum": [
+                  "historically",
+                  "once"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "operands": {
+                "maxItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operator": {
+                "const": "since"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "operands": {
+                "minItems": 2,
+                "maxItems": 2
+              }
+            }
+          }
+        }
+      ],
+      "examples": [
+        {
+          "nodeType": "pastTemporal",
+          "operator": "once",
+          "interval": {
+            "lower": 0,
+            "upper": "inf",
+            "lowerInclusive": true,
+            "upperInclusive": false
+          },
+          "operands": [
+            {
+              "nodeType": "predicate",
+              "left": {
+                "exprType": "signal",
+                "name": "start_signal"
+              },
+              "relation": "==",
+              "right": {
+                "exprType": "constant",
+                "value": 1
+              }
+            }
+          ]
+        },
+        {
+          "nodeType": "pastTemporal",
+          "operator": "historically",
+          "interval": {
+            "lower": 0,
+            "upper": 10,
+            "lowerInclusive": true,
+            "upperInclusive": true
+          },
+          "operands": [
+            {
+              "nodeType": "predicate",
+              "left": {
+                "exprType": "signal",
+                "name": "error"
+              },
+              "relation": "<",
+              "right": {
+                "exprType": "constant",
+                "value": 0.1
+              }
+            }
+          ]
+        },
+        {
+          "nodeType": "pastTemporal",
+          "operator": "since",
+          "interval": {
+            "lower": 0,
+            "upper": "inf",
+            "lowerInclusive": true,
+            "upperInclusive": false
+          },
+          "operands": [
+            {
+              "nodeType": "predicate",
+              "left": {
+                "exprType": "signal",
+                "name": "fault"
+              },
+              "relation": "==",
+              "right": {
+                "exprType": "constant",
+                "value": 1
+              }
+            },
+            {
+              "nodeType": "predicate",
+              "left": {
+                "exprType": "signal",
+                "name": "alarm"
+              },
+              "relation": "==",
+              "right": {
+                "exprType": "constant",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "EdgeFormula": {
+      "description": "Edge and peak detection operators",
+      "type": "object",
+      "$comment": "Edge operators detect instantaneous changes or local extrema in a predicate's truth value.",
+      "properties": {
+        "nodeType": {
+          "const": "edge"
+        },
+        "operator": {
+          "enum": [
+            "rise",
+            "fall",
+            "peak"
+          ],
+          "$comment": "rise: detects a transition from false to true. fall: detects a transition from true to false. peak: detects a local maximum of predicate satisfaction."
+        },
+        "mode": {
+          "enum": [
+            "strict",
+            "plateau"
+          ],
+          "default": "strict",
+          "$comment": "strict: peak is a single isolated time instant where the predicate is true and immediately false before and after. plateau: peak is the first instant of a flat region where the predicate remains true for multiple consecutive time instants."
+        },
+        "operand": {
+          "$ref": "#/$defs/Formula"
+        }
+      },
+      "required": [
+        "nodeType",
+        "operator",
+        "operand"
+      ],
+      "additionalProperties": false,
+      "examples": [
+        {
+          "nodeType": "edge",
+          "operator": "rise",
+          "operand": {
+            "nodeType": "predicate",
+            "left": {
+              "exprType": "signal",
+              "name": "enable"
+            },
+            "relation": "==",
+            "right": {
+              "exprType": "constant",
+              "value": 1
+            }
+          }
+        },
+        {
+          "nodeType": "edge",
+          "operator": "fall",
+          "operand": {
+            "nodeType": "predicate",
+            "left": {
+              "exprType": "signal",
+              "name": "power"
+            },
+            "relation": ">",
+            "right": {
+              "exprType": "constant",
+              "value": 0
+            }
+          }
+        },
+        {
+          "nodeType": "edge",
+          "operator": "peak",
+          "mode": "strict",
+          "operand": {
+            "nodeType": "predicate",
+            "left": {
+              "exprType": "signal",
+              "name": "overshoot"
+            },
+            "relation": ">",
+            "right": {
+              "exprType": "constant",
+              "value": 15
+            }
+          }
+        },
+        {
+          "nodeType": "edge",
+          "operator": "peak",
+          "mode": "plateau",
+          "operand": {
+            "nodeType": "predicate",
+            "left": {
+              "exprType": "signal",
+              "name": "temperature"
+            },
+            "relation": ">=",
+            "right": {
+              "exprType": "constant",
+              "value": 90
+            }
+          }
+        }
+      ]
+    },
+    "StatisticalFormula": {
+      "description": "Statistical operators for counting occurrences and cumulative time",
+      "type": "object",
+      "$comment": "Statistical operators aggregate predicate satisfaction over time intervals.",
+      "properties": {
+        "nodeType": {
+          "const": "statistical"
+        },
+        "operator": {
+          "enum": [
+            "count",
+            "ct"
+          ],
+          "$comment": "count: counts the number of times the predicate holds true within the time interval. ct (cumulative time): measures the total duration for which the predicate holds true within the time interval."
+        },
+        "interval": {
+          "$ref": "#/$defs/TimeInterval"
+        },
+        "operand": {
+          "$ref": "#/$defs/Formula"
+        },
+        "threshold": {
+          "type": "object",
+          "description": "Threshold constraint for the statistical result",
+          "properties": {
+            "relation": {
+              "enum": [
+                "<",
+                "<=",
+                ">",
+                ">=",
+                "==",
+                "!="
+              ]
+            },
+            "value": {
+              "oneOf": [
+                {
+                  "type": "number",
+                  "minimum": 0
+                },
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "relation",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "nodeType",
+        "operator",
+        "interval",
+        "operand",
+        "threshold"
+      ],
+      "additionalProperties": false,
+      "examples": [
+        {
+          "nodeType": "statistical",
+          "operator": "count",
+          "interval": {
+            "lower": 0,
+            "upper": 10,
+            "lowerInclusive": true,
+            "upperInclusive": true
+          },
+          "operand": {
+            "nodeType": "predicate",
+            "left": {
+              "exprType": "signal",
+              "name": "brake"
+            },
+            "relation": ">",
+            "right": {
+              "exprType": "constant",
+              "value": 0
+            }
+          },
+          "threshold": {
+            "relation": ">=",
+            "value": 3
+          }
+        },
+        {
+          "nodeType": "statistical",
+          "operator": "ct",
+          "interval": {
+            "lower": 0,
+            "upper": 10,
+            "lowerInclusive": true,
+            "upperInclusive": true
+          },
+          "operand": {
+            "nodeType": "predicate",
+            "left": {
+              "exprType": "signal",
+              "name": "danger"
+            },
+            "relation": "==",
+            "right": {
+              "exprType": "constant",
+              "value": 1
+            }
+          },
+          "threshold": {
+            "relation": "<=",
+            "value": 2
+          }
+        }
+      ]
+    }
+  },
+  "$ref": "#/$defs/Formula",
+  "examples": [
+    {
+      "nodeType": "temporal",
+      "operator": "always",
+      "interval": {
+        "lower": 0,
+        "upper": "inf",
+        "lowerInclusive": true,
+        "upperInclusive": false
+      },
+      "operands": [
+        {
+          "nodeType": "boolean",
+          "operator": "implies",
+          "operands": [
+            {
+              "nodeType": "edge",
+              "operator": "rise",
+              "operand": {
+                "nodeType": "predicate",
+                "left": {
+                  "exprType": "signal",
+                  "name": "req"
+                },
+                "relation": "==",
+                "right": {
+                  "exprType": "constant",
+                  "value": 1
+                }
+              }
+            },
+            {
+              "nodeType": "temporal",
+              "operator": "eventually",
+              "interval": {
+                "lower": 0,
+                "upper": 2,
+                "lowerInclusive": true,
+                "upperInclusive": true
+              },
+              "operands": [
+                {
+                  "nodeType": "predicate",
+                  "left": {
+                    "exprType": "signal",
+                    "name": "ack"
+                  },
+                  "relation": "==",
+                  "right": {
+                    "exprType": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

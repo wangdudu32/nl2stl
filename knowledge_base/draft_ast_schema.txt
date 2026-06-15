@@ -1,0 +1,294 @@
+{
+  "$id": "https://stl-ast-schema.org/v2.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "STL AST Schema with Parameterized Uncertainties",
+  "description": "支持自然语言到STL转换的AST Schema。核心设计：先识别NL的逻辑结构，对所有模糊点（谓词、时间区间、信号名、阈值、关系运算符等）留参占位；通过后续交互/知识库/搜索/LLM澄清后填充；所有模糊点澄清后AST必须完备。",
+
+  "required": ["ast", "uncertainties"],
+  "properties": {
+    "ast": { "$ref": "#/$defs/node" },
+    "uncertainties": {
+      "type": "array",
+      "description": "所有待澄清的模糊点列表。当所有uncertainty被resolved后，AST应完全完备。",
+      "items": { "$ref": "#/$defs/uncertainty" }
+    }
+  },
+
+  "$defs": {
+
+    "node": {
+      "type": "object",
+      "required": ["nodeType"],
+      "oneOf": [
+        { "$ref": "#/$defs/predicateNode" },
+        { "$ref": "#/$defs/booleanNode" },
+        { "$ref": "#/$defs/temporalNode" },
+        { "$ref": "#/$defs/pastTemporalNode" },
+        { "$ref": "#/$defs/edgeNode" },
+        { "$ref": "#/$defs/statisticalNode" },
+        { "$ref": "#/$defs/placeholderNode" }
+      ]
+    },
+
+    "realExpression": {
+      "description": "实值表达式：支持信号引用、常量、二元运算",
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "exprType": { "const": "signal" },
+            "name": { "type": "string", "minLength": 1 }
+          },
+          "required": ["exprType", "name"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "exprType": { "const": "constant" },
+            "value": { "type": ["number", "string", "boolean"] }
+          },
+          "required": ["exprType", "value"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "exprType": { "const": "binary" },
+            "operator": { "enum": ["add", "subtract", "multiply", "divide"] },
+            "left": { "$ref": "#/$defs/realExpression" },
+            "right": { "$ref": "#/$defs/realExpression" }
+          },
+          "required": ["exprType", "operator", "left", "right"],
+          "additionalProperties": false
+        }
+      ]
+    },
+
+    "timeInterval": {
+      "description": "时间区间 [lower, upper]，支持半开区间和无穷大",
+      "type": "object",
+      "properties": {
+        "lower": { "type": ["number", "null"], "minimum": 0, "description": "null表示待澄清" },
+        "upper": {
+          "oneOf": [
+            { "type": "number", "minimum": 0 },
+            { "const": "inf" },
+            { "const": null }
+          ],
+          "description": "null表示待澄清"
+        },
+        "lowerInclusive": { "type": "boolean", "default": true },
+        "upperInclusive": { "type": "boolean", "default": true }
+      },
+      "required": ["lower", "upper"],
+      "additionalProperties": false
+    },
+
+    "predicateNode": {
+      "description": "原子谓词节点：f(x) ~ c。任何字段都可能是待澄清的占位符",
+      "type": "object",
+      "properties": {
+        "nodeType": { "const": "predicate" },
+        "left": { "$ref": "#/$defs/realExpression" },
+        "relation": {
+          "type": "string",
+          "enum": [">", ">=", "<", "<=", "==", "!="],
+          "description": "比较运算符"
+        },
+        "right": { "$ref": "#/$defs/realExpression" }
+      },
+      "required": ["nodeType", "left", "relation", "right"],
+      "additionalProperties": false
+    },
+
+    "booleanNode": {
+      "description": "布尔连接词节点：NOT, AND, OR, IMPLIES, IFF",
+      "type": "object",
+      "properties": {
+        "nodeType": { "const": "boolean" },
+        "operator": { "enum": ["not", "and", "or", "implies", "iff"] },
+        "operands": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/node" },
+          "minItems": 1
+        }
+      },
+      "required": ["nodeType", "operator", "operands"],
+      "additionalProperties": false,
+      "allOf": [
+        { "if": { "properties": { "operator": { "const": "not" } } }, "then": { "properties": { "operands": { "maxItems": 1 } } } },
+        { "if": { "properties": { "operator": { "enum": ["and", "or"] } } }, "then": { "properties": { "operands": { "minItems": 2 } } } },
+        { "if": { "properties": { "operator": { "enum": ["implies", "iff"] } } }, "then": { "properties": { "operands": { "minItems": 2, "maxItems": 2 } } } }
+      ]
+    },
+
+    "temporalNode": {
+      "description": "未来时序算子：always(G), eventually(F), until, weak_until, release",
+      "type": "object",
+      "properties": {
+        "nodeType": { "const": "temporal" },
+        "operator": {
+          "enum": ["always", "eventually", "until", "weak_until", "release"],
+          "description": "always=G, eventually=F"
+        },
+        "interval": { "$ref": "#/$defs/timeInterval" },
+        "operands": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/node" },
+          "minItems": 1
+        }
+      },
+      "required": ["nodeType", "operator", "interval", "operands"],
+      "additionalProperties": false,
+      "allOf": [
+        { "if": { "properties": { "operator": { "enum": ["always", "eventually"] } } }, "then": { "properties": { "operands": { "maxItems": 1 } } } },
+        { "if": { "properties": { "operator": { "enum": ["until", "weak_until", "release"] } } }, "then": { "properties": { "operands": { "minItems": 2, "maxItems": 2 } } } }
+      ]
+    },
+
+    "pastTemporalNode": {
+      "description": "过去时序算子：historically, once, since",
+      "type": "object",
+      "properties": {
+        "nodeType": { "const": "pastTemporal" },
+        "operator": { "enum": ["historically", "once", "since"] },
+        "interval": { "$ref": "#/$defs/timeInterval" },
+        "operands": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/node" },
+          "minItems": 1
+        }
+      },
+      "required": ["nodeType", "operator", "interval", "operands"],
+      "additionalProperties": false,
+      "allOf": [
+        { "if": { "properties": { "operator": { "enum": ["historically", "once"] } } }, "then": { "properties": { "operands": { "maxItems": 1 } } } },
+        { "if": { "properties": { "operator": { "const": "since" } } }, "then": { "properties": { "operands": { "minItems": 2, "maxItems": 2 } } } }
+      ]
+    },
+
+    "edgeNode": {
+      "description": "边缘算子：rise(上升沿), fall(下降沿), peak(局部峰值)",
+      "type": "object",
+      "properties": {
+        "nodeType": { "const": "edge" },
+        "operator": { "enum": ["rise", "fall", "peak"] },
+        "operand": { "$ref": "#/$defs/node" }
+      },
+      "required": ["nodeType", "operator", "operand"],
+      "additionalProperties": false
+    },
+
+    "statisticalNode": {
+      "description": "统计算子：count(计数), ct(累计时间)",
+      "type": "object",
+      "properties": {
+        "nodeType": { "const": "statistical" },
+        "operator": { "enum": ["count", "ct"] },
+        "interval": { "$ref": "#/$defs/timeInterval" },
+        "operand": { "$ref": "#/$defs/node" },
+        "threshold": {
+          "type": ["object", "null"],
+          "description": "统计结果的阈值约束。null 表示待澄清/留参",
+          "properties": {
+            "relation": { "enum": [">", ">=", "<", "<=", "==", "!="] },
+            "value": { "type": ["number", "null"], "minimum": 0 }
+          },
+          "required": ["relation", "value"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["nodeType", "operator", "interval", "operand"],
+      "additionalProperties": false
+    },
+
+    "placeholderNode": {
+      "description": "占位符节点：用于AST结构已识别但具体内容待澄清的场景。可被替换为任意完备子树",
+      "type": "object",
+      "properties": {
+        "nodeType": { "const": "placeholder" },
+        "placeholderId": { "type": "string", "description": "占位符唯一标识，与uncertainties中的nodePath对应" },
+        "expectedType": {
+          "type": "string",
+          "enum": ["predicate", "boolean", "temporal", "pastTemporal", "edge", "statistical", "signal", "threshold", "interval"],
+          "description": "期望被替换后的节点类型"
+        },
+        "hint": { "type": "string", "description": "对占位符含义的文本提示" }
+      },
+      "required": ["nodeType", "placeholderId", "expectedType"],
+      "additionalProperties": false
+    },
+
+    "uncertainty": {
+      "description": "模糊点定义。每个uncertainty描述AST中一个待澄清的参数或节点",
+      "type": "object",
+      "required": ["id", "nodePath", "category", "status"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "模糊点全局唯一标识"
+        },
+        "nodePath": {
+          "type": "string",
+          "description": "指向AST中模糊位置的路径，如 'ast.operands[0].left.name' 或 'ast.interval.upper'"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "signal_ambiguous",
+            "threshold_missing",
+            "relation_ambiguous",
+            "time_bound_missing",
+            "time_bound_ambiguous",
+            "operator_ambiguous",
+            "logic_ambiguous",
+            "structural_placeholder"
+          ],
+          "description": "模糊点类型分类"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "clarifying", "resolved"],
+          "description": "pending=待澄清, clarifying=澄清中, resolved=已解决"
+        },
+        "originalText": {
+          "type": "string",
+          "description": "NL中触发该模糊点的原始文本片段"
+        },
+        "question": {
+          "type": "string",
+          "description": "向用户/系统提出的澄清问题"
+        },
+        "candidates": {
+          "type": "array",
+          "description": "候选值列表（如候选信号名、候选阈值等）",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {},
+              "source": { "enum": ["kb", "llm", "search", "heuristic"] },
+              "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+              "reason": { "type": "string" }
+            },
+            "required": ["value", "source", "confidence"]
+          }
+        },
+        "resolvedValue": {
+          "description": "最终确认的值，status=resolved时必填",
+          "type": ["object", "string", "number", "boolean", "array"]
+        },
+        "resolutionSource": {
+          "type": "string",
+          "enum": ["user", "kb", "llm", "search", "inferred"],
+          "description": "值的来源"
+        },
+        "message": {
+          "type": "string",
+          "description": "补充说明信息"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
