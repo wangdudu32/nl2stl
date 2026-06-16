@@ -4,6 +4,7 @@ import json
 import re
 import subprocess
 import sys
+import time
 import uuid
 from pathlib import Path
 from typing import Any, Callable, TypedDict
@@ -35,6 +36,7 @@ class GraphState(TypedDict, total=False):
 
     session_id: str
     original_text: str
+    started_at: float
     phase: str
     current_step: str
     signal_selection: dict[str, Any]
@@ -52,6 +54,7 @@ class GraphState(TypedDict, total=False):
     revision_feedback: str
     ast: dict[str, Any]
     stl: str
+    stl_semantics: str
     validation_errors: list[str]
     ast_repairs: int
     result: dict[str, Any]
@@ -181,6 +184,15 @@ def build_graph(
         """按知识库、Tavily、LLM 推断的优先级准备简洁候选。"""
 
         ambiguity = state["current_ambiguity"]
+        simple_candidates = _simple_reference_candidates(ambiguity)
+        if simple_candidates:
+            return {
+                "phase": "需求澄清",
+                "current_step": "参考值准备完成",
+                "candidates": simple_candidates,
+                "search_results": [],
+            }
+
         valid_sources = _local_source_evidence(
             state["signal_selection"], state["signal_details"], knowledge.operators
         )
@@ -457,7 +469,9 @@ def build_graph(
             "ast": state["ast"],
             "ast_path": str(ast_path),
             "stl": conversion["output"].strip(),
+            "stl_semantics": _stl_semantics(state),
             "schema_validation": validation["output"].strip(),
+            "elapsed_seconds": round(max(0.0, time.monotonic() - state["started_at"]), 3),
         }
         result_errors = catalog.validate("final_result", result)
         if result_errors:
@@ -517,6 +531,7 @@ def initial_state(text: str, session_id: str | None = None) -> GraphState:
     return {
         "session_id": session_id or uuid.uuid4().hex[:12],
         "original_text": text,
+        "started_at": time.monotonic(),
         "phase": "选择信号",
         "current_step": "准备开始",
         "semantic_history": [],
@@ -555,6 +570,38 @@ def _merge_candidates(
     first: list[dict[str, Any]], second: list[dict[str, Any]]
 ) -> list[dict[str, Any]]:
     return [dict(item) for item in first + second]
+
+
+def _simple_reference_candidates(ambiguity: dict[str, Any]) -> list[dict[str, Any]]:
+    """对纯数值槽位给本地参考值，避免搜索结果答非所问。"""
+
+    text = " ".join(
+        str(ambiguity.get(key, ""))
+        for key in ("nl_fragment", "description", "question", "category")
+    ).lower()
+    if "few seconds" in text or "几秒" in text or (
+        ambiguity.get("category") == "time" and ("second" in text or "秒" in text)
+    ):
+        values = [
+            ("2 s", "短时间窗口常用参考值"),
+            ("3 s", "few seconds 的常用解释"),
+            ("5 s", "较宽松的短时间窗口"),
+        ]
+    elif "meter" in text or "meters" in text or "米" in text:
+        values = [("5 m", "较小距离阈值参考"), ("10 m", "常用整数距离阈值参考")]
+    else:
+        return []
+    return [
+        {
+            "id": f"ref_{index}",
+            "value": value,
+            "explanation": explanation,
+            "source_type": "llm_generated",
+            "source_reference": "本地参考值，需用户确认",
+            "canonical": value.lower().replace(" ", ""),
+        }
+        for index, (value, explanation) in enumerate(values, start=1)
+    ]
 
 
 def _ambiguity_signals(
@@ -614,6 +661,240 @@ def _run_script(script: Path, ast_path: Path) -> dict[str, Any]:
     )
     output = (completed.stdout + completed.stderr).strip()
     return {"returncode": completed.returncode, "output": output}
+
+
+def _stl_semantics(state: GraphState) -> str:
+    original = str(state.get("original_text", ""))
+    clear_text = _clarified_original_text(original, state)
+    if clear_text:
+        return clear_text
+    prefix = "清晰化需求：" if _is_chinese(original) else "Clarified requirement: "
+    return f"{prefix}{_describe_formula(state['ast'])}。"
+
+
+def _clarified_original_text(original: str, state: GraphState) -> str:
+    if not original:
+        return ""
+    text = original.strip()
+    ast = state.get("ast", {})
+    semantics = state.get("global_semantics", {})
+    replacements = _clarification_replacements(ast, semantics, _is_chinese(text), text)
+    for old, new in replacements:
+        text = re.sub(re.escape(old), new, text, flags=re.IGNORECASE)
+    text = _clean_clarified_text(text)
+    if text == original.strip():
+        return ""
+    return text
+
+
+def _clarification_replacements(
+    ast: dict[str, Any], semantics: dict[str, Any], chinese: bool, original: str
+) -> list[tuple[str, str]]:
+    replacements: list[tuple[str, str]] = []
+    interval = _top_level_interval(ast)
+    if interval:
+        if chinese:
+            replacements.extend([
+                ("未来几秒", f"未来 {interval} 秒"),
+                ("接下来几秒", f"接下来 {interval} 秒"),
+                ("几秒", f"{interval} 秒"),
+            ])
+        else:
+            replacements.extend([
+                ("the next few seconds", f"the next {interval} seconds"),
+                ("next few seconds", f"next {interval} seconds"),
+                ("a few seconds", f"{interval} seconds"),
+                ("few seconds", f"{interval} seconds"),
+            ])
+    threshold = _main_numeric_threshold(ast)
+    if threshold is not None:
+        unit = _threshold_unit(semantics, chinese, original)
+        if chinese:
+            replacements.extend([
+                ("一些米", f"{threshold}{unit}"),
+                ("若干米", f"{threshold}{unit}"),
+                ("某个米数", f"{threshold}{unit}"),
+            ])
+        else:
+            replacements.extend([
+                ("some meters", f"{threshold} {unit}"),
+                ("some metres", f"{threshold} {unit}"),
+                ("some meter", f"{threshold} {unit}"),
+                ("some metre", f"{threshold} {unit}"),
+            ])
+    return replacements
+
+
+def _top_level_interval(ast: dict[str, Any]) -> str:
+    if ast.get("nodeType") != "temporal":
+        return ""
+    interval = ast.get("interval")
+    if not isinstance(interval, dict):
+        return ""
+    lower = interval.get("lower", 0)
+    upper = interval.get("upper", "inf")
+    if lower == 0 and upper != "inf":
+        return _format_number(upper)
+    return ""
+
+
+def _main_numeric_threshold(ast: dict[str, Any]) -> str | None:
+    values: list[Any] = []
+
+    def walk(value: Any) -> None:
+        if isinstance(value, dict):
+            if value.get("nodeType") == "predicate":
+                right = value.get("right", {})
+                if isinstance(right, dict) and right.get("exprType") == "constant":
+                    values.append(right.get("value"))
+            for child in value.values():
+                walk(child)
+        elif isinstance(value, list):
+            for child in value:
+                walk(child)
+
+    walk(ast)
+    numeric = [value for value in values if isinstance(value, (int, float))]
+    return _format_number(numeric[-1]) if numeric else None
+
+
+def _threshold_unit(semantics: dict[str, Any], chinese: bool, original: str = "") -> str:
+    text = (json.dumps(semantics, ensure_ascii=False) + " " + original).lower()
+    if "meter" in text or "metre" in text or "单位 m" in text or "→ m" in text:
+        return "米" if chinese else "meters"
+    if "second" in text or "单位 s" in text or "→ s" in text:
+        return "秒" if chinese else "seconds"
+    return ""
+
+
+def _format_number(value: Any) -> str:
+    if isinstance(value, float) and value.is_integer():
+        return str(int(value))
+    return str(value)
+
+
+def _is_chinese(text: str) -> bool:
+    return bool(re.search(r"[\u4e00-\u9fff]", text))
+
+
+def _clean_clarified_text(text: str) -> str:
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+
+def _describe_formula(node: dict[str, Any]) -> str:
+    node_type = node.get("nodeType")
+    if node_type == "predicate":
+        return _describe_predicate(node)
+    if node_type == "boolean":
+        return _describe_boolean(node)
+    if node_type == "temporal":
+        return _describe_temporal(node)
+    if node_type == "pastTemporal":
+        operator = node.get("operator")
+        operand = _describe_formula(node.get("operands", [{}])[0])
+        interval = _describe_interval(node.get("interval"))
+        if operator == "historically":
+            return f"在过去{interval}内，{operand}始终成立"
+        if operator == "once":
+            return f"在过去{interval}内，存在某个时刻满足：{operand}"
+        if operator == "since":
+            operands = node.get("operands", [{}, {}])
+            return f"{_describe_formula(operands[0])} 自 {_describe_formula(operands[1])} 后成立"
+    if node_type == "edge":
+        return f"{node.get('operator')}({_describe_formula(node.get('operand', {}))}) 发生"
+    return "最终公式成立"
+
+
+def _describe_temporal(node: dict[str, Any]) -> str:
+    operator = node.get("operator")
+    operands = node.get("operands", [])
+    interval = _describe_interval(node.get("interval"))
+    if operator == "always" and operands:
+        if operands[0].get("nodeType") == "predicate":
+            return f"在{interval}内，{_describe_persistent_predicate(operands[0])}"
+        return f"在{interval}内，{_describe_formula(operands[0])}始终成立"
+    if operator == "eventually" and operands:
+        return f"在{interval}内，存在某个时刻满足：{_describe_formula(operands[0])}"
+    if operator in {"until", "weak_until", "release"} and len(operands) >= 2:
+        left = _describe_formula(operands[0])
+        right = _describe_formula(operands[1])
+        return f"在{interval}内，{left} {operator} {right}"
+    return "时序条件成立"
+
+
+def _describe_boolean(node: dict[str, Any]) -> str:
+    operator = node.get("operator")
+    operands = [_describe_formula(item) for item in node.get("operands", [])]
+    if operator == "not" and operands:
+        return f"不满足：{operands[0]}"
+    if operator == "and":
+        return "且".join(operands)
+    if operator == "or":
+        return "或".join(operands)
+    if operator == "implies" and len(operands) >= 2:
+        return f"如果{operands[0]}，则{operands[1]}"
+    if operator == "iff" and len(operands) >= 2:
+        return f"{operands[0]} 当且仅当 {operands[1]}"
+    return "逻辑条件成立"
+
+
+def _describe_predicate(node: dict[str, Any]) -> str:
+    left = _describe_expression(node.get("left", {}))
+    right = _describe_expression(node.get("right", {}))
+    relation = _relation_text(str(node.get("relation")))
+    return f"{left} {relation} {right}"
+
+
+def _describe_persistent_predicate(node: dict[str, Any]) -> str:
+    left = _describe_expression(node.get("left", {}))
+    right = _describe_expression(node.get("right", {}))
+    relation = _relation_text(str(node.get("relation")))
+    return f"{left} 始终{relation} {right}"
+
+
+def _relation_text(relation: str) -> str:
+    return {
+        ">": "大于",
+        ">=": "大于等于",
+        "<": "小于",
+        "<=": "小于等于",
+        "==": "等于",
+        "!=": "不等于",
+    }.get(relation, relation)
+
+
+def _describe_expression(expr: dict[str, Any]) -> str:
+    expr_type = expr.get("exprType")
+    if expr_type == "signal":
+        return str(expr.get("name", ""))
+    if expr_type == "constant":
+        return str(expr.get("value", ""))
+    if expr_type == "parameter":
+        return str(expr.get("name", ""))
+    if expr_type == "binary":
+        left = _describe_expression(expr.get("left", {}))
+        right = _describe_expression(expr.get("right", {}))
+        op = {
+            "add": " + ",
+            "subtract": " - ",
+            "multiply": " * ",
+            "divide": " / ",
+        }.get(str(expr.get("operator")), f" {expr.get('operator')} ")
+        return f"{left}{op}{right}"
+    return ""
+
+
+def _describe_interval(interval: dict[str, Any] | None) -> str:
+    if not interval:
+        return "整个监控区间"
+    lower = interval.get("lower", 0)
+    upper = interval.get("upper", "inf")
+    if lower == 0 and upper == "inf":
+        return "整个监控区间"
+    if lower == 0:
+        return f"未来 {upper} 秒"
+    return f"{lower} 到 {upper} 秒"
 
 
 def _require_valid(

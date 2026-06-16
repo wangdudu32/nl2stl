@@ -36,6 +36,14 @@ _FORMULA_RESERVED = {
     "s",
     "m",
     "km",
+    "unit",
+    "units",
+    "meter",
+    "meters",
+    "metre",
+    "metres",
+    "second",
+    "seconds",
 }
 
 
@@ -156,6 +164,8 @@ def enforce_semantic_completeness(
 
     for item in semantics.get("items", []):
         if not isinstance(item, dict) or item.get("status") != "resolved":
+            continue
+        if item.get("kind") == "unit":
             continue
         fragment = str(item.get("stl_fragment", ""))
         for name in _formula_identifiers(fragment) - known_signals:

@@ -5,7 +5,12 @@ import json
 from langgraph.types import Command
 
 from nl2stl_app.config import RuntimeCatalog, Settings
-from nl2stl_app.graph import build_graph, initial_state
+from nl2stl_app.graph import (
+    _simple_reference_candidates,
+    _stl_semantics,
+    build_graph,
+    initial_state,
+)
 from nl2stl_app.knowledge import KnowledgeBase
 
 
@@ -413,6 +418,8 @@ def test_clear_requirement_runs_to_verified_stl():
     output = graph.invoke(state, config={"configurable": {"thread_id": "clear-test"}})
     assert output["status"] == "complete"
     assert output["result"]["stl"] == "always (ego_speed < 5)"
+    assert output["result"]["stl_semantics"].startswith("清晰化需求：")
+    assert output["result"]["elapsed_seconds"] >= 0
     assert "select_signals" not in llm.calls
     assert "review_global_semantics" not in llm.calls
     assert "semantic_review" not in llm.calls
@@ -431,6 +438,80 @@ def test_aeb_requirement_uses_local_signal_routing():
         "missing_concepts": [],
         "reason": "文本中的场景和信号可由本地索引唯一确定",
     }
+
+
+def test_simple_time_ambiguity_uses_reference_values_without_search_formulas():
+    candidates = _simple_reference_candidates(
+        {
+            "id": "few_seconds",
+            "nl_fragment": "for the next few seconds",
+            "category": "time",
+            "description": "next few seconds 未明确具体时间长度",
+            "question": "next few seconds 具体是几秒？",
+        }
+    )
+
+    assert [item["value"] for item in candidates] == ["2 s", "3 s", "5 s"]
+    assert all(item["source_reference"] == "本地参考值，需用户确认" for item in candidates)
+
+
+def test_simple_meter_threshold_uses_reference_values_without_search_formulas():
+    candidates = _simple_reference_candidates(
+        {
+            "id": "some_meters",
+            "nl_fragment": "some meters",
+            "category": "threshold",
+            "description": "some meters 未给出具体数值",
+            "question": "some meters 的具体数值是多少？",
+        }
+    )
+
+    assert [item["value"] for item in candidates] == ["5 m", "10 m"]
+
+
+def test_stl_semantics_is_clear_natural_language_not_process_summary():
+    ast = always(
+        {
+            "nodeType": "predicate",
+            "left": {"exprType": "signal", "name": "front_obstacle_distance"},
+            "relation": ">",
+            "right": {"exprType": "constant", "value": 10},
+        }
+    )
+    ast["interval"]["upper"] = 2
+    state = {
+        "original_text": "for the next few seconds, the distance shall remain greater than some meters.",
+        "ast": ast,
+        "global_semantics": {
+            "summary": "建立全局语义状态。这个文本不应出现在最终语义描述里。"
+        },
+    }
+
+    assert _stl_semantics(state) == (
+        "for the next 2 seconds, the distance shall remain greater than 10 meters."
+    )
+
+
+def test_chinese_stl_semantics_keeps_original_language():
+    ast = always(
+        {
+            "nodeType": "predicate",
+            "left": {"exprType": "signal", "name": "front_obstacle_distance"},
+            "relation": ">",
+            "right": {"exprType": "constant", "value": 10},
+        }
+    )
+    ast["interval"]["upper"] = 2
+    state = {
+        "original_text": "接下来几秒，前方障碍物距离应始终大于若干米。",
+        "ast": ast,
+        "global_semantics": {
+            "items": [{"nl_fragment": "meters", "value": "m"}],
+            "mappings": [],
+        },
+    }
+
+    assert _stl_semantics(state) == "接下来 2 秒，前方障碍物距离应始终大于10米。"
 
 
 def test_unbound_safe_distance_parameter_forces_clarification():

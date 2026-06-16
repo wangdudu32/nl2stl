@@ -71,6 +71,21 @@ class TerminalUI:
         ambiguity = payload["ambiguity"]
         semantics = payload.get("global_semantics", {})
         print("当前阶段：需求澄清")
+
+        feedback = payload.get("feedback")
+        if feedback:
+            print(f"\n上一输入未通过一致性验证：{feedback}")
+
+        print(f"\n本轮需要澄清：{ambiguity['question']}")
+        for index, candidate in enumerate(payload["candidates"]):
+            label = chr(ord("A") + index)
+            source = _source_label(candidate)
+            print(f"{label}. {candidate['value']}")
+            print(f"   {_compact(candidate['explanation'], 72)}")
+            print(f"   来源：{source}（{_compact(candidate['source_reference'], 96)}）")
+        custom_label = chr(ord("A") + len(payload["candidates"]))
+        print(f"{custom_label}. 自定义澄清（自然语言、数值、单位、区间或公式）")
+
         print("\n未澄清")
         for item in semantics.get("ambiguities", [ambiguity]):
             print(f"- {item['description']}")
@@ -95,20 +110,6 @@ class TerminalUI:
         else:
             print(f"- {ambiguity['nl_fragment']} → 待澄清")
 
-        feedback = payload.get("feedback")
-        if feedback:
-            print(f"\n上一输入未通过一致性验证：{feedback}")
-
-        print(f"\n{ambiguity['question']}")
-        for index, candidate in enumerate(payload["candidates"]):
-            label = chr(ord("A") + index)
-            source = SOURCE_LABELS.get(candidate["source_type"], candidate["source_type"])
-            print(f"{label}. {candidate['value']}")
-            print(f"   {_compact(candidate['explanation'], 72)}")
-            print(f"   来源：{source}（{_compact(candidate['source_reference'], 96)}）")
-        custom_label = chr(ord("A") + len(payload["candidates"]))
-        print(f"{custom_label}. 自定义澄清（自然语言、数值、单位、区间或公式）")
-
         answer = input("\n请选择候选或直接输入：").strip()
         if answer.upper() == custom_label:
             return input("请输入自定义澄清：").strip()
@@ -125,6 +126,8 @@ class TerminalUI:
 
         semantics = result["global_semantics"]
         print("当前阶段：完成")
+        print("\n原始需求")
+        print(result["original_text"])
         print("\n未澄清\n- 无")
         print("\n已澄清（最终全局语义）")
         resolved = [
@@ -140,8 +143,11 @@ class TerminalUI:
             print(f"- {item['nl_fragment']} → {item['stl_fragment']}")
         print("\n最终 STL")
         print(result["stl"])
+        print("\nSTL 语义")
+        print(result["stl_semantics"])
         print(f"\nAST：{result['ast_path']}")
         print(f"验证：{result['schema_validation']}")
+        print(f"总耗时：{_format_elapsed(result.get('elapsed_seconds', 0))}")
 
     def _refresh_step(self) -> None:
         while not self._stop.wait(0.2):
@@ -165,3 +171,22 @@ def _compact(value: str, limit: int) -> str:
             text = text.split(separator, 1)[0]
             break
     return text if len(text) <= limit else text[: limit - 1] + "…"
+
+
+def _source_label(candidate: dict[str, Any]) -> str:
+    reference = str(candidate.get("source_reference", ""))
+    if reference.startswith("本地参考值"):
+        return "参考值"
+    return SOURCE_LABELS.get(candidate["source_type"], candidate["source_type"])
+
+
+def _format_elapsed(seconds: object) -> str:
+    try:
+        total = max(0.0, float(seconds))
+    except (TypeError, ValueError):
+        total = 0.0
+    if total < 60:
+        return f"{total:.1f}s"
+    minutes = int(total // 60)
+    remainder = total - minutes * 60
+    return f"{minutes}m {remainder:.1f}s"

@@ -208,9 +208,11 @@
         "ast": {"type": "object"},
         "ast_path": {"type": "string"},
         "stl": {"type": "string"},
-        "schema_validation": {"type": "string"}
+        "stl_semantics": {"type": "string"},
+        "schema_validation": {"type": "string"},
+        "elapsed_seconds": {"type": "number", "minimum": 0}
       },
-      "required": ["original_text", "global_semantics", "mappings", "ast", "ast_path", "stl", "schema_validation"],
+      "required": ["original_text", "global_semantics", "mappings", "ast", "ast_path", "stl", "stl_semantics", "schema_validation", "elapsed_seconds"],
       "additionalProperties": false
     }
   }

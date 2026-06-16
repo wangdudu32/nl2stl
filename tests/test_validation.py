@@ -153,6 +153,68 @@ def test_resolved_parameter_removes_stale_generated_ambiguity():
     assert semantics["is_clear"] is True
 
 
+def test_unit_items_do_not_create_unbound_parameter_ambiguity():
+    semantics = {
+        "revision": 1,
+        "summary": "front_obstacle_distance > 15 m",
+        "is_clear": True,
+        "items": [
+            {
+                "id": "distance_signal",
+                "nl_fragment": "distance to the front obstacle",
+                "kind": "signal",
+                "value": "front_obstacle_distance",
+                "stl_fragment": "front_obstacle_distance",
+                "status": "resolved",
+                "source": "original_nl",
+            },
+            {
+                "id": "distance_unit",
+                "nl_fragment": "distance unit meters",
+                "kind": "unit",
+                "value": "meters",
+                "stl_fragment": "unit",
+                "status": "resolved",
+                "source": "original_nl",
+            },
+            {
+                "id": "threshold",
+                "nl_fragment": "some meters",
+                "kind": "predicate",
+                "value": "front_obstacle_distance > 15",
+                "stl_fragment": "front_obstacle_distance > 15",
+                "status": "resolved",
+                "source": "user",
+            },
+        ],
+        "ambiguities": [
+            {
+                "id": "unbound_parameter_unit",
+                "nl_fragment": "distance unit meters",
+                "category": "other",
+                "description": "stale unit ambiguity",
+                "question": "stale unit ambiguity",
+            }
+        ],
+        "mappings": [
+            {
+                "nl_fragment": "distance to the front obstacle shall remain greater than some meters",
+                "stl_fragment": "front_obstacle_distance > 15",
+                "status": "resolved",
+            }
+        ],
+    }
+
+    enforce_semantic_completeness(
+        semantics,
+        "for the next few seconds, the distance to the front obstacle shall remain greater than some meters.",
+        KnowledgeBase(),
+    )
+
+    assert semantics["ambiguities"] == []
+    assert semantics["is_clear"] is True
+
+
 def test_candidate_filter_rejects_canonical_duplicates():
     candidates = [
         {
