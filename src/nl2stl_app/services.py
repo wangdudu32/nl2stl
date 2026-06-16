@@ -61,14 +61,16 @@ class StructuredLLM:
         schema = output_schema or self.catalog.schema(format_id or "")
         system, user = self.catalog.prompt(prompt_id, **values)
         last_error: Exception | None = None
+        format_name = format_id or ""
         for attempt in range(1, self.max_attempts + 1):
             try:
                 result = self._structured_call(system, user, schema)
                 if not isinstance(result, dict):
                     raise TypeError("模型没有返回 JSON 对象")
+                _normalize_for_schema(format_name, result, schema)
                 errors = list(Draft202012Validator(schema).iter_errors(result))
                 if errors:
-                    raise ValueError("; ".join(error.message for error in errors))
+                    raise ValueError(_format_schema_errors(prompt_id, errors))
                 return result
             except Exception as exc:  # Network and structured-output errors share retry policy.
                 last_error = exc
@@ -173,3 +175,66 @@ def _extract_json_object(text: str) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise TypeError("响应 JSON 不是对象")
     return value
+
+
+def _normalize_for_schema(
+    format_id: str, result: dict[str, Any], schema: dict[str, Any]
+) -> None:
+    """Fix harmless model verbosity before strict schema validation."""
+
+    if format_id != "candidate_set":
+        return
+    candidates = result.get("candidates")
+    if not isinstance(candidates, list):
+        return
+    item_schema = (
+        schema.get("properties", {})
+        .get("candidates", {})
+        .get("items", {})
+        .get("properties", {})
+    )
+    explanation_limit = item_schema.get("explanation", {}).get("maxLength")
+    if not isinstance(explanation_limit, int):
+        return
+    for item in candidates:
+        if not isinstance(item, dict) or "explanation" not in item:
+            continue
+        item["explanation"] = _compact_text(str(item["explanation"]), explanation_limit)
+
+
+def _compact_text(text: str, limit: int) -> str:
+    """Keep short evidence notes deterministic when a gateway ignores maxLength."""
+
+    compact = " ".join(text.split())
+    for separator in ("。", ".", ";", "；", "\n"):
+        if separator in compact:
+            compact = compact.split(separator, 1)[0].strip()
+            break
+    if len(compact) <= limit:
+        return compact
+    suffix = "..."
+    return compact[: max(0, limit - len(suffix))].rstrip() + suffix
+
+
+def _format_schema_errors(prompt_id: str, errors: list[Any]) -> str:
+    formatted: list[str] = []
+    for error in errors:
+        path = _format_error_path(list(error.absolute_path))
+        message = error.message
+        if error.validator == "maxLength":
+            instance = _compact_text(str(error.instance), 120)
+            message = f"{instance!r} is too long (max {error.validator_value})"
+        formatted.append(f"{prompt_id} {path}: {message}")
+    return "; ".join(formatted)
+
+
+def _format_error_path(parts: list[Any]) -> str:
+    if not parts:
+        return "<root>"
+    path = ""
+    for part in parts:
+        if isinstance(part, int):
+            path += f"[{part}]"
+        else:
+            path += f".{part}" if path else str(part)
+    return path
