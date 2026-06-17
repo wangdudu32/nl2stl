@@ -6,6 +6,7 @@ from langgraph.types import Command
 
 from nl2stl_app.config import RuntimeCatalog, Settings
 from nl2stl_app.graph import (
+    _session_output_dir,
     _simple_reference_candidates,
     _stl_semantics,
     build_graph,
@@ -196,11 +197,13 @@ class FakeLLM:
         ambiguous: bool,
         review_only_one: bool = False,
         invalid_revision_sources: bool = False,
+        invalid_revision_status: bool = False,
         unbound_parameter: bool = False,
     ) -> None:
         self.ambiguous = ambiguous
         self.review_only_one = review_only_one
         self.invalid_revision_sources = invalid_revision_sources
+        self.invalid_revision_status = invalid_revision_status
         self.unbound_parameter = unbound_parameter
         self.calls = []
 
@@ -327,6 +330,9 @@ class FakeLLM:
             if self.invalid_revision_sources:
                 revised["items"][0]["source"] = "user_choice_amb_1_opt_1"
                 revised["items"][-1]["source"] = "user_choice"
+            if self.invalid_revision_status:
+                revised["items"][0]["status"] = "confirmed"
+                revised["mappings"][0]["status"] = "confirmed"
             return {
                 "applicable": True,
                 "revised_semantics": revised,
@@ -418,11 +424,23 @@ def test_clear_requirement_runs_to_verified_stl():
     output = graph.invoke(state, config={"configurable": {"thread_id": "clear-test"}})
     assert output["status"] == "complete"
     assert output["result"]["stl"] == "always (ego_speed < 5)"
+    assert output["result"]["ast_path"] == "tmp/single/clear-test/ast.json"
     assert output["result"]["stl_semantics"].startswith("清晰化需求：")
     assert output["result"]["elapsed_seconds"] >= 0
     assert "select_signals" not in llm.calls
     assert "review_global_semantics" not in llm.calls
     assert "semantic_review" not in llm.calls
+
+
+def test_batch_output_mode_uses_run_and_case_path():
+    state = initial_state(
+        "速度始终低于 5 km/h",
+        session_id="case_001",
+        output_mode="batch",
+        output_run_id="run_001",
+    )
+
+    assert str(_session_output_dir(state)).endswith("tmp/batch/run_001/case_001")
 
 
 def test_aeb_requirement_uses_local_signal_routing():
@@ -668,6 +686,19 @@ def test_confirmed_candidate_normalizes_model_invented_source_labels():
         for item in output["result"]["global_semantics"]["items"]
     )
     assert "validate_semantic_revision" not in llm.calls
+
+
+def test_confirmed_status_drift_is_normalized_in_revision():
+    llm = FakeLLM(True, invalid_revision_status=True)
+    graph = build_graph(settings(), RuntimeCatalog(), KnowledgeBase(), llm, FakeTavily())
+    config = {"configurable": {"thread_id": "status-normalization-test"}}
+    graph.invoke(initial_state("泊车期间始终保持低速", "status-normalization-test"), config=config)
+
+    output = graph.invoke(Command(resume="A"), config=config)
+
+    assert output["status"] == "complete"
+    assert output["result"]["global_semantics"]["items"][0]["status"] == "resolved"
+    assert output["result"]["global_semantics"]["mappings"][0]["status"] == "resolved"
 
 
 def test_progress_callback_reports_real_execution_steps():

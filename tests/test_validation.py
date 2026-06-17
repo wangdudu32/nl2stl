@@ -82,6 +82,33 @@ def test_semantic_normalizer_repairs_common_model_field_drift():
     ]
 
 
+def test_semantic_normalizer_repairs_confirmed_status_drift():
+    semantics = {
+        "items": [
+            {
+                "nl_fragment": "For the next few seconds",
+                "kind": "temporal",
+                "value": "always[0,20]",
+                "stl_fragment": "always[0,20]",
+                "status": "confirmed",
+                "source": "user",
+            }
+        ],
+        "mappings": [
+            {
+                "nl_fragment": "For the next few seconds",
+                "stl_fragment": "always[0,20]",
+                "status": "confirmed",
+            }
+        ],
+    }
+
+    normalize_global_semantics(semantics)
+
+    assert semantics["items"][0]["status"] == "resolved"
+    assert semantics["mappings"][0]["status"] == "resolved"
+
+
 def test_unbound_threshold_parameter_becomes_ambiguity():
     semantics = {
         "revision": 0,

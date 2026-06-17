@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 import sys
@@ -57,6 +58,8 @@ class GraphState(TypedDict, total=False):
     stl_semantics: str
     validation_errors: list[str]
     ast_repairs: int
+    output_mode: str
+    output_run_id: str
     result: dict[str, Any]
     status: str
 
@@ -446,8 +449,9 @@ def build_graph(
     def finalize(state: GraphState) -> dict[str, Any]:
         """落盘 AST，并最终执行用户提供的验证和转换脚本。"""
 
-        session_dir = ROOT / "tmp" / state["session_id"]
+        session_dir = _session_output_dir(state)
         ast_path = session_dir / "ast.json"
+        display_ast_path = _display_path(ast_path)
         atomic_write_json(ast_path, state["ast"])
         report("正在执行 validate_ast.py...")
         validation = _run_script(ROOT / "src" / "validate_ast.py", ast_path)
@@ -459,7 +463,7 @@ def build_graph(
                 "phase": "验证失败",
                 "result": {
                     "errors": [validation["output"], conversion["output"]],
-                    "ast_path": str(ast_path),
+                    "ast_path": display_ast_path,
                 },
             }
         result = {
@@ -467,7 +471,7 @@ def build_graph(
             "global_semantics": state["global_semantics"],
             "mappings": state["global_semantics"].get("mappings", []),
             "ast": state["ast"],
-            "ast_path": str(ast_path),
+            "ast_path": display_ast_path,
             "stl": conversion["output"].strip(),
             "stl_semantics": _stl_semantics(state),
             "schema_validation": validation["output"].strip(),
@@ -478,7 +482,7 @@ def build_graph(
             return {
                 "status": "error",
                 "phase": "验证失败",
-                "result": {"errors": result_errors, "ast_path": str(ast_path)},
+                "result": {"errors": result_errors, "ast_path": display_ast_path},
             }
         report("")
         return {
@@ -525,11 +529,18 @@ def build_graph(
     return builder.compile(checkpointer=InMemorySaver())
 
 
-def initial_state(text: str, session_id: str | None = None) -> GraphState:
+def initial_state(
+    text: str,
+    session_id: str | None = None,
+    output_mode: str = "single",
+    output_run_id: str | None = None,
+) -> GraphState:
     """创建一个相互隔离的新翻译会话。"""
 
     return {
         "session_id": session_id or uuid.uuid4().hex[:12],
+        "output_mode": output_mode,
+        "output_run_id": output_run_id or "",
         "original_text": text,
         "started_at": time.monotonic(),
         "phase": "选择信号",
@@ -661,6 +672,24 @@ def _run_script(script: Path, ast_path: Path) -> dict[str, Any]:
     )
     output = (completed.stdout + completed.stderr).strip()
     return {"returncode": completed.returncode, "output": output}
+
+
+def _session_output_dir(state: GraphState) -> Path:
+    mode = _safe_path_part(str(state.get("output_mode", "single"))) or "single"
+    session_id = _safe_path_part(str(state["session_id"]))
+    if mode == "batch":
+        run_id = _safe_path_part(str(state.get("output_run_id", "")))
+        return ROOT / "tmp" / mode / run_id / session_id
+    return ROOT / "tmp" / mode / session_id
+
+
+def _safe_path_part(value: str) -> str:
+    cleaned = re.sub(r"[^A-Za-z0-9_.-]+", "_", value.strip())
+    return cleaned.strip("._") or "run"
+
+
+def _display_path(path: Path) -> str:
+    return os.path.relpath(path, Path.cwd())
 
 
 def _stl_semantics(state: GraphState) -> str:

@@ -271,6 +271,23 @@ def normalize_global_semantics(semantics: dict[str, Any]) -> dict[str, Any]:
         "search",
         "llm_inference",
     }
+    status_aliases = {
+        "accepted": "resolved",
+        "clarified": "resolved",
+        "complete": "resolved",
+        "completed": "resolved",
+        "confirmed": "resolved",
+        "done": "resolved",
+        "fixed": "resolved",
+        "resolved": "resolved",
+        "selected": "resolved",
+        "unresolved": "pending",
+        "unknown": "pending",
+        "unclear": "pending",
+        "ambiguous": "pending",
+        "pending": "pending",
+        "todo": "pending",
+    }
     for index, item in enumerate(semantics.get("items", [])):
         if not isinstance(item, dict):
             continue
@@ -282,7 +299,7 @@ def normalize_global_semantics(semantics: dict[str, Any]) -> dict[str, Any]:
         item.setdefault("nl_fragment", str(item.get("description", item.get("value", ""))))
         item.setdefault("value", str(item.get("stl_fragment", "")))
         item.setdefault("stl_fragment", str(item.get("value", "")))
-        item.setdefault("status", "resolved")
+        item["status"] = _normalize_status(item.get("status"), status_aliases)
         for extra in set(item) - {
             "id",
             "nl_fragment",
@@ -325,10 +342,17 @@ def normalize_global_semantics(semantics: dict[str, Any]) -> dict[str, Any]:
             continue
         mapping.setdefault("nl_fragment", "")
         mapping.setdefault("stl_fragment", "")
-        mapping.setdefault("status", "resolved")
+        mapping["status"] = _normalize_status(mapping.get("status"), status_aliases)
         for extra in set(mapping) - {"nl_fragment", "stl_fragment", "status"}:
             mapping.pop(extra, None)
     return semantics
+
+
+def _normalize_status(value: Any, aliases: dict[str, str]) -> str:
+    normalized = str(value or "resolved").strip().lower().replace("-", "_")
+    if normalized.startswith("pending") or normalized.startswith("unresolved"):
+        return "pending"
+    return aliases.get(normalized, "resolved")
 
 
 def _parameter_category(name: str) -> str:

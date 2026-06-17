@@ -26,7 +26,27 @@ OPENAI_MODEL=gpt-4.1-mini
 .venv/bin/python src/main.py "在整个停车期间，车辆应该始终保持低速"
 ```
 
+也可以使用单例测试目录下的等价入口：
+
+```bash
+.venv/bin/python single/run_single.py "在整个停车期间，车辆应该始终保持低速"
+```
+
 页面每次只显示当前阶段，并实时显示当前执行步骤和耗时。存在歧义时，每轮显示一个优先问题和 2～3 个经过来源核验、去重的简洁候选；自定义输入可以是自然语言、数值、单位、区间或公式，也可以修改当前全局语义中的其它内容。
+
+## 目录约定
+
+```text
+src/              共享翻译引擎和兼容入口
+single/           单例交互测试入口、样例和输出占位
+batch/            批量实验的数据集、配置、结果和日志占位
+knowledge_base/   提示词、数据格式、信号知识和 STL Schema
+tmp/              运行时产物
+```
+
+单例会话的 AST 写入 `tmp/single/<session_id>/ast.json`。后续批量实验建议写入 `tmp/batch/<run_id>/<case_id>/ast.json`。
+
+最终页面中的 AST 路径使用相对当前工作目录的路径，避免绑定本机绝对目录。
 
 ## 工作流
 
@@ -45,8 +65,6 @@ OPENAI_MODEL=gpt-4.1-mini
 ```
 
 所有 Agent 提示词位于 `knowledge_base/prompt.json`，中间数据格式位于 `knowledge_base/data_formats.json`。信号先从 `signals_index.json` 选择，再按需读取 `signals_explain.txt` 的详细定义。
-
-每次会话的 AST 写入 `tmp/<session_id>/ast.json`。
 
 ## 测试
 
