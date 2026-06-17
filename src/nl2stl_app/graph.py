@@ -665,11 +665,17 @@ def _run_script(script: Path, ast_path: Path) -> dict[str, Any]:
 
 def _stl_semantics(state: GraphState) -> str:
     original = str(state.get("original_text", ""))
+    chinese = _is_chinese(original)
     clear_text = _clarified_original_text(original, state)
-    if clear_text:
+    if clear_text and not _contains_unresolved_terms(clear_text):
         return clear_text
-    prefix = "清晰化需求：" if _is_chinese(original) else "Clarified requirement: "
-    return f"{prefix}{_describe_formula(state['ast'])}。"
+    prefix = "清晰化需求：" if chinese else "Clarified requirement: "
+    punctuation = "。" if chinese else "."
+    return (
+        f"{prefix}"
+        f"{_describe_formula(state['ast'], state.get('global_semantics', {}), chinese)}"
+        f"{punctuation}"
+    )
 
 
 def _clarified_original_text(original: str, state: GraphState) -> str:
@@ -722,6 +728,26 @@ def _clarification_replacements(
                 ("some meter", f"{threshold} {unit}"),
                 ("some metre", f"{threshold} {unit}"),
             ])
+    predicate = _main_predicate_constant(ast)
+    if predicate is not None:
+        value = _format_value_with_unit(
+            predicate["value"],
+            _unit_for_predicate_info(predicate, semantics, chinese, original),
+            chinese,
+        )
+        if chinese:
+            relation = _relation_text(str(predicate["relation"]), chinese=True)
+            replacements.extend([
+                ("保持低速", f"保持{relation}{value}"),
+                ("低速", f"{relation}{value}"),
+            ])
+        else:
+            relation = _low_speed_relation_text(str(predicate["relation"]))
+            replacements.extend([
+                ("shall remain low speed", f"shall remain {relation} {value}"),
+                ("remain low speed", f"remain {relation} {value}"),
+                ("low speed", f"{relation} {value}"),
+            ])
     return replacements
 
 
@@ -739,6 +765,11 @@ def _top_level_interval(ast: dict[str, Any]) -> str:
 
 
 def _main_numeric_threshold(ast: dict[str, Any]) -> str | None:
+    predicate = _main_predicate_constant(ast)
+    return _format_number(predicate["value"]) if predicate is not None else None
+
+
+def _main_predicate_constant(ast: dict[str, Any]) -> dict[str, Any] | None:
     values: list[Any] = []
 
     def walk(value: Any) -> None:
@@ -746,7 +777,13 @@ def _main_numeric_threshold(ast: dict[str, Any]) -> str | None:
             if value.get("nodeType") == "predicate":
                 right = value.get("right", {})
                 if isinstance(right, dict) and right.get("exprType") == "constant":
-                    values.append(right.get("value"))
+                    values.append(
+                        {
+                            "relation": value.get("relation"),
+                            "value": right.get("value"),
+                            "signal": _predicate_signal_name(value),
+                        }
+                    )
             for child in value.values():
                 walk(child)
         elif isinstance(value, list):
@@ -754,17 +791,46 @@ def _main_numeric_threshold(ast: dict[str, Any]) -> str | None:
                 walk(child)
 
     walk(ast)
-    numeric = [value for value in values if isinstance(value, (int, float))]
-    return _format_number(numeric[-1]) if numeric else None
+    numeric = [
+        value for value in values if isinstance(value.get("value"), (int, float))
+    ]
+    return numeric[-1] if numeric else None
 
 
 def _threshold_unit(semantics: dict[str, Any], chinese: bool, original: str = "") -> str:
     text = (json.dumps(semantics, ensure_ascii=False) + " " + original).lower()
+    if "km/h" in text or "km / h" in text or "千米每小时" in text or "公里每小时" in text:
+        return "km/h"
     if "meter" in text or "metre" in text or "单位 m" in text or "→ m" in text:
         return "米" if chinese else "meters"
     if "second" in text or "单位 s" in text or "→ s" in text:
         return "秒" if chinese else "seconds"
     return ""
+
+
+def _unit_for_predicate_info(
+    predicate: dict[str, Any],
+    semantics: dict[str, Any],
+    chinese: bool,
+    original: str = "",
+) -> str:
+    signal = str(predicate.get("signal", "")).lower()
+    if signal and ("speed" in signal or signal in {"ego_speed"}):
+        return "km/h"
+    if signal and "distance" in signal:
+        return "米" if chinese else "meters"
+    if signal and ("time" in signal or signal.endswith("_ttc") or signal == "ttc"):
+        return "秒" if chinese else "seconds"
+    return _threshold_unit(semantics, chinese, original)
+
+
+def _format_value_with_unit(value: Any, unit: str, chinese: bool) -> str:
+    number = _format_number(value)
+    if not unit:
+        return number
+    if unit == "km/h":
+        return f"{number} {unit}"
+    return f"{number}{unit}" if chinese else f"{number} {unit}"
 
 
 def _format_number(value: Any) -> str:
@@ -782,50 +848,122 @@ def _clean_clarified_text(text: str) -> str:
     return text
 
 
-def _describe_formula(node: dict[str, Any]) -> str:
+def _contains_unresolved_terms(text: str) -> bool:
+    normalized = text.lower()
+    terms = (
+        "low speed",
+        "safe distance",
+        "few seconds",
+        "some meters",
+        "some metres",
+        "threshold",
+        "pending",
+        "低速",
+        "安全距离",
+        "几秒",
+        "若干",
+        "一些",
+        "待确认",
+        "待澄清",
+    )
+    return any(term in normalized for term in terms)
+
+
+def _describe_formula(
+    node: dict[str, Any], semantics: dict[str, Any] | None = None, chinese: bool = True
+) -> str:
+    semantics = semantics or {}
     node_type = node.get("nodeType")
     if node_type == "predicate":
-        return _describe_predicate(node)
+        return _describe_predicate(node, semantics, chinese)
     if node_type == "boolean":
-        return _describe_boolean(node)
+        return _describe_boolean(node, semantics, chinese)
     if node_type == "temporal":
-        return _describe_temporal(node)
+        return _describe_temporal(node, semantics, chinese)
     if node_type == "pastTemporal":
         operator = node.get("operator")
-        operand = _describe_formula(node.get("operands", [{}])[0])
-        interval = _describe_interval(node.get("interval"))
+        operand = _describe_formula(node.get("operands", [{}])[0], semantics, chinese)
+        interval = _describe_interval(node.get("interval"), chinese)
+        if not chinese:
+            if operator == "historically":
+                return f"throughout {interval}, {operand} held"
+            if operator == "once":
+                return f"at some time in {interval}, {operand} held"
+            if operator == "since":
+                operands = node.get("operands", [{}, {}])
+                return (
+                    f"{_describe_formula(operands[0], semantics, chinese)} has held "
+                    f"since {_describe_formula(operands[1], semantics, chinese)}"
+                )
         if operator == "historically":
             return f"在过去{interval}内，{operand}始终成立"
         if operator == "once":
             return f"在过去{interval}内，存在某个时刻满足：{operand}"
         if operator == "since":
             operands = node.get("operands", [{}, {}])
-            return f"{_describe_formula(operands[0])} 自 {_describe_formula(operands[1])} 后成立"
+            return (
+                f"{_describe_formula(operands[0], semantics, chinese)} 自 "
+                f"{_describe_formula(operands[1], semantics, chinese)} 后成立"
+            )
     if node_type == "edge":
-        return f"{node.get('operator')}({_describe_formula(node.get('operand', {}))}) 发生"
+        operand = _describe_formula(node.get("operand", {}), semantics, chinese)
+        return (
+            f"{node.get('operator')}({operand}) 发生"
+            if chinese
+            else f"{node.get('operator')}({operand}) occurs"
+        )
     return "最终公式成立"
 
 
-def _describe_temporal(node: dict[str, Any]) -> str:
+def _describe_temporal(
+    node: dict[str, Any], semantics: dict[str, Any], chinese: bool
+) -> str:
     operator = node.get("operator")
     operands = node.get("operands", [])
-    interval = _describe_interval(node.get("interval"))
+    interval = _describe_interval(node.get("interval"), chinese)
     if operator == "always" and operands:
+        if not chinese:
+            if operands[0].get("nodeType") == "predicate":
+                return f"For {interval}, {_describe_persistent_predicate(operands[0], semantics, chinese)}"
+            return (
+                f"For {interval}, "
+                f"{_describe_formula(operands[0], semantics, chinese)} shall always hold"
+            )
         if operands[0].get("nodeType") == "predicate":
-            return f"在{interval}内，{_describe_persistent_predicate(operands[0])}"
-        return f"在{interval}内，{_describe_formula(operands[0])}始终成立"
+            return f"在{interval}内，{_describe_persistent_predicate(operands[0], semantics, chinese)}"
+        return f"在{interval}内，{_describe_formula(operands[0], semantics, chinese)}始终成立"
     if operator == "eventually" and operands:
-        return f"在{interval}内，存在某个时刻满足：{_describe_formula(operands[0])}"
+        if not chinese:
+            return (
+                f"At some time within {interval}, "
+                f"{_describe_formula(operands[0], semantics, chinese)}"
+            )
+        return f"在{interval}内，存在某个时刻满足：{_describe_formula(operands[0], semantics, chinese)}"
     if operator in {"until", "weak_until", "release"} and len(operands) >= 2:
-        left = _describe_formula(operands[0])
-        right = _describe_formula(operands[1])
+        left = _describe_formula(operands[0], semantics, chinese)
+        right = _describe_formula(operands[1], semantics, chinese)
         return f"在{interval}内，{left} {operator} {right}"
     return "时序条件成立"
 
 
-def _describe_boolean(node: dict[str, Any]) -> str:
+def _describe_boolean(
+    node: dict[str, Any], semantics: dict[str, Any], chinese: bool
+) -> str:
     operator = node.get("operator")
-    operands = [_describe_formula(item) for item in node.get("operands", [])]
+    operands = [
+        _describe_formula(item, semantics, chinese) for item in node.get("operands", [])
+    ]
+    if not chinese:
+        if operator == "not" and operands:
+            return f"not ({operands[0]})"
+        if operator == "and":
+            return " and ".join(operands)
+        if operator == "or":
+            return " or ".join(operands)
+        if operator == "implies" and len(operands) >= 2:
+            return f"if {operands[0]}, then {operands[1]}"
+        if operator == "iff" and len(operands) >= 2:
+            return f"{operands[0]} if and only if {operands[1]}"
     if operator == "not" and operands:
         return f"不满足：{operands[0]}"
     if operator == "and":
@@ -839,21 +977,38 @@ def _describe_boolean(node: dict[str, Any]) -> str:
     return "逻辑条件成立"
 
 
-def _describe_predicate(node: dict[str, Any]) -> str:
+def _describe_predicate(
+    node: dict[str, Any], semantics: dict[str, Any], chinese: bool
+) -> str:
     left = _describe_expression(node.get("left", {}))
-    right = _describe_expression(node.get("right", {}))
-    relation = _relation_text(str(node.get("relation")))
+    right = _describe_right_expression(node, semantics, chinese)
+    relation = _relation_text(str(node.get("relation")), chinese)
+    if not chinese:
+        return f"{left} is {relation} {right}"
     return f"{left} {relation} {right}"
 
 
-def _describe_persistent_predicate(node: dict[str, Any]) -> str:
+def _describe_persistent_predicate(
+    node: dict[str, Any], semantics: dict[str, Any], chinese: bool
+) -> str:
     left = _describe_expression(node.get("left", {}))
-    right = _describe_expression(node.get("right", {}))
-    relation = _relation_text(str(node.get("relation")))
+    right = _describe_right_expression(node, semantics, chinese)
+    relation = _relation_text(str(node.get("relation")), chinese)
+    if not chinese:
+        return f"{left} shall always be {relation} {right}"
     return f"{left} 始终{relation} {right}"
 
 
-def _relation_text(relation: str) -> str:
+def _relation_text(relation: str, chinese: bool = True) -> str:
+    if not chinese:
+        return {
+            ">": "greater than",
+            ">=": "greater than or equal to",
+            "<": "less than",
+            "<=": "less than or equal to",
+            "==": "equal to",
+            "!=": "not equal to",
+        }.get(relation, relation)
     return {
         ">": "大于",
         ">=": "大于等于",
@@ -862,6 +1017,45 @@ def _relation_text(relation: str) -> str:
         "==": "等于",
         "!=": "不等于",
     }.get(relation, relation)
+
+
+def _low_speed_relation_text(relation: str) -> str:
+    return {
+        "<": "below",
+        "<=": "at or below",
+        ">": "above",
+        ">=": "at or above",
+        "==": "equal to",
+        "!=": "not equal to",
+    }.get(relation, _relation_text(relation, chinese=False))
+
+
+def _describe_right_expression(
+    node: dict[str, Any], semantics: dict[str, Any], chinese: bool
+) -> str:
+    right = node.get("right", {})
+    if isinstance(right, dict) and right.get("exprType") == "constant":
+        return _format_value_with_unit(
+            right.get("value"),
+            _unit_for_predicate_info(
+                {
+                    "signal": _predicate_signal_name(node),
+                    "value": right.get("value"),
+                    "relation": node.get("relation"),
+                },
+                semantics,
+                chinese,
+            ),
+            chinese,
+        )
+    return _describe_expression(right)
+
+
+def _predicate_signal_name(node: dict[str, Any]) -> str:
+    left = node.get("left", {})
+    if isinstance(left, dict) and left.get("exprType") == "signal":
+        return str(left.get("name", ""))
+    return ""
 
 
 def _describe_expression(expr: dict[str, Any]) -> str:
@@ -885,16 +1079,16 @@ def _describe_expression(expr: dict[str, Any]) -> str:
     return ""
 
 
-def _describe_interval(interval: dict[str, Any] | None) -> str:
+def _describe_interval(interval: dict[str, Any] | None, chinese: bool = True) -> str:
     if not interval:
-        return "整个监控区间"
+        return "整个监控区间" if chinese else "the entire monitoring interval"
     lower = interval.get("lower", 0)
     upper = interval.get("upper", "inf")
     if lower == 0 and upper == "inf":
-        return "整个监控区间"
+        return "整个监控区间" if chinese else "the entire monitoring interval"
     if lower == 0:
-        return f"未来 {upper} 秒"
-    return f"{lower} 到 {upper} 秒"
+        return f"未来 {upper} 秒" if chinese else f"the next {upper} seconds"
+    return f"{lower} 到 {upper} 秒" if chinese else f"{lower} to {upper} seconds"
 
 
 def _require_valid(

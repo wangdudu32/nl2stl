@@ -492,6 +492,32 @@ def test_stl_semantics_is_clear_natural_language_not_process_summary():
     )
 
 
+def test_stl_semantics_replaces_clarified_low_speed_threshold():
+    ast = always(predicate("<=", 5))
+    ast["interval"]["upper"] = 20
+    state = {
+        "original_text": (
+            "For the next few seconds, the ego vehicle speed shall remain low speed"
+        ),
+        "ast": ast,
+        "global_semantics": {
+            "items": [
+                {
+                    "nl_fragment": "low speed",
+                    "value": "ego_speed <= 5",
+                    "stl_fragment": "ego_speed <= 5",
+                    "status": "resolved",
+                }
+            ],
+            "mappings": [],
+        },
+    }
+
+    assert _stl_semantics(state) == (
+        "For the next 20 seconds, the ego vehicle speed shall remain at or below 5 km/h"
+    )
+
+
 def test_chinese_stl_semantics_keeps_original_language():
     ast = always(
         {
