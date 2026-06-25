@@ -1,0 +1,18 @@
+{
+  {
+    taskid:0,
+    gold_stl:"ground_truth stl公式",
+    pred_stl:"生成的stl公式",
+  },
+  {
+    taskid:1,
+    gold_stl:"ground_truth stl公式",
+    pred_stl:"生成的stl公式",
+  },
+  {
+    taskid:2,
+    gold_stl:"ground_truth stl公式",
+    pred_stl:"生成的stl公式",
+  },
+  ...
+}
