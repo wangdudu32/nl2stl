@@ -10,7 +10,7 @@ def ast2stl(ast: str) -> str:
         "multiply": (" * ", 20),
         "divide": (" / ", 20),
     }
-    bin_temp_prec, unary_prec, atom_prec = 30, 70, 90
+    bin_temp_prec, unary_prec, atom_prec = 55, 70, 90
 
     def interval(value):
         if value is None:

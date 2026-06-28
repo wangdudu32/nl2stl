@@ -3,24 +3,29 @@ import re
 import rtamt
 
 IDENTIFIER = r"[A-Za-z_][A-Za-z0-9_]*"
-COMPARISON_OPERATOR = r"""
-    <= | >= | == | !=
-    | (?<![-<>=]) < (?![-=>])
-    | (?<![-<>=]) > (?!=)
-    | (?<![<>=]) = (?![=>])
-"""
-COMPARISON_RE = re.compile(
-    rf"""
-    \b(?P<left>{IDENTIFIER})
-    \s*
-    (?:{COMPARISON_OPERATOR})
-    \s*
-    (?P<right>[^()]+?)
-    (?=\s+(?:and|or)\b|\)|->|$)
-    """,
-    re.VERBOSE,
+IDENTIFIER_SCAN_RE = re.compile(
+    rf"(?<![A-Za-z0-9_])(?P<name>{IDENTIFIER})(?![A-Za-z0-9_])"
 )
-IDENTIFIER_RE = re.compile(rf"^{IDENTIFIER}$")
+RESERVED_WORDS = {
+    "always",
+    "eventually",
+    "until",
+    "weak_until",
+    "release",
+    "once",
+    "historically",
+    "since",
+    "rise",
+    "fall",
+    "peak",
+    "and",
+    "or",
+    "not",
+    "implies",
+    "iff",
+    "true",
+    "false",
+}
 
 
 def stl_syntax_validator(stl: str) -> bool:
@@ -40,11 +45,9 @@ def stl_syntax_validator(stl: str) -> bool:
 
 def extract_variables(stl: str) -> set[str]:
     variables: set[str] = set()
-    for match in COMPARISON_RE.finditer(stl):
-        variables.add(match["left"])
-
-        right = match["right"].strip()
-        if IDENTIFIER_RE.fullmatch(right):
-            variables.add(right)
+    for match in IDENTIFIER_SCAN_RE.finditer(stl):
+        name = match["name"]
+        if name.lower() not in RESERVED_WORDS:
+            variables.add(name)
 
     return variables
