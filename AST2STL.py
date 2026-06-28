@@ -22,6 +22,20 @@ def ast2stl(ast: str) -> str:
         right = "]" if upper != "inf" and value.get("upperInclusive", True) else ")"
         return f"{left}{lower}:{upper}{right}"
 
+    def with_interval(op, rng):
+        return op if rng is None else f"{op} {rng}"
+
+    def wrap(text):
+        return f"({text})"
+
+    def node_info(node, text, prec):
+        return {
+            "text": text,
+            "prec": prec,
+            "nodeType": node.get("nodeType"),
+            "operator": node.get("operator"),
+        }
+
     def expr(node):
         kind = node["exprType"]
         if kind in {"signal", "parameter"}:
@@ -43,44 +57,71 @@ def ast2stl(ast: str) -> str:
         if kind == "predicate":
             left, _ = expr(node["left"])
             right, _ = expr(node["right"])
-            return f"{left} {node['relation']} {right}", atom_prec
+            return node_info(node, f"{left} {node['relation']} {right}", atom_prec)
         if kind == "boolean":
             op, operands = node["operator"], node["operands"]
             prec = bool_prec[op]
             if op == "not":
-                text, child = formula(operands[0])
-                return f"not {f'({text})' if child < prec else text}", prec
+                child = formula(operands[0])
+                if child["nodeType"] == "edge":
+                    text = child["text"]
+                else:
+                    text = wrap(child["text"])
+                return node_info(node, f"not {text}", prec)
             parts = []
             for operand in operands:
-                text, child = formula(operand)
-                if child < prec or (child == prec and op in {"implies", "iff"}):
-                    text = f"({text})"
+                child = formula(operand)
+                text = child["text"]
+                child_prec = child["prec"]
+                child_op = child["operator"]
+                if (
+                    child_prec < prec
+                    or (child_prec == prec and op in {"implies", "iff"})
+                    or (child_prec == prec and child_op == op and op in {"and", "or"})
+                    or (op == "or" and child_op == "and")
+                ):
+                    text = wrap(text)
                 parts.append(text)
-            return {"and": " and ", "or": " or ", "implies": " -> ", "iff": " <-> "}[op].join(parts), prec
+            return node_info(
+                node,
+                {"and": " and ", "or": " or ", "implies": " -> ", "iff": " <-> "}[op].join(parts),
+                prec,
+            )
         if kind in {"temporal", "pastTemporal"}:
             op, operands = node["operator"], node["operands"]
             rng = interval(node.get("interval"))
             if op in {"always", "eventually", "historically", "once"}:
-                text, _ = formula(operands[0])
-                return f"{op if rng is None else op + rng} ({text})", unary_prec
-            mid = op if rng is None else op + rng
-            left, lp = formula(operands[0])
-            right, rp = formula(operands[1])
-            return (
-                f"{f'({left})' if lp <= bin_temp_prec else left} {mid} "
-                f"{f'({right})' if rp <= bin_temp_prec else right}",
+                child = formula(operands[0])
+                text = child["text"]
+                if child["operator"] in {"implies", "iff"}:
+                    text = f" {text} "
+                return node_info(
+                    node,
+                    f"{with_interval(op, rng)} ({text})",
+                    unary_prec,
+                )
+            mid = with_interval(op, rng)
+            left = formula(operands[0])
+            right = formula(operands[1])
+            return node_info(
+                node,
+                f"{wrap(left['text'])} {mid} {wrap(right['text'])}",
                 bin_temp_prec,
             )
         if kind == "edge":
-            text, _ = formula(node["operand"])
+            child = formula(node["operand"])
             mode = node.get("mode", "strict")
             op = node["operator"] if mode == "strict" else f"{node['operator']}[{mode}]"
-            return f"{op}({text})", unary_prec
+            return node_info(node, f"{op} ({child['text']})", unary_prec)
         if kind == "statistical":
-            text, _ = formula(node["operand"])
+            child = formula(node["operand"])
             threshold = node["threshold"]
             rng = interval(node.get("interval")) or "[0:inf)"
-            return f"{node['operator']}{{{rng}}}({text}) {threshold['relation']} {threshold['value']}", unary_prec
+            return node_info(
+                node,
+                f"{node['operator']}{{{rng}}}({child['text']}) {threshold['relation']} {threshold['value']}",
+                unary_prec,
+            )
         raise ValueError(f"Unknown nodeType: {kind}")
 
-    return formula(data)[0]
+    return formula(data)["text"]

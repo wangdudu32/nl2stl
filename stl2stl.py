@@ -6,7 +6,7 @@ from AST2STL import ast2stl
 from STL2AST import stl2ast
 
 
-INPUT_FILE = Path("dataset/deepstl_test_300_sample.csv")
+INPUT_FILE = Path("dataset/deepstl_test_2k.csv")
 OUTPUT_FILE = Path("tmp/stl2stl.txt")
 
 
