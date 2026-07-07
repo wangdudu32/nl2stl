@@ -1,0 +1,31 @@
+# 对每个算子的知识总结成这个模板
+operator:
+  meaning:
+  cases:
+    - semantic:
+      cue:
+      pattern:
+
+examples:
+rise:
+  meaning: "rise(φ) 表示谓词 φ 从 false 变为 true"
+
+  cases:
+    - semantic: "变量进入某个区间"
+      cue: "x enters the range/region [a,b]; x becomes within [a,b]"; ...(若还有不同的表达方式,可以继续追加)
+      pattern: "rise(a <= x && x <= b)"
+
+    - semantic: "变量向上越过阈值"
+      cue: "x rises above c; x crosses above c; x becomes greater than c"
+      pattern: "rise(x > c)"
+
+    - semantic: "布尔/状态变量被激活"
+      cue: "x turns on; x becomes active; x switches to true"
+      pattern: "rise(x == true)"
+
+    - semantic: "复合条件开始成立"
+      cue: "condition A and B becomes true; system enters a state where A and B hold"
+      pattern: "rise(A && B)"
+
+
+
