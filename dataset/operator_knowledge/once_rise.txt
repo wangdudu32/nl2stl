@@ -1,0 +1,10 @@
+operator: once_rise
+meaning: "once [a:b](rise(φ)) 表示过去时间窗口内曾经发生过 φ 从 false 变为 true 的转移。"
+cases:
+  - semantic: "过去指定时间窗口内曾经发生过上升转移事件。"
+    cue: "there will have to once exist a certain time instant during the last b time units, at which x jumps to higher than c：过去窗口内至少出现过一次 rise 事件。"
+    pattern: "once [a:b] (rise(φ))"
+
+  - semantic: "从仿真开始以来的过去历史中曾经发生过上升转移事件。"
+    cue: "there needed to be a certain time instant in the past starting from the beginning of the execution, at which x was changed to y once：无界过去中至少出现过一次 rise 事件。"
+    pattern: "once(rise(φ))"

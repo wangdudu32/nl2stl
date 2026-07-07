@@ -1,0 +1,6 @@
+operator: not_rise_until
+meaning: "not rise(φ until ψ) 表示禁止一个 until 时间模式从 false 变为 true。"
+cases:
+  - semantic: "禁止某个 until 条件整体开始成立。"
+    cue: "the condition that x will be ... all the time until y ... is not detected to shift from false to true：被禁止的 rise 事件作用在整段 until 模式上。"
+    pattern: "not rise(φ until ψ)"

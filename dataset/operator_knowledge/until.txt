@@ -1,0 +1,10 @@
+operator: until
+meaning: "φ until ψ 表示 φ 从当前开始持续成立，直到未来某个时间点 ψ 成立。"
+cases:
+  - semantic: "某个状态或区间条件持续保持，直到未来观察到指定事件。"
+    cue: "this scenario will remain until there is a certain time point in the future ...：前一条件持续保持，直到后一个条件在未来某个时刻成立。"
+    pattern: "φ until ψ"
+
+  - semantic: "未来有限时间窗口内的 until：前一条件持续成立，终止条件需要在指定窗口内出现。"
+    cue: "at sometime starting at most b time units ... finally, till then continuously ...：终止条件被限制在未来窗口内，出现前持续条件一直保持。"
+    pattern: "φ until [a:b] ψ"

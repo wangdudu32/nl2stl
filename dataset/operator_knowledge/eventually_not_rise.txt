@@ -1,0 +1,10 @@
+operator: eventually_not_rise
+meaning: "eventually [a:b](not rise(φ)) 表示未来窗口中需要出现一个时刻，在该时刻 φ 的 rise 转移不发生。"
+cases:
+  - semantic: "未来指定时间窗口内要求出现一个未发生进入区间转移的时刻。"
+    cue: "the transition action that x enters the bound (a, b) is not detected eventually at a certain time instant after at most b time units：eventually 的满足时刻上，rise 事件被否定。"
+    pattern: "eventually [a:b] (not rise(φ))"
+
+  - semantic: "未来指定时间窗口内要求出现一个未发生越阈 rise 的时刻。"
+    cue: "there should ultimately exist sometime within the first b time units, at which the event that x becomes higher than c shan't get detected：eventually 的满足时刻上，越阈 rise 被否定。"
+    pattern: "eventually [a:b] (not rise(x > c))"

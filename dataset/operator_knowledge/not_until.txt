@@ -1,0 +1,14 @@
+operator: not_until
+meaning: "not (φ until ψ) 表示禁止出现 φ 一直持续到 ψ 成立的时间模式。"
+cases:
+  - semantic: "禁止某个区间状态持续保持直到未来事件发生。"
+    cue: "the following condition shan't be true: ... will remain until ...：否定整段 until 时间模式，而不是只否定终止事件或持续状态中的某一部分。"
+    pattern: "not (φ until ψ)"
+
+  - semantic: "否定带有有界终止窗口的 until 时间模式。"
+    cue: "the condition that ... consistently until x eventually increases to c at a time within the following window mustn't be true：否定的是持续条件加窗口内终止事件这一整段 until 关系。"
+    pattern: "not (φ until [a:b] ψ)"
+
+  - semantic: "用 won't be true 否定无界 until 时间模式。"
+    cue: "the condition that x consecutively remains ... till y ultimately at a certain moment in the future won't be true：否定的是持续状态直到未来终止条件成立这一整段关系。"
+    pattern: "not (φ until ψ)"

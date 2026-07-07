@@ -1,0 +1,30 @@
+operator: eventually_fall
+meaning: "eventually(fall(φ)) 表示未来某个时间点必须观察到谓词 φ 从 true 变为 false。"
+cases:
+  - semantic: "未来指定时间窗口内需要发生某个失效或偏离转移。"
+    cue: "finally x ought to start not equaling c at a certain moment within the coming b time units：eventually 的目标是 fall 描述的偏离事件。"
+    pattern: "eventually [a:b] (fall(φ))"
+
+  - semantic: "未来指定时间窗口内需要发生离开闭区间的转移。"
+    cue: "there should exist a certain moment in the subsequent b time units, at which x must leave the range [a, b]：eventually 的目标是区间谓词失效这一 fall 事件。"
+    pattern: "eventually [a:b] (fall(x >= lower and x <= upper))"
+
+  - semantic: "无界未来中最终需要发生关系失效或偏离转移。"
+    cue: "at sometime in the future before the end of the simulation, the scenario that x deviates from y should get detected eventually：未来某个时刻需要观察到 x == y 的 fall 事件。"
+    pattern: "eventually(fall(x == y))"
+
+  - semantic: "未来指定时间窗口内需要发生离开开区间的转移。"
+    cue: "there will be a certain time instant within the coming b time units, at which the scenario that x leaves the range (a, b) needs to be detected：eventually 的目标是开区间谓词失效这一 fall 事件。"
+    pattern: "eventually [a:b] (fall(x > lower and x < upper))"
+
+  - semantic: "未来指定时间窗口内需要发生离开左闭右开区间的转移。"
+    cue: "there ought to ultimately exist a certain time point within the first b time units, at which the event that x leaves the range [a, b) will have to be detected：eventually 的目标是半开区间谓词失效这一 fall 事件。"
+    pattern: "eventually [a:b] (fall(x >= lower and x < upper))"
+
+  - semantic: "未来指定时间窗口内需要发生离开左开右闭区间的转移。"
+    cue: "there should be a certain time point after at most b time units, at which the scenario that x leaves the range (a, b] should get observed ultimately：eventually 的目标是左开右闭区间谓词失效这一 fall 事件。"
+    pattern: "eventually [a:b] (fall(x > lower and x <= upper))"
+
+  - semantic: "无界未来中最终需要发生离开闭区间的转移。"
+    cue: "there has to be a time in the future before the end of the execution, at which finally the scenario that x goes out of the bound [a, b] ought to be observed：未来某个时刻需要观察到闭区间谓词失效这一 fall 事件。"
+    pattern: "eventually(fall(x >= lower and x <= upper))"

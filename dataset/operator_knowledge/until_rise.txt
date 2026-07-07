@@ -1,0 +1,30 @@
+operator: until_rise
+meaning: "φ until rise(ψ) 表示 φ 持续成立，直到未来某个时间点 ψ 从 false 变为 true。"
+cases:
+  - semantic: "一个持续状态以未来转移事件作为终止条件。"
+    cue: "remain until ... the event that the mode of x is changed to y is observed：until 的终止点不是普通状态，而是 rise 描述的关系开始成立事件。"
+    pattern: "φ until rise(ψ)"
+
+  - semantic: "持续状态以未来窗口内的 rise 事件作为终止条件。"
+    cue: "there ought to exist a certain time instant during the subsequent b time units, at which the event that x gets to at most c will have to be detected eventually, till then ... stay ... consecutively：终止事件是窗口内发生的 rise 转移。"
+    pattern: "φ until [a:b] rise(ψ)"
+
+  - semantic: "持续状态以未来窗口内信号超过阈值的 rise 事件作为终止条件。"
+    cue: "this scenario shall continue consistently till eventually the scenario that x exceeds c is detected at a certain time instant in the subsequent b time units：终止条件是未来窗口内发生的越阈转移。"
+    pattern: "φ until [a:b] rise(x > c)"
+
+  - semantic: "持续状态以未来某个下降到阈值以下的 rise 事件作为终止条件。"
+    cue: "remain ... until x goes down to less than c ultimately, which ought to get observed at a certain moment in the future before the execution ends：终止条件是无界未来中发生的下降越阈转移。"
+    pattern: "φ until rise(x < c)"
+
+  - semantic: "持续状态以未来有限窗口内下降到阈值以下的 rise 事件作为终止条件。"
+    cue: "there shall exist a certain time instant within the following b time units finally, at which x needs to go down to lower than c, and before this without interruption ...：终止条件是窗口内发生的下降越阈转移。"
+    pattern: "φ until [a:b] rise(x < c)"
+
+  - semantic: "持续状态以未来有限窗口内上升到大于等于阈值的 rise 事件作为终止条件。"
+    cue: "until x eventually increases to greater than or equal to c at a time within the following a to b time units：终止条件是窗口内发生的上升越阈转移。"
+    pattern: "φ until [a:b] rise(x >= c)"
+
+  - semantic: "持续状态以未来进入闭区间的 rise 事件作为终止条件。"
+    cue: "x settles inside the bound [a, b] at a certain time point in the future, before this y shall ...：终止条件是进入闭区间这一 rise 转移。"
+    pattern: "φ until rise(x >= lower and x <= upper)"

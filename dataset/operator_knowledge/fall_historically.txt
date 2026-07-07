@@ -1,0 +1,6 @@
+operator: fall_historically
+meaning: "fall(historically(φ)) 表示“φ 在过去一直成立”这个历史条件从 true 变为 false。"
+cases:
+  - semantic: "过去持续成立的历史条件被观察到失效。"
+    cue: "the condition that x has kept ... without interruption in the past since the beginning of the simulation is observed to shift from true to false：fall 的对象是 historically 描述的历史不变性。"
+    pattern: "fall(historically(φ))"

@@ -1,0 +1,10 @@
+operator: until_not_rise
+meaning: "until 与 not rise 连续使用时，可表示终止条件出现前持续禁止 rise，或以 not rise 作为 until 的终止条件。"
+cases:
+  - semantic: "直到终止条件出现前，持续禁止某个 rise 事件发生。"
+    cue: "till then continuously the scenario that x rises to greater than or equal to c shall not get detected：until 的持续阶段是不发生 rise 转移。"
+    pattern: "not rise(φ) until [a:b] ψ"
+
+  - semantic: "until 的终止条件本身是某个 rise 转移未发生。"
+    cue: "until there exists a time in the first a to b time units, at which the event that x increases to greater than or equal to c is not detected：终止位置要求满足 not rise，而持续条件在此之前保持。"
+    pattern: "φ until [a:b] (not rise(ψ))"

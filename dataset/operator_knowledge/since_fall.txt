@@ -1,0 +1,10 @@
+operator: since_fall
+meaning: "φ since [a:b](fall(ψ)) 表示过去窗口内发生过 ψ 从 true 变为 false 的转移，并且此后 φ 一直持续到当前。"
+cases:
+  - semantic: "since 的过去起点是一个 fall 转移事件。"
+    cue: "there was a certain time instant within the elapsed b time units, at which x deviates from y once, and after that ... stayed ... continuously：从过去的 fall 事件发生后，前一条件持续保持到当前。"
+    pattern: "φ since [a:b] (fall(ψ))"
+
+  - semantic: "since 的过去起点是信号离开区间的 fall 事件。"
+    cue: "at a certain moment within the past b time units once the transition action that x leaves the range (a, b] took place, after this continuously ...：过去窗口中的区间离开事件作为 since 起点。"
+    pattern: "φ since [a:b] (fall(x > lower and x <= upper))"

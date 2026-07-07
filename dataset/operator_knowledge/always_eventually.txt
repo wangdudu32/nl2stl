@@ -1,0 +1,18 @@
+operator: always_eventually
+meaning: "always [a:b](eventually [c:d](φ)) 表示外层窗口内的每个时刻都必须能在随后的窗口内看到 φ 出现。"
+cases:
+  - semantic: "每个外层检查时刻都启动一次有界最终到达要求。"
+    cue: "for every moment within the first a time units, at sometime within the following b time units ... needs to take place：外层逐时刻检查，内层要求每次检查后都能在后续窗口中出现目标事件。"
+    pattern: "always [a:b] (eventually [c:d] (φ))"
+
+  - semantic: "从当前到执行结束的每个时刻，都要求目标在随后的有限窗口内出现。"
+    cue: "for every moment in the future until the execution ends, at a certain moment starting at most b time units eventually ... must get detected：外层无界持续检查，内层是每次检查后的有界最终出现。"
+    pattern: "always(eventually [a:b] (φ))"
+
+  - semantic: "指定窗口内的每个时刻，都要求目标在未来某个时刻最终出现。"
+    cue: "for each time instant in the first a time units, there must eventually exist sometime in the future before the end of the simulation ...：外层窗口逐时刻检查，内层 eventually 没有有限上界。"
+    pattern: "always [a:b] (eventually(φ))"
+
+  - semantic: "从当前到执行结束的每个时刻，都要求目标最终在未来某个时刻出现。"
+    cue: "for every time point in the future before the simulation ends, there ought to be a certain time point in the future before the execution ends ...：外层和内层都没有有限时间窗口。"
+    pattern: "always(eventually(φ))"

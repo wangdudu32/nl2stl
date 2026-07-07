@@ -1,0 +1,6 @@
+operator: rise_once
+meaning: "rise(once [a:b](φ)) 表示“过去窗口内曾经出现 φ”这一历史存在条件从 false 变为 true。"
+cases:
+  - semantic: "过去存在性条件整体开始成立。"
+    cue: "the subsequent condition should change from false to true: once there would be a certain moment within the last a to b time units, at which x would be y：rise 的对象是 once 描述的过去存在条件。"
+    pattern: "rise(once [a:b] (φ))"

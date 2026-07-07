@@ -1,0 +1,10 @@
+operator: since_rise
+meaning: "φ since [a:b](rise(ψ)) 表示 ψ 的上升转移曾在过去窗口内发生，并且此后 φ 持续到当前。"
+cases:
+  - semantic: "since 的过去起点是一个 rise 转移事件。"
+    cue: "this scenario has continued since the state of x is shifted to y once at a time in the last b time units：从过去的上升转移发生后，前一条件持续保持到当前。"
+    pattern: "φ since [a:b] (rise(ψ))"
+
+  - semantic: "无界过去中的 rise 事件作为 since 的起点。"
+    cue: "at a time in the past from the start of the simulation, the event that x got equal to c would be observed, and since then ...：since 的起点来自仿真开始以来的某个 rise 事件。"
+    pattern: "φ since rise(ψ)"

@@ -1,0 +1,10 @@
+operator: since_not_fall
+meaning: "φ since [a:b](not fall(ψ)) 表示过去窗口内以未发生 ψ 的 fall 转移作为 since 的起点条件。"
+cases:
+  - semantic: "since 的过去起点条件是未检测到某个 fall 转移。"
+    cue: "since once there existed a certain moment during the past b time units, at which the transition action that x goes out of the bound [a, b] was not detected：以未发生区间退出转移作为 since 的历史起点。"
+    pattern: "φ since [a:b] (not fall(ψ))"
+
+  - semantic: "since 的持续阶段要求从过去起点到当前一直未发生某个 fall 转移。"
+    cue: "x shouldn't get out of the range and then continuously this condition will continue since there existed a certain time point in the elapsed window：not fall 是 since 左侧持续保持的条件。"
+    pattern: "not fall(φ) since [a:b] ψ"

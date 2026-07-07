@@ -1,0 +1,10 @@
+operator: not_fall_always
+meaning: "not fall(always(φ)) 表示禁止一个无界持续条件整体从 true 变为 false。"
+cases:
+  - semantic: "禁止未来持续约束失效。"
+    cue: "the condition that x is uninterruptedly not at most c in the future before the execution ends shall not change from true to false：not fall 作用在整段 always 持续约束上。"
+    pattern: "not fall(always(φ))"
+
+  - semantic: "禁止指定未来窗口内的持续约束整体失效。"
+    cue: "the condition that x consistently stays below c for each time point during the subsequent b time units does not shift from true to false：not fall 作用在有界 always 持续约束上。"
+    pattern: "not fall(always [a:b] (φ))"

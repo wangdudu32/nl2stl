@@ -1,0 +1,6 @@
+operator: not_fall_until
+meaning: "not fall(φ until ψ) 表示禁止一整段 until 时间关系从 true 变为 false。"
+cases:
+  - semantic: "某个持续-直到关系不允许整体失效。"
+    cue: "the following condition oughtn't to be observed to shift from true to false: x keeps holding until y eventually holds within the coming window：not fall 作用在整段 until 模式上。"
+    pattern: "not fall(φ until [a:b] ψ)"

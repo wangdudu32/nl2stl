@@ -1,0 +1,6 @@
+operator: not_fall_since
+meaning: "not fall(φ since ψ) 表示禁止一整段 since 历史关系从 true 变为 false。"
+cases:
+  - semantic: "某个历史 since 条件不允许整体失效。"
+    cue: "the condition that x has been holding since y once held in the past won't be observed to shift from true to false：not fall 作用在整段 since 模式上。"
+    pattern: "not fall(φ since ψ)"

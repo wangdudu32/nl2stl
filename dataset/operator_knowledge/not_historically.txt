@@ -1,0 +1,10 @@
+operator: not_historically
+meaning: "not historically(φ) 表示 φ 并未在过去历史或指定过去窗口内持续成立。"
+cases:
+  - semantic: "否定过去窗口内持续保持某个条件。"
+    cue: "in the elapsed b time units, x hasn't stayed ... uninterruptedly：过去窗口内 φ 并非一直成立。"
+    pattern: "not (historically [a:b] (φ))"
+
+  - semantic: "否定从仿真开始以来的过去历史中持续保持某个条件。"
+    cue: "during the past, x was never at least c continuously：无界过去历史中 φ 并非一直成立。"
+    pattern: "not (historically(φ))"

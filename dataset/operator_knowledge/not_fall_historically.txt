@@ -1,0 +1,6 @@
+operator: not_fall_historically
+meaning: "not fall(historically [a:b](φ)) 表示禁止一个过去窗口持续条件从 true 变为 false。"
+cases:
+  - semantic: "禁止 bounded historically 描述的历史持续条件失效。"
+    cue: "the condition that x has been keeping ... consecutively in the past a to b time units does not shift from true to false：not fall 作用在过去窗口持续约束上。"
+    pattern: "not fall(historically [a:b] (φ))"

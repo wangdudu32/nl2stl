@@ -1,0 +1,10 @@
+operator: since
+meaning: "φ since ψ 表示过去某个时间点 ψ 成立，并且从该时间点之后 φ 一直持续成立到当前。"
+cases:
+  - semantic: "过去某个起点条件成立后，另一条件从该起点一直持续到当前。"
+    cue: "this condition will consecutively hold since at a certain time instant within the past b time units ...：过去起点条件成立，此后持续条件保持到当前。"
+    pattern: "φ since [a:b] ψ"
+
+  - semantic: "从过去无界历史中的某个起点开始，持续条件一直保持到当前。"
+    cue: "at a certain time point in the past from the beginning of the simulation ... once, after that consistently x has been remaining ...：since 的起点可来自仿真开始以来的任意过去时刻。"
+    pattern: "φ since ψ"

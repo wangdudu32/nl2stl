@@ -1,0 +1,6 @@
+operator: once_not_rise
+meaning: "once(not rise(φ)) 表示过去某个时刻满足“不发生 φ 的 rise 转移”。"
+cases:
+  - semantic: "从执行开始以来的过去历史中曾经有某个时刻未发生指定 rise 转移。"
+    cue: "there would be a certain time instant in the past from the start of the execution, at which once the scenario that x was changed to y did not occur：once 的满足对象是 not rise 条件。"
+    pattern: "once(not rise(φ))"

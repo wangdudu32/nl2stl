@@ -1,0 +1,42 @@
+operator: eventually_rise
+meaning: "eventually(rise(φ)) 表示未来某个时间点必须观察到谓词 φ 从 false 变为 true。"
+cases:
+  - semantic: "未来指定时间窗口内需要发生某个上升转移事件。"
+    cue: "at sometime within the following b time units the scenario that x is shifted to c needs to take place：eventually 的目标不是普通状态，而是 rise 描述的转移事件。"
+    pattern: "eventually [a:b] (rise(φ))"
+
+  - semantic: "未来指定时间窗口内需要发生进入区间的转移事件。"
+    cue: "the scenario that x settles inside the bound [a, b] ultimately takes place at a time within the following window：eventually 的满足时刻是进入区间这一 rise 事件发生的时刻。"
+    pattern: "eventually [a:b] (rise(x >= lower and x <= upper))"
+
+  - semantic: "未来指定时间窗口内需要检测到信号上升到阈值以上。"
+    cue: "finally the event that x jumps to greater than or equal to c is detected at sometime within a to b time units：eventually 的满足时刻是越过阈值的 rise 事件发生的时刻。"
+    pattern: "eventually [a:b] (rise(x >= c))"
+
+  - semantic: "无界未来范围内最终发生指定上升转移事件。"
+    cue: "There has to be a certain moment in the future before the simulation ends, at which finally the scenario that x gets set to c has to occur：未来某个时刻需要观察到 rise 事件。"
+    pattern: "eventually(rise(φ))"
+
+  - semantic: "未来某个时刻需要发生进入开区间的转移事件。"
+    cue: "the transition action that x settles inside the bound (a, b) must occur eventually at a certain time instant in the future：eventually 的目标是进入开区间这一 rise 事件。"
+    pattern: "eventually(rise(x > a and x < b))"
+
+  - semantic: "未来指定时间窗口内需要检测到信号下降进入低于阈值的状态。"
+    cue: "at a certain moment starting at most b time units eventually the scenario that x goes down to lower than c must get detected：eventually 的目标是下降越过阈值的 rise 事件。"
+    pattern: "eventually [a:b] (rise(x < c))"
+
+  - semantic: "未来指定时间窗口内需要发生状态或模式关系开始成立的转移。"
+    cue: "there needs to be sometime during the next b time units, at which the event that the mode of x shifts to y needs to happen eventually：eventually 的目标是 x == y 开始成立这一 rise 事件。"
+    pattern: "eventually [a:b] (rise(x == y))"
+
+  - semantic: "未来指定时间窗口内需要发生下降到小于等于阈值的转移事件。"
+    cue: "there is a certain moment within the first b time units, at which ultimately the transition action that x falls to less than or equal to c needs to occur：eventually 的目标是 x <= c 开始成立这一 rise 事件。"
+    pattern: "eventually [a:b] (rise(x <= c))"
+
+  - semantic: "未来指定时间窗口内需要发生进入半开区间的转移事件。"
+    cue: "at a time in the next b time units, x enters the range [a, b) eventually：eventually 的满足时刻是进入半开区间这一 rise 事件。"
+    pattern: "eventually [a:b] (rise(x >= lower and x < upper))"
+
+  - semantic: "未来指定时间窗口内需要发生进入左开右闭区间的转移事件。"
+    cue: "there should be a certain time point in the next b time units, at which the transition action that x enters the bound (a, b] will have to happen：eventually 的目标是进入左开右闭区间这一 rise 事件。"
+    pattern: "eventually [a:b] (rise(x > lower and x <= upper))"

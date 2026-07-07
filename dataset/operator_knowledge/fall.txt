@@ -1,0 +1,30 @@
+operator: fall
+meaning: "fall(φ) 表示谓词 φ 从 true 变为 false。"
+cases:
+  - semantic: "信号不再满足大于阈值条件，即下降到小于等于阈值。"
+    cue: "the value of signal x decreases to less than or equal to c：原本满足 x > c 的状态发生下降转移，使该谓词变为不成立。"
+    pattern: "fall(x > c)"
+
+  - semantic: "状态关系或模式关系从成立变为不成立。"
+    cue: "the mode of x becomes not set to y：x == y 这个关系从成立转为失效。"
+    pattern: "fall(x == y)"
+
+  - semantic: "信号值从等于某个常量转为不等于该常量。"
+    cue: "the value of x starts deviating from c：信号不再保持指定常量值，使 x == c 从 true 变为 false。"
+    pattern: "fall(x == c)"
+
+  - semantic: "信号离开由上下界限定的区间。"
+    cue: "x goes out of the bound [a, b]：信号从区间内转移到区间外，使区间谓词从 true 变为 false。"
+    pattern: "fall(x >= a and x <= b)"
+
+  - semantic: "信号离开开区间。"
+    cue: "x gets out of the range (a, b)：信号从开区间内转移到区间外，使开区间谓词从 true 变为 false。"
+    pattern: "fall(x > a and x < b)"
+
+  - semantic: "信号离开半开或半闭区间。"
+    cue: "x leaves the range (a, b]：信号从一端开、一端闭的区间内转移到区间外，使区间谓词从 true 变为 false。"
+    pattern: "fall(x > a and x <= b)"
+
+  - semantic: "信号离开左闭右开的区间。"
+    cue: "x gets out of the range [a, b)：信号从左闭右开的区间内转移到区间外，使区间谓词失效。"
+    pattern: "fall(x >= a and x < b)"

@@ -1,0 +1,18 @@
+operator: always
+meaning: "always(φ) 表示 φ 在整个执行过程或指定时间窗口内的每个时间点都成立。"
+cases:
+  - semantic: "自然语言明确表达全局范围时，用 always 表示公式在整条运行轨迹上持续受约束。"
+    cue: "It is always the case that ... / Globally, ...：规则覆盖整条运行轨迹，每个时刻都要成立。"
+    pattern: "always(φ)"
+
+  - semantic: "自然语言限定了起止时间，并要求该时间段里的每一个时刻都满足同一条件时，用有界 always 表示区间内的持续保持。"
+    cue: "For each time instant within 106 time units / within 4 to 7 time units ... consecutively remain：指定时间窗口内逐时刻检查，条件在窗口内持续成立。"
+    pattern: "always [a:b] (φ)"
+
+  - semantic: "有些公式外层使用 always 只是把内部条件规则提升为全局时序约束；若自然语言没有单独给出全局词，可只记录这一外层量化作用。"
+    cue: "when ... then ... / while ... then ...：自然语言重点描述内部条件规则时，always 只说明该规则在每个时刻重复检查。"
+    pattern: "always(condition -> response)"
+
+  - semantic: "自然语言要求某个状态从当前延续到未来并且不能中断时，用无界 always 表示持续保持。"
+    cue: "x must remain over c without interruption in the future：从当前到未来执行过程中，条件需要一直成立。"
+    pattern: "always(φ)"

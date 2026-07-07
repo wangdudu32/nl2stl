@@ -1,0 +1,10 @@
+operator: not_since
+meaning: "not (φ since ψ) 表示禁止出现 ψ 在过去成立且此后 φ 一直持续到当前的历史模式。"
+cases:
+  - semantic: "否定整段 since 历史模式。"
+    cue: "the subsequent condition must not be true: ... remained ... since once there existed a certain moment during the past window ...：否定的是过去起点加持续保持这一整段 since 关系。"
+    pattern: "not (φ since [a:b] ψ)"
+
+  - semantic: "否定无界过去起点的 since 历史模式。"
+    cue: "the subsequent condition is not true: ... once at a certain time instant in the past from the start of the simulation, after this ... continuously remains ...：否定的是从无界过去起点持续到当前的 since 关系。"
+    pattern: "not (φ since ψ)"

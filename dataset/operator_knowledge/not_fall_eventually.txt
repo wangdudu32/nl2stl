@@ -1,0 +1,10 @@
+operator: not_fall_eventually
+meaning: "not fall(eventually [a:b](φ)) 表示禁止一个 eventually 条件整体从 true 变为 false。"
+cases:
+  - semantic: "禁止有界最终到达条件失效。"
+    cue: "the subsequent condition will not shift from true to false: at a certain moment in the following a to b time units, x will ultimately remain ...：not fall 作用在整段 eventually 条件上。"
+    pattern: "not fall(eventually [a:b] (φ))"
+
+  - semantic: "禁止无界最终到达条件失效。"
+    cue: "the condition that x is finally greater than c at a certain time instant in the future before the end of the execution should not shift from true to false：not fall 作用在无界 eventually 条件上。"
+    pattern: "not fall(eventually(φ))"

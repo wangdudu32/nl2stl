@@ -1,0 +1,22 @@
+operator: until_not_fall
+meaning: "until 与 not fall 连续使用时，可表示终止条件出现前持续禁止 fall，或以 not fall 作为 until 的终止条件。"
+cases:
+  - semantic: "直到终止条件出现前，持续禁止某个 fall 事件发生。"
+    cue: "continuously the event that x starts deviating from c does not take place till there will exist a time during the first b time units ...：until 的持续阶段是不发生 fall 转移。"
+    pattern: "not fall(φ) until [a:b] ψ"
+
+  - semantic: "直到终止事件出现前，持续禁止信号离开闭区间。"
+    cue: "till x deviates from y in the subsequent window, the event that z leaves the range [a, b] won't be detected：until 的持续阶段是不发生闭区间 fall。"
+    pattern: "not fall(x >= lower and x <= upper) until [a:b] ψ"
+
+  - semantic: "在无界 until 的持续阶段内持续禁止某个 fall 事件发生。"
+    cue: "there ought to exist a certain time instant in the future before the simulation ends, and before this the transition action that x goes out of the bound [a, b] shall consistently not be observed：until 的持续阶段是不发生 fall 转移。"
+    pattern: "not fall(φ) until ψ"
+
+  - semantic: "until 的终止条件本身是某个 fall 转移未发生。"
+    cue: "the transition action that x becomes not set to c does not occur at sometime in less than b time units, until then y shall ...：终止位置要求满足 not fall，而持续条件在此之前保持。"
+    pattern: "φ until [a:b] (not fall(ψ))"
+
+  - semantic: "无界 until 的终止条件本身是某个 fall 转移未发生。"
+    cue: "x shall hold till y will not decrease to at most c, which needs to get detected at a time in the future before the simulation ends：终止位置是无界未来中的 not fall 条件。"
+    pattern: "φ until (not fall(ψ))"

@@ -1,0 +1,10 @@
+operator: rise_always
+meaning: "rise(always(φ)) 表示一个无界持续约束整体从 false 变为 true。"
+cases:
+  - semantic: "从某个时刻开始，原本不成立的持续保持条件转为成立。"
+    cue: "the following condition has to shift from false to true: x is not smaller than c and this scenario will keep in the future till the end of the simulation：rise 的对象是整段 always 持续约束。"
+    pattern: "rise(always(φ))"
+
+  - semantic: "有界持续条件整体从 false 转为 true。"
+    cue: "the subsequent condition has to change from false to true: x is within a bound and will remain consistently for each moment within the coming b time units：rise 的对象是有界 always 持续约束。"
+    pattern: "rise(always [a:b] (φ))"

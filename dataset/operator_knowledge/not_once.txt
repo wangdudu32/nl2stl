@@ -1,0 +1,10 @@
+operator: not_once
+meaning: "not once [a:b](φ) 表示 φ 在过去时间窗口 [a,b] 内从未成立。"
+cases:
+  - semantic: "否定过去窗口内曾经出现过某个条件。"
+    cue: "the condition that x was out of the range (a, b) once at a time within the past window is not true：过去窗口内不存在满足 φ 的时刻。"
+    pattern: "not (once [a:b] (φ))"
+
+  - semantic: "否定从仿真开始以来的过去历史中曾经出现过某个条件。"
+    cue: "there must not be any time instant in the past from the beginning of the execution, at which x remained smaller than c：无界过去中不存在满足 φ 的时刻。"
+    pattern: "not (once(φ))"

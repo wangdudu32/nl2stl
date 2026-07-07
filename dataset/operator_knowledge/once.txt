@@ -1,0 +1,10 @@
+operator: once
+meaning: "once(φ) 表示 φ 在过去某个时间点至少成立过一次；once [a:b](φ) 表示 φ 在过去时间窗口 [a,b] 内至少成立过一次。"
+cases:
+  - semantic: "过去指定时间窗口内曾经出现过某个状态或条件。"
+    cue: "x is once no less than c at a certain time point during the elapsed b time units：只要求过去窗口中存在一个满足条件的时刻，不要求持续保持。"
+    pattern: "once [a:b] (φ)"
+
+  - semantic: "从仿真开始以来的过去某个时刻曾经出现过某个状态或条件。"
+    cue: "there existed a time in the past starting from the beginning of the simulation, at which once x would be equal to c：过去无界历史中至少出现过一次。"
+    pattern: "once(φ)"

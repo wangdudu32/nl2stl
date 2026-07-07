@@ -1,0 +1,22 @@
+operator: not_fall
+meaning: "not fall(φ) 表示禁止谓词 φ 从 true 变为 false。"
+cases:
+  - semantic: "禁止某个下降或失效转移动作发生。"
+    cue: "the transition action that ... decreases ... shall never occur：不允许发生让 φ 从 true 变为 false 的转移。"
+    pattern: "not fall(φ)"
+
+  - semantic: "禁止从指定常量值偏离的 fall 转移。"
+    cue: "the transition action that x begins deviating from c should not happen：不允许 x == c 从成立转为不成立。"
+    pattern: "not fall(x == c)"
+
+  - semantic: "禁止信号离开某个区间。"
+    cue: "the scenario that x leaves the range (a, b) should never get detected：不允许区间谓词从成立转为不成立。"
+    pattern: "not fall(x > a and x < b)"
+
+  - semantic: "用未检测到偏离事件来表达 fall 转移被禁止。"
+    cue: "the transition action that x deviates from c doesn't get detected：原本成立的相等关系不允许发生失效转移。"
+    pattern: "not fall(x == c)"
+
+  - semantic: "禁止信号离开闭区间。"
+    cue: "the transition action that x goes out of the bound [a, b] was not detected：不允许闭区间谓词从成立转为不成立。"
+    pattern: "not fall(x >= a and x <= b)"

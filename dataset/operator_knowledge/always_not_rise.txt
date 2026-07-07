@@ -1,0 +1,10 @@
+operator: always_not_rise
+meaning: "always [a:b](not rise(φ)) 表示在整个时间窗口内都禁止 φ 的 rise 转移发生。"
+cases:
+  - semantic: "指定窗口内持续禁止某个上升或进入状态的转移。"
+    cue: "x does not go to greater than or equal to c and consistently stays like this for each time instant in the first a to b time units：not rise 作为 always 的持续约束被逐时刻检查。"
+    pattern: "always [a:b] (not rise(φ))"
+
+  - semantic: "从当前到执行结束持续禁止某个 rise 转移发生。"
+    cue: "the transition action that x gets set to y does not happen in the future till the execution ends：not rise 作为无界 always 的持续约束。"
+    pattern: "always(not rise(φ))"

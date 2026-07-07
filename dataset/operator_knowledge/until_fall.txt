@@ -1,0 +1,14 @@
+operator: until_fall
+meaning: "φ until fall(ψ) 表示 φ 持续成立，直到未来某个时间点 ψ 从 true 变为 false。"
+cases:
+  - semantic: "持续状态以未来窗口内的 fall 事件作为终止条件。"
+    cue: "there must exist a certain time point during the following b time units, at which the event that x goes out of the bound [a, b] will ultimately take place, till then ...：终止条件是窗口内发生的 fall 转移。"
+    pattern: "φ until [a:b] fall(ψ)"
+
+  - semantic: "持续状态以未来窗口内关系失效的 fall 事件作为终止条件。"
+    cue: "the state of x deviates from y gets observed finally at a certain time point in the subsequent b time units, till then ...：终止条件是 x == y 的关系失效事件。"
+    pattern: "φ until [a:b] fall(x == y)"
+
+  - semantic: "持续状态以无界未来中的等值偏离 fall 事件作为终止条件。"
+    cue: "the event that x deviates from c should occur at a time in the future before the simulation ends, and before that ...：终止条件是无界未来中发生的等值关系失效。"
+    pattern: "φ until fall(x == c)"

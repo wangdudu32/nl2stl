@@ -1,0 +1,6 @@
+operator: fall_until
+meaning: "fall(φ until ψ) 表示一整段 until 时间关系从 true 变为 false。"
+cases:
+  - semantic: "持续直到关系整体失效。"
+    cue: "the condition that x remains ... till y gets set to c at a certain moment should be observed to change from true to false：fall 作用在整段 until 模式上。"
+    pattern: "fall(φ until [a:b] ψ)"

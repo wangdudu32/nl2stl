@@ -1,0 +1,10 @@
+operator: not_rise_eventually
+meaning: "not rise(eventually(φ)) 表示禁止一个未来最终出现条件整体从 false 变为 true。"
+cases:
+  - semantic: "禁止 eventually 条件开始成立。"
+    cue: "the subsequent condition is not detected to shift from false to true: there will exist a certain time point in the future before the simulation ends, at which x is ...：not rise 作用在整段 eventually 条件上。"
+    pattern: "not rise(eventually(φ))"
+
+  - semantic: "禁止有界 eventually 条件开始成立。"
+    cue: "the condition that x is finally at most c at sometime during the following b time units won't be detected to shift from false to true：not rise 作用在整段有界 eventually 条件上。"
+    pattern: "not rise(eventually [a:b] (φ))"

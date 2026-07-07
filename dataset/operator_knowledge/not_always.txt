@@ -1,0 +1,10 @@
+operator: not_always
+meaning: "not always [a:b](φ) 表示 φ 不能在整个时间窗口 [a,b] 内持续成立。"
+cases:
+  - semantic: "否定某个条件在整个未来窗口内持续保持。"
+    cue: "for each time instant during the next b time units, x ought never to keep above c consistently：不允许 φ 在整个窗口内连续成立。"
+    pattern: "not (always [a:b] (φ))"
+
+  - semantic: "否定某个条件从当前到执行结束一直持续成立。"
+    cue: "in the future before the end of the simulation, x ought not to keep in y uninterruptedly：不允许 φ 在无界未来内一直保持。"
+    pattern: "not (always(φ))"

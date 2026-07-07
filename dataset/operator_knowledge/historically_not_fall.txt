@@ -1,0 +1,6 @@
+operator: historically_not_fall
+meaning: "historically [a:b](not fall(φ)) 表示在过去指定时间窗口内，φ 的 fall 转移一直没有发生。"
+cases:
+  - semantic: "过去窗口内持续禁止某个下降或失效转移。"
+    cue: "the transition action that x gets to no larger than c will not happen in the elapsed a to b time units：historically 逐时刻检查过去窗口，not fall 要求该窗口内没有发生 fall。"
+    pattern: "historically [a:b] (not fall(φ))"

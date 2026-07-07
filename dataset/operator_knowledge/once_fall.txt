@@ -1,0 +1,10 @@
+operator: once_fall
+meaning: "once(fall(φ)) 表示过去历史中曾经发生过 φ 从 true 变为 false 的转移。"
+cases:
+  - semantic: "从执行开始以来的过去历史中曾经发生过某个 fall 转移事件。"
+    cue: "there should be a certain time point in the past from the start of the execution once, at which the event that x started not equaling c ought to occur：once 的满足对象是 fall 转移事件。"
+    pattern: "once(fall(φ))"
+
+  - semantic: "过去指定时间窗口内曾经发生过某个 fall 转移事件。"
+    cue: "once there must exist sometime within the past b time units, at which the transition action that x went out of the bound [a, b] had to get detected：once 的时间范围限制在过去窗口内，目标是 fall 事件。"
+    pattern: "once [a:b] (fall(φ))"

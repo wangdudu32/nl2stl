@@ -1,0 +1,14 @@
+operator: historically
+meaning: "historically(φ) 表示 φ 在过去整个历史或指定过去时间窗口内一直成立。"
+cases:
+  - semantic: "过去指定时间窗口内持续满足某个条件。"
+    cue: "x will have to be c and then have been continuing like this consistently for the elapsed b time units：条件在过去窗口内没有中断。"
+    pattern: "historically [a:b] (φ)"
+
+  - semantic: "过去窗口内某个数值约束连续保持。"
+    cue: "x must be less than or equal to c and shall keep like this consecutively during the elapsed b time units：过去窗口中的每个时刻都满足该约束。"
+    pattern: "historically [a:b] (φ)"
+
+  - semantic: "从仿真开始到当前的整个过去历史中条件一直成立。"
+    cue: "x has kept less than or equal to c without interruption in the past since the beginning of the simulation：无界过去历史内条件没有中断。"
+    pattern: "historically(φ)"

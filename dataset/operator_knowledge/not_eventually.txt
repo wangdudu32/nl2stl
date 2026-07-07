@@ -1,0 +1,18 @@
+operator: not_eventually
+meaning: "not eventually [a:b] (φ) 表示 φ 在时间窗口 [a,b] 内从不成立。"
+cases:
+  - semantic: "禁止在有界时间窗口内到达某个状态或区间。"
+    cue: "x will not be ... at any moment during the first b time units：整个时间窗口内都不能出现满足 φ 的时刻。"
+    pattern: "not (eventually [0:b] (φ))"
+
+  - semantic: "否定有界 eventually 表达的最终出现要求。"
+    cue: "the condition that finally ... at sometime within the subsequent b time units won't be true：被否定的是窗口内存在满足时刻这一整体条件。"
+    pattern: "not (eventually [0:b] (φ))"
+
+  - semantic: "用不存在未来时间点来表达有界 eventually 被否定。"
+    cue: "there shan't be any time point in the next a to b time units, at which ...：窗口内不存在任何满足 φ 的时刻。"
+    pattern: "not (eventually [a:b] (φ))"
+
+  - semantic: "禁止在从当前到执行结束的无界未来中出现某个条件。"
+    cue: "x shall not be in the range at any time instant in the future before the end of the simulation：无界未来内不存在满足 φ 的时刻。"
+    pattern: "not (eventually(φ))"

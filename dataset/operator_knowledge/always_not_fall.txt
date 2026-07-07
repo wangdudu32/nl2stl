@@ -1,0 +1,10 @@
+operator: always_not_fall
+meaning: "always [a:b](not fall(φ)) 表示在整个时间窗口内都禁止 φ 的 fall 转移发生。"
+cases:
+  - semantic: "指定窗口内持续禁止某个关系失效或偏离事件。"
+    cue: "x shan't begin deviating from y then this condition shall consecutively hold for each time instant during the subsequent b time units：not fall 作为 always 的持续约束被逐时刻检查。"
+    pattern: "always [a:b] (not fall(φ))"
+
+  - semantic: "无界未来内持续禁止某个 fall 转移。"
+    cue: "In the future without interruption the transition action that x becomes not set to c shan't take place：从当前到执行结束都不允许发生 fall。"
+    pattern: "always(not fall(φ))"

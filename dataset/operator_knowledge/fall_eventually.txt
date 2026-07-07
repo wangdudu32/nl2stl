@@ -1,0 +1,6 @@
+operator: fall_eventually
+meaning: "fall(eventually(φ)) 表示“未来最终会满足 φ”这一 eventually 条件整体从 true 变为 false。"
+cases:
+  - semantic: "有界最终到达条件整体失效。"
+    cue: "the following condition should be observed to change from true to false: there will be eventually a certain time instant within the following a to b time units, at which x is y：fall 作用在整段 eventually 条件上。"
+    pattern: "fall(eventually [a:b] (φ))"

@@ -1,0 +1,22 @@
+operator: eventually_not_fall
+meaning: "eventually(not fall(φ)) 表示未来某个时间点需要满足不发生 φ 的 fall 转移。"
+cases:
+  - semantic: "未来指定时间窗口内要求某个偏离转移不发生。"
+    cue: "eventually the transition action that x begins deviating from c should not happen at a time during the subsequent b time units：eventually 的满足时刻上，fall 转移被否定。"
+    pattern: "eventually [a:b] (not fall(φ))"
+
+  - semantic: "无界未来范围内要求出现一个时刻，在该时刻指定 fall 转移不发生。"
+    cue: "there must eventually exist sometime in the future before the end of the simulation, at which the event that x becomes less than or equal to c ought not to get observed：eventually 的满足时刻上，not fall 条件成立。"
+    pattern: "eventually(not fall(φ))"
+
+  - semantic: "未来指定时间窗口内要求模式关系的失效转移不发生。"
+    cue: "there should be sometime within the subsequent b time units, at which the transition action that x becomes not set to y does not happen：eventually 的满足时刻上，关系失效的 fall 转移被否定。"
+    pattern: "eventually [a:b] (not fall(x == y))"
+
+  - semantic: "未来指定时间窗口内要求离开开区间的 fall 转移不发生。"
+    cue: "at a certain moment within the next b time units the transition action that x gets out of the range (a, b) oughtn't to be observed：eventually 的满足时刻上，区间退出事件被否定。"
+    pattern: "eventually [a:b] (not fall(x > lower and x < upper))"
+
+  - semantic: "未来指定时间窗口内要求跌破阈值的 fall 转移不发生。"
+    cue: "at a certain time instant during the first b time units, the transition action that x becomes lower than c does not get observed finally：eventually 的满足时刻上，大于等于阈值谓词的 fall 被否定。"
+    pattern: "eventually [a:b] (not fall(x >= c))"

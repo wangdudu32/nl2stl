@@ -1,0 +1,6 @@
+operator: fall_always
+meaning: "fall(always [a:b](φ)) 表示“指定未来窗口内持续成立”这一条件从 true 变为 false。"
+cases:
+  - semantic: "有界持续条件整体失效。"
+    cue: "the subsequent condition has to change from true to false: x is larger than c and will be consistently staying like this for every time instant within the subsequent a to b time units：fall 的对象是 always 描述的持续约束。"
+    pattern: "fall(always [a:b] (φ))"

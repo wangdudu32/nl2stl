@@ -1,0 +1,14 @@
+operator: not_rise
+meaning: "not rise(φ) 表示禁止谓词 φ 从 false 变为 true。"
+cases:
+  - semantic: "禁止某个上升或进入状态的转移动作发生。"
+    cue: "the scenario that x rises to greater than or equal to c shall not get detected：不允许 φ 从 false 变为 true。"
+    pattern: "not rise(φ)"
+
+  - semantic: "禁止信号进入开区间。"
+    cue: "the transition action that x enters the bound (a, b) is not detected：不允许开区间谓词从 false 变为 true。"
+    pattern: "not rise(x > a and x < b)"
+
+  - semantic: "禁止信号被设置为某个指定常量值的上升事件。"
+    cue: "the event that x gets set to c doesn't occur：不允许 x == c 从 false 变为 true。"
+    pattern: "not rise(x == c)"

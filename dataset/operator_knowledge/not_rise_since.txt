@@ -1,0 +1,6 @@
+operator: not_rise_since
+meaning: "not rise(φ since ψ) 表示禁止一整段 since 历史关系从 false 变为 true。"
+cases:
+  - semantic: "禁止过去起点加持续保持的 since 条件整体开始成立。"
+    cue: "the condition that x consecutively equals c since y once at sometime in the last a to b time units shan't be observed to shift from false to true：not rise 作用在整段 since 模式上。"
+    pattern: "not rise(φ since [a:b] ψ)"

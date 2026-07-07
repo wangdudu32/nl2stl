@@ -1,0 +1,6 @@
+operator: fall_since
+meaning: "fall(φ since ψ) 表示一整段 since 历史关系从 true 变为 false。"
+cases:
+  - semantic: "过去起点加持续保持的 since 条件整体失效。"
+    cue: "the condition that x stayed ... since once y decreased to ... in the past from the beginning of the execution will shift from true to false：fall 作用在整段 since 模式上。"
+    pattern: "fall(φ since ψ)"

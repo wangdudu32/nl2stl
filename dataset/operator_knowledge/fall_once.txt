@@ -1,0 +1,10 @@
+operator: fall_once
+meaning: "fall(once [a:b](φ)) 表示“过去窗口内曾经出现 φ”这一历史存在条件从 true 变为 false。"
+cases:
+  - semantic: "过去存在性条件整体失效。"
+    cue: "the condition that x does not start deviating from c once at a certain time point before a to b time units is observed to shift from true to false：fall 的对象是 once 描述的过去存在条件。"
+    pattern: "fall(once [a:b] (φ))"
+
+  - semantic: "无界过去存在性条件整体失效。"
+    cue: "the condition that there existed a time in the past from the beginning of the simulation, at which x would shift to y, shall be observed to change from true to false：fall 的对象是无界 once 条件。"
+    pattern: "fall(once(φ))"

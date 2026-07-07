@@ -1,0 +1,42 @@
+operator: rise
+meaning: "rise(φ) 表示谓词 φ 从 false 变为 true。"
+cases:
+  - semantic: "信号下降并首次满足小于等于阈值的条件。"
+    cue: "x decreases to at most c：信号通过下降进入 x <= c 的状态，使该谓词开始成立。"
+    pattern: "rise(x <= c)"
+
+  - semantic: "状态关系或模式关系开始成立。"
+    cue: "the state of x becomes y / the mode of x is changed to y：x == y 这个关系从不成立转为成立。"
+    pattern: "rise(x == y)"
+
+  - semantic: "信号进入小于阈值的区域。"
+    cue: "x goes lower than c：信号进入低于阈值的区域，触发 x < c 从 false 到 true。"
+    pattern: "rise(x < c)"
+
+  - semantic: "信号进入开区间。"
+    cue: "the value of signal x enters the range (a, b)：信号从区间外进入区间内，使上下界组成的复合谓词开始成立。"
+    pattern: "rise(x > a and x < b)"
+
+  - semantic: "信号上升并首次满足大于阈值的条件。"
+    cue: "the value of signal x jumps to larger than c：信号向上越过阈值，使 x > c 从 false 变为 true。"
+    pattern: "rise(x > c)"
+
+  - semantic: "信号值开始等于某个常量。"
+    cue: "the value of x gets shifted to c / x is shifted to c：信号切换到指定常量值，使 x == c 从 false 变为 true。"
+    pattern: "rise(x == c)"
+
+  - semantic: "信号进入闭区间。"
+    cue: "x settles inside the bound [a, b]：信号从区间外进入闭区间内，使上下界组成的复合谓词开始成立。"
+    pattern: "rise(x >= a and x <= b)"
+
+  - semantic: "信号上升并首次满足大于等于阈值的条件。"
+    cue: "the value of x increases to no less than c：信号达到或越过阈值，使 x >= c 从 false 变为 true。"
+    pattern: "rise(x >= c)"
+
+  - semantic: "信号进入左闭右开的区间。"
+    cue: "x enters the region [a, b)：信号从区间外进入半开区间内，使区间谓词开始成立。"
+    pattern: "rise(x >= a and x < b)"
+
+  - semantic: "信号进入左开右闭的区间。"
+    cue: "x enters the range (a, b]：信号从区间外进入另一种半开区间内，使区间谓词开始成立。"
+    pattern: "rise(x > a and x <= b)"
