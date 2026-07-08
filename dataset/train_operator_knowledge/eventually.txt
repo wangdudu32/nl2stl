@@ -1,0 +1,18 @@
+operator: eventually
+meaning: "eventually(φ) 表示未来某个时间点 φ 至少成立一次；eventually [a:b](φ) 表示 φ 在指定窗口内至少成立一次。"
+cases:
+  - semantic: "有界未来窗口内最终达到某个状态。"
+    cue: "at a time within the following a to b time units：给定窗口内存在一个满足时刻即可。"
+    pattern: "eventually [a:b] (φ)"
+
+  - semantic: "无界未来范围内最终出现某个状态，不要求之后持续保持。"
+    cue: "at sometime in the future before the end of the simulation ... eventually：未来某个时刻满足条件。"
+    pattern: "eventually(φ)"
+
+  - semantic: "最终性目标可以是合取、析取或带否定的复合状态，eventually 要求整个复合条件在某个时刻成立。"
+    cue: "at a certain moment within the first b time units, x is outside one range and y is inside another range：多个状态条件共同作为 eventually 的目标。"
+    pattern: "eventually [a:b] (φ and/or ψ)"
+
+  - semantic: "无界未来范围内最终出现一个复合状态。"
+    cue: "there will be a certain time point in the future before the execution ends, at which x will be ... and y ought to be ...：无界 eventually 的目标可以是合取复合条件。"
+    pattern: "eventually(φ and/or ψ)"

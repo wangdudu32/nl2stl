@@ -1,0 +1,10 @@
+operator: historically_not_rise
+meaning: "historically(not rise(φ)) 表示在过去相关范围内一直没有发生 φ 的 rise 转移。"
+cases:
+  - semantic: "过去有界窗口内持续禁止某个状态切换事件发生。"
+    cue: "the scenario that x was changed to value should consecutively not get observed during the past b time units：历史窗口内没有 rise 事件。"
+    pattern: "historically [a:b] (not rise(φ))"
+
+  - semantic: "从执行开始到当前一直没有发生指定 rise 转移。"
+    cue: "in the past since the start of the execution, the transition action that x got set to value has uninterruptedly not been detected：无界 historically 约束 not rise。"
+    pattern: "historically(not rise(φ))"

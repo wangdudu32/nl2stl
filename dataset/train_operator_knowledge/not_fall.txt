@@ -1,0 +1,10 @@
+operator: not_fall
+meaning: "not fall(φ) 表示 φ 的 true-to-false 转移事件不发生。"
+cases:
+  - semantic: "禁止阈值谓词发生失效转移。"
+    cue: "the scenario that x gets to less than or equal to c will not be observed：fall 转移不允许发生。"
+    pattern: "not fall(x > c)"
+
+  - semantic: "禁止等值关系或模式关系发生偏离。"
+    cue: "the scenario that x starts deviating from value isn't detected：关系失效的 fall 事件被否定。"
+    pattern: "not fall(x == value)"

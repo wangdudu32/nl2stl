@@ -441,10 +441,10 @@ def main() -> None:
     for row in selected:
         item = {
             "row": int(row["row"]),
-            "type": row["Type"],
-            "stl": row["STL"],
+            "type": row.get("Type", row.get("type", "")),
+            "stl": row.get("STL", row.get("stl", "")),
             "english": row["English"],
-            "candidates": find_candidates(row["STL"]),
+            "candidates": find_candidates(row.get("STL", row.get("stl", ""))),
         }
         print(json.dumps(item, ensure_ascii=False))
 

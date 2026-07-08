@@ -1,0 +1,10 @@
+operator: not_until
+meaning: "not(φ until ψ) 表示整段 until 关系不成立。"
+cases:
+  - semantic: "否定有界 until 关系，表示左侧持续到右侧在窗口内出现这一整体条件不成立。"
+    cue: "the subsequent condition is not true: finally there exists a certain time instant during the coming a to b time units ... and before that without interruption x stays ...：not 作用在整个 until 模式上。"
+    pattern: "not(φ until [a:b] ψ)"
+
+  - semantic: "否定无界 until 关系，表示不能满足左侧一直保持直到右侧未来出现。"
+    cue: "the following condition must not be true: at sometime in the future ... and until then x will continuously not ...：无界 until 被整体否定。"
+    pattern: "not(φ until ψ)"

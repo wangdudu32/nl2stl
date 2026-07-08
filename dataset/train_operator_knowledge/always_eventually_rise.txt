@@ -1,0 +1,18 @@
+operator: always_eventually_rise
+meaning: "always(eventually(rise(φ))) 表示在每个外层检查时刻，都要求未来窗口内最终发生一次 φ 的 rise 转移。"
+cases:
+  - semantic: "外层有界窗口内每个时间点，都必须在其后的有界窗口中最终观察到目标 rise 事件。"
+    cue: "for each moment during the next a time units, the event that x settles inside the bound has to get observed ultimately at a certain time point within the subsequent b time units：always 逐点要求 eventually_rise。"
+    pattern: "always [a:b] (eventually [c:d] (rise(φ)))"
+
+  - semantic: "从当前到执行结束的每个时间点，都要求未来某个时刻最终发生目标 rise 事件。"
+    cue: "for each moment in the future the event that x goes down to smaller than c finally takes place at a certain moment in the future：无界 always 逐点要求无界 eventually_rise。"
+    pattern: "always(eventually(rise(φ)))"
+
+  - semantic: "指定外层窗口内每个时间点，都要求未来无界范围内最终发生目标 rise 事件。"
+    cue: "for every moment during the following a to b time units the scenario that x enters the region must take place eventually at a certain time instant in the future before the simulation ends：有界 always 逐点要求无界 eventually_rise。"
+    pattern: "always [a:b] (eventually(rise(φ)))"
+
+  - semantic: "从当前到执行结束的每个时间点，都要求目标 rise 在随后的有界窗口内最终发生。"
+    cue: "for every time instant in the future till the execution ends, at sometime in the following b time units, the transition action that x drops below c will have to take place finally：无界 always 逐点要求有界 eventually_rise。"
+    pattern: "always(eventually [a:b] (rise(φ)))"

@@ -1,0 +1,26 @@
+operator: eventually_not_fall
+meaning: "eventually(not fall(φ)) 表示未来某个满足时刻上，φ 的 fall 转移不发生。"
+cases:
+  - semantic: "未来有界窗口内需要出现一个时刻，在该时刻指定关系偏离事件没有发生。"
+    cue: "there will be a certain moment within the subsequent b time units, at which the scenario that x leaves value shan't be observed：eventually 的满足时刻上 fall 被否定。"
+    pattern: "eventually [a:b] (not fall(φ))"
+
+  - semantic: "无界未来中需要找到一个满足时刻，在该时刻 fall 转移不发生，并且可同时满足普通状态约束。"
+    cue: "at sometime in the future before the simulation ends, ultimately x ought to be below c and finally the event that y becomes smaller than d must not be observed：eventually 的目标包含 not fall。"
+    pattern: "eventually(ψ and not fall(φ))"
+
+  - semantic: "无界未来中需要找到一个满足时刻，在该时刻 not fall 可以作为目标条件的一个析取分支。"
+    cue: "at a certain time point in the future before the simulation ends eventually the event that x goes out of the bound mustn't occur or y ought to be equal to value：eventually 的目标中包含 not fall 的析取条件。"
+    pattern: "eventually(not fall(φ) or ψ)"
+
+  - semantic: "未来有界窗口内需要出现一个满足时刻，在该时刻等值或模式偏离的 fall 不发生，并且同时满足普通状态约束。"
+    cue: "there has to exist a time within the first b time units ultimately, at which the scenario that x starts deviating from value shouldn't get detected and y ought to be below c：eventually 的满足时刻同时包含 not fall 与状态条件。"
+    pattern: "eventually [a:b] (not fall(x == value) and ψ)"
+
+  - semantic: "无界未来中需要找到一个满足时刻，在该时刻等值或模式偏离的 fall 不发生。"
+    cue: "there should exist a time in the future, at which ultimately the event that x starts not equaling to value must not occur：无界 eventually 的目标是 not fall。"
+    pattern: "eventually(not fall(x == value))"
+
+  - semantic: "未来有界窗口内需要出现一个满足时刻，在该时刻多个 fall 转移都不发生。"
+    cue: "there will have to be a certain time point after at most b time units, at which the event that x goes down below c is not observed and the transition action that y begins deviating from value shall not be detected：eventually 的满足时刻同时包含多个 not fall。"
+    pattern: "eventually [a:b] (not fall(φ) and not fall(ψ))"

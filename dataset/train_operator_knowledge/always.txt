@@ -1,0 +1,14 @@
+operator: always
+meaning: "always(φ) 表示 φ 在整个执行过程或指定时间窗口内的每个时间点都成立。"
+cases:
+  - semantic: "外层 always 将触发-响应公式提升为全局规则：每个时刻只要触发条件成立，响应约束就必须成立。"
+    cue: "It is always the case that while ... then ...：自然语言重点描述条件响应时，always 表示这条规则沿整条轨迹反复检查。"
+    pattern: "always(condition -> response)"
+
+  - semantic: "有界时间窗口内的不变性约束，要求同一状态条件在窗口内每个时刻持续成立。"
+    cue: "Continuously ... shall keep ... for each time point in the first b time units：指定窗口内逐时刻保持。"
+    pattern: "always [a:b] (φ)"
+
+  - semantic: "无界未来范围内的持续保持约束，从当前一直延续到执行结束。"
+    cue: "is always in value in the future till the execution ends：没有有限上界时，条件需要持续保持到执行结束。"
+    pattern: "always(φ)"

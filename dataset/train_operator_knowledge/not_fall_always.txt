@@ -1,0 +1,10 @@
+operator: not_fall_always
+meaning: "not fall(always(φ)) 表示禁止一整段 always 持续条件从 true 转为 false。"
+cases:
+  - semantic: "有界持续保持条件不允许整体失效。"
+    cue: "the following condition is not detected to change from true to false: ... for every time point during the next a to b time units：not fall 作用在整段 always 条件上。"
+    pattern: "not fall(always [a:b] (φ))"
+
+  - semantic: "从当前到执行结束的无界持续条件不允许整体失效。"
+    cue: "the condition that continuously x will remain value in the future before the end of the simulation does not shift from true to false：not fall 作用在无界 always 条件整体上。"
+    pattern: "not fall(always(φ))"

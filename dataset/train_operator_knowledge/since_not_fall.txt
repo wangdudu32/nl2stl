@@ -1,0 +1,6 @@
+operator: since_not_fall
+meaning: "φ since(not fall(ψ)) 表示左侧条件从过去某个没有发生 fall 的锚点后持续到当前。"
+cases:
+  - semantic: "有界过去窗口内的 since 起点是一个 not fall 条件。"
+    cue: "x has been uninterruptedly holding like that since y didn't go lower than c, which once got detected at a time before between a to b time units：since 的历史锚点是 not fall。"
+    pattern: "φ since [a:b] (not fall(ψ))"

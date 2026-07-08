@@ -1,0 +1,7 @@
+operator: not_rise_once
+meaning: "not rise(once(φ)) 表示禁止一个过去存在性条件整体从 false 转为 true。"
+cases:
+  - semantic: "过去有界存在性条件不得被观察到开始成立。"
+    cue: "the condition that x would not be in the range at a certain moment within the past a to b time units shall not be detected to change from false to true：not rise 作用在 once 条件整体上。"
+    pattern: "not rise(once [a:b] (φ))"
+

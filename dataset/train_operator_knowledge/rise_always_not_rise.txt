@@ -1,0 +1,6 @@
+operator: rise_always_not_rise
+meaning: "rise(always(not rise(φ))) 表示一段持续禁止 rise 的条件整体从 false 转为 true。"
+cases:
+  - semantic: "有界 always_not_rise 条件被作为整体事件观察到开始成立。"
+    cue: "the subsequent condition must be observed to shift from false to true: x does not settle inside the bound and this scenario will always remain for every moment within the subsequent a to b time units：rise 作用在 always_not_rise 整体上。"
+    pattern: "rise(always [a:b] (not rise(φ)))"

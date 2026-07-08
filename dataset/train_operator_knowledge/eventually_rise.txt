@@ -1,0 +1,46 @@
+operator: eventually_rise
+meaning: "eventually(rise(φ)) 表示未来某个时间点必须观察到 φ 的 false-to-true 转移。"
+cases:
+  - semantic: "未来有界窗口内需要发生指定上升或越阈转移事件。"
+    cue: "there shall be sometime in the coming a to b time units ultimately, at which the event that x exceeds c will get detected：eventually 的目标是 rise 事件。"
+    pattern: "eventually [a:b] (rise(x > c))"
+
+  - semantic: "未来有界窗口内需要发生下降进入低于阈值状态的转移事件。"
+    cue: "at a certain moment during the next b time units, finally the scenario that x goes lower than c ought to be observed：eventually 的目标是 x < c 开始成立这一 rise 事件。"
+    pattern: "eventually [a:b] (rise(x < c))"
+
+  - semantic: "未来有界窗口内需要发生状态或模式切换到指定值的转移事件。"
+    cue: "the event that x enters value gets detected at a time after between a to b time units：eventually 的满足时刻是等值关系开始成立。"
+    pattern: "eventually [a:b] (rise(x == value))"
+
+  - semantic: "无界未来中最终发生状态或模式切换事件。"
+    cue: "there ought to exist sometime in the future before the simulation ends, at which the event that x gets changed to value must be eventually detected：没有有限时间上界。"
+    pattern: "eventually(rise(x == value))"
+
+  - semantic: "未来有界窗口内需要发生进入开区间的转移事件。"
+    cue: "there ought to exist sometime in the next b time units, at which finally the transition action that x gets into the range (a, b) has to happen：eventually 的目标是开区间谓词开始成立。"
+    pattern: "eventually [a:b] (rise(lower < x < upper))"
+
+  - semantic: "未来有界窗口内需要发生进入闭区间的转移事件。"
+    cue: "there will have to be a time after at most b time units, at which the scenario that x gets into the range [a, b] will happen：eventually 的目标是闭区间谓词开始成立。"
+    pattern: "eventually [a:b] (rise(lower <= x <= upper))"
+
+  - semantic: "无界未来中最终发生下降进入低于阈值状态的转移事件。"
+    cue: "eventually there needs to be sometime in the future before the simulation ends, at which the event that x becomes less than c must take place：无界 eventually 的目标是下降进入阈值谓词的 rise 事件。"
+    pattern: "eventually(rise(x < c))"
+
+  - semantic: "无界未来中最终发生进入闭区间的转移事件。"
+    cue: "eventually at a certain moment in the future before the end of the execution, the event that x enters the bound [a, b] will have to get observed：无界 eventually 的目标是闭区间谓词开始成立。"
+    pattern: "eventually(rise(lower <= x <= upper))"
+
+  - semantic: "未来有界窗口内需要发生 rise 事件，并在同一满足时刻满足普通状态约束。"
+    cue: "there is a time starting at most b time units, at which y must be below c ultimately and the scenario that x becomes smaller than d must ultimately get observed：eventually 的目标包含同一时刻的 rise 与状态条件。"
+    pattern: "eventually [a:b] (ψ and rise(φ))"
+
+  - semantic: "无界未来中需要发生 rise 事件，并在同一满足时刻满足普通状态约束。"
+    cue: "there exists a time in the future before the execution ends ultimately, at which y ought to remain in a closed range and the transition action that x becomes over c must happen：无界 eventually 的目标包含同一时刻的 rise 与状态条件。"
+    pattern: "eventually(ψ and rise(φ))"
+
+  - semantic: "未来有界窗口内需要出现一个满足时刻，其中 rise 事件可以作为目标条件的一个析取分支。"
+    cue: "at a certain moment in less than b time units eventually x shouldn't be at most c or the event that y goes to at most d has to ultimately take place：eventually 的目标中包含 rise 的析取条件。"
+    pattern: "eventually [a:b] (ψ or rise(φ))"

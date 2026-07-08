@@ -1,0 +1,6 @@
+operator: fall_since_not_fall
+meaning: "fall(φ since(not fall(ψ))) 表示以 not fall 为历史起点的 since 关系整体从 true 转为 false。"
+cases:
+  - semantic: "一段由 not fall 作为过去锚点的 since 历史关系被观察到失效。"
+    cue: "the following condition changes from true to false: x has been uninterruptedly holding since y didn't go lower than c once in the past window：fall 作用在整段 since_not_fall 模式上。"
+    pattern: "fall(φ since [a:b] (not fall(ψ)))"

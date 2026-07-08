@@ -1,0 +1,6 @@
+operator: not_always_not_fall
+meaning: "not(always(not fall(φ))) 表示否定一段时间内始终禁止 φ 的 fall 转移。"
+cases:
+  - semantic: "有界窗口内不能一直保持不发生 fall；外层 not 否定的是整段 always_not_fall 条件。"
+    cue: "the subsequent condition shouldn't be true: A does not get out of the range ... and then uninterruptedly this scenario will remain for every time point during the subsequent a to b time units：否定持续无 fall 的窗口模式。"
+    pattern: "not(always [a:b] (not fall(φ)))"

@@ -1,0 +1,6 @@
+operator: not_historically_not_fall
+meaning: "not(historically(not fall(φ))) 表示否定过去范围内一直没有发生 fall 的历史约束。"
+cases:
+  - semantic: "并非从执行开始到当前都禁止目标 fall；外层 not 否定完整 historically_not_fall 模式。"
+    cue: "the subsequent condition will not be true: consecutively the event that x deviates from value does not occur in the past since the beginning of the simulation：not 作用在 historically_not_fall 整体上。"
+    pattern: "not(historically(not fall(φ)))"

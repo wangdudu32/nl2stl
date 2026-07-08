@@ -1,0 +1,10 @@
+operator: until_not_rise
+meaning: "φ until(not rise(ψ)) 表示 φ 持续保持，直到某个满足时刻上 ψ 的 rise 转移不发生。"
+cases:
+  - semantic: "有界 until 的终止条件是某个 rise 事件被否定。"
+    cue: "there will exist a certain time instant after at most b time units, at which the transition action that x enters the range will not occur, before that y will consistently remain larger than c：until 的右端目标是 not rise。"
+    pattern: "φ until [a:b] (not rise(ψ))"
+
+  - semantic: "无界 until 的终止条件是某个 rise 事件被否定。"
+    cue: "this scenario shall hold till there will exist a certain time instant in the future before the end of the simulation, at which the event that x gets into the range won't be detected finally：无界 until 的右端目标是 not rise。"
+    pattern: "φ until (not rise(ψ))"

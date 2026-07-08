@@ -1,0 +1,7 @@
+operator: not_fall_eventually
+meaning: "not fall(eventually(φ)) 表示禁止一整段 eventually 条件从 true 变为 false。"
+cases:
+  - semantic: "有界最终性关系不允许整体失效。"
+    cue: "the condition that ultimately x is not less than or equal to c at a certain time instant in the subsequent a to b time units shan't be detected to shift from true to false：not fall 作用在 eventually 条件整体上。"
+    pattern: "not fall(eventually [a:b] (φ))"
+

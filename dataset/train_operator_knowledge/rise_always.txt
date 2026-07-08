@@ -1,0 +1,10 @@
+operator: rise_always
+meaning: "rise(always(φ)) 表示一个持续保持条件整体从 false 转为 true。"
+cases:
+  - semantic: "有界 always 条件被作为一个整体事件开始成立。"
+    cue: "the subsequent condition shall be detected to shift from false to true: within b time units x consecutively keeps ...：rise 作用在整段 always 关系上。"
+    pattern: "rise(always [a:b] (φ))"
+
+  - semantic: "从当前开始到执行结束的无界持续条件被作为一个整体事件开始成立。"
+    cue: "the subsequent condition changes from false to true: x will be staying equal to value consistently in the future till the end of the simulation：rise 作用在无界 always 条件整体上。"
+    pattern: "rise(always(φ))"

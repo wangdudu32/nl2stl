@@ -1,0 +1,850 @@
+===== always =====
+
+operator: always
+meaning: "always(φ) 表示 φ 在整个执行过程或指定时间窗口内的每个时间点都成立。"
+cases:
+  - semantic: "自然语言明确表达全局范围时，用 always 表示公式在整条运行轨迹上持续受约束。"
+    cue: "It is always the case that ... / Globally, ...：规则覆盖整条运行轨迹，每个时刻都要成立。"
+    pattern: "always(φ)"
+
+  - semantic: "自然语言限定了起止时间，并要求该时间段里的每一个时刻都满足同一条件时，用有界 always 表示区间内的持续保持。"
+    cue: "For each time instant within 106 time units / within 4 to 7 time units ... consecutively remain：指定时间窗口内逐时刻检查，条件在窗口内持续成立。"
+    pattern: "always [a:b] (φ)"
+
+  - semantic: "有些公式外层使用 always 只是把内部条件规则提升为全局时序约束；若自然语言没有单独给出全局词，可只记录这一外层量化作用。"
+    cue: "when ... then ... / while ... then ...：自然语言重点描述内部条件规则时，always 只说明该规则在每个时刻重复检查。"
+    pattern: "always(condition -> response)"
+
+  - semantic: "自然语言要求某个状态从当前延续到未来并且不能中断时，用无界 always 表示持续保持。"
+    cue: "x must remain over c without interruption in the future：从当前到未来执行过程中，条件需要一直成立。"
+    pattern: "always(φ)"
+
+===== always_eventually =====
+
+operator: always_eventually
+meaning: "always [a:b](eventually [c:d](φ)) 表示外层窗口内的每个时刻都必须能在随后的窗口内看到 φ 出现。"
+cases:
+  - semantic: "每个外层检查时刻都启动一次有界最终到达要求。"
+    cue: "for every moment within the first a time units, at sometime within the following b time units ... needs to take place：外层逐时刻检查，内层要求每次检查后都能在后续窗口中出现目标事件。"
+    pattern: "always [a:b] (eventually [c:d] (φ))"
+
+  - semantic: "从当前到执行结束的每个时刻，都要求目标在随后的有限窗口内出现。"
+    cue: "for every moment in the future until the execution ends, at a certain moment starting at most b time units eventually ... must get detected：外层无界持续检查，内层是每次检查后的有界最终出现。"
+    pattern: "always(eventually [a:b] (φ))"
+
+  - semantic: "指定窗口内的每个时刻，都要求目标在未来某个时刻最终出现。"
+    cue: "for each time instant in the first a time units, there must eventually exist sometime in the future before the end of the simulation ...：外层窗口逐时刻检查，内层 eventually 没有有限上界。"
+    pattern: "always [a:b] (eventually(φ))"
+
+  - semantic: "从当前到执行结束的每个时刻，都要求目标最终在未来某个时刻出现。"
+    cue: "for every time point in the future before the simulation ends, there ought to be a certain time point in the future before the execution ends ...：外层和内层都没有有限时间窗口。"
+    pattern: "always(eventually(φ))"
+
+===== always_not_fall =====
+
+operator: always_not_fall
+meaning: "always [a:b](not fall(φ)) 表示在整个时间窗口内都禁止 φ 的 fall 转移发生。"
+cases:
+  - semantic: "指定窗口内持续禁止某个关系失效或偏离事件。"
+    cue: "x shan't begin deviating from y then this condition shall consecutively hold for each time instant during the subsequent b time units：not fall 作为 always 的持续约束被逐时刻检查。"
+    pattern: "always [a:b] (not fall(φ))"
+
+  - semantic: "无界未来内持续禁止某个 fall 转移。"
+    cue: "In the future without interruption the transition action that x becomes not set to c shan't take place：从当前到执行结束都不允许发生 fall。"
+    pattern: "always(not fall(φ))"
+
+===== always_not_rise =====
+
+operator: always_not_rise
+meaning: "always [a:b](not rise(φ)) 表示在整个时间窗口内都禁止 φ 的 rise 转移发生。"
+cases:
+  - semantic: "指定窗口内持续禁止某个上升或进入状态的转移。"
+    cue: "x does not go to greater than or equal to c and consistently stays like this for each time instant in the first a to b time units：not rise 作为 always 的持续约束被逐时刻检查。"
+    pattern: "always [a:b] (not rise(φ))"
+
+  - semantic: "从当前到执行结束持续禁止某个 rise 转移发生。"
+    cue: "the transition action that x gets set to y does not happen in the future till the execution ends：not rise 作为无界 always 的持续约束。"
+    pattern: "always(not rise(φ))"
+
+===== eventually =====
+
+operator: eventually
+meaning: "eventually(φ) 表示未来某个时间点 φ 至少成立一次；eventually [a:b] (φ) 表示 φ 在时间窗口 [a,b] 内至少成立一次。"
+cases:
+  - semantic: "有界时间窗口内最终达到某个状态或条件。"
+    cue: "At a certain time instant in the first 3 to 64 time units / eventually ... / finally ...：给定窗口内至少有一个时刻满足条件，不要求整段持续成立。"
+    pattern: "eventually [a:b] (φ)"
+
+  - semantic: "无界未来范围内最终出现某个状态、条件或事件。"
+    cue: "At a certain time instant in the future, finally ... / ultimately ...：未来某个时刻满足条件即可，不要求持续。"
+    pattern: "eventually(φ)"
+
+===== eventually_always =====
+
+operator: eventually_always
+meaning: "eventually [a:b](always [c:d](φ)) 表示在未来某个时间点开始，φ 需要连续保持一段时间。"
+cases:
+  - semantic: "未来窗口内先找到一个起点，从该起点开始条件需要持续保持。"
+    cue: "eventually there shall exist a certain time point during the following a time units, at which x will have to consecutively stay like that for every time instant during the subsequent b time units：先出现一个开始时刻，再进入持续保持阶段。"
+    pattern: "eventually [a:b] (always [c:d] (φ))"
+
+  - semantic: "未来窗口内找到一个起点，之后条件在无界未来持续成立。"
+    cue: "there must eventually exist a certain time point during the following a time units, after which in the future before the execution ends x is always ...：从找到的起点开始进入无界持续保持。"
+    pattern: "eventually [a:b] (always(φ))"
+
+  - semantic: "无界未来中找到一个起点，从该起点开始条件持续保持到执行结束。"
+    cue: "after a certain time point in the future, x needs to continuously stay ... in the future till the end of the simulation：eventually 负责找到开始时刻，always 负责之后持续保持。"
+    pattern: "eventually(always(φ))"
+
+  - semantic: "无界未来中找到一个起点，从该起点开始条件保持有限时间窗口。"
+    cue: "there will finally exist a certain moment in the future before the simulation ends, after which for every moment in the next b time units x must remain ...：eventually 找到起点，always [a:b] 描述起点后的持续窗口。"
+    pattern: "eventually(always [a:b] (φ))"
+
+===== eventually_fall =====
+
+operator: eventually_fall
+meaning: "eventually(fall(φ)) 表示未来某个时间点必须观察到谓词 φ 从 true 变为 false。"
+cases:
+  - semantic: "未来指定时间窗口内需要发生某个失效或偏离转移。"
+    cue: "finally x ought to start not equaling c at a certain moment within the coming b time units：eventually 的目标是 fall 描述的偏离事件。"
+    pattern: "eventually [a:b] (fall(φ))"
+
+  - semantic: "未来指定时间窗口内需要发生离开闭区间的转移。"
+    cue: "there should exist a certain moment in the subsequent b time units, at which x must leave the range [a, b]：eventually 的目标是区间谓词失效这一 fall 事件。"
+    pattern: "eventually [a:b] (fall(x >= lower and x <= upper))"
+
+  - semantic: "无界未来中最终需要发生关系失效或偏离转移。"
+    cue: "at sometime in the future before the end of the simulation, the scenario that x deviates from y should get detected eventually：未来某个时刻需要观察到 x == y 的 fall 事件。"
+    pattern: "eventually(fall(x == y))"
+
+  - semantic: "未来指定时间窗口内需要发生离开开区间的转移。"
+    cue: "there will be a certain time instant within the coming b time units, at which the scenario that x leaves the range (a, b) needs to be detected：eventually 的目标是开区间谓词失效这一 fall 事件。"
+    pattern: "eventually [a:b] (fall(x > lower and x < upper))"
+
+  - semantic: "未来指定时间窗口内需要发生离开左闭右开区间的转移。"
+    cue: "there ought to ultimately exist a certain time point within the first b time units, at which the event that x leaves the range [a, b) will have to be detected：eventually 的目标是半开区间谓词失效这一 fall 事件。"
+    pattern: "eventually [a:b] (fall(x >= lower and x < upper))"
+
+  - semantic: "未来指定时间窗口内需要发生离开左开右闭区间的转移。"
+    cue: "there should be a certain time point after at most b time units, at which the scenario that x leaves the range (a, b] should get observed ultimately：eventually 的目标是左开右闭区间谓词失效这一 fall 事件。"
+    pattern: "eventually [a:b] (fall(x > lower and x <= upper))"
+
+  - semantic: "无界未来中最终需要发生离开闭区间的转移。"
+    cue: "there has to be a time in the future before the end of the execution, at which finally the scenario that x goes out of the bound [a, b] ought to be observed：未来某个时刻需要观察到闭区间谓词失效这一 fall 事件。"
+    pattern: "eventually(fall(x >= lower and x <= upper))"
+
+===== eventually_not_fall =====
+
+operator: eventually_not_fall
+meaning: "eventually(not fall(φ)) 表示未来某个时间点需要满足不发生 φ 的 fall 转移。"
+cases:
+  - semantic: "未来指定时间窗口内要求某个偏离转移不发生。"
+    cue: "eventually the transition action that x begins deviating from c should not happen at a time during the subsequent b time units：eventually 的满足时刻上，fall 转移被否定。"
+    pattern: "eventually [a:b] (not fall(φ))"
+
+  - semantic: "无界未来范围内要求出现一个时刻，在该时刻指定 fall 转移不发生。"
+    cue: "there must eventually exist sometime in the future before the end of the simulation, at which the event that x becomes less than or equal to c ought not to get observed：eventually 的满足时刻上，not fall 条件成立。"
+    pattern: "eventually(not fall(φ))"
+
+  - semantic: "未来指定时间窗口内要求模式关系的失效转移不发生。"
+    cue: "there should be sometime within the subsequent b time units, at which the transition action that x becomes not set to y does not happen：eventually 的满足时刻上，关系失效的 fall 转移被否定。"
+    pattern: "eventually [a:b] (not fall(x == y))"
+
+  - semantic: "未来指定时间窗口内要求离开开区间的 fall 转移不发生。"
+    cue: "at a certain moment within the next b time units the transition action that x gets out of the range (a, b) oughtn't to be observed：eventually 的满足时刻上，区间退出事件被否定。"
+    pattern: "eventually [a:b] (not fall(x > lower and x < upper))"
+
+  - semantic: "未来指定时间窗口内要求跌破阈值的 fall 转移不发生。"
+    cue: "at a certain time instant during the first b time units, the transition action that x becomes lower than c does not get observed finally：eventually 的满足时刻上，大于等于阈值谓词的 fall 被否定。"
+    pattern: "eventually [a:b] (not fall(x >= c))"
+
+===== eventually_not_rise =====
+
+operator: eventually_not_rise
+meaning: "eventually [a:b](not rise(φ)) 表示未来窗口中需要出现一个时刻，在该时刻 φ 的 rise 转移不发生。"
+cases:
+  - semantic: "未来指定时间窗口内要求出现一个未发生进入区间转移的时刻。"
+    cue: "the transition action that x enters the bound (a, b) is not detected eventually at a certain time instant after at most b time units：eventually 的满足时刻上，rise 事件被否定。"
+    pattern: "eventually [a:b] (not rise(φ))"
+
+  - semantic: "未来指定时间窗口内要求出现一个未发生越阈 rise 的时刻。"
+    cue: "there should ultimately exist sometime within the first b time units, at which the event that x becomes higher than c shan't get detected：eventually 的满足时刻上，越阈 rise 被否定。"
+    pattern: "eventually [a:b] (not rise(x > c))"
+
+===== eventually_rise =====
+
+operator: eventually_rise
+meaning: "eventually(rise(φ)) 表示未来某个时间点必须观察到谓词 φ 从 false 变为 true。"
+cases:
+  - semantic: "未来指定时间窗口内需要发生某个上升转移事件。"
+    cue: "at sometime within the following b time units the scenario that x is shifted to c needs to take place：eventually 的目标不是普通状态，而是 rise 描述的转移事件。"
+    pattern: "eventually [a:b] (rise(φ))"
+
+  - semantic: "未来指定时间窗口内需要发生进入区间的转移事件。"
+    cue: "the scenario that x settles inside the bound [a, b] ultimately takes place at a time within the following window：eventually 的满足时刻是进入区间这一 rise 事件发生的时刻。"
+    pattern: "eventually [a:b] (rise(x >= lower and x <= upper))"
+
+  - semantic: "未来指定时间窗口内需要检测到信号上升到阈值以上。"
+    cue: "finally the event that x jumps to greater than or equal to c is detected at sometime within a to b time units：eventually 的满足时刻是越过阈值的 rise 事件发生的时刻。"
+    pattern: "eventually [a:b] (rise(x >= c))"
+
+  - semantic: "无界未来范围内最终发生指定上升转移事件。"
+    cue: "There has to be a certain moment in the future before the simulation ends, at which finally the scenario that x gets set to c has to occur：未来某个时刻需要观察到 rise 事件。"
+    pattern: "eventually(rise(φ))"
+
+  - semantic: "未来某个时刻需要发生进入开区间的转移事件。"
+    cue: "the transition action that x settles inside the bound (a, b) must occur eventually at a certain time instant in the future：eventually 的目标是进入开区间这一 rise 事件。"
+    pattern: "eventually(rise(x > a and x < b))"
+
+  - semantic: "未来指定时间窗口内需要检测到信号下降进入低于阈值的状态。"
+    cue: "at a certain moment starting at most b time units eventually the scenario that x goes down to lower than c must get detected：eventually 的目标是下降越过阈值的 rise 事件。"
+    pattern: "eventually [a:b] (rise(x < c))"
+
+  - semantic: "未来指定时间窗口内需要发生状态或模式关系开始成立的转移。"
+    cue: "there needs to be sometime during the next b time units, at which the event that the mode of x shifts to y needs to happen eventually：eventually 的目标是 x == y 开始成立这一 rise 事件。"
+    pattern: "eventually [a:b] (rise(x == y))"
+
+  - semantic: "未来指定时间窗口内需要发生下降到小于等于阈值的转移事件。"
+    cue: "there is a certain moment within the first b time units, at which ultimately the transition action that x falls to less than or equal to c needs to occur：eventually 的目标是 x <= c 开始成立这一 rise 事件。"
+    pattern: "eventually [a:b] (rise(x <= c))"
+
+  - semantic: "未来指定时间窗口内需要发生进入半开区间的转移事件。"
+    cue: "at a time in the next b time units, x enters the range [a, b) eventually：eventually 的满足时刻是进入半开区间这一 rise 事件。"
+    pattern: "eventually [a:b] (rise(x >= lower and x < upper))"
+
+  - semantic: "未来指定时间窗口内需要发生进入左开右闭区间的转移事件。"
+    cue: "there should be a certain time point in the next b time units, at which the transition action that x enters the bound (a, b] will have to happen：eventually 的目标是进入左开右闭区间这一 rise 事件。"
+    pattern: "eventually [a:b] (rise(x > lower and x <= upper))"
+
+===== fall =====
+
+operator: fall
+meaning: "fall(φ) 表示谓词 φ 从 true 变为 false。"
+cases:
+  - semantic: "信号不再满足大于阈值条件，即下降到小于等于阈值。"
+    cue: "the value of signal x decreases to less than or equal to c：原本满足 x > c 的状态发生下降转移，使该谓词变为不成立。"
+    pattern: "fall(x > c)"
+
+  - semantic: "状态关系或模式关系从成立变为不成立。"
+    cue: "the mode of x becomes not set to y：x == y 这个关系从成立转为失效。"
+    pattern: "fall(x == y)"
+
+  - semantic: "信号值从等于某个常量转为不等于该常量。"
+    cue: "the value of x starts deviating from c：信号不再保持指定常量值，使 x == c 从 true 变为 false。"
+    pattern: "fall(x == c)"
+
+  - semantic: "信号离开由上下界限定的区间。"
+    cue: "x goes out of the bound [a, b]：信号从区间内转移到区间外，使区间谓词从 true 变为 false。"
+    pattern: "fall(x >= a and x <= b)"
+
+  - semantic: "信号离开开区间。"
+    cue: "x gets out of the range (a, b)：信号从开区间内转移到区间外，使开区间谓词从 true 变为 false。"
+    pattern: "fall(x > a and x < b)"
+
+  - semantic: "信号离开半开或半闭区间。"
+    cue: "x leaves the range (a, b]：信号从一端开、一端闭的区间内转移到区间外，使区间谓词从 true 变为 false。"
+    pattern: "fall(x > a and x <= b)"
+
+  - semantic: "信号离开左闭右开的区间。"
+    cue: "x gets out of the range [a, b)：信号从左闭右开的区间内转移到区间外，使区间谓词失效。"
+    pattern: "fall(x >= a and x < b)"
+
+===== fall_always =====
+
+operator: fall_always
+meaning: "fall(always [a:b](φ)) 表示“指定未来窗口内持续成立”这一条件从 true 变为 false。"
+cases:
+  - semantic: "有界持续条件整体失效。"
+    cue: "the subsequent condition has to change from true to false: x is larger than c and will be consistently staying like this for every time instant within the subsequent a to b time units：fall 的对象是 always 描述的持续约束。"
+    pattern: "fall(always [a:b] (φ))"
+
+===== fall_eventually =====
+
+operator: fall_eventually
+meaning: "fall(eventually(φ)) 表示“未来最终会满足 φ”这一 eventually 条件整体从 true 变为 false。"
+cases:
+  - semantic: "有界最终到达条件整体失效。"
+    cue: "the following condition should be observed to change from true to false: there will be eventually a certain time instant within the following a to b time units, at which x is y：fall 作用在整段 eventually 条件上。"
+    pattern: "fall(eventually [a:b] (φ))"
+
+===== fall_historically =====
+
+operator: fall_historically
+meaning: "fall(historically(φ)) 表示“φ 在过去一直成立”这个历史条件从 true 变为 false。"
+cases:
+  - semantic: "过去持续成立的历史条件被观察到失效。"
+    cue: "the condition that x has kept ... without interruption in the past since the beginning of the simulation is observed to shift from true to false：fall 的对象是 historically 描述的历史不变性。"
+    pattern: "fall(historically(φ))"
+
+===== fall_once =====
+
+operator: fall_once
+meaning: "fall(once [a:b](φ)) 表示“过去窗口内曾经出现 φ”这一历史存在条件从 true 变为 false。"
+cases:
+  - semantic: "过去存在性条件整体失效。"
+    cue: "the condition that x does not start deviating from c once at a certain time point before a to b time units is observed to shift from true to false：fall 的对象是 once 描述的过去存在条件。"
+    pattern: "fall(once [a:b] (φ))"
+
+  - semantic: "无界过去存在性条件整体失效。"
+    cue: "the condition that there existed a time in the past from the beginning of the simulation, at which x would shift to y, shall be observed to change from true to false：fall 的对象是无界 once 条件。"
+    pattern: "fall(once(φ))"
+
+===== fall_since =====
+
+operator: fall_since
+meaning: "fall(φ since ψ) 表示一整段 since 历史关系从 true 变为 false。"
+cases:
+  - semantic: "过去起点加持续保持的 since 条件整体失效。"
+    cue: "the condition that x stayed ... since once y decreased to ... in the past from the beginning of the execution will shift from true to false：fall 作用在整段 since 模式上。"
+    pattern: "fall(φ since ψ)"
+
+===== fall_until =====
+
+operator: fall_until
+meaning: "fall(φ until ψ) 表示一整段 until 时间关系从 true 变为 false。"
+cases:
+  - semantic: "持续直到关系整体失效。"
+    cue: "the condition that x remains ... till y gets set to c at a certain moment should be observed to change from true to false：fall 作用在整段 until 模式上。"
+    pattern: "fall(φ until [a:b] ψ)"
+
+===== historically =====
+
+operator: historically
+meaning: "historically(φ) 表示 φ 在过去整个历史或指定过去时间窗口内一直成立。"
+cases:
+  - semantic: "过去指定时间窗口内持续满足某个条件。"
+    cue: "x will have to be c and then have been continuing like this consistently for the elapsed b time units：条件在过去窗口内没有中断。"
+    pattern: "historically [a:b] (φ)"
+
+  - semantic: "过去窗口内某个数值约束连续保持。"
+    cue: "x must be less than or equal to c and shall keep like this consecutively during the elapsed b time units：过去窗口中的每个时刻都满足该约束。"
+    pattern: "historically [a:b] (φ)"
+
+  - semantic: "从仿真开始到当前的整个过去历史中条件一直成立。"
+    cue: "x has kept less than or equal to c without interruption in the past since the beginning of the simulation：无界过去历史内条件没有中断。"
+    pattern: "historically(φ)"
+
+===== historically_not_fall =====
+
+operator: historically_not_fall
+meaning: "historically [a:b](not fall(φ)) 表示在过去指定时间窗口内，φ 的 fall 转移一直没有发生。"
+cases:
+  - semantic: "过去窗口内持续禁止某个下降或失效转移。"
+    cue: "the transition action that x gets to no larger than c will not happen in the elapsed a to b time units：historically 逐时刻检查过去窗口，not fall 要求该窗口内没有发生 fall。"
+    pattern: "historically [a:b] (not fall(φ))"
+
+===== historically_not_rise =====
+
+operator: historically_not_rise
+meaning: "historically [a:b](not rise(φ)) 表示在过去指定时间窗口内，φ 的 rise 转移一直没有发生。"
+cases:
+  - semantic: "过去窗口内持续禁止某个上升或进入状态的转移。"
+    cue: "within the last a to b time units uninterruptedly the transition action that x became at least c has not occurred：historically 逐时刻检查过去窗口，not rise 要求该窗口内没有发生 rise。"
+    pattern: "historically [a:b] (not rise(φ))"
+
+===== not_always =====
+
+operator: not_always
+meaning: "not always [a:b](φ) 表示 φ 不能在整个时间窗口 [a,b] 内持续成立。"
+cases:
+  - semantic: "否定某个条件在整个未来窗口内持续保持。"
+    cue: "for each time instant during the next b time units, x ought never to keep above c consistently：不允许 φ 在整个窗口内连续成立。"
+    pattern: "not (always [a:b] (φ))"
+
+  - semantic: "否定某个条件从当前到执行结束一直持续成立。"
+    cue: "in the future before the end of the simulation, x ought not to keep in y uninterruptedly：不允许 φ 在无界未来内一直保持。"
+    pattern: "not (always(φ))"
+
+===== not_eventually =====
+
+operator: not_eventually
+meaning: "not eventually [a:b] (φ) 表示 φ 在时间窗口 [a,b] 内从不成立。"
+cases:
+  - semantic: "禁止在有界时间窗口内到达某个状态或区间。"
+    cue: "x will not be ... at any moment during the first b time units：整个时间窗口内都不能出现满足 φ 的时刻。"
+    pattern: "not (eventually [0:b] (φ))"
+
+  - semantic: "否定有界 eventually 表达的最终出现要求。"
+    cue: "the condition that finally ... at sometime within the subsequent b time units won't be true：被否定的是窗口内存在满足时刻这一整体条件。"
+    pattern: "not (eventually [0:b] (φ))"
+
+  - semantic: "用不存在未来时间点来表达有界 eventually 被否定。"
+    cue: "there shan't be any time point in the next a to b time units, at which ...：窗口内不存在任何满足 φ 的时刻。"
+    pattern: "not (eventually [a:b] (φ))"
+
+  - semantic: "禁止在从当前到执行结束的无界未来中出现某个条件。"
+    cue: "x shall not be in the range at any time instant in the future before the end of the simulation：无界未来内不存在满足 φ 的时刻。"
+    pattern: "not (eventually(φ))"
+
+===== not_fall =====
+
+operator: not_fall
+meaning: "not fall(φ) 表示禁止谓词 φ 从 true 变为 false。"
+cases:
+  - semantic: "禁止某个下降或失效转移动作发生。"
+    cue: "the transition action that ... decreases ... shall never occur：不允许发生让 φ 从 true 变为 false 的转移。"
+    pattern: "not fall(φ)"
+
+  - semantic: "禁止从指定常量值偏离的 fall 转移。"
+    cue: "the transition action that x begins deviating from c should not happen：不允许 x == c 从成立转为不成立。"
+    pattern: "not fall(x == c)"
+
+  - semantic: "禁止信号离开某个区间。"
+    cue: "the scenario that x leaves the range (a, b) should never get detected：不允许区间谓词从成立转为不成立。"
+    pattern: "not fall(x > a and x < b)"
+
+  - semantic: "用未检测到偏离事件来表达 fall 转移被禁止。"
+    cue: "the transition action that x deviates from c doesn't get detected：原本成立的相等关系不允许发生失效转移。"
+    pattern: "not fall(x == c)"
+
+  - semantic: "禁止信号离开闭区间。"
+    cue: "the transition action that x goes out of the bound [a, b] was not detected：不允许闭区间谓词从成立转为不成立。"
+    pattern: "not fall(x >= a and x <= b)"
+
+===== not_fall_always =====
+
+operator: not_fall_always
+meaning: "not fall(always(φ)) 表示禁止一个无界持续条件整体从 true 变为 false。"
+cases:
+  - semantic: "禁止未来持续约束失效。"
+    cue: "the condition that x is uninterruptedly not at most c in the future before the execution ends shall not change from true to false：not fall 作用在整段 always 持续约束上。"
+    pattern: "not fall(always(φ))"
+
+  - semantic: "禁止指定未来窗口内的持续约束整体失效。"
+    cue: "the condition that x consistently stays below c for each time point during the subsequent b time units does not shift from true to false：not fall 作用在有界 always 持续约束上。"
+    pattern: "not fall(always [a:b] (φ))"
+
+===== not_fall_eventually =====
+
+operator: not_fall_eventually
+meaning: "not fall(eventually [a:b](φ)) 表示禁止一个 eventually 条件整体从 true 变为 false。"
+cases:
+  - semantic: "禁止有界最终到达条件失效。"
+    cue: "the subsequent condition will not shift from true to false: at a certain moment in the following a to b time units, x will ultimately remain ...：not fall 作用在整段 eventually 条件上。"
+    pattern: "not fall(eventually [a:b] (φ))"
+
+  - semantic: "禁止无界最终到达条件失效。"
+    cue: "the condition that x is finally greater than c at a certain time instant in the future before the end of the execution should not shift from true to false：not fall 作用在无界 eventually 条件上。"
+    pattern: "not fall(eventually(φ))"
+
+===== not_fall_historically =====
+
+operator: not_fall_historically
+meaning: "not fall(historically [a:b](φ)) 表示禁止一个过去窗口持续条件从 true 变为 false。"
+cases:
+  - semantic: "禁止 bounded historically 描述的历史持续条件失效。"
+    cue: "the condition that x has been keeping ... consecutively in the past a to b time units does not shift from true to false：not fall 作用在过去窗口持续约束上。"
+    pattern: "not fall(historically [a:b] (φ))"
+
+===== not_fall_since =====
+
+operator: not_fall_since
+meaning: "not fall(φ since ψ) 表示禁止一整段 since 历史关系从 true 变为 false。"
+cases:
+  - semantic: "某个历史 since 条件不允许整体失效。"
+    cue: "the condition that x has been holding since y once held in the past won't be observed to shift from true to false：not fall 作用在整段 since 模式上。"
+    pattern: "not fall(φ since ψ)"
+
+===== not_fall_until =====
+
+operator: not_fall_until
+meaning: "not fall(φ until ψ) 表示禁止一整段 until 时间关系从 true 变为 false。"
+cases:
+  - semantic: "某个持续-直到关系不允许整体失效。"
+    cue: "the following condition oughtn't to be observed to shift from true to false: x keeps holding until y eventually holds within the coming window：not fall 作用在整段 until 模式上。"
+    pattern: "not fall(φ until [a:b] ψ)"
+
+===== not_historically =====
+
+operator: not_historically
+meaning: "not historically(φ) 表示 φ 并未在过去历史或指定过去窗口内持续成立。"
+cases:
+  - semantic: "否定过去窗口内持续保持某个条件。"
+    cue: "in the elapsed b time units, x hasn't stayed ... uninterruptedly：过去窗口内 φ 并非一直成立。"
+    pattern: "not (historically [a:b] (φ))"
+
+  - semantic: "否定从仿真开始以来的过去历史中持续保持某个条件。"
+    cue: "during the past, x was never at least c continuously：无界过去历史中 φ 并非一直成立。"
+    pattern: "not (historically(φ))"
+
+===== not_once =====
+
+operator: not_once
+meaning: "not once [a:b](φ) 表示 φ 在过去时间窗口 [a,b] 内从未成立。"
+cases:
+  - semantic: "否定过去窗口内曾经出现过某个条件。"
+    cue: "the condition that x was out of the range (a, b) once at a time within the past window is not true：过去窗口内不存在满足 φ 的时刻。"
+    pattern: "not (once [a:b] (φ))"
+
+  - semantic: "否定从仿真开始以来的过去历史中曾经出现过某个条件。"
+    cue: "there must not be any time instant in the past from the beginning of the execution, at which x remained smaller than c：无界过去中不存在满足 φ 的时刻。"
+    pattern: "not (once(φ))"
+
+===== not_rise =====
+
+operator: not_rise
+meaning: "not rise(φ) 表示禁止谓词 φ 从 false 变为 true。"
+cases:
+  - semantic: "禁止某个上升或进入状态的转移动作发生。"
+    cue: "the scenario that x rises to greater than or equal to c shall not get detected：不允许 φ 从 false 变为 true。"
+    pattern: "not rise(φ)"
+
+  - semantic: "禁止信号进入开区间。"
+    cue: "the transition action that x enters the bound (a, b) is not detected：不允许开区间谓词从 false 变为 true。"
+    pattern: "not rise(x > a and x < b)"
+
+  - semantic: "禁止信号被设置为某个指定常量值的上升事件。"
+    cue: "the event that x gets set to c doesn't occur：不允许 x == c 从 false 变为 true。"
+    pattern: "not rise(x == c)"
+
+===== not_rise_eventually =====
+
+operator: not_rise_eventually
+meaning: "not rise(eventually(φ)) 表示禁止一个未来最终出现条件整体从 false 变为 true。"
+cases:
+  - semantic: "禁止 eventually 条件开始成立。"
+    cue: "the subsequent condition is not detected to shift from false to true: there will exist a certain time point in the future before the simulation ends, at which x is ...：not rise 作用在整段 eventually 条件上。"
+    pattern: "not rise(eventually(φ))"
+
+  - semantic: "禁止有界 eventually 条件开始成立。"
+    cue: "the condition that x is finally at most c at sometime during the following b time units won't be detected to shift from false to true：not rise 作用在整段有界 eventually 条件上。"
+    pattern: "not rise(eventually [a:b] (φ))"
+
+===== not_rise_since =====
+
+operator: not_rise_since
+meaning: "not rise(φ since ψ) 表示禁止一整段 since 历史关系从 false 变为 true。"
+cases:
+  - semantic: "禁止过去起点加持续保持的 since 条件整体开始成立。"
+    cue: "the condition that x consecutively equals c since y once at sometime in the last a to b time units shan't be observed to shift from false to true：not rise 作用在整段 since 模式上。"
+    pattern: "not rise(φ since [a:b] ψ)"
+
+===== not_rise_until =====
+
+operator: not_rise_until
+meaning: "not rise(φ until ψ) 表示禁止一个 until 时间模式从 false 变为 true。"
+cases:
+  - semantic: "禁止某个 until 条件整体开始成立。"
+    cue: "the condition that x will be ... all the time until y ... is not detected to shift from false to true：被禁止的 rise 事件作用在整段 until 模式上。"
+    pattern: "not rise(φ until ψ)"
+
+===== not_since =====
+
+operator: not_since
+meaning: "not (φ since ψ) 表示禁止出现 ψ 在过去成立且此后 φ 一直持续到当前的历史模式。"
+cases:
+  - semantic: "否定整段 since 历史模式。"
+    cue: "the subsequent condition must not be true: ... remained ... since once there existed a certain moment during the past window ...：否定的是过去起点加持续保持这一整段 since 关系。"
+    pattern: "not (φ since [a:b] ψ)"
+
+  - semantic: "否定无界过去起点的 since 历史模式。"
+    cue: "the subsequent condition is not true: ... once at a certain time instant in the past from the start of the simulation, after this ... continuously remains ...：否定的是从无界过去起点持续到当前的 since 关系。"
+    pattern: "not (φ since ψ)"
+
+===== not_until =====
+
+operator: not_until
+meaning: "not (φ until ψ) 表示禁止出现 φ 一直持续到 ψ 成立的时间模式。"
+cases:
+  - semantic: "禁止某个区间状态持续保持直到未来事件发生。"
+    cue: "the following condition shan't be true: ... will remain until ...：否定整段 until 时间模式，而不是只否定终止事件或持续状态中的某一部分。"
+    pattern: "not (φ until ψ)"
+
+  - semantic: "否定带有有界终止窗口的 until 时间模式。"
+    cue: "the condition that ... consistently until x eventually increases to c at a time within the following window mustn't be true：否定的是持续条件加窗口内终止事件这一整段 until 关系。"
+    pattern: "not (φ until [a:b] ψ)"
+
+  - semantic: "用 won't be true 否定无界 until 时间模式。"
+    cue: "the condition that x consecutively remains ... till y ultimately at a certain moment in the future won't be true：否定的是持续状态直到未来终止条件成立这一整段关系。"
+    pattern: "not (φ until ψ)"
+
+===== once =====
+
+operator: once
+meaning: "once(φ) 表示 φ 在过去某个时间点至少成立过一次；once [a:b](φ) 表示 φ 在过去时间窗口 [a,b] 内至少成立过一次。"
+cases:
+  - semantic: "过去指定时间窗口内曾经出现过某个状态或条件。"
+    cue: "x is once no less than c at a certain time point during the elapsed b time units：只要求过去窗口中存在一个满足条件的时刻，不要求持续保持。"
+    pattern: "once [a:b] (φ)"
+
+  - semantic: "从仿真开始以来的过去某个时刻曾经出现过某个状态或条件。"
+    cue: "there existed a time in the past starting from the beginning of the simulation, at which once x would be equal to c：过去无界历史中至少出现过一次。"
+    pattern: "once(φ)"
+
+===== once_fall =====
+
+operator: once_fall
+meaning: "once(fall(φ)) 表示过去历史中曾经发生过 φ 从 true 变为 false 的转移。"
+cases:
+  - semantic: "从执行开始以来的过去历史中曾经发生过某个 fall 转移事件。"
+    cue: "there should be a certain time point in the past from the start of the execution once, at which the event that x started not equaling c ought to occur：once 的满足对象是 fall 转移事件。"
+    pattern: "once(fall(φ))"
+
+  - semantic: "过去指定时间窗口内曾经发生过某个 fall 转移事件。"
+    cue: "once there must exist sometime within the past b time units, at which the transition action that x went out of the bound [a, b] had to get detected：once 的时间范围限制在过去窗口内，目标是 fall 事件。"
+    pattern: "once [a:b] (fall(φ))"
+
+===== once_not_fall =====
+
+operator: once_not_fall
+meaning: "once [a:b](not fall(φ)) 表示过去窗口内曾有某个时刻 φ 的 fall 转移未发生。"
+cases:
+  - semantic: "过去指定窗口内曾经观察到某个 fall 事件未发生。"
+    cue: "at a time within the last a to b time units, the event that x becomes below c must once not occur：once 的满足时刻上，fall 事件被否定。"
+    pattern: "once [a:b] (not fall(φ))"
+
+===== once_not_rise =====
+
+operator: once_not_rise
+meaning: "once(not rise(φ)) 表示过去某个时刻满足“不发生 φ 的 rise 转移”。"
+cases:
+  - semantic: "从执行开始以来的过去历史中曾经有某个时刻未发生指定 rise 转移。"
+    cue: "there would be a certain time instant in the past from the start of the execution, at which once the scenario that x was changed to y did not occur：once 的满足对象是 not rise 条件。"
+    pattern: "once(not rise(φ))"
+
+===== once_rise =====
+
+operator: once_rise
+meaning: "once [a:b](rise(φ)) 表示过去时间窗口内曾经发生过 φ 从 false 变为 true 的转移。"
+cases:
+  - semantic: "过去指定时间窗口内曾经发生过上升转移事件。"
+    cue: "there will have to once exist a certain time instant during the last b time units, at which x jumps to higher than c：过去窗口内至少出现过一次 rise 事件。"
+    pattern: "once [a:b] (rise(φ))"
+
+  - semantic: "从仿真开始以来的过去历史中曾经发生过上升转移事件。"
+    cue: "there needed to be a certain time instant in the past starting from the beginning of the execution, at which x was changed to y once：无界过去中至少出现过一次 rise 事件。"
+    pattern: "once(rise(φ))"
+
+===== rise =====
+
+operator: rise
+meaning: "rise(φ) 表示谓词 φ 从 false 变为 true。"
+cases:
+  - semantic: "信号下降并首次满足小于等于阈值的条件。"
+    cue: "x decreases to at most c：信号通过下降进入 x <= c 的状态，使该谓词开始成立。"
+    pattern: "rise(x <= c)"
+
+  - semantic: "状态关系或模式关系开始成立。"
+    cue: "the state of x becomes y / the mode of x is changed to y：x == y 这个关系从不成立转为成立。"
+    pattern: "rise(x == y)"
+
+  - semantic: "信号进入小于阈值的区域。"
+    cue: "x goes lower than c：信号进入低于阈值的区域，触发 x < c 从 false 到 true。"
+    pattern: "rise(x < c)"
+
+  - semantic: "信号进入开区间。"
+    cue: "the value of signal x enters the range (a, b)：信号从区间外进入区间内，使上下界组成的复合谓词开始成立。"
+    pattern: "rise(x > a and x < b)"
+
+  - semantic: "信号上升并首次满足大于阈值的条件。"
+    cue: "the value of signal x jumps to larger than c：信号向上越过阈值，使 x > c 从 false 变为 true。"
+    pattern: "rise(x > c)"
+
+  - semantic: "信号值开始等于某个常量。"
+    cue: "the value of x gets shifted to c / x is shifted to c：信号切换到指定常量值，使 x == c 从 false 变为 true。"
+    pattern: "rise(x == c)"
+
+  - semantic: "信号进入闭区间。"
+    cue: "x settles inside the bound [a, b]：信号从区间外进入闭区间内，使上下界组成的复合谓词开始成立。"
+    pattern: "rise(x >= a and x <= b)"
+
+  - semantic: "信号上升并首次满足大于等于阈值的条件。"
+    cue: "the value of x increases to no less than c：信号达到或越过阈值，使 x >= c 从 false 变为 true。"
+    pattern: "rise(x >= c)"
+
+  - semantic: "信号进入左闭右开的区间。"
+    cue: "x enters the region [a, b)：信号从区间外进入半开区间内，使区间谓词开始成立。"
+    pattern: "rise(x >= a and x < b)"
+
+  - semantic: "信号进入左开右闭的区间。"
+    cue: "x enters the range (a, b]：信号从区间外进入另一种半开区间内，使区间谓词开始成立。"
+    pattern: "rise(x > a and x <= b)"
+
+===== rise_always =====
+
+operator: rise_always
+meaning: "rise(always(φ)) 表示一个无界持续约束整体从 false 变为 true。"
+cases:
+  - semantic: "从某个时刻开始，原本不成立的持续保持条件转为成立。"
+    cue: "the following condition has to shift from false to true: x is not smaller than c and this scenario will keep in the future till the end of the simulation：rise 的对象是整段 always 持续约束。"
+    pattern: "rise(always(φ))"
+
+  - semantic: "有界持续条件整体从 false 转为 true。"
+    cue: "the subsequent condition has to change from false to true: x is within a bound and will remain consistently for each moment within the coming b time units：rise 的对象是有界 always 持续约束。"
+    pattern: "rise(always [a:b] (φ))"
+
+===== rise_once =====
+
+operator: rise_once
+meaning: "rise(once [a:b](φ)) 表示“过去窗口内曾经出现 φ”这一历史存在条件从 false 变为 true。"
+cases:
+  - semantic: "过去存在性条件整体开始成立。"
+    cue: "the subsequent condition should change from false to true: once there would be a certain moment within the last a to b time units, at which x would be y：rise 的对象是 once 描述的过去存在条件。"
+    pattern: "rise(once [a:b] (φ))"
+
+===== rise_until =====
+
+operator: rise_until
+meaning: "rise(φ until ψ) 表示一整段 until 时间关系从 false 变为 true。"
+cases:
+  - semantic: "某个 until 条件整体开始成立，而不是仅仅终止条件发生。"
+    cue: "the condition that x will remain ... until y enters a range ought to change from false to true：rise 作用在整段 until 模式上，表示这个持续-直到关系开始成立。"
+    pattern: "rise(φ until [a:b] ψ)"
+
+  - semantic: "无界 until 条件整体从 false 转为 true。"
+    cue: "the condition that x will keep no less than c till y becomes lower than d in the future ought to be observed to shift from false to true：rise 作用在没有有限终止窗口的 until 模式上。"
+    pattern: "rise(φ until ψ)"
+
+===== since =====
+
+operator: since
+meaning: "φ since ψ 表示过去某个时间点 ψ 成立，并且从该时间点之后 φ 一直持续成立到当前。"
+cases:
+  - semantic: "过去某个起点条件成立后，另一条件从该起点一直持续到当前。"
+    cue: "this condition will consecutively hold since at a certain time instant within the past b time units ...：过去起点条件成立，此后持续条件保持到当前。"
+    pattern: "φ since [a:b] ψ"
+
+  - semantic: "从过去无界历史中的某个起点开始，持续条件一直保持到当前。"
+    cue: "at a certain time point in the past from the beginning of the simulation ... once, after that consistently x has been remaining ...：since 的起点可来自仿真开始以来的任意过去时刻。"
+    pattern: "φ since ψ"
+
+===== since_fall =====
+
+operator: since_fall
+meaning: "φ since [a:b](fall(ψ)) 表示过去窗口内发生过 ψ 从 true 变为 false 的转移，并且此后 φ 一直持续到当前。"
+cases:
+  - semantic: "since 的过去起点是一个 fall 转移事件。"
+    cue: "there was a certain time instant within the elapsed b time units, at which x deviates from y once, and after that ... stayed ... continuously：从过去的 fall 事件发生后，前一条件持续保持到当前。"
+    pattern: "φ since [a:b] (fall(ψ))"
+
+  - semantic: "since 的过去起点是信号离开区间的 fall 事件。"
+    cue: "at a certain moment within the past b time units once the transition action that x leaves the range (a, b] took place, after this continuously ...：过去窗口中的区间离开事件作为 since 起点。"
+    pattern: "φ since [a:b] (fall(x > lower and x <= upper))"
+
+===== since_not_fall =====
+
+operator: since_not_fall
+meaning: "φ since [a:b](not fall(ψ)) 表示过去窗口内以未发生 ψ 的 fall 转移作为 since 的起点条件。"
+cases:
+  - semantic: "since 的过去起点条件是未检测到某个 fall 转移。"
+    cue: "since once there existed a certain moment during the past b time units, at which the transition action that x goes out of the bound [a, b] was not detected：以未发生区间退出转移作为 since 的历史起点。"
+    pattern: "φ since [a:b] (not fall(ψ))"
+
+  - semantic: "since 的持续阶段要求从过去起点到当前一直未发生某个 fall 转移。"
+    cue: "x shouldn't get out of the range and then continuously this condition will continue since there existed a certain time point in the elapsed window：not fall 是 since 左侧持续保持的条件。"
+    pattern: "not fall(φ) since [a:b] ψ"
+
+===== since_rise =====
+
+operator: since_rise
+meaning: "φ since [a:b](rise(ψ)) 表示 ψ 的上升转移曾在过去窗口内发生，并且此后 φ 持续到当前。"
+cases:
+  - semantic: "since 的过去起点是一个 rise 转移事件。"
+    cue: "this scenario has continued since the state of x is shifted to y once at a time in the last b time units：从过去的上升转移发生后，前一条件持续保持到当前。"
+    pattern: "φ since [a:b] (rise(ψ))"
+
+  - semantic: "无界过去中的 rise 事件作为 since 的起点。"
+    cue: "at a time in the past from the start of the simulation, the event that x got equal to c would be observed, and since then ...：since 的起点来自仿真开始以来的某个 rise 事件。"
+    pattern: "φ since rise(ψ)"
+
+===== until =====
+
+operator: until
+meaning: "φ until ψ 表示 φ 从当前开始持续成立，直到未来某个时间点 ψ 成立。"
+cases:
+  - semantic: "某个状态或区间条件持续保持，直到未来观察到指定事件。"
+    cue: "this scenario will remain until there is a certain time point in the future ...：前一条件持续保持，直到后一个条件在未来某个时刻成立。"
+    pattern: "φ until ψ"
+
+  - semantic: "未来有限时间窗口内的 until：前一条件持续成立，终止条件需要在指定窗口内出现。"
+    cue: "at sometime starting at most b time units ... finally, till then continuously ...：终止条件被限制在未来窗口内，出现前持续条件一直保持。"
+    pattern: "φ until [a:b] ψ"
+
+===== until_fall =====
+
+operator: until_fall
+meaning: "φ until fall(ψ) 表示 φ 持续成立，直到未来某个时间点 ψ 从 true 变为 false。"
+cases:
+  - semantic: "持续状态以未来窗口内的 fall 事件作为终止条件。"
+    cue: "there must exist a certain time point during the following b time units, at which the event that x goes out of the bound [a, b] will ultimately take place, till then ...：终止条件是窗口内发生的 fall 转移。"
+    pattern: "φ until [a:b] fall(ψ)"
+
+  - semantic: "持续状态以未来窗口内关系失效的 fall 事件作为终止条件。"
+    cue: "the state of x deviates from y gets observed finally at a certain time point in the subsequent b time units, till then ...：终止条件是 x == y 的关系失效事件。"
+    pattern: "φ until [a:b] fall(x == y)"
+
+  - semantic: "持续状态以无界未来中的等值偏离 fall 事件作为终止条件。"
+    cue: "the event that x deviates from c should occur at a time in the future before the simulation ends, and before that ...：终止条件是无界未来中发生的等值关系失效。"
+    pattern: "φ until fall(x == c)"
+
+===== until_not_fall =====
+
+operator: until_not_fall
+meaning: "until 与 not fall 连续使用时，可表示终止条件出现前持续禁止 fall，或以 not fall 作为 until 的终止条件。"
+cases:
+  - semantic: "直到终止条件出现前，持续禁止某个 fall 事件发生。"
+    cue: "continuously the event that x starts deviating from c does not take place till there will exist a time during the first b time units ...：until 的持续阶段是不发生 fall 转移。"
+    pattern: "not fall(φ) until [a:b] ψ"
+
+  - semantic: "直到终止事件出现前，持续禁止信号离开闭区间。"
+    cue: "till x deviates from y in the subsequent window, the event that z leaves the range [a, b] won't be detected：until 的持续阶段是不发生闭区间 fall。"
+    pattern: "not fall(x >= lower and x <= upper) until [a:b] ψ"
+
+  - semantic: "在无界 until 的持续阶段内持续禁止某个 fall 事件发生。"
+    cue: "there ought to exist a certain time instant in the future before the simulation ends, and before this the transition action that x goes out of the bound [a, b] shall consistently not be observed：until 的持续阶段是不发生 fall 转移。"
+    pattern: "not fall(φ) until ψ"
+
+  - semantic: "until 的终止条件本身是某个 fall 转移未发生。"
+    cue: "the transition action that x becomes not set to c does not occur at sometime in less than b time units, until then y shall ...：终止位置要求满足 not fall，而持续条件在此之前保持。"
+    pattern: "φ until [a:b] (not fall(ψ))"
+
+  - semantic: "无界 until 的终止条件本身是某个 fall 转移未发生。"
+    cue: "x shall hold till y will not decrease to at most c, which needs to get detected at a time in the future before the simulation ends：终止位置是无界未来中的 not fall 条件。"
+    pattern: "φ until (not fall(ψ))"
+
+===== until_not_rise =====
+
+operator: until_not_rise
+meaning: "until 与 not rise 连续使用时，可表示终止条件出现前持续禁止 rise，或以 not rise 作为 until 的终止条件。"
+cases:
+  - semantic: "直到终止条件出现前，持续禁止某个 rise 事件发生。"
+    cue: "till then continuously the scenario that x rises to greater than or equal to c shall not get detected：until 的持续阶段是不发生 rise 转移。"
+    pattern: "not rise(φ) until [a:b] ψ"
+
+  - semantic: "until 的终止条件本身是某个 rise 转移未发生。"
+    cue: "until there exists a time in the first a to b time units, at which the event that x increases to greater than or equal to c is not detected：终止位置要求满足 not rise，而持续条件在此之前保持。"
+    pattern: "φ until [a:b] (not rise(ψ))"
+
+===== until_rise =====
+
+operator: until_rise
+meaning: "φ until rise(ψ) 表示 φ 持续成立，直到未来某个时间点 ψ 从 false 变为 true。"
+cases:
+  - semantic: "一个持续状态以未来转移事件作为终止条件。"
+    cue: "remain until ... the event that the mode of x is changed to y is observed：until 的终止点不是普通状态，而是 rise 描述的关系开始成立事件。"
+    pattern: "φ until rise(ψ)"
+
+  - semantic: "持续状态以未来窗口内的 rise 事件作为终止条件。"
+    cue: "there ought to exist a certain time instant during the subsequent b time units, at which the event that x gets to at most c will have to be detected eventually, till then ... stay ... consecutively：终止事件是窗口内发生的 rise 转移。"
+    pattern: "φ until [a:b] rise(ψ)"
+
+  - semantic: "持续状态以未来窗口内信号超过阈值的 rise 事件作为终止条件。"
+    cue: "this scenario shall continue consistently till eventually the scenario that x exceeds c is detected at a certain time instant in the subsequent b time units：终止条件是未来窗口内发生的越阈转移。"
+    pattern: "φ until [a:b] rise(x > c)"
+
+  - semantic: "持续状态以未来某个下降到阈值以下的 rise 事件作为终止条件。"
+    cue: "remain ... until x goes down to less than c ultimately, which ought to get observed at a certain moment in the future before the execution ends：终止条件是无界未来中发生的下降越阈转移。"
+    pattern: "φ until rise(x < c)"
+
+  - semantic: "持续状态以未来有限窗口内下降到阈值以下的 rise 事件作为终止条件。"
+    cue: "there shall exist a certain time instant within the following b time units finally, at which x needs to go down to lower than c, and before this without interruption ...：终止条件是窗口内发生的下降越阈转移。"
+    pattern: "φ until [a:b] rise(x < c)"
+
+  - semantic: "持续状态以未来有限窗口内上升到大于等于阈值的 rise 事件作为终止条件。"
+    cue: "until x eventually increases to greater than or equal to c at a time within the following a to b time units：终止条件是窗口内发生的上升越阈转移。"
+    pattern: "φ until [a:b] rise(x >= c)"
+
+  - semantic: "持续状态以未来进入闭区间的 rise 事件作为终止条件。"
+    cue: "x settles inside the bound [a, b] at a certain time point in the future, before this y shall ...：终止条件是进入闭区间这一 rise 转移。"
+    pattern: "φ until rise(x >= lower and x <= upper)"
+

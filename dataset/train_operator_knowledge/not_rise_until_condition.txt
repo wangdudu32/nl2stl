@@ -1,0 +1,6 @@
+operator: not_rise_until_condition
+meaning: "(not rise(φ)) until ψ 表示左侧持续条件本身是不发生 rise，直到右侧目标 ψ 成立。"
+cases:
+  - semantic: "有界 until 过程中，左侧要求目标 rise 事件持续不发生，直到普通终止条件最终出现。"
+    cue: "the value of x doesn't settle inside the bound then this scenario lasts until y is value, which gets detected within a time window：not rise 作为 until 左侧持续条件。"
+    pattern: "(not rise(φ)) until [a:b] ψ"

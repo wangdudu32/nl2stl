@@ -1,0 +1,6 @@
+operator: always_eventually_not_rise
+meaning: "always(eventually(not rise(φ))) 表示在每个外层检查时刻，都要求未来窗口内存在一个不发生 rise 的满足时刻。"
+cases:
+  - semantic: "外层有界窗口内每个时间点，都必须在其后的有界窗口中最终找到一个无 rise 事件的时刻。"
+    cue: "for each time instant within b time units the state of x will not be changed to value ultimately at sometime within the next c time units：always 逐点要求 eventually_not_rise。"
+    pattern: "always [a:b] (eventually [c:d] (not rise(φ)))"

@@ -1,0 +1,10 @@
+operator: eventually_always_not_fall
+meaning: "eventually(always(not fall(φ))) 表示未来某个起点之后持续禁止 φ 的 fall 转移。"
+cases:
+  - semantic: "未来有界窗口内必须找到一个起点，从该起点到执行结束持续不发生目标 fall 事件。"
+    cue: "there ought to be a time during the subsequent a time units ultimately, after which in the future consistently the event that x goes out of the bound will not get detected：eventually 选择持续 not fall 的起点。"
+    pattern: "eventually [a:b] (always(not fall(φ)))"
+
+  - semantic: "未来有界窗口内必须找到一个起点，从该起点开始的有界窗口内持续不发生目标 fall 事件。"
+    cue: "there has to exist sometime in the coming a to b time units eventually, after which for every time point during the following c to d time units the scenario that x starts not equaling value won't occur：eventually 选择有界 always_not_fall 的起点。"
+    pattern: "eventually [a:b] (always [c:d] (not fall(φ)))"

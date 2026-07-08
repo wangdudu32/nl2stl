@@ -1,0 +1,18 @@
+operator: eventually_always
+meaning: "eventually(always(φ)) 表示未来某个时刻开始，φ 需要持续保持一段时间或保持到执行结束。"
+cases:
+  - semantic: "未来有界窗口内找到一个起点，从该起点开始条件持续保持指定窗口。"
+    cue: "eventually after a time within the coming a time units, x has to be equal to value and this condition ought to consecutively hold for each time instant within the next b time units：先找到开始时刻，再持续保持。"
+    pattern: "eventually [a:b] (always [c:d] (φ))"
+
+  - semantic: "无界未来中最终找到一个起点，并从该起点开始一直保持到执行结束。"
+    cue: "finally there should exist a certain moment in the future before the end of the execution, after which ... must stay ... consecutively：eventually 负责起点，always 负责无界持续。"
+    pattern: "eventually(always(φ))"
+
+  - semantic: "未来有界窗口内找到一个起点，之后条件持续保持到执行结束。"
+    cue: "there has to exist a certain moment starting between a to b time units ultimately, at which x will have to ... and then this scenario shall keep uninterruptedly in the future：内层 always 无界。"
+    pattern: "eventually [a:b] (always(φ))"
+
+  - semantic: "无界未来中最终找到一个起点，并从该起点开始让条件持续保持指定窗口。"
+    cue: "eventually at a certain time instant in the future before the simulation ends for every moment in the subsequent a to b time units, continuously x needs to be in value：eventually 无界选择起点，always 负责有界持续。"
+    pattern: "eventually(always [a:b] (φ))"

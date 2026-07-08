@@ -1,0 +1,10 @@
+operator: until_rise
+meaning: "φ until rise(ψ) 表示左侧条件持续保持，直到右侧 rise 事件发生。"
+cases:
+  - semantic: "有界 until 的终止条件是某个 rise 转移事件。"
+    cue: "till there is sometime in the first b time units, at which the scenario that x goes to at most c will get observed：右侧不是普通状态，而是进入事件。"
+    pattern: "φ until [a:b] rise(ψ)"
+
+  - semantic: "无界 until 的终止条件是未来某个 rise 事件。"
+    cue: "continuously ... till eventually x shifts to value at sometime in the future before the end of the simulation：直到 rise 事件发生。"
+    pattern: "φ until rise(ψ)"

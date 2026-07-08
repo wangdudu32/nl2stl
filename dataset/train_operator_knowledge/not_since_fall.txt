@@ -1,0 +1,6 @@
+operator: not_since_fall
+meaning: "not(φ since(fall(ψ))) 表示否定一段以 fall 事件作为历史起点的 since 关系。"
+cases:
+  - semantic: "有界过去窗口内不存在那种从 fall 事件后一直保持左侧条件的历史关系。"
+    cue: "the condition that x has been in a mode consecutively since once y deviates from value in the past window is not true：外层 not 否定完整 since_fall 模式。"
+    pattern: "not(φ since [a:b] (fall(ψ)))"

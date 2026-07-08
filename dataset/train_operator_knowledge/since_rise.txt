@@ -1,0 +1,10 @@
+operator: since_rise
+meaning: "φ since rise(ψ) 表示过去发生过 ψ 的 rise 转移，并且从那以后 φ 一直成立。"
+cases:
+  - semantic: "过去有界窗口内的起点是 rise 事件，起点之后左侧条件持续保持到当前。"
+    cue: "x remains ... since y entered the bound (a, b), which took place at a time during the elapsed window：since 的历史起点是进入事件。"
+    pattern: "φ since [a:b] rise(ψ)"
+
+  - semantic: "无界过去范围内以 rise 事件作为 since 起点。"
+    cue: "x remains ... since the scenario that y got to at least c once occurred at a certain time instant in the past starting from the beginning of the execution：从 rise 起点延续到当前。"
+    pattern: "φ since rise(ψ)"

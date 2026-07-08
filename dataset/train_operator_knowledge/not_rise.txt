@@ -1,0 +1,7 @@
+operator: not_rise
+meaning: "not rise(φ) 表示 φ 的 false-to-true 转移事件不发生。"
+cases:
+  - semantic: "禁止某个状态或模式切换事件发生。"
+    cue: "the scenario that x was changed to value should consecutively not get observed：目标状态开始成立的事件被否定。"
+    pattern: "not rise(x == value)"
+

@@ -1,0 +1,6 @@
+operator: not_fall_since_condition
+meaning: "(not fall(φ)) since ψ 表示左侧历史保持条件本身是不发生 fall，并从过去某个 ψ 起点持续到当前。"
+cases:
+  - semantic: "有界过去 since 关系中，左侧要求指定 fall 事件从过去锚点之后一直没有发生。"
+    cue: "the transition action that x began deviating from value oughtn't to get observed since y was true at a certain time point within the past window：not fall 作为 since 左侧持续条件。"
+    pattern: "(not fall(φ)) since [a:b] ψ"

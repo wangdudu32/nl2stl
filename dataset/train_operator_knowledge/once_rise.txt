@@ -1,0 +1,22 @@
+operator: once_rise
+meaning: "once(rise(φ)) 表示过去某个时间点曾经发生过 φ 的 rise 转移。"
+cases:
+  - semantic: "过去有界窗口内曾经发生进入区间的 rise 事件。"
+    cue: "there had to be a time in the elapsed a to b time units, at which once the event that x settles inside the bound (a, b) needed to occur：once 的目标是 rise 事件。"
+    pattern: "once [a:b] (rise(φ))"
+
+  - semantic: "无界过去范围内曾经发生过某个 rise 转移事件。"
+    cue: "there would exist a certain moment in the past from the start of the simulation once, at which the transition action that x was shifted to value was observed：once 的目标是无界过去中的 rise 事件。"
+    pattern: "once(rise(φ))"
+
+  - semantic: "过去有界窗口内曾经发生状态或模式切换到指定值的 rise 事件。"
+    cue: "there is sometime within the last a to b time units once, at which the event that x gets changed to value takes place：once 的目标是等值关系的 rise。"
+    pattern: "once [a:b] (rise(x == value))"
+
+  - semantic: "无界过去范围内曾经发生阈值上升或进入阈值状态的 rise 事件。"
+    cue: "at a certain moment in the past from the beginning of the execution the event that x got to no less than c took place：once 的目标是无界过去中的阈值 rise。"
+    pattern: "once(rise(x >= c))"
+
+  - semantic: "过去有界窗口内曾经发生阈值上升或进入阈值状态的 rise 事件。"
+    cue: "once there would be a time during the last b time units, at which the transition action that x gets raised to at least c would occur：once 的目标是有界过去中的阈值 rise。"
+    pattern: "once [a:b] (rise(x >= c))"

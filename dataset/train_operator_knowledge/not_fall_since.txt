@@ -1,0 +1,10 @@
+operator: not_fall_since
+meaning: "not fall(φ since ψ) 表示禁止一整段 since 历史关系从 true 变为 false。"
+cases:
+  - semantic: "过去 since 关系不允许整体失效。"
+    cue: "the condition that x was value all the time since y held in the past must not be detected to shift from true to false：not fall 作用在整段 since 关系上。"
+    pattern: "not fall(φ since ψ)"
+
+  - semantic: "当 since 关系内部含有被否定的 rise 事件时，not fall 禁止这整段历史条件失效。"
+    cue: "the subsequent condition will not be observed to change from true to false: the scenario that x jumped to at least c never took place since a past condition held：not fall 的对象是包含 not rise 的 since 模式。"
+    pattern: "not fall((not rise(φ)) since [a:b] ψ)"

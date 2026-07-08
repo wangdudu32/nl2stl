@@ -1,0 +1,6 @@
+operator: rise_since
+meaning: "rise(φ since ψ) 表示一整段 since 历史关系从 false 转为 true。"
+cases:
+  - semantic: "过去 since 关系整体被观察到开始成立。"
+    cue: "the condition that x has been continuously keeping ... since y kept ... once at a certain time point during the past should be observed to shift from false to true：rise 作用在整段 since 模式上。"
+    pattern: "rise(φ since ψ)"

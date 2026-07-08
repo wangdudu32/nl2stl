@@ -1,0 +1,10 @@
+operator: eventually_not_rise
+meaning: "eventually(not rise(φ)) 表示未来某个满足时刻上，φ 的 rise 转移不发生。"
+cases:
+  - semantic: "未来有界窗口内需要出现一个时刻，在该时刻指定状态切换事件没有发生。"
+    cue: "there should be a certain time instant in the coming b time units eventually, at which the scenario that x gets changed to value doesn't occur：eventually 的满足时刻上 rise 被否定。"
+    pattern: "eventually [a:b] (not rise(φ))"
+
+  - semantic: "未来有界窗口内需要出现一个满足时刻，在该时刻 rise 转移不发生，并且同时满足普通状态约束。"
+    cue: "there must be a certain time instant in the first b time units, at which x shall not get shifted to value finally, and y should be at most c：eventually 的满足时刻同时包含 not rise 与状态条件。"
+    pattern: "eventually [a:b] (not rise(φ) and ψ)"

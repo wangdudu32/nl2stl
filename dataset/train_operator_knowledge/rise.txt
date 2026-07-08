@@ -1,0 +1,30 @@
+operator: rise
+meaning: "rise(φ) 表示谓词 φ 从 false 转为 true 的事件。"
+cases:
+  - semantic: "信号上升或跨越到大于、至少为某阈值的状态。"
+    cue: "the transition action that x crosses the threshold of c gets detected：rise 表示阈值谓词开始成立。"
+    pattern: "rise(x > c)"
+
+  - semantic: "信号下降进入小于或至多为某阈值的状态。"
+    cue: "the scenario that x drops to at most c will get observed：虽然数值方向下降，但 STL 中 rise 表示目标谓词开始成立。"
+    pattern: "rise(x <= c)"
+
+  - semantic: "离散状态、模式或等值关系切换到指定值。"
+    cue: "the event that x shifts to value takes place：目标等值关系从不成立变为成立。"
+    pattern: "rise(x == value)"
+
+  - semantic: "信号进入闭区间，区间谓词从不成立变为成立。"
+    cue: "the transition action that x enters the region [a, b] occurs：rise 表示进入区间这一事件。"
+    pattern: "rise(lower <= x <= upper)"
+
+  - semantic: "信号进入半开区间，半开区间谓词从不成立变为成立。"
+    cue: "the transition action that x gets into the range [a, b) is detected：边界开闭信息属于进入区间事件的语义差异。"
+    pattern: "rise(lower <= x < upper)"
+
+  - semantic: "信号进入开区间，开区间谓词从不成立变为成立。"
+    cue: "the event that x enters the region (a, b) gets detected：两端开区间的进入事件需要保留边界语义。"
+    pattern: "rise(lower < x < upper)"
+
+  - semantic: "信号进入左开右闭区间，边界开闭作为进入事件的一部分保留。"
+    cue: "x enters the range (a, b]：目标半开区间谓词从不成立变为成立。"
+    pattern: "rise(lower < x <= upper)"

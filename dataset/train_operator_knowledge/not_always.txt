@@ -1,0 +1,10 @@
+operator: not_always
+meaning: "not(always(φ)) 表示 φ 并非在整个未来或指定窗口内持续成立。"
+cases:
+  - semantic: "否定无界持续保持，表示目标条件不能一直保持到执行结束。"
+    cue: "x should not equal to value without interruption in the future before the execution ends：无界 always 被整体否定。"
+    pattern: "not(always(φ))"
+
+  - semantic: "否定有界窗口内的持续保持。"
+    cue: "the subsequent condition oughtn't to be true: x is not at least c and this scenario lasts without interruption for each time point in the first b time units：有界 always 整体不成立。"
+    pattern: "not(always [a:b] (φ))"

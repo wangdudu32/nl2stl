@@ -1,0 +1,10 @@
+operator: fall_always
+meaning: "fall(always(φ)) 表示一整段持续保持条件从 true 转为 false。"
+cases:
+  - semantic: "有界 always 持续条件整体失效。"
+    cue: "the condition that consecutively x will keep ... for every time instant in the coming a to b time units ought to be detected to shift from true to false：fall 作用在整段 always 条件上。"
+    pattern: "fall(always [a:b] (φ))"
+
+  - semantic: "从当前到执行结束的无界持续条件整体失效。"
+    cue: "the following condition must shift from true to false: x is value and then will always stay like that in the future until the end of the simulation：fall 作用在无界 always 条件整体上。"
+    pattern: "fall(always(φ))"

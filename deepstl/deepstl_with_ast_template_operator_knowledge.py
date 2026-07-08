@@ -24,7 +24,7 @@ MAX_ATTEMPTS = 5
 INPUT_CSV = ROOT / "dataset/deepstl_test_300_sample.csv"
 SCHEMA_FILE = ROOT / "knowledge_base/ast_schema.txt"
 TEMPLATE_OPERATOR_KNOWLEDGE_FILE = ROOT / "knowledge_base/template_operator_knowledge.md"
-OUTPUT_FILE = ROOT / "tmp/deepstl_with_ast_template_operator_knowledge_deepseek_v4_pro_result.txt"
+OUTPUT_FILE = ROOT / "result/deepstl_with_ast_template_operator_knowledge_deepseek_v4_pro_result.txt"
 FAIL_TIMES_FILE = ROOT / "tmp/deepstl_with_ast_template_operator_knowledge_fail_times.txt"
 
 

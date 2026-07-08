@@ -1,0 +1,6 @@
+operator: since_fall
+meaning: "φ since(fall(ψ)) 表示左侧条件从过去某个 fall 事件发生后持续到当前。"
+cases:
+  - semantic: "有界过去窗口内的 since 起点是一个 fall 事件。"
+    cue: "x has been in a mode consecutively since once y deviates from value at a certain moment within the last a to b time units：since 的历史锚点是 fall。"
+    pattern: "φ since [a:b] (fall(ψ))"

@@ -1,0 +1,10 @@
+operator: until
+meaning: "φ until ψ 表示 φ 需要持续保持，直到 ψ 在未来某个时刻成立。"
+cases:
+  - semantic: "有界 until 响应要求左侧条件持续保持，直到右侧目标在指定未来窗口内出现。"
+    cue: "needs to be ... and should hold like that consistently until finally at a certain moment within the first a to b time units ...：左侧保持到右侧在窗口内出现。"
+    pattern: "φ until [a:b] ψ"
+
+  - semantic: "无界 until 要求左侧条件从当前持续保持，直到未来某个未指定上界的时刻右侧条件成立。"
+    cue: "consecutively ... ought to keep ... until at sometime in the future before the end of the execution ... eventually：右侧最终出现前左侧不能中断。"
+    pattern: "φ until ψ"

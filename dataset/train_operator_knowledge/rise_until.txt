@@ -1,0 +1,10 @@
+operator: rise_until
+meaning: "rise(φ until ψ) 表示一整段 until 条件从 false 转为 true。"
+cases:
+  - semantic: "持续-直到关系整体被观察到开始成立。"
+    cue: "the condition that x will be continuously ... till eventually y shifts to value ... has to be observed to change from false to true：rise 作用在整个 until 模式上。"
+    pattern: "rise(φ until ψ)"
+
+  - semantic: "有界持续-直到关系整体被观察到开始成立。"
+    cue: "the condition that x keeps ... till y holds at sometime in the coming a to b time units ought to shift from false to true：rise 作用在带窗口的 until 模式整体上。"
+    pattern: "rise(φ until [a:b] ψ)"

@@ -1,0 +1,10 @@
+operator: once
+meaning: "once(φ) 表示 φ 在过去某个时间点至少成立过一次；once [a:b](φ) 表示 φ 在过去窗口内至少成立过一次。"
+cases:
+  - semantic: "无界过去范围内曾经出现过某个状态。"
+    cue: "had to equal to value once at a time in the past：从过去到当前至少存在一个满足时刻。"
+    pattern: "once(φ)"
+
+  - semantic: "有界过去窗口内曾经出现过某个状态。"
+    cue: "there will be a certain time instant during the last b time units, at which x is value：过去窗口内存在一个满足时刻。"
+    pattern: "once [a:b] (φ)"

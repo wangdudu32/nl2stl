@@ -1,0 +1,22 @@
+operator: fall
+meaning: "fall(φ) 表示谓词 φ 从 true 转为 false 的事件。"
+cases:
+  - semantic: "离散状态或等值关系失效，表示信号开始偏离原值。"
+    cue: "the transition action that the state of x becomes not set to value occurs：等值谓词从成立变为不成立。"
+    pattern: "fall(x == value)"
+
+  - semantic: "信号离开闭区间，表示区间谓词从成立变为不成立。"
+    cue: "the event that x goes out of the bound [a, b] gets detected：fall 的目标是区间保持条件失效。"
+    pattern: "fall(lower <= x <= upper)"
+
+  - semantic: "信号离开半开区间，保留区间边界开闭的失效事件。"
+    cue: "the scenario that x gets out of the range [a, b) occurs：半开区间谓词从成立变为不成立。"
+    pattern: "fall(lower <= x < upper)"
+
+  - semantic: "信号离开开区间，开区间谓词从成立变为不成立。"
+    cue: "the transition action that x leaves the range (a, b) is detected：两端开区间的边界语义需要保留。"
+    pattern: "fall(lower < x < upper)"
+
+  - semantic: "信号离开左开右闭区间，左开右闭区间谓词从成立变为不成立。"
+    cue: "the event that x goes out of the bound (a, b] gets observed：边界开闭信息属于 fall 事件语义。"
+    pattern: "fall(lower < x <= upper)"

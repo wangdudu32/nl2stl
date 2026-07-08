@@ -1,0 +1,38 @@
+operator: eventually_fall
+meaning: "eventually(fall(φ)) 表示未来某个时间点必须观察到 φ 的 true-to-false 转移。"
+cases:
+  - semantic: "未来有界窗口内需要发生关系失效或偏离事件，且该事件可以和同一时刻的状态条件一起作为 eventually 目标。"
+    cue: "at a certain moment in the first b time units, eventually the scenario that x starts deviating from value will have to take place, and y ought to be value：eventually 的目标包含 fall 事件。"
+    pattern: "eventually [a:b] (fall(φ) and ψ)"
+
+  - semantic: "未来有界窗口内最终发生等值或模式关系偏离事件。"
+    cue: "at sometime in the subsequent a to b time units, the event that x starts deviating from value will have to get detected finally：eventually 的目标就是 fall 事件。"
+    pattern: "eventually [a:b] (fall(x == value))"
+
+  - semantic: "无界未来中最终发生等值或模式关系偏离事件。"
+    cue: "there will have to exist a certain time point in the future before the end of the execution, at which the event that x begins deviating from value will have to occur eventually：没有有限时间上界。"
+    pattern: "eventually(fall(x == value))"
+
+  - semantic: "未来有界窗口内需要发生离开开区间的 fall 事件。"
+    cue: "at a certain moment within the coming b time units, finally the scenario that x gets out of the range (a, b) has to occur：eventually 的目标是开区间谓词失效。"
+    pattern: "eventually [a:b] (fall(lower < x < upper))"
+
+  - semantic: "未来有界窗口内需要发生离开闭区间的 fall 事件。"
+    cue: "at a time during the first a to b time units finally, the transition action that x goes out of the bound [lower, upper] shall occur：eventually 的目标是闭区间谓词失效。"
+    pattern: "eventually [a:b] (fall(lower <= x <= upper))"
+
+  - semantic: "未来有界窗口内需要发生离开半开区间的 fall 事件。"
+    cue: "at a time after at most b time units, the event that x leaves the range (lower, upper] has to be detected：eventually 的目标是半开区间谓词失效。"
+    pattern: "eventually [a:b] (fall(lower < x <= upper))"
+
+  - semantic: "未来有界窗口内需要出现一个满足时刻，其中 fall 事件可以作为目标条件的一个析取分支。"
+    cue: "there must exist a certain moment starting between a to b time units, at which ultimately the scenario that x begins deviating from value has to take place, or y needs to be in a closed interval：eventually 的目标中包含 fall 的析取条件。"
+    pattern: "eventually [a:b] (fall(φ) or ψ)"
+
+  - semantic: "未来有界窗口内需要发生离开左闭右开区间的 fall 事件。"
+    cue: "eventually at a time within the subsequent b time units the value of x has to go out of the bound [lower, upper)：eventually 的目标是左闭右开区间谓词失效。"
+    pattern: "eventually [a:b] (fall(lower <= x < upper))"
+
+  - semantic: "无界未来中最终发生离开开区间的 fall 事件。"
+    cue: "at a certain time instant in the future finally the value of x needs to get out of the range (lower, upper)：无界 eventually 的目标是开区间谓词失效。"
+    pattern: "eventually(fall(lower < x < upper))"

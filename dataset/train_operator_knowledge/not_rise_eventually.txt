@@ -1,0 +1,7 @@
+operator: not_rise_eventually
+meaning: "not rise(eventually(φ)) 表示整个 eventually 条件不得从 false 转为 true。"
+cases:
+  - semantic: "禁止一个有界最终性条件整体被触发为真。"
+    cue: "the subsequent condition mustn't be detected to change from false to true: at a time during the first a to b time units ... eventually ...：not rise 作用在 eventually 条件整体上。"
+    pattern: "not rise(eventually [a:b] (φ))"
+

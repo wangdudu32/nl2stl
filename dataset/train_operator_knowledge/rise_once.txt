@@ -1,0 +1,10 @@
+operator: rise_once
+meaning: "rise(once(φ)) 表示过去曾经发生过 φ 这一条件整体从 false 转为 true。"
+cases:
+  - semantic: "过去窗口内曾经发生的条件被作为当前的上升事件观察到。"
+    cue: "the condition that x went out of the bound once during the last a to b time units will be observed to change from false to true：rise 作用在 once 条件整体上。"
+    pattern: "rise(once [a:b] (φ))"
+
+  - semantic: "无界过去范围内曾经出现过的条件被作为当前的上升事件观察到。"
+    cue: "the subsequent condition will be observed to shift from false to true: there would exist a certain time instant in the past starting from the beginning of the execution, at which x was higher than c：rise 作用在无界 once 条件整体上。"
+    pattern: "rise(once(φ))"

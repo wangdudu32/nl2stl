@@ -1,0 +1,10 @@
+operator: since
+meaning: "φ since ψ 表示过去某个时刻 ψ 成立，并且从那以后 φ 一直成立到当前。"
+cases:
+  - semantic: "有界过去窗口内存在起点事件，之后左侧条件持续保持到当前。"
+    cue: "x has been remaining ... since there is sometime during the last a to b time units once, at which y keeps ...：since 用过去窗口限定起点。"
+    pattern: "φ since [a:b] ψ"
+
+  - semantic: "无界过去范围内的 since 关系，从过去某个起点开始左侧条件一直维持到当前。"
+    cue: "x remained ... since y was value, which would once get detected at a certain moment in the past from the beginning of the execution：起点不受有限窗口限制。"
+    pattern: "φ since ψ"

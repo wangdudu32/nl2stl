@@ -1,0 +1,14 @@
+operator: always_eventually_fall
+meaning: "always(eventually(fall(φ))) 表示在每个外层检查时刻，都要求未来窗口内最终发生一次 φ 的 fall 转移。"
+cases:
+  - semantic: "外层有界窗口内每个时间点，都必须在其后的有界窗口中最终观察到目标 fall 事件。"
+    cue: "for each moment within the first a time units at a time after at most b time units, the event that x leaves the range has to be detected：always 逐点要求 eventually_fall。"
+    pattern: "always [a:b] (eventually [c:d] (fall(φ)))"
+
+  - semantic: "从当前到执行结束的每个时间点，都要求目标 fall 在随后的有界窗口内最终发生。"
+    cue: "for every moment in the future until the execution ends there is finally a certain moment in less than b time units, at which the event that x becomes not set to value has to get observed：无界 always 逐点要求有界 eventually_fall。"
+    pattern: "always(eventually [a:b] (fall(φ)))"
+
+  - semantic: "指定外层窗口内每个时间点，都要求未来无界范围内最终发生目标 fall 事件。"
+    cue: "for every time point in the next a to b time units, at a certain time instant in the future finally the value of x needs to get out of the range：有界 always 逐点要求无界 eventually_fall。"
+    pattern: "always [a:b] (eventually(fall(φ)))"

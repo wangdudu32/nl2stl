@@ -1,0 +1,7 @@
+operator: until_fall
+meaning: "φ until fall(ψ) 表示左侧条件持续保持，直到右侧 fall 事件发生。"
+cases:
+  - semantic: "有界 until 的终止条件是某个 fall 转移事件。"
+    cue: "ultimately at sometime during the following b time units the scenario that x starts deviating from value takes place, and before that y keeps holding：右侧不是普通状态，而是 fall 事件。"
+    pattern: "φ until [a:b] fall(ψ)"
+

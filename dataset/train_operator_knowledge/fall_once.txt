@@ -1,0 +1,6 @@
+operator: fall_once
+meaning: "fall(once(φ)) 表示过去存在性条件整体从 true 转为 false。"
+cases:
+  - semantic: "无界过去范围内 once 条件被作为整体关系观察到失效。"
+    cue: "the subsequent condition is observed to shift from true to false: at a time in the past starting from the beginning of the simulation once x remained in an interval：fall 作用在 once 条件整体上。"
+    pattern: "fall(once(φ))"

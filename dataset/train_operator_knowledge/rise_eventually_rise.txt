@@ -1,0 +1,6 @@
+operator: rise_eventually_rise
+meaning: "rise(eventually(rise(φ))) 表示一个最终会发生 rise 的时序条件整体从 false 转为 true。"
+cases:
+  - semantic: "有界 eventually_rise 条件被作为整体事件观察到开始成立。"
+    cue: "the condition that x will enter the region eventually at a certain time instant during the following a to b time units needs to be observed to shift from false to true：rise 作用在 eventually_rise 整体上。"
+    pattern: "rise(eventually [a:b] (rise(φ)))"

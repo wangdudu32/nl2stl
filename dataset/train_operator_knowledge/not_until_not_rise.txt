@@ -1,0 +1,6 @@
+operator: not_until_not_rise
+meaning: "not(φ until(not rise(ψ))) 表示否定一整段以 not rise 为终止条件的 until 关系。"
+cases:
+  - semantic: "有界窗口内不存在那种先持续保持 φ、再以 not rise 作为终点的 until 过程。"
+    cue: "the subsequent condition is not true: there will exist a certain time instant after at most b time units, at which the transition action that x enters the range will not occur, before that y will consistently remain larger than c：外层 not 否定完整 until_not_rise 模式。"
+    pattern: "not(φ until [a:b] (not rise(ψ)))"

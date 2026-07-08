@@ -1,0 +1,6 @@
+operator: eventually_rise_fall
+meaning: "eventually(rise(φ) and fall(ψ)) 表示未来某个满足时刻同时观察到 rise 与 fall 两类转移事件。"
+cases:
+  - semantic: "未来有界窗口内需要在同一时刻同时发生一个 rise 事件和一个 fall 事件。"
+    cue: "at a certain moment in the first a to b time units, the event that x is shifted to value has to ultimately get observed, and the transition action that y begins deviating from value will have to eventually take place：eventually 的满足时刻同时包含 rise 与 fall。"
+    pattern: "eventually [a:b] (rise(φ) and fall(ψ))"

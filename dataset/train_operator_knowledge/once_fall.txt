@@ -1,0 +1,10 @@
+operator: once_fall
+meaning: "once(fall(φ)) 表示过去某个时间点曾经发生过 φ 的 fall 转移。"
+cases:
+  - semantic: "过去有界窗口内曾经发生离开开区间的 fall 事件。"
+    cue: "x went out of the bound (a, b) once at a certain time instant during the last a to b time units：once 的目标是 fall 事件。"
+    pattern: "once [a:b] (fall(φ))"
+
+  - semantic: "过去有界窗口内曾经发生等值或模式关系偏离的 fall 事件。"
+    cue: "at a certain moment within the last b time units the transition action that the mode of x begins deviating from value will get observed once：once 的目标是等值关系的 fall。"
+    pattern: "once [a:b] (fall(x == value))"

@@ -1,0 +1,7 @@
+operator: not_once
+meaning: "not(once(φ)) 表示过去指定范围内不存在 φ 成立过的时刻。"
+cases:
+  - semantic: "否定有界过去存在性，表示过去窗口内没有出现过目标状态。"
+    cue: "the subsequent condition isn't true: at a certain moment during the elapsed b time units, once ...：not 作用在 once 整体上。"
+    pattern: "not(once [a:b] (φ))"
+
