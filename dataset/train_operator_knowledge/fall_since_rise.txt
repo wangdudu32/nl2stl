@@ -1,0 +1,6 @@
+operator: fall_since_rise
+meaning: "fall(φ since rise(ψ)) 表示以 rise 事件为历史起点的 since 关系整体从 true 转为 false。"
+cases:
+  - semantic: "过去有界窗口内的 since 起点是 rise 事件，而整段历史持续关系被观察到失效。"
+    cue: "there was a time in the elapsed window when a signal shifted to a value, after this another condition was always true, and this whole condition shifts from true to false：fall 作用在 since_rise 整体上。"
+    pattern: "fall(φ since [a:b] rise(ψ))"

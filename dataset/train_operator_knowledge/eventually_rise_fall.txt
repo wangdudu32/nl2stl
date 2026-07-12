@@ -4,3 +4,7 @@ cases:
   - semantic: "未来有界窗口内需要在同一时刻同时发生一个 rise 事件和一个 fall 事件。"
     cue: "at a certain moment in the first a to b time units, the event that x is shifted to value has to ultimately get observed, and the transition action that y begins deviating from value will have to eventually take place：eventually 的满足时刻同时包含 rise 与 fall。"
     pattern: "eventually [a:b] (rise(φ) and fall(ψ))"
+
+  - semantic: "无界未来中需要出现一个满足时刻，并在该同一时刻同时发生一个 fall 事件和一个 rise 事件。"
+    cue: "there shall exist a time in the future before the end of the simulation, at which one value deviates from its target and another value goes over a threshold：无界 eventually 的满足时刻同时包含 fall 与 rise。"
+    pattern: "eventually(fall(φ) and rise(ψ))"

@@ -1,0 +1,6 @@
+operator: not_not_fall_since
+meaning: "not((not fall(φ)) since ψ) 表示否定一整段以 not_fall 为左侧持续条件的 since 关系。"
+cases:
+  - semantic: "无界过去范围内，不存在那种从某个历史锚点之后一直不发生 fall 的 since 关系。"
+    cue: "the condition that a value has never deviated since another value held in the past is not true：外层 not 否定完整 not_fall_since_condition 模式。"
+    pattern: "not((not fall(φ)) since ψ)"

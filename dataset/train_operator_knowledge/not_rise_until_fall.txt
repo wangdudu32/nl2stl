@@ -1,0 +1,6 @@
+operator: not_rise_until_fall
+meaning: "(not rise(φ)) until fall(ψ) 表示在右侧 fall 事件发生前，左侧 rise 转移持续不发生。"
+cases:
+  - semantic: "无界 until 过程中，持续禁止某个阈值或状态的 rise 事件，直到未来某个 fall 转移作为终点出现。"
+    cue: "the event that x rises to a threshold must not happen continuously until the event that y deviates from a value finally occurs：until 的左侧是 not rise，右侧终点是 fall。"
+    pattern: "(not rise(φ)) until fall(ψ)"

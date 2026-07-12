@@ -8,3 +8,23 @@ cases:
   - semantic: "指定窗口内持续禁止阈值谓词失效，例如禁止信号跌破下界。"
     cue: "during the first a to b time units, consecutively the scenario that x drops below c is not observed：not fall 被 always 持续约束。"
     pattern: "always [a:b] (not fall(x >= c))"
+
+  - semantic: "无界持续约束中，not_fall 可以作为析取目标的一个分支；每个时刻只需普通状态分支或禁止 fall 分支满足其一。"
+    cue: "in the future till the execution ends one value remains equal to a constant or the transition action that another value deviates is not detected：always 检查的是包含 not fall 的析取条件。"
+    pattern: "always(ψ or not fall(φ))"
+
+  - semantic: "有界窗口内同时要求普通状态持续成立，并且持续禁止某个 fall 转移。"
+    cue: "for every time point within a future window, one mode stays at a value and another value's deviation does not occur：always 的每个检查点同时满足状态条件与 not fall。"
+    pattern: "always [a:b] (ψ and not fall(φ))"
+
+  - semantic: "有界窗口内 not_fall 可以作为析取目标的一个分支；窗口内每个时刻只需普通状态或禁止 fall 分支满足其一。"
+    cue: "for each time point in the first b time units, one mode keeps a value or a range-leaving event is not observed：always 逐点检查包含 not fall 的析取条件。"
+    pattern: "always [a:b] (ψ or not fall(φ))"
+
+  - semantic: "无界未来中同时要求普通状态持续成立，并且持续禁止某个 fall 转移。"
+    cue: "in the future before the end of the execution, one signal stays in a range and another signal does not leave its range：always 持续检查状态条件与 not fall 的合取。"
+    pattern: "always(ψ and not fall(φ))"
+
+  - semantic: "从当前到执行结束持续禁止某个关系失效或偏离事件。"
+    cue: "the scenario that x begins deviating from a value should not be observed in the future until execution ends：无界 always 持续约束 not fall。"
+    pattern: "always(not fall(φ))"

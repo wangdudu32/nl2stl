@@ -1,0 +1,6 @@
+operator: not_fall_eventually_rise
+meaning: "not fall(eventually(rise(φ))) 表示禁止一个最终会发生 rise 的时序条件整体从 true 转为 false。"
+cases:
+  - semantic: "无界 eventually_rise 关系不允许整体失效：未来某时会出现目标 rise 事件这一性质，不能被观察到发生 true-to-false 转移。"
+    cue: "the condition is not detected to shift from true to false: eventually there is a future time at which the target signal decreases below the threshold"
+    pattern: "not fall(eventually(rise(φ)))"

@@ -8,3 +8,19 @@ cases:
   - semantic: "未来有界窗口内需要出现一个满足时刻，在该时刻 rise 转移不发生，并且同时满足普通状态约束。"
     cue: "there must be a certain time instant in the first b time units, at which x shall not get shifted to value finally, and y should be at most c：eventually 的满足时刻同时包含 not rise 与状态条件。"
     pattern: "eventually [a:b] (not rise(φ) and ψ)"
+
+  - semantic: "未来有界窗口内需要出现一个满足时刻，在该时刻普通状态成立，或指定 rise 转移不发生。"
+    cue: "within the specified future window, either the ordinary target state is reached or the target rise event does not occur"
+    pattern: "eventually [a:b] (ψ or not rise(φ))"
+
+  - semantic: "无界未来中需要出现一个满足时刻，在该时刻指定 rise 转移不发生，并且同时满足普通状态约束。"
+    cue: "at a time in the future before the execution ends, the event that x goes over a threshold is not detected and another signal stays below a bound：无界 eventually 选择满足时刻，not rise 与普通状态在同一时刻成立。"
+    pattern: "eventually(not rise(φ) and ψ)"
+
+  - semantic: "无界未来中需要出现一个满足时刻，在该时刻指定 rise 转移没有发生。"
+    cue: "there shall be a certain time instant in the future, at which the scenario that x enters a closed region will ultimately not happen：eventually 的目标是被否定的 rise 事件。"
+    pattern: "eventually(not rise(φ))"
+
+  - semantic: "无界未来中需要出现一个满足时刻，在该时刻上越阈值的 rise 转移没有发生。"
+    cue: "at some future satisfying time, x rising to greater than or equal to c is not detected：eventually 选择一个 not rise 成立的时刻。"
+    pattern: "eventually(not rise(x >= c))"

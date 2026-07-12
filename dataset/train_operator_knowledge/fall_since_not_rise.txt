@@ -1,0 +1,6 @@
+operator: fall_since_not_rise
+meaning: "fall((not rise(φ)) since ψ) 表示以普通历史条件为起点、持续禁止 rise 的 since 关系整体从 true 转为 false。"
+cases:
+  - semantic: "过去有界窗口内某个起点条件出现后，目标 rise 事件一直没有发生；外层 fall 捕捉这整段 since 历史关系失效。"
+    cue: "x has consecutively not jumped to a threshold since y held at a time in the past window, and this whole condition shifts from true to false：not rise 是 since 的持续项，fall 作用在整段历史关系上。"
+    pattern: "fall((not rise(φ)) since [a:b] ψ)"

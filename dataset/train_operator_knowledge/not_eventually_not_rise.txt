@@ -1,0 +1,6 @@
+operator: not_eventually_not_rise
+meaning: "not(eventually(not rise(φ))) 表示未来指定范围内不存在一个满足时刻使得 φ 的 rise 转移不发生。"
+cases:
+  - semantic: "否定以 not rise 作为目标的有界最终性：在给定未来窗口内，不能找到一个时刻让指定 rise 事件保持未发生。"
+    cue: "the condition that ultimately the target mode does not enter the value within the future window ought not to be true"
+    pattern: "not(eventually [a:b] (not rise(φ)))"

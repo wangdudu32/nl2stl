@@ -5,3 +5,6 @@ cases:
     cue: "the condition that ultimately x is not less than or equal to c at a certain time instant in the subsequent a to b time units shan't be detected to shift from true to false：not fall 作用在 eventually 条件整体上。"
     pattern: "not fall(eventually [a:b] (φ))"
 
+  - semantic: "无界最终性关系不允许整体从 true 转为 false。"
+    cue: "the condition that a signal finally stays outside a range at a future time does not change from true to false：not fall 作用在无界 eventually 条件整体上。"
+    pattern: "not fall(eventually(φ))"

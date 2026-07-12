@@ -1,0 +1,6 @@
+operator: fall_since_fall
+meaning: "fall(φ since fall(ψ)) 表示以 fall 事件作为历史锚点的 since 关系整体从 true 转为 false。"
+cases:
+  - semantic: "无界过去范围内，某个 fall 事件曾作为 since 的起点，之后左侧条件持续成立；外层 fall 表示这一整段历史持续关系被观察到失效。"
+    cue: "the following condition is observed to change from true to false: a fall transition once happened in the past, and after this another condition remained true all the time"
+    pattern: "fall(φ since fall(ψ))"

@@ -1,0 +1,10 @@
+operator: rise_eventually_fall
+meaning: "rise(eventually(fall(φ))) 表示一个“未来窗口内最终发生 fall 事件”的复合条件从 false 转为 true。"
+cases:
+  - semantic: "有界 eventually_fall 条件被作为整体观察到开始成立，即未来窗口内最终会发生目标 fall 事件这一事实出现上升沿。"
+    cue: "the condition that the target signal eventually falls out of the range within the specified future window is observed to change from false to true"
+    pattern: "rise(eventually [a:b] (fall(φ)))"
+
+  - semantic: "无界 eventually_fall 条件被作为整体观察到开始成立，即未来某时会发生目标 fall 事件这一事实出现上升沿。"
+    cue: "the condition changes from false to true: at some future time before the simulation ends, IMjtsAxt eventually deviates from 1：rise 作用在无界 eventually_fall 整体上。"
+    pattern: "rise(eventually(fall(φ)))"

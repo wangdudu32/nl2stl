@@ -1,0 +1,6 @@
+operator: not_historically_not_rise
+meaning: "not(historically(not rise(φ))) 表示否定过去一段时间内持续没有发生 rise 的历史约束。"
+cases:
+  - semantic: "历史窗口内“目标 rise 一直没有发生”这个条件不成立，也就是不能断言整个过去窗口都禁止了该 rise 事件。"
+    cue: "the condition that the target signal has not changed to the value throughout the elapsed window is not true"
+    pattern: "not(historically [a:b] (not rise(φ)))"

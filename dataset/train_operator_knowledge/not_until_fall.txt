@@ -1,0 +1,10 @@
+operator: not_until_fall
+meaning: "not(φ until fall(ψ)) 表示以 fall 事件为终点的 until 关系整体不成立。"
+cases:
+  - semantic: "否定无界 until_fall 关系，表示左侧持续到未来某个 fall 事件出现这一整体条件不成立。"
+    cue: "the condition must not be true: a mode continues until the transition action that another value becomes not set finally occurs in the future：not 作用在整段 until_fall 模式上。"
+    pattern: "not(φ until fall(ψ))"
+
+  - semantic: "否定有界 until_fall 关系，表示左侧条件持续到指定未来窗口内某个 fall 事件这一整体条件不成立。"
+    cue: "the condition shall not be true that Bn7CLbagv keeps equal to 10 until Ksnrhp deviates from 27 within the coming 4 time units：not 作用在整段有界 until_fall 上。"
+    pattern: "not(φ until [a:b] fall(ψ))"

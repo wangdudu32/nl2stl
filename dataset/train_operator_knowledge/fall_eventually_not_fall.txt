@@ -1,0 +1,6 @@
+operator: fall_eventually_not_fall
+meaning: "fall(eventually(not fall(φ))) 表示一个“未来最终存在不发生 fall 的时刻”的复合条件整体从 true 转为 false。"
+cases:
+  - semantic: "无界 eventually_not_fall 条件被作为整体观察到失效：未来能找到一个不发生目标 fall 的时刻这一性质出现下降沿。"
+    cue: "the following condition is observed to shift from true to false: there exists a certain moment in the future at which the target fall event will not take place：fall 作用在 eventually_not_fall 整体上。"
+    pattern: "fall(eventually(not fall(φ)))"

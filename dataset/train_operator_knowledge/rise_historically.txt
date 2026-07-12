@@ -1,0 +1,10 @@
+operator: rise_historically
+meaning: "rise(historically(φ)) 表示一整段历史持续条件从 false 转为 true。"
+cases:
+  - semantic: "无界过去范围内的 historically 条件被作为整体观察到开始成立。"
+    cue: "the condition that a signal has been within a closed range continuously in the past since the start is observed to change from false to true：rise 作用在 historically 整体上。"
+    pattern: "rise(historically(φ))"
+
+  - semantic: "有界过去窗口内的 historically 条件被作为整体观察到开始成立。"
+    cue: "the condition that a signal has remained above a threshold throughout the last bounded window is observed to change from false to true：rise 作用在有界 historically 整体上。"
+    pattern: "rise(historically [a:b] (φ))"

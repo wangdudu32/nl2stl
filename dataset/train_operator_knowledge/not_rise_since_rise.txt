@@ -1,0 +1,6 @@
+operator: not_rise_since_rise
+meaning: "not rise(φ since rise(ψ)) 表示禁止一个以 rise 事件为历史起点的 since 关系整体从 false 转为 true。"
+cases:
+  - semantic: "有界过去窗口内，右端历史起点是某个 rise 事件；外层 not_rise 约束整段 since_rise 关系不能被观察到开始成立。"
+    cue: "the condition is not observed to shift from false to true: x has held since a past-window moment at which the target signal changed to the value"
+    pattern: "not rise(φ since [a:b] rise(ψ))"

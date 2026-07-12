@@ -1,0 +1,6 @@
+operator: not_fall_since_not_rise
+meaning: "not fall((not rise(φ)) since ψ) 表示“自过去某个锚点 ψ 以来一直未发生 φ 的 rise 转移”这一 since 约束不允许从 true 转为 false。"
+cases:
+  - semantic: "not_rise 作为 since 左侧的历史维持条件，表达从过去锚点 ψ 到当前这段时间内目标进入转移一直没有发生；外层 not_fall 进一步要求这整条历史约束不能被观察到失效。"
+    cue: "the condition that the target never jumped to the threshold since the past anchor must not be observed to change from true to false"
+    pattern: "not fall((not rise(φ)) since ψ)"

@@ -5,3 +5,6 @@ cases:
     cue: "the following condition does not shift from false to true: x remains like that since y was set once in the elapsed window：not rise 作用在整段 since 模式上。"
     pattern: "not rise(φ since [a:b] ψ)"
 
+  - semantic: "无界过去范围内的 since 关系不允许整体被观察到开始成立。"
+    cue: "the condition is not observed to shift from false to true: once a past state occurred, after that another condition has been consistently holding：not rise 作用在无界 since 模式整体上。"
+    pattern: "not rise(φ since ψ)"

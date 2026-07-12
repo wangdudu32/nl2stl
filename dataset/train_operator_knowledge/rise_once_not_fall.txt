@@ -1,0 +1,6 @@
+operator: rise_once_not_fall
+meaning: "rise(once(not fall(φ))) 表示“过去曾经存在未发生 fall 的时刻”这一历史条件整体从 false 转为 true。"
+cases:
+  - semantic: "无界 once_not_fall 条件被作为当前上升事件观察到：过去某时刻目标 fall 没发生这一事实刚开始成立。"
+    cue: "the following condition is observed to change from false to true: once in the past the target decreasing or deviation event was not detected：外层 rise 作用在 once_not_fall 整体上。"
+    pattern: "rise(once(not fall(φ)))"

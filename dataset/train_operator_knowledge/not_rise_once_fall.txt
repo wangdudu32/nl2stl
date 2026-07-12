@@ -1,0 +1,6 @@
+operator: not_rise_once_fall
+meaning: "not rise(once(fall(φ))) 表示禁止一个过去曾发生 fall 事件的历史存在性条件整体从 false 转为 true。"
+cases:
+  - semantic: "有界过去窗口内曾经发生 fall 的存在性条件，不允许在当前被观察到刚开始成立。"
+    cue: "the condition should not be observed to shift from false to true: there was a time in the elapsed window at which the target signal left the bound"
+    pattern: "not rise(once [a:b] (fall(φ)))"

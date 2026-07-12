@@ -1,0 +1,6 @@
+operator: rise_not_rise_until_condition
+meaning: "rise((not rise(φ)) until ψ) 表示一个左侧持续禁止 rise 的 until 关系整体从 false 转为 true。"
+cases:
+  - semantic: "无界 until 关系被观察到开始成立，其中左侧要求目标 rise 转移持续不发生，直到右侧普通终止条件在未来某时刻出现。"
+    cue: "the condition that x does not shift to a target value continuously until y finally holds in the future changes from false to true：rise 作用在完整 not_rise_until_condition 上。"
+    pattern: "rise((not rise(φ)) until ψ)"

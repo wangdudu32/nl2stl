@@ -1,0 +1,6 @@
+operator: fall_eventually_fall
+meaning: "fall(eventually(fall(φ))) 表示一个最终会发生 fall 的时序条件整体从 true 转为 false。"
+cases:
+  - semantic: "有界 eventually_fall 条件被作为整体观察到失效，即未来窗口内最终发生 fall 这件事不再成立。"
+    cue: "the condition that a signal eventually leaves the range within the future window is detected to shift from true to false"
+    pattern: "fall(eventually [a:b] (fall(φ)))"

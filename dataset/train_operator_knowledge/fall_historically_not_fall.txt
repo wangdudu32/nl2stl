@@ -1,0 +1,6 @@
+operator: fall_historically_not_fall
+meaning: "fall(historically(not fall(φ))) 表示“过去一直没有发生 fall”这一历史持续条件整体从 true 转为 false。"
+cases:
+  - semantic: "无界过去范围内，目标 fall 转移一直未发生；外层 fall 表示这整段 historically_not_fall 历史约束被观察到失效。"
+    cue: "the condition that the target never began deviating in the past since the beginning is observed to change from true to false"
+    pattern: "fall(historically(not fall(φ)))"

@@ -5,3 +5,14 @@ cases:
     cue: "the scenario that x was changed to value should consecutively not get observed：目标状态开始成立的事件被否定。"
     pattern: "not rise(x == value)"
 
+  - semantic: "禁止阈值谓词从不成立转为成立，例如不允许信号上跳到某个下界以上。"
+    cue: "x has not jumped to greater than or equal to c：被禁止的是阈值条件开始成立的 rise 事件。"
+    pattern: "not rise(x >= c)"
+
+  - semantic: "禁止信号进入指定区间的 rise 转移发生。"
+    cue: "the event that x gets into the range [a, b] is not observed：进入区间这一目标谓词不能从 false 变为 true。"
+    pattern: "not rise(lower <= x <= upper)"
+
+  - semantic: "禁止信号进入开区间的 rise 转移发生，并保留两端开边界语义。"
+    cue: "x does not enter the region (a, b)：被否定的是开区间谓词开始成立的事件。"
+    pattern: "not rise(lower < x < upper)"

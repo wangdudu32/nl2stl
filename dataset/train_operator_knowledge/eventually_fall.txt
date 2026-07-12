@@ -36,3 +36,19 @@ cases:
   - semantic: "无界未来中最终发生离开开区间的 fall 事件。"
     cue: "at a certain time instant in the future finally the value of x needs to get out of the range (lower, upper)：无界 eventually 的目标是开区间谓词失效。"
     pattern: "eventually(fall(lower < x < upper))"
+
+  - semantic: "无界未来中最终发生离开左闭右开区间的 fall 事件。"
+    cue: "the scenario that x leaves the range [lower, upper) should ultimately get observed at a certain moment in the future：无界 eventually 的目标是半开区间谓词失效。"
+    pattern: "eventually(fall(lower <= x < upper))"
+
+  - semantic: "无界未来中最终发生离开闭区间的 fall 事件。"
+    cue: "at a certain time instant in the future the transition action that x gets out of the range [lower, upper] must occur ultimately：无界 eventually 的目标是闭区间谓词失效。"
+    pattern: "eventually(fall(lower <= x <= upper))"
+
+  - semantic: "无界未来中需要出现一个满足时刻，在该时刻发生 fall 转移，并且同时满足普通状态约束。"
+    cue: "there ought to exist a certain moment in the future before the execution ends, at which one signal is equal to a value and another signal deviates from its value：无界 eventually 的满足时刻同时包含 fall 与状态条件。"
+    pattern: "eventually(ψ and fall(φ))"
+
+  - semantic: "无界未来中需要出现一个满足时刻，其中 fall 事件可以作为目标条件的一个析取分支。"
+    cue: "there exists a certain time instant in the future before the end of the simulation, at which either a mode state holds or a range-leaving event is observed：无界 eventually 的目标中包含 fall 的析取条件。"
+    pattern: "eventually(ψ or fall(φ))"

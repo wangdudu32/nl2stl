@@ -1,0 +1,10 @@
+operator: not_rise_eventually_rise
+meaning: "not rise(eventually(rise(φ))) 表示一个“未来窗口内最终发生 rise 事件”的复合条件不得从 false 转为 true。"
+cases:
+  - semantic: "禁止有界 eventually_rise 条件整体被检测为新成立，也就是未来窗口内会出现目标 rise 事件这一事实本身不能出现上升沿。"
+    cue: "the following condition should not be detected to change from false to true: the target signal eventually rises into the threshold within the specified future window"
+    pattern: "not rise(eventually [a:b] (rise(φ)))"
+
+  - semantic: "禁止无界 eventually_rise 条件整体被检测为新成立，也就是未来某时会发生目标 rise 事件这一事实不能出现上升沿。"
+    cue: "the condition that the target signal eventually rises at some future time must not be observed to shift from false to true"
+    pattern: "not rise(eventually(rise(φ)))"

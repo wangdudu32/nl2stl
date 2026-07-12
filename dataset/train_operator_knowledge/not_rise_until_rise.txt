@@ -1,0 +1,6 @@
+operator: not_rise_until_rise
+meaning: "(not rise(φ)) until rise(ψ) 表示在右侧 rise 事件发生前，左侧 rise 转移持续不发生。"
+cases:
+  - semantic: "有界 until 过程中，左侧持续禁止某个 rise 事件，直到窗口内另一个 rise 事件作为终点出现。"
+    cue: "until a signal enters a closed region in the coming window, another signal becoming a value always does not occur：until 的左侧是 not rise，右侧终点是 rise。"
+    pattern: "(not rise(φ)) until [a:b] rise(ψ)"

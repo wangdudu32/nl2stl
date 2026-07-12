@@ -4,3 +4,7 @@ cases:
   - semantic: "过去 since 关系整体被观察到开始成立。"
     cue: "the condition that x has been continuously keeping ... since y kept ... once at a certain time point during the past should be observed to shift from false to true：rise 作用在整段 since 模式上。"
     pattern: "rise(φ since ψ)"
+
+  - semantic: "有界过去窗口内的 since 关系整体被观察到开始成立。"
+    cue: "the condition that x keeps below a threshold since y was equal to a value once within the elapsed window is observed to change from false to true：rise 作用在带历史窗口的 since 整体上。"
+    pattern: "rise(φ since [a:b] ψ)"

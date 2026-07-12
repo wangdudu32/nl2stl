@@ -1,0 +1,10 @@
+operator: eventually_rise_not_fall
+meaning: "eventually 目标中组合 rise 与 not_fall，表示未来某个满足时刻涉及 rise 转移以及 fall 转移不发生的约束。"
+cases:
+  - semantic: "未来有界窗口内需要出现一个满足时刻，其中 rise 事件和 not_fall 事件作为析取分支满足其一即可。"
+    cue: "at sometime during the first b time units, the transition action that one signal decreases below a threshold happens, or another signal leaving an open range does not occur：eventually 的满足目标混合了 rise 与 not fall 的析取。"
+    pattern: "eventually [a:b] (rise(φ) or not fall(ψ))"
+
+  - semantic: "未来有界窗口内需要出现一个满足时刻，在该同一时刻发生 rise 转移，并且另一个 fall 转移不发生。"
+    cue: "there exists a time in the first a to b time units, at which one value changes to a target and another value going below a threshold does not happen：eventually 的满足目标同时包含 rise 与 not fall。"
+    pattern: "eventually [a:b] (rise(φ) and not fall(ψ))"

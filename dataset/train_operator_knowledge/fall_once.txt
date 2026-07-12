@@ -4,3 +4,7 @@ cases:
   - semantic: "无界过去范围内 once 条件被作为整体关系观察到失效。"
     cue: "the subsequent condition is observed to shift from true to false: at a time in the past starting from the beginning of the simulation once x remained in an interval：fall 作用在 once 条件整体上。"
     pattern: "fall(once(φ))"
+
+  - semantic: "有界过去窗口内 once 条件被作为整体关系观察到失效。"
+    cue: "the condition that a signal once stayed in a range within the elapsed window is detected to change from true to false：fall 作用在有界 once 条件整体上。"
+    pattern: "fall(once [a:b] (φ))"

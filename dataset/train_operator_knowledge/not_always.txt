@@ -8,3 +8,11 @@ cases:
   - semantic: "否定有界窗口内的持续保持。"
     cue: "the subsequent condition oughtn't to be true: x is not at least c and this scenario lasts without interruption for each time point in the first b time units：有界 always 整体不成立。"
     pattern: "not(always [a:b] (φ))"
+
+  - semantic: "否定无界未来中的区间持续保持，表示信号不能一直停留在指定区间内直到执行结束。"
+    cue: "x must never remain within a range all the time in the future before the execution ends：not 作用在无界 always 的区间保持整体上。"
+    pattern: "not(always(lower < x < upper))"
+
+  - semantic: "否定有界窗口内的半开区间持续保持，表示该区间约束不能在整个窗口中一直成立。"
+    cue: "the condition that x remains in a half-open range for every time instant in the following window should not be true：not 作用在有界 always 整体上。"
+    pattern: "not(always [a:b] (lower < x <= upper))"

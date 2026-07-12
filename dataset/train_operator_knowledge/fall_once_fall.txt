@@ -1,0 +1,6 @@
+operator: fall_once_fall
+meaning: "fall(once(fall(φ))) 表示“过去曾经发生过 φ 的 fall 转移”这一过去存在性条件整体从 true 转为 false。"
+cases:
+  - semantic: "内层 fall 捕捉目标条件从成立转为不成立的转移；once 表示该转移在过去某个时刻曾经被观察到；外层 fall 则描述这整个过去存在性判断发生 true 到 false 的变化。"
+    cue: "the condition that there was once a past moment at which the target leaving transition was observed changes from true to false"
+    pattern: "fall(once(fall(φ)))"

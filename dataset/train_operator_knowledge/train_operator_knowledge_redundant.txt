@@ -1,0 +1,332 @@
+说明
+====
+
+本文件审计 train_operator_knowledge.txt 中被删除、合并或改写的内容。
+“冗余”不表示对应 STL 公式非法，而表示它不是新的、不可再细分的自然语言 -> STL 原子映射。
+
+冗余类型：
+  - parameter_variant：只改变时间边界、区间开闭、变量或阈值。
+  - boolean_combination：只在已有算子的参数中加入 and/or/implication。
+  - compositional：自然语言可分别识别多个已有原子知识，再按公式语法组合。
+  - outer_wrapper：对一个完整子公式机械增加 rise/fall/not rise/not fall/not。
+  - duplicate：与同一条参数化知识重复。
+  - rewritten_atomic_template：原 case 的展开措辞可拆，但该分组的整体结构被改写为真正的原子措辞后保留。
+
+
+===== retained sections with internal redundancy =====
+
+original: "always, lines 1-25"
+redundant:
+  - "lines 6-8：always(condition -> response)；boolean_combination，implication 是 φ 的内部结构。"
+  - "lines 18-24：always(φ or ψ) 的有界/无界两个 case；boolean_combination + parameter_variant。"
+merged: "lines 10-16 合并为一个可选时间窗口的 always 原子知识。"
+
+original: "eventually, lines 194-214"
+redundant:
+  - "lines 207-213：eventually 的目标是 and/or 复合谓词；boolean_combination。"
+merged: "lines 199-205 合并为一个可选时间窗口的 eventually 原子知识。"
+
+original: "fall, lines 530-554"
+merged:
+  - "lines 539-553 的四种区间开闭写法合并为 fall(x in I)；parameter_variant。"
+retained: "lines 535-537 的状态偏离用法以及合并后的离开区间用法。"
+
+original: "historically, lines 818-830"
+merged: "有界/无界两个 case 合并为可选过去窗口；parameter_variant。"
+
+original: "not_always, lines 853-873"
+redundant:
+  - "lines 866-872：开区间/半开区间只是 φ 的实例；parameter_variant。"
+merged: "lines 858-864 改写为‘并非一直/不总是’原子复合模板。"
+
+original: "not_eventually, lines 892-908"
+redundant:
+  - "lines 901-903：把 fall(φ) 填入 eventually 后再否定；compositional。"
+merged: "lines 897-899、905-907 改写为‘永不/绝不会’原子复合模板。"
+
+original: "not_historically, lines 1227-1239"
+merged: "有界/无界两个 case 改写并合并为‘过去并非一直’模板；parameter_variant。"
+
+original: "not_once, lines 1316-1328"
+merged: "有界/无界两个 case 改写并合并为‘从未’模板；parameter_variant。"
+
+original: "once, lines 1676-1688"
+merged: "有界/无界两个 case 合并为可选过去窗口；parameter_variant。"
+
+original: "rise, lines 1765-1797"
+merged:
+  - "lines 1782-1796 的四种区间开闭写法合并为 rise(x in I)；parameter_variant。"
+retained: "阈值上跨、下降进入低阈值、状态切换、进入区间四类原子用法。"
+
+original: "since, lines 2027-2039"
+merged: "有界/无界两个 case 合并为可选过去锚点窗口；parameter_variant。"
+
+original: "until, lines 2084-2096"
+merged: "有界/无界两个 case 合并为可选未来终点窗口；parameter_variant。"
+
+
+===== rewritten compound templates =====
+
+original: "always_eventually, lines 26-46"
+decision: "rewritten_atomic_template"
+reason: "四个原 cue 都显式拆成‘每个检查时刻’与‘随后某时’，且只排列内外窗口；原 case 全部冗余。整体结构仅以不可再细分的‘反复/不断再次发生’重新保留。"
+covered_by: "compound template recurrence"
+
+original: "eventually_always, lines 215-235"
+decision: "rewritten_atomic_template"
+reason: "四个原 cue 都显式拆成‘找到未来起点’与‘之后持续’，且只排列内外窗口；原 case 全部冗余。整体结构仅以‘最终稳定/最终永久保持’重新保留。"
+covered_by: "compound template eventual_stability"
+
+
+===== eliminated always/eventually compositions =====
+
+originals:
+  - "always_eventually_fall, lines 47-67"
+  - "always_eventually_not_fall, lines 68-88"
+  - "always_eventually_not_rise, lines 89-97"
+  - "always_eventually_rise, lines 98-118"
+reason: "在 always(eventually(φ)) 中把 φ 替换为 fall/rise 或其否定；compositional。时间窗口排列同时属于 parameter_variant。"
+covered_by: "recurrence + rise/fall；否定按普通语法组合。"
+
+originals:
+  - "always_not_fall, lines 119-151"
+  - "always_not_fall_not_rise, lines 152-160"
+  - "always_not_rise, lines 161-193"
+reason: "always 与 not fall/not rise 的显式组合；其中 and/or case 还属于 boolean_combination，阈值/区间/状态 case 属于 parameter_variant。"
+covered_by: "always + rise/fall + not。"
+
+originals:
+  - "eventually_always_not_fall, lines 236-248"
+  - "eventually_always_not_rise, lines 249-269"
+reason: "eventual_stability 的 φ 被机械替换为 not fall/not rise；compositional + parameter_variant。"
+covered_by: "eventual_stability + rise/fall + not。"
+
+originals:
+  - "eventually_fall, lines 270-326"
+  - "eventually_not_fall, lines 327-375"
+  - "eventually_not_fall_or_fall, lines 376-384"
+  - "eventually_not_rise, lines 385-413"
+  - "eventually_rise, lines 414-490"
+  - "eventually_rise_fall, lines 491-503"
+  - "eventually_rise_not_fall, lines 504-516"
+  - "eventually_rise_or_fall, lines 517-529"
+reason: "eventually 的目标被替换为 rise/fall/否定事件或其 and/or 组合；compositional。大量阈值方向、区间边界和有界/无界 case 是 parameter_variant。"
+covered_by: "eventually + rise/fall + not；布尔连接按语法生成。"
+
+
+===== eliminated fall outer-wrapper compositions =====
+
+originals:
+  - "fall_always, lines 555-567"
+  - "fall_always_not_fall, lines 568-576"
+  - "fall_eventually, lines 577-589"
+  - "fall_eventually_fall, lines 590-598"
+  - "fall_eventually_not_fall, lines 599-607"
+  - "fall_eventually_rise, lines 608-620"
+  - "fall_historically, lines 621-637"
+  - "fall_historically_not_fall, lines 638-646"
+  - "fall_historically_not_rise, lines 647-655"
+  - "fall_not_rise_since_condition, lines 656-664"
+  - "fall_not_rise_until_condition, lines 665-673"
+  - "fall_once, lines 674-686"
+  - "fall_once_fall, lines 687-695"
+  - "fall_once_rise, lines 696-708"
+  - "fall_since, lines 709-721"
+  - "fall_since_fall, lines 722-730"
+  - "fall_since_not_fall, lines 731-739"
+  - "fall_since_not_rise, lines 740-748"
+  - "fall_since_rise, lines 749-757"
+  - "fall_until, lines 758-774"
+  - "fall_until_fall, lines 775-787"
+  - "fall_until_not_fall, lines 788-796"
+  - "fall_until_rise, lines 797-817"
+reason: "自然语言均先完整描述一个 always/eventually/historically/once/since/until 子公式，再明确说该整体由真变假；这是 fall(χ) 的 χ 参数替换，属于 outer_wrapper。内部事件及窗口差异不形成新知识。"
+covered_by: "fall 的‘谓词由真变假’知识 + 相应子公式的原子知识。"
+
+
+===== eliminated historical-event compositions =====
+
+originals:
+  - "historically_not_fall, lines 831-839"
+  - "historically_not_rise, lines 840-852"
+reason: "historically 的 φ 被替换为 not fall/not rise；compositional。"
+covered_by: "historically + rise/fall + not。"
+
+originals:
+  - "once_fall, lines 1689-1709"
+  - "once_not_fall, lines 1710-1722"
+  - "once_not_rise, lines 1723-1735"
+  - "once_rise, lines 1736-1764"
+reason: "once 的 φ 被替换为 rise/fall 或其否定；compositional。区间、阈值、状态及窗口差异是 parameter_variant。"
+covered_by: "once + rise/fall + not。"
+
+
+===== eliminated negated/edge outer-wrapper compositions =====
+
+originals:
+  - "not_always_not_fall, lines 874-882"
+  - "not_always_not_rise, lines 883-891"
+  - "not_eventually_fall, lines 909-917"
+  - "not_eventually_not_fall, lines 918-930"
+  - "not_eventually_not_rise, lines 931-939"
+  - "not_eventually_rise, lines 940-956"
+reason: "在 not(always χ) 或 not(eventually χ) 中继续把 χ 展开为 rise/fall/其否定；compositional。"
+covered_by: "not_always/never_in_future + rise/fall + not。"
+
+original: "not_fall, lines 957-977"
+decision: "compositional"
+reason: "所有 case 都是明确的‘fall 事件不发生’，可以由 not + fall 原子知识直接生成；阈值、状态、区间只是 fall 的已有用法。它不是新的单算子知识。"
+covered_by: "not + fall。"
+
+originals:
+  - "not_fall_always, lines 978-990"
+  - "not_fall_always_not_fall, lines 991-999"
+  - "not_fall_eventually, lines 1000-1012"
+  - "not_fall_eventually_not_fall, lines 1013-1021"
+  - "not_fall_eventually_not_rise, lines 1022-1030"
+  - "not_fall_eventually_rise, lines 1031-1039"
+  - "not_fall_historically, lines 1040-1052"
+  - "not_fall_once, lines 1053-1065"
+  - "not_fall_once_not_fall, lines 1066-1074"
+  - "not_fall_once_not_rise, lines 1075-1083"
+  - "not_fall_once_rise, lines 1084-1096"
+  - "not_fall_since, lines 1097-1117"
+  - "not_fall_since_condition, lines 1118-1126"
+  - "not_fall_since_not_rise, lines 1127-1135"
+  - "not_fall_since_rise, lines 1136-1148"
+  - "not_fall_until, lines 1149-1165"
+  - "not_fall_until_condition, lines 1166-1182"
+  - "not_fall_until_fall, lines 1183-1191"
+  - "not_fall_until_not_fall, lines 1192-1204"
+  - "not_fall_until_not_rise, lines 1205-1213"
+  - "not_fall_until_rise, lines 1214-1226"
+reason: "对完整子公式 χ 机械施加 not fall(χ)，或把 not fall 放入 since/until 的参数；outer_wrapper/compositional。原句均显式说‘χ 不得由真变假’或分别说出持续关系与事件端点。"
+covered_by: "not + fall + 对应基础时序知识。"
+
+originals:
+  - "not_historically_not_fall, lines 1240-1248"
+  - "not_historically_not_rise, lines 1249-1257"
+reason: "not_historically 的 φ 被替换为 not fall/not rise；compositional。"
+covered_by: "not_always_in_past + rise/fall + not。"
+
+originals:
+  - "not_not_fall_since, lines 1258-1266"
+  - "not_not_fall_since_rise, lines 1267-1275"
+  - "not_not_fall_until, lines 1276-1288"
+  - "not_not_fall_until_fall, lines 1289-1297"
+  - "not_not_rise_since_condition, lines 1298-1306"
+  - "not_not_rise_until, lines 1307-1315"
+reason: "外层 not 否定一个已经由 not rise/not fall 与 since/until 组成的完整结构；多层 compositional，无独立原子措辞。"
+covered_by: "not + since/until + rise/fall + not。"
+
+originals:
+  - "not_once_fall, lines 1329-1341"
+  - "not_once_not_fall, lines 1342-1350"
+  - "not_once_rise, lines 1351-1363"
+reason: "never_in_past 的 φ 被替换为 rise/fall 或其否定；compositional。"
+covered_by: "never_in_past + rise/fall + not。"
+
+original: "not_rise, lines 1364-1384"
+decision: "compositional"
+reason: "所有 case 都是明确的‘rise 事件不发生’，可以由 not + rise 生成；状态、阈值和区间只是 rise 的已有用法。"
+covered_by: "not + rise。"
+
+originals:
+  - "not_rise_always, lines 1385-1397"
+  - "not_rise_eventually, lines 1398-1410"
+  - "not_rise_eventually_fall, lines 1411-1419"
+  - "not_rise_eventually_not_fall, lines 1420-1428"
+  - "not_rise_eventually_rise, lines 1429-1441"
+  - "not_rise_historically, lines 1442-1450"
+  - "not_rise_once, lines 1451-1459"
+  - "not_rise_once_fall, lines 1460-1468"
+  - "not_rise_once_rise, lines 1469-1481"
+  - "not_rise_since, lines 1482-1494"
+  - "not_rise_since_condition, lines 1495-1507"
+  - "not_rise_since_not_rise, lines 1508-1516"
+  - "not_rise_since_rise, lines 1517-1525"
+  - "not_rise_until, lines 1526-1538"
+  - "not_rise_until_condition, lines 1539-1551"
+  - "not_rise_until_fall, lines 1552-1560"
+  - "not_rise_until_not_fall, lines 1561-1569"
+  - "not_rise_until_rise, lines 1570-1578"
+reason: "对完整子公式 χ 机械施加 not rise(χ)，或把 not rise 放入 since/until 的参数；outer_wrapper/compositional。"
+covered_by: "not + rise + 对应基础时序知识。"
+
+
+===== eliminated negated since/until compositions =====
+
+originals:
+  - "not_since, lines 1579-1591"
+  - "not_since_fall, lines 1592-1600"
+  - "not_since_not_fall, lines 1601-1609"
+  - "not_since_rise, lines 1610-1618"
+reason: "原句明确描述完整 since 关系后再整体否定；compositional。端点事件差异是参数替换。"
+covered_by: "not + since + rise/fall。"
+
+originals:
+  - "not_until, lines 1619-1631"
+  - "not_until_fall, lines 1632-1644"
+  - "not_until_not_fall, lines 1645-1653"
+  - "not_until_not_rise, lines 1654-1662"
+  - "not_until_rise, lines 1663-1675"
+reason: "原句明确描述完整 until 关系后再整体否定；compositional。终点事件差异是参数替换。"
+covered_by: "not + until + rise/fall。"
+
+
+===== eliminated rise outer-wrapper compositions =====
+
+originals:
+  - "rise_always, lines 1798-1814"
+  - "rise_always_not_fall, lines 1815-1823"
+  - "rise_always_not_rise, lines 1824-1832"
+  - "rise_eventually, lines 1833-1845"
+  - "rise_eventually_fall, lines 1846-1858"
+  - "rise_eventually_rise, lines 1859-1867"
+  - "rise_historically, lines 1868-1880"
+  - "rise_not_fall_until_condition, lines 1881-1889"
+  - "rise_not_rise_until_condition, lines 1890-1898"
+  - "rise_once, lines 1899-1911"
+  - "rise_once_fall, lines 1912-1920"
+  - "rise_once_not_fall, lines 1921-1929"
+  - "rise_once_rise, lines 1930-1938"
+  - "rise_since, lines 1939-1951"
+  - "rise_since_fall, lines 1952-1960"
+  - "rise_since_rise, lines 1961-1973"
+  - "rise_until, lines 1974-1986"
+  - "rise_until_fall, lines 1987-1995"
+  - "rise_until_not_fall, lines 1996-2004"
+  - "rise_until_not_rise, lines 2005-2013"
+  - "rise_until_rise, lines 2014-2026"
+reason: "自然语言先完整描述一个子公式，再明确说该整体由假变真；这是 rise(χ) 的 χ 参数替换，属于 outer_wrapper。内部事件及时间窗口差异不形成新原子知识。"
+covered_by: "rise 的‘谓词由假变真’知识 + 相应子公式的原子知识。"
+
+
+===== eliminated since/until endpoint specializations =====
+
+originals:
+  - "since_fall, lines 2040-2048"
+  - "since_not_fall, lines 2049-2061"
+  - "since_not_rise, lines 2062-2070"
+  - "since_rise, lines 2071-2083"
+reason: "since 的历史锚点 ψ 被替换为 rise/fall 或其否定；原句可以拆成 since 关系和锚点事件，属于 compositional。"
+covered_by: "since + rise/fall + not。"
+
+originals:
+  - "until_fall, lines 2097-2113"
+  - "until_not_fall, lines 2114-2126"
+  - "until_not_rise, lines 2127-2139"
+  - "until_rise, lines 2140-2151"
+reason: "until 的未来终点 ψ 被替换为 rise/fall 或其否定；原句可以拆成 until 关系和终点事件，属于 compositional。区间边界与窗口差异是 parameter_variant。"
+covered_by: "until + rise/fall + not。"
+
+
+===== audit conclusion =====
+
+原文件 156 个 operator 分组均已在本文件中被点名：
+  - 8 个基础单算子分组被保留并合并：always、eventually、historically、once、rise、fall、since、until。
+  - 4 个否定结构分组被改写为具有独立整体措辞的复合模板：not_always、not_eventually、not_historically、not_once。
+  - 2 个嵌套结构分组只保留抽象出的原子复合模板：always_eventually、eventually_always；其原始展开 case 判为冗余。
+  - 其余 142 个分组均是参数变化、布尔组合、普通组合或外层包装，不作为独立知识保留。
+
+注意：该结论针对“知识库是否需要单独记忆”，不是针对“公式是否可用”。被删除的模式仍可由精化知识组合生成。

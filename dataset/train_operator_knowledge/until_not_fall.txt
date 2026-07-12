@@ -1,7 +1,10 @@
 operator: until_not_fall
-meaning: "not fall(φ) until ψ 表示持续禁止 φ 的 fall 转移，直到 ψ 成立。"
+meaning: "φ until(not fall(ψ)) 表示左侧条件持续保持，直到某个满足时刻上 ψ 的 fall 转移不发生。"
 cases:
-  - semantic: "左侧 not fall 作为 until 的持续约束，要求某个偏离事件不发生直到目标出现。"
-    cue: "x ought not to start deviating from value then this scenario will last uninterruptedly until there will be a certain time instant in the next b time units ...：持续部分是否定的 fall 事件。"
-    pattern: "not fall(φ) until [a:b] ψ"
+  - semantic: "无界 until 的终止条件是某个 fall 事件被否定。"
+    cue: "x remains set to a value until eventually another signal does not leave a closed range at a future time：until 的右端目标是 not fall。"
+    pattern: "φ until (not fall(ψ))"
 
+  - semantic: "有界 until 的终止条件是某个 fall 事件被否定，左侧条件持续保持到该窗口内的满足时刻。"
+    cue: "the left condition stays continuously until the target signal does not begin deviating at a time within the future window：until 的右端目标是有界 not fall。"
+    pattern: "φ until [a:b] (not fall(ψ))"

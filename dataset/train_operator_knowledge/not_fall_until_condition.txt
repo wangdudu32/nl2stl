@@ -1,0 +1,14 @@
+operator: not_fall_until_condition
+meaning: "(not fall(φ)) until ψ 表示左侧持续条件是不发生 fall，直到右侧目标 ψ 成立。"
+cases:
+  - semantic: "until 过程中，左侧要求某个 fall 转移持续不发生，直到普通终止条件出现。"
+    cue: "x ought not to start deviating from a value and this condition lasts uninterruptedly until a future target appears：not fall 作为 until 左侧持续条件。"
+    pattern: "(not fall(φ)) until ψ"
+
+  - semantic: "有界 until 过程中，左侧持续禁止某个 fall 转移，直到右侧普通终止条件在指定未来窗口内出现。"
+    cue: "the fall event should never happen continuously until the endpoint condition is finally observed within the specified future window"
+    pattern: "(not fall(φ)) until [a:b] ψ"
+
+  - semantic: "有界 until 过程中，左侧持续禁止信号离开开区间，直到右侧普通状态在窗口内最终成立。"
+    cue: "the event that x leaves the range (a, b) is never observed before y reaches the endpoint condition within the future window：not fall 是 until 左侧的持续约束。"
+    pattern: "(not fall(lower < x < upper)) until [a:b] ψ"

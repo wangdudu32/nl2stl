@@ -1,0 +1,6 @@
+operator: fall_until_not_fall
+meaning: "fall((not fall(φ)) until ψ) 表示“在 ψ 发生前持续禁止 φ 的 fall 转移”这一 until 约束整体从 true 转为 false。"
+cases:
+  - semantic: "not_fall 作为 until 左侧的维持条件，要求目标转移在终止条件 ψ 到达前一直不得发生；外层 fall 表示这条带禁止转移要求的 until 约束被观察到失效。"
+    cue: "the condition that the target must not become false until the later goal holds is detected to change from true to false"
+    pattern: "fall((not fall(φ)) until ψ)"

@@ -1,0 +1,6 @@
+operator: not_fall_once_not_fall
+meaning: "not fall(once(not fall(φ))) 表示“过去某时刻未发生 fall”这一历史存在性条件不得从 true 转为 false。"
+cases:
+  - semantic: "禁止无界 once_not_fall 条件整体失效；也就是从执行开始到当前曾存在一个目标 fall 未发生的历史满足点，这一事实不能出现下降沿。"
+    cue: "the condition is not observed to shift from true to false: there existed a past moment where the target deviation event did not take place"
+    pattern: "not fall(once(not fall(φ)))"

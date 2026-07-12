@@ -1,0 +1,10 @@
+operator: rise_eventually
+meaning: "rise(eventually(φ)) 表示一个最终可达条件整体从 false 转为 true。"
+cases:
+  - semantic: "无界 eventually 条件被作为整体观察到开始成立，即未来某时刻满足目标状态这件事从不成立变为成立。"
+    cue: "the condition that eventually a signal is at least a threshold at some future time has to be observed to change from false to true：rise 作用在整段 eventually 条件上。"
+    pattern: "rise(eventually(φ))"
+
+  - semantic: "有界 eventually 条件被作为整体观察到开始成立，即指定未来窗口内满足目标状态这件事从不成立变为成立。"
+    cue: "the condition that the target state is eventually reached within the specified future window is observed to shift from false to true"
+    pattern: "rise(eventually [a:b] (φ))"

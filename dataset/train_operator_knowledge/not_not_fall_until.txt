@@ -1,0 +1,10 @@
+operator: not_not_fall_until
+meaning: "not((not fall(φ)) until ψ) 表示否定一整段以 not_fall 为左侧持续条件的 until 关系。"
+cases:
+  - semantic: "不存在那种持续不发生 fall、直到终止条件出现的无界 until 过程。"
+    cue: "the condition that a value does not deviate until another signal enters a closed interval in the future must not be true：外层 not 否定完整 not_fall_until 关系。"
+    pattern: "not((not fall(φ)) until ψ)"
+
+  - semantic: "否定有界 not_fall_until，表示不存在左侧持续不发生 fall、并在指定未来窗口内等到终止条件出现的完整过程。"
+    cue: "the condition should not be true: the target value does not fall and this condition lasts until another signal holds at a time within the coming a to b time units：外层 not 否定有界 not_fall_until 关系。"
+    pattern: "not((not fall(φ)) until [a:b] ψ)"

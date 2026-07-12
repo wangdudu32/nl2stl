@@ -12,3 +12,7 @@ cases:
   - semantic: "指定外层窗口内每个时间点，都要求未来无界范围内最终发生目标 fall 事件。"
     cue: "for every time point in the next a to b time units, at a certain time instant in the future finally the value of x needs to get out of the range：有界 always 逐点要求无界 eventually_fall。"
     pattern: "always [a:b] (eventually(fall(φ)))"
+
+  - semantic: "从当前到执行结束的每个时间点，都要求未来某个时刻最终发生目标 fall 事件。"
+    cue: "for every moment in the future until the execution ends, at a certain time instant in the future before the end of the execution the target relation eventually deviates：无界 always 逐点要求无界 eventually_fall。"
+    pattern: "always(eventually(fall(φ)))"

@@ -1,0 +1,6 @@
+operator: rise_until_fall
+meaning: "rise(φ until fall(ψ)) 表示一个以 fall 事件为终止条件的 until 关系整体从 false 转为 true。"
+cases:
+  - semantic: "有界 until_fall 关系被观察到开始成立：左侧条件持续保持，直到未来窗口内出现目标 fall 事件；外层 rise 作用在整段关系上。"
+    cue: "the condition shifts from false to true: x keeps holding until the target state deviates within the future window"
+    pattern: "rise(φ until [a:b] fall(ψ))"

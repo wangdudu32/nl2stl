@@ -4,3 +4,7 @@ cases:
   - semantic: "有界过去窗口内的 since 起点是一个 not fall 条件。"
     cue: "x has been uninterruptedly holding like that since y didn't go lower than c, which once got detected at a time before between a to b time units：since 的历史锚点是 not fall。"
     pattern: "φ since [a:b] (not fall(ψ))"
+
+  - semantic: "无界过去范围内的 since 起点是一个 not fall 条件，左侧条件从该锚点后一直持续到当前。"
+    cue: "the left condition has held since a past moment where the target fall event did not occur：since 的无界历史锚点是 not fall。"
+    pattern: "φ since (not fall(ψ))"

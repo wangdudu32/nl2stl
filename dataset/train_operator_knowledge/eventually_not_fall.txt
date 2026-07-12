@@ -24,3 +24,23 @@ cases:
   - semantic: "未来有界窗口内需要出现一个满足时刻，在该时刻多个 fall 转移都不发生。"
     cue: "there will have to be a certain time point after at most b time units, at which the event that x goes down below c is not observed and the transition action that y begins deviating from value shall not be detected：eventually 的满足时刻同时包含多个 not fall。"
     pattern: "eventually [a:b] (not fall(φ) and not fall(ψ))"
+
+  - semantic: "未来有界窗口内需要出现一个满足时刻，在该时刻阈值谓词的 fall 转移不发生。"
+    cue: "there needs to be sometime within the next b time units, at which the transition action that x gets to less than or equal to a threshold will not take place：eventually 的满足时刻上阈值 fall 被否定。"
+    pattern: "eventually [a:b] (not fall(x > c))"
+
+  - semantic: "未来有界窗口内需要出现一个满足时刻，其中 not_fall 可以作为目标条件的一个析取分支。"
+    cue: "there ought to be a certain time point in the first a to b time units, at which one value does not become not set to a constant or another signal lies in a closed range：eventually 的目标中包含 not fall 的析取条件。"
+    pattern: "eventually [a:b] (not fall(φ) or ψ)"
+
+  - semantic: "未来有界窗口内需要出现一个满足时刻，在该时刻闭区间保持条件的 fall 转移不发生。"
+    cue: "at a time in the future window, the event that x leaves the range [a, b] is not detected：eventually 的满足时刻上闭区间 fall 被否定。"
+    pattern: "eventually [a:b] (not fall(lower <= x <= upper))"
+
+  - semantic: "无界未来中需要找到一个满足时刻，在该时刻阈值谓词的 fall 转移不发生。"
+    cue: "there exists a future time before execution ends at which JVQyGYH does not drop below 5.0：无界 eventually 的目标是阈值 fall 被否定。"
+    pattern: "eventually(not fall(x >= c))"
+
+  - semantic: "未来有界窗口内需要出现一个满足时刻，在该时刻阈值谓词的 fall 转移不发生，并且同时满足普通状态约束。"
+    cue: "within 2 to 10 time units, eXcHUAfW does not drop below 8.91 and zud7 equals 3 at the same satisfying time：eventually 的目标同时包含阈值 not_fall 与状态条件。"
+    pattern: "eventually [a:b] (not fall(x >= c) and ψ)"

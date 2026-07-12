@@ -1,0 +1,10 @@
+operator: not_fall_until_rise
+meaning: "(not fall(φ)) until rise(ψ) 表示左侧持续禁止 fall，直到右侧 rise 事件作为终点出现。"
+cases:
+  - semantic: "有界 until 过程中，左侧持续要求某个 fall 转移不发生，直到指定未来窗口内出现目标 rise 事件。"
+    cue: "the target value never starts deviating and this condition continues until another signal rises to a threshold within the coming a to b time units：not fall 是 until 左侧持续条件，rise 是有界终点。"
+    pattern: "(not fall(φ)) until [a:b] rise(ψ)"
+
+  - semantic: "无界 until_rise 关系整体不允许失效，并且该关系左侧本身也是持续的 not_fall 约束；外层 not_fall 的对象是完整的 until 关系。"
+    cue: "the subsequent condition should not be detected to shift from true to false: x does not go out of the bound and remains so until a future rise event occurs"
+    pattern: "not fall((not fall(φ)) until rise(ψ))"

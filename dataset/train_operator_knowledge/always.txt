@@ -12,3 +12,11 @@ cases:
   - semantic: "无界未来范围内的持续保持约束，从当前一直延续到执行结束。"
     cue: "is always in value in the future till the execution ends：没有有限上界时，条件需要持续保持到执行结束。"
     pattern: "always(φ)"
+
+  - semantic: "无界持续约束可以作用在复合布尔条件上；当内部是析取时，每个时刻至少需要一个分支条件成立。"
+    cue: "continuously the state is in one value or another signal stays below a threshold continuously：always 检查的是整条析取条件，而不是要求两个分支同时持续成立。"
+    pattern: "always(φ or ψ)"
+
+  - semantic: "有界时间窗口内的持续约束也可以作用在析取条件上；窗口内每个时刻都要求至少一个分支成立。"
+    cue: "for every time point during the first b time units, one signal stays above a threshold or another mode is set to a value：有界 always 逐时刻检查整条析取条件。"
+    pattern: "always [a:b] (φ or ψ)"

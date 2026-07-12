@@ -1,0 +1,14 @@
+operator: not_fall_until
+meaning: "not fall(φ until ψ) 表示禁止一整段 until 关系从 true 转为 false。"
+cases:
+  - semantic: "无界 until 关系不允许整体失效；即左侧持续到未来终点这一时序条件不能发生 true-to-false 转移。"
+    cue: "the condition that x keeps no more than a threshold until y goes lower in the future does not shift from true to false：not fall 作用在整段 until 模式上。"
+    pattern: "not fall(φ until ψ)"
+
+  - semantic: "有界 until 关系不允许整体失效；左侧持续到窗口内终点这一时序条件不能发生 true-to-false 转移。"
+    cue: "the condition that x keeps in a closed range until y holds at a certain time in the coming window is not detected to shift from true to false：not fall 作用在有界 until 整体上。"
+    pattern: "not fall(φ until [a:b] ψ)"
+
+  - semantic: "当有界 until 的终点是 not_rise 条件时，整段 until_not_rise 关系不允许整体失效。"
+    cue: "the condition that RP remains at least 2629 until WlgAjyLP does not rise above 48.1 within 6.2 time units is not observed to shift from true to false：not fall 作用在完整有界 until_not_rise 上。"
+    pattern: "not fall(φ until [a:b] (not rise(ψ)))"

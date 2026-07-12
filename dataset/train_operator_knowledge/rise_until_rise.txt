@@ -1,0 +1,10 @@
+operator: rise_until_rise
+meaning: "rise(φ until rise(ψ)) 表示以 rise 事件为终点的 until 关系整体从 false 转为 true。"
+cases:
+  - semantic: "有界 until_rise 条件整体被观察到开始成立，终点本身是一个状态切换事件。"
+    cue: "the condition that x remains in a range until y shifts to a value in a future window is observed to change from false to true：外层 rise 作用在整段 until_rise 关系上。"
+    pattern: "rise(φ until [a:b] rise(ψ))"
+
+  - semantic: "无界 until_rise 条件整体被观察到开始成立，终点本身是未来某个 rise 转移事件。"
+    cue: "the condition shifts from false to true: PkH23Ux8Vi stays in fHqUbc until kxOP0ABv_ changes to yWV2u sometime in the future：rise 作用在无界 until_rise 整体上。"
+    pattern: "rise(φ until rise(ψ))"

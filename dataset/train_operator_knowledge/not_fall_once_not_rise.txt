@@ -1,0 +1,6 @@
+operator: not_fall_once_not_rise
+meaning: "not fall(once(not rise(φ))) 表示过去曾有某时刻未发生 rise 的历史存在性条件不得从 true 转为 false。"
+cases:
+  - semantic: "禁止有界 once_not_rise 条件整体失效：过去窗口内曾经存在一个目标 rise 事件未发生的时刻，这一历史存在性不能出现下降沿。"
+    cue: "the condition does not shift from true to false: there was a time in the elapsed window at which the target rise event did not take place"
+    pattern: "not fall(once [a:b] (not rise(φ)))"

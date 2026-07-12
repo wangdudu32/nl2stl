@@ -1,0 +1,6 @@
+operator: always_not_fall_not_rise
+meaning: "always(not fall(φ) and not rise(ψ)) 表示在整个未来范围或指定窗口内，持续禁止一个 fall 转移和一个 rise 转移发生。"
+cases:
+  - semantic: "有界窗口内每个时刻都同时禁止某个 fall 转移和另一个 rise 转移。"
+    cue: "for each time point within the time window, one value must not fall away from its target while another signal must not rise into the specified range"
+    pattern: "always [a:b] (not fall(φ) and not rise(ψ))"

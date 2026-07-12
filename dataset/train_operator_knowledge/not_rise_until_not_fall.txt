@@ -1,0 +1,6 @@
+operator: not_rise_until_not_fall
+meaning: "not rise(φ until (not fall(ψ))) 表示禁止以 not_fall 为终点的 until 关系整体从 false 转为 true。"
+cases:
+  - semantic: "有界 until_not_fall 条件不允许被检测为新成立；左侧持续到指定未来窗口内 not_fall 终点这一整体性质不能出现上升沿。"
+    cue: "the condition should not be detected to shift from false to true: OWgY stays at most 4.8 until nH does not leave (8, 10) within 5 to 6 time units：not rise 作用在完整有界 until_not_fall 上。"
+    pattern: "not rise(φ until [a:b] (not fall(ψ)))"

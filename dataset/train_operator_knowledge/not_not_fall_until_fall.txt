@@ -1,0 +1,6 @@
+operator: not_not_fall_until_fall
+meaning: "not((not fall(φ)) until fall(ψ)) 表示否定一整段左侧持续禁止 fall、右侧以 fall 事件终止的 until 关系。"
+cases:
+  - semantic: "否定无界 not_fall_until_fall，表示不存在左侧 fall 持续不发生、直到未来某个 fall 事件作为终点出现的完整 until 过程。"
+    cue: "the condition is not true that UyYA does not fall below the threshold continuously until cG deviates from S6Db3 in the future：外层 not 否定完整的 not_fall-until-fall 关系。"
+    pattern: "not((not fall(φ)) until fall(ψ))"

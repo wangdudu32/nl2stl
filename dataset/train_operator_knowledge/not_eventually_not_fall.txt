@@ -1,0 +1,10 @@
+operator: not_eventually_not_fall
+meaning: "not(eventually(not fall(φ))) 表示未来指定范围内不存在一个满足时刻使得 φ 的 fall 转移不发生。"
+cases:
+  - semantic: "否定以 not fall 作为目标的有界最终性：在给定未来窗口内，不能找到一个时刻让指定 fall 事件保持未发生。"
+    cue: "the condition that the mode does not start deviating at a time point in the coming a to b time units ought not to be true：外层 not 否定 eventually_not_fall。"
+    pattern: "not(eventually [a:b] (not fall(φ)))"
+
+  - semantic: "否定以 not fall 作为目标的无界最终性：从当前到执行结束都不能找到一个时刻让指定 fall 事件保持未发生。"
+    cue: "there must not be any future time before the end of execution at which the target fall event does not occur：外层 not 否定无界 eventually_not_fall。"
+    pattern: "not(eventually(not fall(φ)))"

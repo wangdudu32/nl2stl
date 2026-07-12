@@ -1,0 +1,6 @@
+operator: rise_once_rise
+meaning: "rise(once(rise(φ))) 表示过去曾发生 rise 事件这一历史存在性条件整体从 false 转为 true。"
+cases:
+  - semantic: "有界过去窗口内曾经发生 rise 的条件被作为当前上升事件观察到，即过去窗口内存在目标 rise 这一事实刚开始成立。"
+    cue: "the condition changes from false to true: within 5.44 to 8.76 time units in the past, FbLjSv once rose above 35.4：rise 作用在有界 once_rise 整体上。"
+    pattern: "rise(once [a:b] (rise(φ)))"

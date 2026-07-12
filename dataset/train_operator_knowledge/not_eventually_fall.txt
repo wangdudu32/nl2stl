@@ -1,0 +1,6 @@
+operator: not_eventually_fall
+meaning: "not(eventually(fall(φ))) 表示未来范围内不存在 φ 的 fall 转移发生。"
+cases:
+  - semantic: "否定无界 eventually_fall，表示未来任意时刻都不会出现指定 fall 事件。"
+    cue: "the target fall event will never be detected at any future time"
+    pattern: "not(eventually(fall(φ)))"

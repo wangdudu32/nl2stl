@@ -8,3 +8,11 @@ cases:
   - semantic: "禁止等值关系或模式关系发生偏离。"
     cue: "the scenario that x starts deviating from value isn't detected：关系失效的 fall 事件被否定。"
     pattern: "not fall(x == value)"
+
+  - semantic: "禁止区间谓词失效，即不允许信号从指定区间内离开。"
+    cue: "the scenario that x gets out of the range (a, b) should not be observed：区间保持条件的 fall 事件被否定。"
+    pattern: "not fall(lower < x < upper)"
+
+  - semantic: "禁止闭区间保持条件失效，即不允许信号离开闭区间。"
+    cue: "the event that x leaves the range [a, b] must never occur：闭区间谓词的 fall 转移被否定。"
+    pattern: "not fall(lower <= x <= upper)"

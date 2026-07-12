@@ -1,0 +1,14 @@
+operator: not_eventually_rise
+meaning: "not(eventually(rise(φ))) 表示未来窗口内不存在 φ 的 rise 转移发生。"
+cases:
+  - semantic: "否定有界 eventually_rise，表示给定未来窗口内不会出现指定 rise 事件。"
+    cue: "there does not exist any time instant within the next b time units at which a signal drops below a threshold：not 作用在完整 eventually_rise 模式上。"
+    pattern: "not(eventually [a:b] (rise(φ)))"
+
+  - semantic: "否定有界未来窗口内上越阈值的 rise 事件，表示该上升进入阈值状态在窗口内不会发生。"
+    cue: "x will not jump to greater than or equal to c for any moment within the subsequent window：not 否定整个 eventually_rise。"
+    pattern: "not(eventually [a:b] (rise(x >= c)))"
+
+  - semantic: "否定无界 eventually_rise，表示未来任意时刻都不会出现指定 rise 事件。"
+    cue: "there is not any future time at which the target rise event will happen"
+    pattern: "not(eventually(rise(φ)))"

@@ -1,0 +1,18 @@
+operator: eventually_always_not_rise
+meaning: "eventually(always(not rise(φ))) 表示未来某个起点之后，在持续窗口内都禁止 φ 的 rise 转移发生。"
+cases:
+  - semantic: "未来有界窗口内找到一个起点，从该起点开始的有界持续窗口内一直不发生指定 rise 转移。"
+    cue: "there shall exist a time within the coming window, at which a signal must never increase to a threshold and this condition keeps for each moment in the following window：eventually 选择起点，always 持续约束 not rise。"
+    pattern: "eventually [a:b] (always [c:d] (not rise(φ)))"
+
+  - semantic: "未来有界窗口内找到一个起点，从该起点一直到执行结束都禁止指定 rise 转移发生。"
+    cue: "there has to exist a time in the subsequent window after which the mode does not shift to the target and keeps like this until the execution ends：eventually 选择起点，后续无界 always 持续约束 not rise。"
+    pattern: "eventually [a:b] (always(not rise(φ)))"
+
+  - semantic: "无界未来中找到一个起点，从该起点开始的有界持续窗口内一直不发生指定 rise 转移。"
+    cue: "there is eventually a future time after which the target rise event is not observed for every moment within the following bounded window：无界 eventually 选择起点，always 在有界窗口内持续约束 not rise。"
+    pattern: "eventually(always [a:b] (not rise(φ)))"
+
+  - semantic: "无界未来中找到一个起点，从该起点到执行结束一直不发生指定 rise 转移。"
+    cue: "there is a future time after which ox8T becoming greater than 1.4 does not happen until execution ends：eventually 选择起点，always_not_rise 无界持续。"
+    pattern: "eventually(always(not rise(φ)))"

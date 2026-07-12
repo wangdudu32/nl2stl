@@ -1,0 +1,10 @@
+operator: not_fall_once
+meaning: "not fall(once(φ)) 表示过去曾满足过 φ 这一历史存在性条件不得从 true 转为 false。"
+cases:
+  - semantic: "禁止无界 once 条件整体失效，也就是从执行开始到当前曾经满足过目标状态这一历史存在性不能出现下降沿。"
+    cue: "the condition that a signal satisfied the target sometime in the past since the beginning does not change from true to false：not fall 作用在完整 once 条件上。"
+    pattern: "not fall(once(φ))"
+
+  - semantic: "禁止有界 once 条件整体失效，也就是过去指定窗口内曾满足过目标状态这一历史存在性不能出现下降沿。"
+    cue: "the condition that a signal satisfied the target once within the elapsed a to b time units is not observed to change from true to false：not fall 作用在有界 once 条件整体上。"
+    pattern: "not fall(once [a:b] (φ))"

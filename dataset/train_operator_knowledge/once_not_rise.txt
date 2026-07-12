@@ -1,0 +1,10 @@
+operator: once_not_rise
+meaning: "once(not rise(φ)) 表示过去某个时刻没有发生 φ 的 rise 转移。"
+cases:
+  - semantic: "从执行开始到当前的过去范围内存在一个时刻，在该时刻指定 rise 转移没有发生。"
+    cue: "at a certain time point in the past from the start of the execution, the target threshold-crossing event was not detected：once 的历史满足点上 rise 被否定。"
+    pattern: "once(not rise(φ))"
+
+  - semantic: "过去有界窗口内存在一个时刻，在该时刻指定 rise 转移没有发生。"
+    cue: "there once existed a time point within the elapsed window at which the target range-entry event was not observed：once 的有界历史满足点上 rise 被否定。"
+    pattern: "once [a:b] (not rise(φ))"

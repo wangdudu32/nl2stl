@@ -1,0 +1,6 @@
+operator: not_since_rise
+meaning: "not(φ since rise(ψ)) 表示以 rise 事件为历史起点的 since 关系整体不成立。"
+cases:
+  - semantic: "否定有界 since_rise 关系，表示从过去窗口内某个 rise 起点持续到当前这一整体历史条件不成立。"
+    cue: "the condition that x was continuously in a mode since y rose above a threshold in the last window is not true：not 作用在整段 since_rise 模式上。"
+    pattern: "not(φ since [a:b] rise(ψ))"

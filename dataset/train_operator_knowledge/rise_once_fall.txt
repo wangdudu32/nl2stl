@@ -1,0 +1,6 @@
+operator: rise_once_fall
+meaning: "rise(once(fall(φ))) 表示过去曾发生 fall 事件这一历史存在性条件从 false 转为 true。"
+cases:
+  - semantic: "无界过去范围内的 once_fall 条件被作为整体观察到开始成立。"
+    cue: "the condition that the target signal once fell away at some past time is observed to shift from false to true"
+    pattern: "rise(once(fall(φ)))"

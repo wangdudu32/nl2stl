@@ -8,3 +8,23 @@ cases:
   - semantic: "从某个起点开始到执行结束持续禁止某个 rise 转移。"
     cue: "after which uninterruptedly the transition action that x gets to greater than or equal to c is not detected in the future till the end of the simulation：无界 always 持续约束 not rise。"
     pattern: "always(not rise(φ))"
+
+  - semantic: "有界窗口内同时要求普通状态持续成立，并且持续禁止某个 rise 转移。"
+    cue: "for each moment within a future window, one mode shift is never detected and another signal stays above a threshold：always 的每个检查点同时满足 not rise 与状态条件。"
+    pattern: "always [a:b] (not rise(φ) and ψ)"
+
+  - semantic: "无界未来中同时要求普通状态持续成立，并且持续禁止某个 rise 转移。"
+    cue: "in the future till the end of the simulation, one value stays at a constant and another value changing to a target is never detected：always 持续检查状态条件与 not rise 的合取。"
+    pattern: "always(ψ and not rise(φ))"
+
+  - semantic: "有界窗口内 not_rise 可以作为持续目标的一个析取分支；窗口内每个时刻只需普通状态分支或禁止 rise 分支满足其一。"
+    cue: "for each moment within a future window, either a state condition holds or the target mode shift is never detected：always 逐点检查包含 not rise 的析取条件。"
+    pattern: "always [a:b] (ψ or not rise(φ))"
+
+  - semantic: "从当前到执行结束持续禁止信号进入指定区间的 rise 转移。"
+    cue: "the event that x enters the bound [a, b] is never detected in the future before execution ends：无界 always 持续约束 not rise。"
+    pattern: "always(not rise(lower <= x <= upper))"
+
+  - semantic: "从当前到执行结束持续禁止某个模式或等值关系切换发生。"
+    cue: "the scenario that x becomes a target value must not be detected in the future until the simulation ends：无界 always 持续约束状态切换的 not rise。"
+    pattern: "always(not rise(x == value))"

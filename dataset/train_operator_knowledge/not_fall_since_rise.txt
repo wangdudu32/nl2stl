@@ -1,0 +1,10 @@
+operator: not_fall_since_rise
+meaning: "(not fall(φ)) since rise(ψ) 表示从过去某个 rise 事件之后，某个 fall 转移一直没有发生。"
+cases:
+  - semantic: "无界过去范围内以 rise 事件为历史起点，起点之后持续满足 not_fall 条件。"
+    cue: "the transition action that one signal deviates never gets detected since another signal changed to a value once in the past：since 的左侧是持续禁止 fall，右侧起点是 rise。"
+    pattern: "(not fall(φ)) since rise(ψ)"
+
+  - semantic: "有界过去窗口内以 rise 事件为历史起点，起点之后持续满足 not_fall 条件。"
+    cue: "the target fall event has never occurred since a rise event that was observed within the elapsed a to b time units：since 的左侧是持续禁止 fall，右侧是有界过去窗口内的 rise 起点。"
+    pattern: "(not fall(φ)) since [a:b] rise(ψ)"

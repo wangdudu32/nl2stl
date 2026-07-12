@@ -1,0 +1,6 @@
+operator: fall_not_rise_until_condition
+meaning: "fall((not rise(φ)) until ψ) 表示一个左侧持续禁止 rise 的 until 关系整体从 true 转为 false。"
+cases:
+  - semantic: "有界 until 关系整体失效，其中左侧要求目标 rise 转移持续不发生，直到右侧普通终止条件在未来窗口内最终成立。"
+    cue: "the condition that x does not settle inside the bound continuously until y finally holds within the subsequent window is observed to shift from true to false"
+    pattern: "fall((not rise(φ)) until [a:b] ψ)"

@@ -4,3 +4,7 @@ cases:
   - semantic: "无界过去 since 关系中，左侧要求指定 rise 事件从过去锚点之后一直没有发生。"
     cue: "x isn't changed to value and continues like that consistently since y was once observed at a certain time point during the past：not rise 作为 since 左侧持续条件。"
     pattern: "(not rise(φ)) since ψ"
+
+  - semantic: "有界过去 since 关系中，左侧要求指定 rise 事件从过去锚点之后一直没有发生。"
+    cue: "the target mode has never been changed since an anchor state was observed within the elapsed window：not rise 作为 since 左侧持续条件，右侧提供有界历史锚点。"
+    pattern: "(not rise(φ)) since [a:b] ψ"

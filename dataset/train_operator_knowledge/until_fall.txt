@@ -5,3 +5,10 @@ cases:
     cue: "ultimately at sometime during the following b time units the scenario that x starts deviating from value takes place, and before that y keeps holding：右侧不是普通状态，而是 fall 事件。"
     pattern: "φ until [a:b] fall(ψ)"
 
+  - semantic: "无界 until 的终止条件是未来某个 fall 转移事件。"
+    cue: "x remains above a threshold continuously until the state of another signal deviates from a value sometime in the future：until 的右端目标是无界未来中的 fall 事件。"
+    pattern: "φ until fall(ψ)"
+
+  - semantic: "无界 until 的终止条件是信号离开指定区间的 fall 事件。"
+    cue: "x keeps satisfying the left condition until y gets out of the range [a, b] at a future moment：右端 fall 表示区间谓词失效。"
+    pattern: "φ until fall(lower <= y <= upper)"

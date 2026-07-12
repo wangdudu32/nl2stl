@@ -1,0 +1,10 @@
+operator: fall_once_rise
+meaning: "fall(once(rise(φ))) 表示过去曾发生过某个 rise 事件这一历史存在性条件整体从 true 转为 false。"
+cases:
+  - semantic: "无界过去范围内的 once_rise 条件被作为整体观察到失效。"
+    cue: "the condition that a signal settled inside a bound once in the past changes from true to false：fall 作用在 once_rise 整体上。"
+    pattern: "fall(once(rise(φ)))"
+
+  - semantic: "有界过去窗口内的 once_rise 条件被作为整体观察到失效。"
+    cue: "the condition changes from true to false: within the elapsed 64 to 75 time units JK2X_ghQO once entered (82, 100]：fall 作用在有界 once_rise 整体上。"
+    pattern: "fall(once [a:b] (rise(φ)))"

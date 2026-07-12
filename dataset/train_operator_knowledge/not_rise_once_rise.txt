@@ -4,3 +4,7 @@ cases:
   - semantic: "有界过去窗口内曾经发生 rise 的存在性条件，不允许在当前被观察到刚开始成立。"
     cue: "the following condition is not detected to shift from false to true: there is sometime within the last a to b time units once, at which the event that x gets changed to value takes place：not rise 作用在 once_rise 整体上。"
     pattern: "not rise(once [a:b] (rise(φ)))"
+
+  - semantic: "无界过去范围内曾经发生 rise 的存在性条件，不允许在当前被观察到刚开始成立。"
+    cue: "the condition that a target rise event occurred once in the past from the start of the execution is not detected to shift from false to true：not rise 作用在无界 once_rise 整体上。"
+    pattern: "not rise(once(rise(φ)))"

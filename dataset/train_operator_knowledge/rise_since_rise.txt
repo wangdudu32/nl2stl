@@ -1,0 +1,10 @@
+operator: rise_since_rise
+meaning: "rise(φ since rise(ψ)) 表示以 rise 事件为历史起点的 since 关系整体从 false 转为 true。"
+cases:
+  - semantic: "无界过去范围内，右侧历史起点是 rise 事件；从该起点持续到当前的 since 关系被观察到开始成立。"
+    cue: "the condition that a state has held continuously since a past rise event is detected to shift from false to true"
+    pattern: "rise(φ since rise(ψ))"
+
+  - semantic: "有界过去窗口内，右侧历史起点是 rise 事件；从该起点持续到当前的 since 关系整体出现上升沿。"
+    cue: "the condition that a signal has remained in a range since another signal reached a threshold within the elapsed window is observed to shift from false to true：外层 rise 作用在有界 since_rise 整体上。"
+    pattern: "rise(φ since [a:b] rise(ψ))"

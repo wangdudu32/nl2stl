@@ -1,0 +1,6 @@
+operator: fall_historically_not_rise
+meaning: "fall(historically(not rise(φ))) 表示一个过去一直未发生 rise 的历史约束整体从 true 转为 false。"
+cases:
+  - semantic: "无界 historically_not_rise 条件被作为整体观察到失效：从执行开始到当前一直没有发生指定 rise 事件这一性质不再成立。"
+    cue: "the condition that the target mode never shifted to the value in the past since the beginning shifts from true to false"
+    pattern: "fall(historically(not rise(φ)))"

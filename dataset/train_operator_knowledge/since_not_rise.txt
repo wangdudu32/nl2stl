@@ -1,0 +1,6 @@
+operator: since_not_rise
+meaning: "φ since not rise(ψ) 表示过去某个时刻没有发生 ψ 的 rise 转移，并且从那以后 φ 一直成立。"
+cases:
+  - semantic: "过去有界窗口内的 since 起点是一个被否定的 rise 事件，起点之后左侧条件持续保持到当前。"
+    cue: "x has not been above a threshold since there was a moment in the past window at which y entering a closed range was not observed：since 的历史起点是 not rise。"
+    pattern: "φ since [a:b] (not rise(ψ))"

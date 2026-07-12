@@ -5,3 +5,6 @@ cases:
     cue: "the subsequent condition mustn't be detected to change from false to true: at a time during the first a to b time units ... eventually ...：not rise 作用在 eventually 条件整体上。"
     pattern: "not rise(eventually [a:b] (φ))"
 
+  - semantic: "禁止一个无界最终性条件整体被触发为真，表示未来某时刻满足目标这一性质不能出现上升沿。"
+    cue: "the condition that a target state finally holds at a certain time in the future is not detected to shift from false to true：not rise 作用在无界 eventually 条件整体上。"
+    pattern: "not rise(eventually(φ))"

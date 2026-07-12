@@ -1,0 +1,6 @@
+operator: fall_not_rise_since_condition
+meaning: "fall((not rise(φ)) since ψ) 表示一个左侧持续禁止 rise 的 since 历史关系整体从 true 转为 false。"
+cases:
+  - semantic: "有界 since 关系被观察到失效，其中左侧要求目标 rise 转移自过去锚点之后持续不发生。"
+    cue: "the condition that the target mode has never changed since an anchor state occurred within the elapsed window changes from true to false：fall 作用在左侧为 not rise 的 since 整体上。"
+    pattern: "fall((not rise(φ)) since [a:b] ψ)"

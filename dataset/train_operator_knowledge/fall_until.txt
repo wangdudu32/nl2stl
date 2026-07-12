@@ -5,6 +5,10 @@ cases:
     cue: "the following condition has to change from true to false: x is consecutively equal to value till at a certain moment in the following a to b time units ...：fall 作用在整个 until 模式上。"
     pattern: "fall(φ until [a:b] ψ)"
 
+  - semantic: "无界持续-直到关系整体失效，表示左侧持续到未来某个终点这一性质出现下降沿。"
+    cue: "the condition changes from true to false: a state keeps holding until the endpoint is eventually detected sometime in the future：fall 作用在无界 until 整体上。"
+    pattern: "fall(φ until ψ)"
+
   - semantic: "当 until 左侧包含 not fall 约束时，fall 表示这整段持续禁止关系整体失效。"
     cue: "the condition that x will always not become less than or equal to c till y is finally observed must be detected to change from true to false：fall 的对象是包含 not fall 的 until 模式。"
     pattern: "fall((not fall(φ)) until [a:b] ψ)"

@@ -1,0 +1,6 @@
+operator: rise_since_fall
+meaning: "rise(φ since fall(ψ)) 表示以 fall 事件为历史起点的 since 关系整体从 false 转为 true。"
+cases:
+  - semantic: "无界过去范围内的 since_fall 条件被作为整体观察到开始成立。"
+    cue: "the condition that x has held since y left a closed range in the past changes from false to true：外层 rise 作用在完整 since_fall 关系上。"
+    pattern: "rise(φ since fall(ψ))"

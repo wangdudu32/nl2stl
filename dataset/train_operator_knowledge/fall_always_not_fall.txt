@@ -1,0 +1,6 @@
+operator: fall_always_not_fall
+meaning: "fall(always(not fall(φ))) 表示一个持续禁止 fall 的 always 条件整体从 true 转为 false。"
+cases:
+  - semantic: "有界 always_not_fall 条件整体失效，也就是窗口内持续不发生目标 fall 这一约束被观察到不再成立。"
+    cue: "the condition that the target signal never falls away throughout the specified future window is observed to shift from true to false"
+    pattern: "fall(always [a:b] (not fall(φ)))"

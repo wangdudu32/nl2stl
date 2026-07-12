@@ -1,0 +1,6 @@
+operator: not_until_not_fall
+meaning: "not(φ until(not fall(ψ))) 表示以 not fall 为终点的 until 关系整体不成立。"
+cases:
+  - semantic: "否定有界 until_not_fall 关系，表示左侧持续到未来窗口内某个不发生 fall 的终点这一整体条件不成立。"
+    cue: "the condition should not be true: the left state keeps holding until the target signal does not begin deviating within the specified future window：外层 not 否定整段 until_not_fall。"
+    pattern: "not(φ until [a:b] (not fall(ψ)))"

@@ -1,0 +1,10 @@
+operator: not_fall_until_not_fall
+meaning: "(not fall(φ)) until (not fall(ψ)) 表示左侧持续禁止 fall，直到右侧另一个 fall 转移不发生这一终点成立。"
+cases:
+  - semantic: "有界 until 过程中，左侧要求某个 fall 转移持续不发生，右侧终止条件也是另一个 not_fall 事件在未来窗口内成立。"
+    cue: "the first fall event consistently does not happen until there is a future-window moment at which the second fall event also does not take place"
+    pattern: "(not fall(φ)) until [a:b] (not fall(ψ))"
+
+  - semantic: "有界 until_not_fall 关系整体不允许失效；外层 not_fall 否定的是从左侧持续条件到右侧 not_fall 终点的完整 until 关系。"
+    cue: "the condition that x keeps in range until y does not get out of range within the future window does not change from true to false"
+    pattern: "not fall(φ until [a:b] (not fall(ψ)))"

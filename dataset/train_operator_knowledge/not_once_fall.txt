@@ -1,0 +1,10 @@
+operator: not_once_fall
+meaning: "not(once(fall(φ))) 表示过去指定范围内不存在 φ 的 fall 转移事件。"
+cases:
+  - semantic: "否定有界过去存在性，表示过去窗口内没有发生过指定 fall 事件。"
+    cue: "there was not any time point during the elapsed window at which a signal went out of a bound：not 作用在完整 once_fall 历史存在条件上。"
+    pattern: "not(once [a:b] (fall(φ)))"
+
+  - semantic: "否定无界过去存在性，表示从执行开始到当前都没有发生过指定 fall 事件。"
+    cue: "the target fall event has not been detected at any moment in the past since the beginning of the execution：not 作用在无界 once_fall 整体上。"
+    pattern: "not(once(fall(φ)))"

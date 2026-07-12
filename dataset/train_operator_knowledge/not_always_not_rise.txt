@@ -1,0 +1,6 @@
+operator: not_always_not_rise
+meaning: "not(always(not rise(φ))) 表示持续禁止 rise 的约束整体不成立。"
+cases:
+  - semantic: "否定有界 always_not_rise 约束，表示并非在整个窗口内都能持续禁止某个 rise 转移。"
+    cue: "the condition is not true: a mode does not enter a value and this would continue for every time point in the coming window：not 作用在完整 always_not_rise 模式上。"
+    pattern: "not(always [a:b] (not rise(φ)))"

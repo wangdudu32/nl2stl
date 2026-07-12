@@ -4,3 +4,7 @@ cases:
   - semantic: "有界过去窗口中的 since 历史关系被整体否定。"
     cue: "the condition that x stays in a mode since y was once set to another mode at a certain time instant before between a to b time units will not be true：not 作用在整段 since 条件上。"
     pattern: "not(φ since [a:b] ψ)"
+
+  - semantic: "无界过去范围内的 since 历史关系被整体否定。"
+    cue: "the condition that x remained in a mode since y held once at a time in the past from the beginning will not be true：not 作用在无界 since 条件整体上。"
+    pattern: "not(φ since ψ)"

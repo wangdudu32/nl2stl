@@ -1,0 +1,14 @@
+operator: fall_historically
+meaning: "fall(historically(φ)) 表示一整段历史持续条件从 true 转为 false。"
+cases:
+  - semantic: "无界过去范围内的 historically 条件被作为整体观察到失效。"
+    cue: "the condition that a signal has continuously not been below a threshold in the past since the beginning is detected to change from true to false：fall 作用在 historically 整体上。"
+    pattern: "fall(historically(φ))"
+
+  - semantic: "无界过去范围内的区间持续保持条件被作为整体观察到失效。"
+    cue: "a signal had continuously stayed within a range throughout the past, and this historical condition shifts from true to false：fall 作用在无界 historically 区间约束整体上。"
+    pattern: "fall(historically(lower <= x <= upper))"
+
+  - semantic: "有界过去窗口内的 historically 条件被作为整体观察到失效。"
+    cue: "the condition that a signal has continuously not been below a threshold within the past window shifts from true to false：fall 作用在带历史窗口的 historically 整体上。"
+    pattern: "fall(historically [a:b] (φ))"

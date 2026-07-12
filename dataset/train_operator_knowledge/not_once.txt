@@ -5,3 +5,6 @@ cases:
     cue: "the subsequent condition isn't true: at a certain moment during the elapsed b time units, once ...：not 作用在 once 整体上。"
     pattern: "not(once [a:b] (φ))"
 
+  - semantic: "否定无界过去存在性，表示从执行开始到当前的整个过去范围内没有出现过目标状态。"
+    cue: "there must not exist any past time since the beginning at which jJB6zN6T was at least 52：not 否定无界 once。"
+    pattern: "not(once(φ))"

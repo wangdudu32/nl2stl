@@ -8,3 +8,11 @@ cases:
   - semantic: "外层有界窗口内每个时间点，都要求未来无界范围内最终找到一个无 fall 事件的时刻。"
     cue: "for every moment within b time units there should exist a time in the future, at which ultimately the event that x starts not equaling to value must not occur：有界 always 逐点要求无界 eventually_not_fall。"
     pattern: "always [a:b] (eventually(not fall(φ)))"
+
+  - semantic: "从当前到执行结束的每个时刻，都要求未来无界范围内最终找到一个无 fall 事件的满足时刻。"
+    cue: "for every moment until execution ends, there exists a future time at which tZPbXBNaj does not fall to at most 26：无界 always 逐点要求无界 eventually_not_fall。"
+    pattern: "always(eventually(not fall(φ)))"
+
+  - semantic: "从当前到执行结束的每个时刻，都要求在随后的有界窗口内最终找到一个无 fall 事件的满足时刻。"
+    cue: "for every future moment, within the following 4.68 to 6.22 time units lf5zpiC_ does not fall to at most 4.8：无界 always 逐点要求有界 eventually_not_fall。"
+    pattern: "always(eventually [a:b] (not fall(φ)))"

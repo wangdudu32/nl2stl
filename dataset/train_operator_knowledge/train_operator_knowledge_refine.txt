@@ -1,0 +1,146 @@
+single operator knowledge 对应一个 STL 算子；compound operator knowledge 对应一个具有独立整体措辞的固定 STL 结构。
+φ、ψ 表示任意谓词；[a:b] 表示相对当前评价时刻的有界时间窗口。时间是否有界是参数差异，不单独算一种知识。
+
+===== single operator knowledge =====
+
+operator: always
+core_semantic: "φ 在整个指定时间范围的每个时刻都成立。"
+atomic_cues:
+  - cue: "始终/一直/持续/全程保持 φ"
+    pattern: "always(φ)"
+  - cue: "在未来 [a:b] 内始终/一直保持 φ"
+    pattern: "always [a:b] (φ)"
+boundary: "always 的作用对象可以是任意谓词；谓词内部的 and、or、not、implication 不构成 always 的新用法。"
+
+operator: eventually
+core_semantic: "未来时间范围内至少存在一个时刻使 φ 成立。"
+atomic_cues:
+  - cue: "最终/迟早/未来某时 φ"
+    pattern: "eventually(φ)"
+  - cue: "在未来 [a:b] 内某时 φ"
+    pattern: "eventually [a:b] (φ)"
+boundary: "eventually 只要求存在满足时刻，不蕴含随后持续保持；目标谓词是否为布尔复合条件不产生新用法。"
+
+operator: historically
+core_semantic: "φ 在相关过去范围的每个时刻都成立。"
+atomic_cues:
+  - cue: "自执行开始以来一直 φ/过去始终 φ"
+    pattern: "historically(φ)"
+  - cue: "在过去 [a:b] 内一直 φ"
+    pattern: "historically [a:b] (φ)"
+
+operator: once
+core_semantic: "过去时间范围内至少存在一个时刻使 φ 成立。"
+atomic_cues:
+  - cue: "曾经/过去某时 φ"
+    pattern: "once(φ)"
+  - cue: "在过去 [a:b] 内曾经 φ"
+    pattern: "once [a:b] (φ)"
+
+operator: rise
+core_semantic: "目标谓词 φ 由假变真；数值本身不一定向上变化。"
+atomic_usages:
+  - cue: "进入/落入区间 I"
+    semantic: "区间谓词由假变真。"
+    pattern: "rise(x in I)"
+  - cue: "超过/升至阈值 c"
+    semantic: "高阈值谓词由假变真。"
+    pattern: "rise(x > c) 或 rise(x >= c)"
+  - cue: "降至/低于阈值 c"
+    semantic: "低阈值谓词由假变真；尽管数值下降，仍是 rise。"
+    pattern: "rise(x < c) 或 rise(x <= c)"
+  - cue: "变为/切换到状态 value"
+    semantic: "等值谓词由假变真。"
+    pattern: "rise(x == value)"
+boundary: "I 保留原谓词的开闭边界；[a,b]、[a,b)、(a,b)、(a,b] 不是四种 rise 知识。"
+
+operator: fall
+core_semantic: "目标谓词 φ 由真变假；数值本身不一定向下变化。"
+atomic_usages:
+  - cue: "离开/移出区间 I"
+    semantic: "区间谓词由真变假。"
+    pattern: "fall(x in I)"
+  - cue: "偏离/不再是状态 value"
+    semantic: "等值谓词由真变假。"
+    pattern: "fall(x == value)"
+  - cue: "跌破下界/超过上界"
+    semantic: "相应阈值谓词由真变假。"
+    pattern: "fall(x >= c) 或 fall(x <= c)，依目标谓词确定"
+boundary: "I 的开闭边界属于原子谓词参数，不形成新的 fall 用法。"
+
+operator: since
+core_semantic: "过去某个 ψ 锚点成立，并且从该锚点之后 φ 一直成立到当前。"
+atomic_cues:
+  - cue: "自从 ψ 以来一直 φ"
+    pattern: "φ since ψ"
+  - cue: "自过去 [a:b] 内的 ψ 起一直 φ"
+    pattern: "φ since [a:b] ψ"
+boundary: "ψ 可以是任意原子谓词或已识别事件；把 rise/fall/not 等填入 ψ 是组合，不是 since 的新知识。"
+
+operator: until
+core_semantic: "φ 从当前持续成立，直至未来某个 ψ 终点成立。"
+atomic_cues:
+  - cue: "一直/保持 φ，直到 ψ"
+    pattern: "φ until ψ"
+  - cue: "一直/保持 φ，直到未来 [a:b] 内 ψ"
+    pattern: "φ until [a:b] ψ"
+boundary: "ψ 可以是任意原子谓词或已识别事件；把 rise/fall/not 等填入 ψ 是组合，不是 until 的新知识。"
+
+
+===== compound operator knowledge =====
+
+template: recurrence
+atomic_cues:
+  - "φ 反复发生"
+  - "φ 不断再次出现"
+  - "持续能够再次达到 φ"
+core_semantic: "从每个检查时刻出发，未来都还能再次出现 φ。"
+pattern: "always(eventually(φ))"
+bounded_pattern: "always [a:b] (eventually [c:d] (φ))"
+non_atomic_exclusion: "若原句明确分成‘每个时刻’和‘随后某时’两个片段，则直接由 always 与 eventually 组合，不作为新的原子措辞。"
+
+template: eventual_stability
+atomic_cues:
+  - "最终稳定在 φ"
+  - "最终保持 φ 不再改变"
+  - "最终永久满足 φ"
+core_semantic: "未来存在一个起点，从该起点开始 φ 持续成立。"
+pattern: "eventually(always(φ))"
+bounded_pattern: "eventually [a:b] (always [c:d] (φ))"
+non_atomic_exclusion: "若原句明确分成‘未来找到一个时刻’和‘之后每个时刻保持’两个片段，则它只是 eventually 与 always 的展开式。"
+
+template: not_always
+atomic_cues:
+  - "并非一直 φ"
+  - "φ 不总是成立"
+core_semantic: "相关范围内至少有一个时刻 φ 不成立，而不是要求 φ 在所有时刻均不成立。"
+pattern: "not(always(φ))"
+bounded_pattern: "not(always [a:b] (φ))"
+contrast: "不同于 always(not φ)。"
+
+template: never_in_future
+atomic_cues:
+  - "未来永不 φ"
+  - "以后绝不会 φ"
+core_semantic: "未来相关范围内不存在 φ 成立的时刻。"
+pattern: "not(eventually(φ))"
+bounded_pattern: "not(eventually [a:b] (φ))"
+contrast: "等价于对相同窗口持续要求 not φ，但这里保留‘永不’这一原子自然语言映射。"
+
+template: not_always_in_past
+atomic_cues:
+  - "过去并非一直 φ"
+  - "并不是自开始以来始终 φ"
+core_semantic: "相关过去范围内至少存在一个时刻 φ 不成立。"
+pattern: "not(historically(φ))"
+bounded_pattern: "not(historically [a:b] (φ))"
+contrast: "不同于 historically(not φ)。"
+
+template: never_in_past
+atomic_cues:
+  - "从未 φ"
+  - "过去一次也没有 φ"
+core_semantic: "相关过去范围内不存在 φ 成立的时刻。"
+pattern: "not(once(φ))"
+bounded_pattern: "not(once [a:b] (φ))"
+contrast: "这里的‘从未’是否定过去存在性，不等于 once(not φ)。"

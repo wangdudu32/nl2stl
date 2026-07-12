@@ -4,3 +4,7 @@ cases:
   - semantic: "有界 eventually 条件被作为整体关系观察到失效。"
     cue: "the subsequent condition should be observed to change from true to false: finally there will be a certain time instant within the next b time units, at which x will not be inside the range：fall 作用在整段 eventually 条件上。"
     pattern: "fall(eventually [a:b] (φ))"
+
+  - semantic: "无界 eventually 条件被作为整体关系观察到失效，表示未来最终满足目标这一性质出现下降沿。"
+    cue: "the following condition is observed to shift from true to false: there exists a certain moment in the future before the end of the execution at which the target condition holds：fall 作用在无界 eventually 整体上。"
+    pattern: "fall(eventually(φ))"

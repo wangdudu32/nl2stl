@@ -1,0 +1,6 @@
+operator: not_fall_eventually_not_fall
+meaning: "not fall(eventually(not fall(φ))) 表示一个“未来窗口内最终不会发生 fall”的复合条件不得从 true 转为 false。"
+cases:
+  - semantic: "禁止有界 eventually_not_fall 条件整体失效，也就是未来窗口内能找到一个不发生目标 fall 的时刻这一事实不能出现下降沿。"
+    cue: "the condition that the target signal eventually does not fall out of the range within the specified future window should not be detected to change from true to false"
+    pattern: "not fall(eventually [a:b] (not fall(φ)))"

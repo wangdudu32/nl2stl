@@ -1,0 +1,10 @@
+operator: fall_until_fall
+meaning: "fall(φ until fall(ψ)) 表示以 fall 事件为终点的 until 关系整体从 true 转为 false。"
+cases:
+  - semantic: "有界 until_fall 条件被作为整体观察到失效，终点本身是一个 fall 转移事件。"
+    cue: "the condition that x holds until y deviates within a future window changes from true to false：外层 fall 作用在完整 until_fall 关系上。"
+    pattern: "fall(φ until [a:b] fall(ψ))"
+
+  - semantic: "无界 until_fall 条件被作为整体观察到失效，终点本身是未来某个 fall 转移事件。"
+    cue: "the condition changes from true to false: the left state keeps holding until the target deviation event is detected sometime in the future：外层 fall 作用在无界 until_fall 整体上。"
+    pattern: "fall(φ until fall(ψ))"

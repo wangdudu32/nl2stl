@@ -1,0 +1,6 @@
+operator: eventually_not_fall_or_fall
+meaning: "eventually(not fall(φ) or fall(ψ)) 表示未来某个满足时刻上，可以由禁止某个 fall 事件或发生另一个 fall 事件来满足。"
+cases:
+  - semantic: "无界未来中需要找到一个满足时刻；该时刻要么某个关系没有发生 fall 偏离，要么另一个关系发生了 fall 偏离。"
+    cue: "at a future time, one deviation event is not detected or another deviation event is observed：eventually 的目标由 not fall 与 fall 两个事件分支构成。"
+    pattern: "eventually(not fall(φ) or fall(ψ))"

@@ -8,3 +8,7 @@ cases:
   - semantic: "从当前开始到执行结束的无界持续条件被作为一个整体事件开始成立。"
     cue: "the subsequent condition changes from false to true: x will be staying equal to value consistently in the future till the end of the simulation：rise 作用在无界 always 条件整体上。"
     pattern: "rise(always(φ))"
+
+  - semantic: "无界未来中的区间持续保持条件被作为一个整体事件开始成立。"
+    cue: "the following condition changes from false to true: x will continuously stay within a range in the future till the simulation ends：rise 捕捉整段无界 always 区间约束开始成立。"
+    pattern: "rise(always(lower <= x <= upper))"

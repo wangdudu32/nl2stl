@@ -8,3 +8,11 @@ cases:
   - semantic: "过去有界窗口内曾经发生等值或模式关系偏离的 fall 事件。"
     cue: "at a certain moment within the last b time units the transition action that the mode of x begins deviating from value will get observed once：once 的目标是等值关系的 fall。"
     pattern: "once [a:b] (fall(x == value))"
+
+  - semantic: "过去有界窗口内曾经发生离开闭区间的 fall 事件。"
+    cue: "there once existed a past moment within the window where x got out of the range [a, b]：once 回看窗口内是否出现过区间谓词失效事件。"
+    pattern: "once [a:b] (fall(lower <= x <= upper))"
+
+  - semantic: "从执行开始到当前的过去范围内曾经发生过指定 fall 事件。"
+    cue: "once at some time in the past, the target signal fell out of the specified range"
+    pattern: "once(fall(φ))"

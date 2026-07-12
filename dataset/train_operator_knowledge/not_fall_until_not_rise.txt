@@ -1,0 +1,6 @@
+operator: not_fall_until_not_rise
+meaning: "(not fall(φ)) until (not rise(ψ)) 表示左侧持续禁止 fall，直到右侧 rise 转移不发生这一终点成立。"
+cases:
+  - semantic: "有界 until 过程中，左侧持续满足 not_fall，右侧终止条件是 not_rise。"
+    cue: "a range-leaving event is not observed until there is a time in the next window at which another mode shift does not occur：until 的左侧是 not fall，右侧终点是 not rise。"
+    pattern: "(not fall(φ)) until [a:b] (not rise(ψ))"

@@ -1,0 +1,6 @@
+operator: not_fall_eventually_not_rise
+meaning: "not fall(eventually(not rise(φ))) 表示一个“未来窗口内最终不会发生 rise”的复合条件不得从 true 转为 false。"
+cases:
+  - semantic: "禁止有界 eventually_not_rise 条件整体失效，也就是未来窗口内能找到一个不发生目标 rise 的时刻这一事实不能出现下降沿。"
+    cue: "the condition that PYQ90B is eventually not shifted to S3G within 32 to 92 time units is not observed to change from true to false：not fall 作用在完整 eventually_not_rise 上。"
+    pattern: "not fall(eventually [a:b] (not rise(φ)))"

@@ -4,3 +4,7 @@ cases:
   - semantic: "有界 until 关系整体不允许被观察到开始成立。"
     cue: "the condition that ... will remain ... till ... eventually within a time window shan't be observed to shift from false to true：not rise 作用在整段 until 模式上。"
     pattern: "not rise(φ until [a:b] ψ)"
+
+  - semantic: "无界 until 关系整体不允许被观察到开始成立。"
+    cue: "the condition that a signal keeps satisfying the left state until a future target eventually holds will not shift from false to true：not rise 作用在无界 until 整体上。"
+    pattern: "not rise(φ until ψ)"

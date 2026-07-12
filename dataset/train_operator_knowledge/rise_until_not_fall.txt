@@ -1,0 +1,6 @@
+operator: rise_until_not_fall
+meaning: "rise(φ until (not fall(ψ))) 表示一个 until 持续-终止关系整体从 false 转为 true，且该关系的终止目标是否定 fall 事件。"
+cases:
+  - semantic: "无界 until 关系被观察到开始成立：左侧条件需要持续保持，直到未来某个时刻确认右侧目标没有发生 fall 转移。"
+    cue: "the condition changes from false to true: x keeps holding until eventually y does not decrease below the threshold at a future time"
+    pattern: "rise(φ until (not fall(ψ)))"

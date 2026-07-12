@@ -1,0 +1,10 @@
+operator: not_rise_always
+meaning: "not rise(always(φ)) 表示一个持续保持条件不得从 false 转为 true。"
+cases:
+  - semantic: "禁止无界 always 条件整体开始成立，也就是未来持续保持 φ 这一事实不能出现上升沿。"
+    cue: "the condition that the target state will hold continuously in the future must not shift from false to true"
+    pattern: "not rise(always(φ))"
+
+  - semantic: "禁止有界 always 条件整体开始成立，也就是未来窗口内持续保持 φ 这一事实不能出现上升沿。"
+    cue: "the condition that a value stays at the target for every time instant within the coming window is not observed to change from false to true：not rise 作用在有界 always 整体上。"
+    pattern: "not rise(always [a:b] (φ))"

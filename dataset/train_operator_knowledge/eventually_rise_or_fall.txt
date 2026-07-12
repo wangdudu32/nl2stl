@@ -1,0 +1,10 @@
+operator: eventually_rise_or_fall
+meaning: "eventually(rise(φ) or fall(ψ)) 表示未来某个满足时刻上，rise 或 fall 转移至少发生一个。"
+cases:
+  - semantic: "未来有界窗口内需要出现一个满足时刻，其中 rise 事件与 fall 事件作为析取分支满足其一即可。"
+    cue: "at a certain time point within b time units, one value deviates from its target or another value jumps above a threshold：eventually 的目标混合了 fall 与 rise 的析取。"
+    pattern: "eventually [a:b] (fall(φ) or rise(ψ))"
+
+  - semantic: "无界未来中需要出现一个满足时刻，其中 fall 事件或 rise 事件至少发生一个。"
+    cue: "there has to exist a certain time point in the future before the execution ends, at which either a signal deviates from its value or another signal falls to a threshold：eventually 的无界目标混合了 fall 与 rise 的析取。"
+    pattern: "eventually(fall(φ) or rise(ψ))"

@@ -1,0 +1,6 @@
+operator: not_not_fall_since_rise
+meaning: "not((not fall(φ)) since rise(ψ)) 表示否定一段以 rise 事件为历史起点、左侧持续禁止 fall 的 since 关系。"
+cases:
+  - semantic: "否定有界 not_fall_since_rise，表示不存在从过去窗口内某个 rise 起点开始一直不发生 fall 的完整历史关系。"
+    cue: "the condition is not true: the target fall event has never occurred since a rise event observed within the past a to b time units：外层 not 否定完整有界 not_fall_since_rise。"
+    pattern: "not((not fall(φ)) since [a:b] rise(ψ))"

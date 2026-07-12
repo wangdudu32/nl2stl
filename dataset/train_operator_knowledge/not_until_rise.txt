@@ -1,0 +1,10 @@
+operator: not_until_rise
+meaning: "not(φ until rise(ψ)) 表示以 rise 事件为终点的 until 关系整体不成立。"
+cases:
+  - semantic: "否定有界 until_rise 关系，表示左侧持续到右侧 rise 事件在窗口内出现这一整体条件不成立。"
+    cue: "the subsequent condition should not be true: a state remains continuously until another mode shift is eventually detected in the future window：not 作用在整段 until_rise 模式上。"
+    pattern: "not(φ until [a:b] rise(ψ))"
+
+  - semantic: "否定无界 until_rise 关系，表示左侧持续到未来某个 rise 事件出现这一整体条件不成立。"
+    cue: "the subsequent condition is not true: a signal remains in a range until another signal eventually shifts to a value at a future time：not 作用在无界 until_rise 整体上。"
+    pattern: "not(φ until rise(ψ))"

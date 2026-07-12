@@ -1,0 +1,10 @@
+operator: once_not_fall
+meaning: "once(not fall(φ)) 表示过去某个时刻没有发生 φ 的 fall 转移。"
+cases:
+  - semantic: "过去有界窗口内存在一个时刻，在该时刻指定 fall 转移没有发生。"
+    cue: "at a certain time instant within the elapsed window, once the event that a value deviated should not get observed：once 的历史满足点上 fall 被否定。"
+    pattern: "once [a:b] (not fall(φ))"
+
+  - semantic: "从执行开始到当前的过去范围内存在一个时刻，在该时刻指定 fall 转移没有发生。"
+    cue: "once at a time in the past from the beginning of the execution, the target decreasing or deviation event was not detected：once 的无界历史满足点上 fall 被否定。"
+    pattern: "once(not fall(φ))"

@@ -17,6 +17,10 @@ cases:
     cue: "at a certain moment in the past from the beginning of the execution the event that x got to no less than c took place：once 的目标是无界过去中的阈值 rise。"
     pattern: "once(rise(x >= c))"
 
+  - semantic: "无界过去范围内曾经发生下降进入不超过阈值状态的 rise 事件。"
+    cue: "there existed a past moment where x went to less than or equal to c：虽然数值方向下降，但 once 的目标是该低阈值谓词开始成立的 rise 事件。"
+    pattern: "once(rise(x <= c))"
+
   - semantic: "过去有界窗口内曾经发生阈值上升或进入阈值状态的 rise 事件。"
     cue: "once there would be a time during the last b time units, at which the transition action that x gets raised to at least c would occur：once 的目标是有界过去中的阈值 rise。"
     pattern: "once [a:b] (rise(x >= c))"
