@@ -171,8 +171,7 @@ AST Schema 如下：
             "<=",
             ">",
             ">=",
-            "==",
-            "!="
+            "=="
           ]
         },
         "right": {
@@ -226,16 +225,8 @@ AST Schema 如下：
       "type": "object",
       "properties": {
         "lower": {
-          "oneOf": [
-            {
-              "type": "number",
-              "minimum": 0
-            },
-            {
-              "type": "string",
-              "minLength": 1
-            }
-          ]
+          "type": "number",
+          "minimum": 0
         },
         "upper": {
           "anyOf": [
@@ -245,10 +236,6 @@ AST Schema 如下：
             },
             {
               "const": "inf"
-            },
-            {
-              "type": "string",
-              "minLength": 1
             }
           ]
         },
@@ -933,8 +920,7 @@ AST Schema 如下：
                 "<=",
                 ">",
                 ">=",
-                "==",
-                "!="
+                "=="
               ]
             },
             "value": {

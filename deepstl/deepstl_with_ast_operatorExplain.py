@@ -24,6 +24,7 @@ SCHEMA_FILE = ROOT / "knowledge_base/ast_schema.txt"
 OPERATOR_FILE = ROOT / "knowledge_base/stl_operators.md"
 OUTPUT_FILE = ROOT / "tmp/deepstl_with_ast_operatorExplain_deepseek_v4_pro_result.txt"
 FAIL_TIMES_FILE = ROOT / "tmp/deepstl_with_ast_operatorExplain_fail_times.txt"
+AST_INTERMEDIATE_FILE = ROOT / "result/ast_intermediate/deepstl_with_ast_operatorExplain.jsonl"
 
 
 def extract_json(text: str) -> str:
@@ -139,7 +140,7 @@ def translate_one(
     system_prompt: str,
     validator: Draft202012Validator,
     nl: str,
-) -> tuple[str, int]:
+) -> tuple[dict[str, Any] | None, int, str | None]:
     error = None
     previous_output = None
     fail_times = 0
@@ -149,13 +150,35 @@ def translate_one(
         try:
             ast = parse_ast(output)
             validate_ast(ast, validator)
-            return ast_to_stl(ast), fail_times
+            return ast, fail_times, None
         except (ValueError, KeyError, TypeError, IndexError) as exc:
             fail_times += 1
             error = f"{type(exc).__name__}: {exc}"
             previous_output = output
 
-    return "fail", fail_times
+    return None, fail_times, error
+
+
+def append_ast_record(
+    ast_file,
+    taskid: int,
+    english: str,
+    gold_stl: str,
+    ast: dict[str, Any] | None,
+    fail_times: int,
+    error: str | None,
+) -> None:
+    record = {
+        "taskid": taskid,
+        "english": english,
+        "gold_stl": gold_stl,
+        "status": "ok" if ast is not None else "fail",
+        "ast": ast,
+        "fail_times": fail_times,
+        "error": error,
+    }
+    ast_file.write(json.dumps(record, ensure_ascii=False, separators=(",", ":")) + "\n")
+    ast_file.flush()
 
 
 def append_result(out_file, taskid: int, gold_stl: str, pred_stl: str, is_first: bool) -> None:
@@ -184,17 +207,30 @@ def main() -> None:
 
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     FAIL_TIMES_FILE.parent.mkdir(parents=True, exist_ok=True)
+    AST_INTERMEDIATE_FILE.parent.mkdir(parents=True, exist_ok=True)
 
     with (
         INPUT_CSV.open(newline="", encoding="utf-8") as csv_file,
         OUTPUT_FILE.open("w", encoding="utf-8") as out_file,
         FAIL_TIMES_FILE.open("w", encoding="utf-8") as fail_file,
+        AST_INTERMEDIATE_FILE.open("w", encoding="utf-8") as ast_file,
     ):
         reader = csv.DictReader(csv_file)
         out_file.write("{\n")
 
         for taskid, row in enumerate(reader):
-            pred_stl, fail_times = translate_one(client, system_prompt, validator, row["English"])
+            ast, fail_times, error = translate_one(client, system_prompt, validator, row["English"])
+            append_ast_record(
+                ast_file, taskid, row["English"], row["STL"], ast, fail_times, error
+            )
+            if ast is None:
+                pred_stl = "fail"
+            else:
+                try:
+                    pred_stl = ast_to_stl(ast)
+                except (ValueError, KeyError, TypeError, IndexError) as exc:
+                    pred_stl = "fail"
+                    print(f"第{taskid}条数据的AST转STL失败: {type(exc).__name__}: {exc}")
             append_result(out_file, taskid, row["STL"], pred_stl, taskid == 0)
             append_fail_times(fail_file, taskid, fail_times)
             print(f"第{taskid}条数据已完成")
