@@ -14,7 +14,11 @@ from template_accuracy import Template_Accuracy
 # file_path = "../result/deepstl_with_ast_template_operator_knowledge_deepseek_v4_pro_result.txt"
 # file_path = "../result/deepstl_with_ast_operator_knowledge_deepseek_v4_pro_result.txt"
 # file_path = "../result/deepstl_with_operator_knowledge_deepseek_v4_pro_result.txt"
-file_path = "../result/deepstl_with_ast_train_operator_knowledge_deepseek_v4_pro_result.txt"
+# file_path = "../result/deepstl_with_ast_train_operator_knowledge_deepseek_v4_pro_result.txt"
+# file_path = "../result/deepstl_with_ast_train_operator_knowledge_v2_deepseek_v4_pro_result.txt"
+# file_path = "../result/deepstl_with_ast_train_operator_test_template_knowledge_deepseek_v4_pro_result.txt"
+# file_path = "../result/deepstl_with_ast_train_operator_test_template_knowledge_2k_deepseek_v4_pro_result.txt"
+file_path = "../result/deepstl_with_template_knowledge_deepseek_v4_pro_result.txt"
 
 if __name__ == "__main__":
     Exact_formula_match_accuracy = Exact_Formula_Match(file_path)

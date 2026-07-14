@@ -1,0 +1,8 @@
+{
+  "api_max_retries": 5,
+  "checkpoint_version": 1,
+  "input_csv_sha256": "d06272513114c89cecf877a86362216311c4aef04c25310e3d9a0bb7d9e25a14",
+  "max_attempts": 5,
+  "model": "deepseek-v4-pro",
+  "system_prompt_sha256": "5cccad03a1e032668a2fe2fe8e33a42da0dfcab6bef41097409d93e8c6f93c33"
+}

@@ -1,9 +1,7 @@
 from __future__ import annotations
 
 import csv
-import importlib.util
 import json
-import os
 import sys
 from pathlib import Path
 from typing import Any
@@ -23,10 +21,11 @@ MAX_ATTEMPTS = 5
 
 INPUT_CSV = ROOT / "dataset/deepstl_test_300_sample.csv"
 SCHEMA_FILE = ROOT / "knowledge_base/ast_schema.txt"
+OPERATOR_KNOWLEDGE_FILE = ROOT / "knowledge_base/train_operator_knowledge.txt"
 TEMPLATE_OPERATOR_KNOWLEDGE_FILE = ROOT / "knowledge_base/template_knowledge.txt"
-OUTPUT_FILE = ROOT / "result/deepstl_with_ast_template_operator_knowledge_deepseek_v4_pro_result.txt"
-FAIL_TIMES_FILE = ROOT / "tmp/deepstl_with_ast_template_operator_knowledge_fail_times.txt"
-AST_INTERMEDIATE_FILE = ROOT / "result/ast_intermediate/deepstl_with_ast_template_operator_knowledge.jsonl"
+OUTPUT_FILE = ROOT / "result/deepstl_with_ast_train_operator_test_template_knowledge_deepseek_v4_pro_result.txt"
+FAIL_TIMES_FILE = ROOT / "tmp/deepstl_with_ast_train_operator_test_template_knowledge_fail_times.txt"
+AST_INTERMEDIATE_FILE = ROOT / "result/ast_intermediate/deepstl_with_ast_train_operator_test_template_knowledge.jsonl"
 
 
 def extract_json(text: str) -> str:
@@ -43,11 +42,19 @@ def load_schema() -> tuple[str, Draft202012Validator]:
     return schema_text, Draft202012Validator(schema)
 
 
+def load_operator_knowledge() -> str:
+    return OPERATOR_KNOWLEDGE_FILE.read_text(encoding="utf-8").strip()
+
+
 def load_template_operator_knowledge() -> str:
     return TEMPLATE_OPERATOR_KNOWLEDGE_FILE.read_text(encoding="utf-8").strip()
 
 
-def build_system_prompt(schema_text: str, template_operator_knowledge: str) -> str:
+def build_system_prompt(
+    schema_text: str,
+    operator_knowledge: str,
+    template_operator_knowledge: str,
+) -> str:
     return f"""You convert natural language STL requirements into AST JSON.
 
 Output requirements:
@@ -57,14 +64,17 @@ Output requirements:
 - Do not output markdown, code fences, comments, explanations, or STL text.
 - The JSON object must validate against the following JSON Schema.
 - Use only operators and fields allowed by this JSON Schema.
-- Use the template and operator knowledge only as semantic guidance for choosing the correct schema structure and operator.
-- If the template/operator knowledge conflicts with the JSON Schema, the JSON Schema takes precedence.
+- Use the train operator knowledge and template operator knowledge only as semantic guidance for choosing the correct schema structure and operator.
+- If the train/template operator knowledge conflicts with the JSON Schema, the JSON Schema takes precedence.
 - Use operator names exactly as specified by the JSON Schema enum values, not symbolic aliases.
 
 JSON Schema:
 {schema_text}
 
-Template and operator knowledge:
+Train operator knowledge:
+{operator_knowledge}
+
+Template operator knowledge:
 {template_operator_knowledge}
 """
 
@@ -91,24 +101,6 @@ Regenerate one complete valid AST JSON object only.
 """
 
 
-def drop_socks_proxy_if_unsupported() -> None:
-    if importlib.util.find_spec("socksio") is not None:
-        return
-
-    has_http_proxy = any(
-        os.environ.get(name)
-        for name in ("HTTP_PROXY", "http_proxy", "HTTPS_PROXY", "https_proxy")
-    )
-    if not has_http_proxy:
-        return
-
-    socks_prefixes = ("socks4://", "socks4a://", "socks5://", "socks5h://")
-    for name in ("ALL_PROXY", "all_proxy"):
-        value = os.environ.get(name, "")
-        if value.lower().startswith(socks_prefixes):
-            os.environ.pop(name, None)
-
-
 def make_client() -> Any:
     try:
         from dotenv import load_dotenv
@@ -116,8 +108,6 @@ def make_client() -> Any:
         load_dotenv(ROOT / ".env")
     except ModuleNotFoundError:
         pass
-
-    drop_socks_proxy_if_unsupported()
 
     from openai import OpenAI
 
@@ -224,8 +214,13 @@ def append_fail_times(fail_file, taskid: int, fail_times: int) -> None:
 def main() -> None:
     client = make_client()
     schema_text, validator = load_schema()
+    operator_knowledge = load_operator_knowledge()
     template_operator_knowledge = load_template_operator_knowledge()
-    system_prompt = build_system_prompt(schema_text, template_operator_knowledge)
+    system_prompt = build_system_prompt(
+        schema_text,
+        operator_knowledge,
+        template_operator_knowledge,
+    )
 
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     FAIL_TIMES_FILE.parent.mkdir(parents=True, exist_ok=True)
