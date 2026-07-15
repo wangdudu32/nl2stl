@@ -2,8 +2,8 @@ AST Schema 如下：
 {
   "$id": "https://stl-json-schema.org/STL-EssentialWithPastAndEdges.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Essential STL Formula with Extended Temporal Operators and Edge Detectors",
-  "description": "Signal Temporal Logic (STL) JSON Schema supporting atomic predicates, boolean logic, future and past temporal operators, and edge/peak detectors (rise, fall, peak). Fully recursive and validator-safe.",
+  "title": "RTAMT-Compatible Essential STL Formula AST",
+  "description": "Signal Temporal Logic (STL) JSON Schema restricted to the AST subset rendered as valid formulas for the project's RTAMT target grammar.",
   "$defs": {
     "Formula": {
       "description": "Any valid STL formula node",
@@ -22,9 +22,6 @@ AST Schema 如下：
         },
         {
           "$ref": "#/$defs/EdgeFormula"
-        },
-        {
-          "$ref": "#/$defs/StatisticalFormula"
         }
       ]
     },
@@ -39,7 +36,7 @@ AST Schema 如下：
             },
             "name": {
               "type": "string",
-              "minLength": 1
+              "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
             }
           },
           "required": [
@@ -55,10 +52,7 @@ AST Schema 如下：
               "const": "constant"
             },
             "value": {
-              "type": [
-                "number",
-                "string"
-              ]
+              "type": "number"
             }
           },
           "required": [
@@ -75,7 +69,7 @@ AST Schema 如下：
             },
             "name": {
               "type": "string",
-              "minLength": 1
+              "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
             },
             "unit": {
               "type": "string"
@@ -222,77 +216,72 @@ AST Schema 如下：
       ]
     },
     "TimeInterval": {
-      "description": "Closed or half-open time interval [lower, upper]",
-      "type": "object",
-      "properties": {
-        "lower": {
-          "oneOf": [
-            {
-              "type": "number",
-              "minimum": 0
-            },
-            {
-              "type": "string",
-              "minLength": 1
-            }
-          ]
-        },
-        "upper": {
-          "anyOf": [
-            {
-              "type": "number",
-              "minimum": 0
-            },
-            {
-              "const": "inf"
-            },
-            {
-              "type": "string",
-              "minLength": 1
-            }
-          ]
-        },
-        "lowerInclusive": {
-          "type": "boolean",
-          "default": true
-        },
-        "upperInclusive": {
-          "type": "boolean",
-          "default": true
-        }
-      },
-      "required": [
-        "lower",
-        "upper"
-      ],
-      "additionalProperties": false,
-      "allOf": [
+      "description": "A canonical finite closed interval [lower:upper], or the canonical unbounded interval [0:inf). Symbolic endpoints and open finite endpoints are not allowed.",
+      "oneOf": [
         {
-          "if": {
-            "properties": {
-              "upper": {
-                "const": "inf"
-              }
+          "title": "FiniteClosedInterval",
+          "type": "object",
+          "properties": {
+            "lower": {
+              "type": "number",
+              "minimum": 0
+            },
+            "upper": {
+              "type": "number",
+              "minimum": 0
+            },
+            "lowerInclusive": {
+              "const": true
+            },
+            "upperInclusive": {
+              "const": true
             }
           },
-          "then": {
-            "properties": {
-              "upperInclusive": {
-                "const": false
-              }
+          "required": [
+            "lower",
+            "upper",
+            "lowerInclusive",
+            "upperInclusive"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "CanonicalUnboundedInterval",
+          "type": "object",
+          "properties": {
+            "lower": {
+              "const": 0
+            },
+            "upper": {
+              "const": "inf"
+            },
+            "lowerInclusive": {
+              "const": true
+            },
+            "upperInclusive": {
+              "const": false
             }
-          }
+          },
+          "required": [
+            "lower",
+            "upper",
+            "lowerInclusive",
+            "upperInclusive"
+          ],
+          "additionalProperties": false
         }
       ],
       "examples": [
         {
           "lower": 0,
-          "upper": 10
+          "upper": 10,
+          "lowerInclusive": true,
+          "upperInclusive": true
         },
         {
           "lower": 2,
           "upper": 8,
-          "lowerInclusive": false,
+          "lowerInclusive": true,
           "upperInclusive": true
         },
         {
@@ -303,7 +292,9 @@ AST Schema 如下：
         },
         {
           "lower": 1.5,
-          "upper": 5.5
+          "upper": 5.5,
+          "lowerInclusive": true,
+          "upperInclusive": true
         }
       ]
     },
@@ -487,11 +478,9 @@ AST Schema 如下：
           "enum": [
             "always",
             "eventually",
-            "until",
-            "weak_until",
-            "release"
+            "until"
           ],
-          "$comment": "always: condition must hold at all times in the interval. eventually: condition must hold at least once in the interval. until: first condition must hold continuously until the second condition becomes true. weak_until: similar to until, but the second condition is not required to ever become true; the first condition must then hold for the entire interval. release: the second condition must hold up to and including the point where the first condition becomes true; if the first condition never becomes true, the second must hold for the entire interval."
+          "$comment": "always: condition must hold at all times in the interval. eventually: condition must hold at least once in the interval. until: first condition must hold continuously until the second condition becomes true."
         },
         "interval": {
           "$ref": "#/$defs/TimeInterval"
@@ -535,11 +524,7 @@ AST Schema 如下：
           "if": {
             "properties": {
               "operator": {
-                "enum": [
-                  "until",
-                  "weak_until",
-                  "release"
-                ]
+                "const": "until"
               }
             }
           },
@@ -800,9 +785,9 @@ AST Schema 如下：
       ]
     },
     "EdgeFormula": {
-      "description": "Edge and peak detection operators",
+      "description": "RTAMT-compatible Boolean edge detection operators",
       "type": "object",
-      "$comment": "Edge operators detect instantaneous changes or local extrema in a predicate's truth value.",
+      "$comment": "Edge operators detect transitions in a predicate's truth value.",
       "properties": {
         "nodeType": {
           "const": "edge"
@@ -810,18 +795,14 @@ AST Schema 如下：
         "operator": {
           "enum": [
             "rise",
-            "fall",
-            "peak"
+            "fall"
           ],
-          "$comment": "rise: detects a transition from false to true. fall: detects a transition from true to false. peak: detects a local maximum of predicate satisfaction."
+          "$comment": "rise: detects a transition from false to true. fall: detects a transition from true to false."
         },
         "mode": {
-          "enum": [
-            "strict",
-            "plateau"
-          ],
+          "const": "strict",
           "default": "strict",
-          "$comment": "strict: peak is a single isolated time instant where the predicate is true and immediately false before and after. plateau: peak is the first instant of a flat region where the predicate remains true for multiple consecutive time instants."
+          "$comment": "Only strict mode is compatible with the target renderer/parser contract."
         },
         "operand": {
           "$ref": "#/$defs/Formula"
@@ -864,161 +845,6 @@ AST Schema 如下：
               "exprType": "constant",
               "value": 0
             }
-          }
-        },
-        {
-          "nodeType": "edge",
-          "operator": "peak",
-          "mode": "strict",
-          "operand": {
-            "nodeType": "predicate",
-            "left": {
-              "exprType": "signal",
-              "name": "overshoot"
-            },
-            "relation": ">",
-            "right": {
-              "exprType": "constant",
-              "value": 15
-            }
-          }
-        },
-        {
-          "nodeType": "edge",
-          "operator": "peak",
-          "mode": "plateau",
-          "operand": {
-            "nodeType": "predicate",
-            "left": {
-              "exprType": "signal",
-              "name": "temperature"
-            },
-            "relation": ">=",
-            "right": {
-              "exprType": "constant",
-              "value": 90
-            }
-          }
-        }
-      ]
-    },
-    "StatisticalFormula": {
-      "description": "Statistical operators for counting occurrences and cumulative time",
-      "type": "object",
-      "$comment": "Statistical operators aggregate predicate satisfaction over time intervals.",
-      "properties": {
-        "nodeType": {
-          "const": "statistical"
-        },
-        "operator": {
-          "enum": [
-            "count",
-            "ct"
-          ],
-          "$comment": "count: counts the number of times the predicate holds true within the time interval. ct (cumulative time): measures the total duration for which the predicate holds true within the time interval."
-        },
-        "interval": {
-          "$ref": "#/$defs/TimeInterval"
-        },
-        "operand": {
-          "$ref": "#/$defs/Formula"
-        },
-        "threshold": {
-          "type": "object",
-          "description": "Threshold constraint for the statistical result",
-          "properties": {
-            "relation": {
-              "enum": [
-                "<",
-                "<=",
-                ">",
-                ">=",
-                "==",
-                "!="
-              ]
-            },
-            "value": {
-              "oneOf": [
-                {
-                  "type": "number",
-                  "minimum": 0
-                },
-                {
-                  "type": "string",
-                  "minLength": 1
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            }
-          },
-          "required": [
-            "relation",
-            "value"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "nodeType",
-        "operator",
-        "interval",
-        "operand",
-        "threshold"
-      ],
-      "additionalProperties": false,
-      "examples": [
-        {
-          "nodeType": "statistical",
-          "operator": "count",
-          "interval": {
-            "lower": 0,
-            "upper": 10,
-            "lowerInclusive": true,
-            "upperInclusive": true
-          },
-          "operand": {
-            "nodeType": "predicate",
-            "left": {
-              "exprType": "signal",
-              "name": "brake"
-            },
-            "relation": ">",
-            "right": {
-              "exprType": "constant",
-              "value": 0
-            }
-          },
-          "threshold": {
-            "relation": ">=",
-            "value": 3
-          }
-        },
-        {
-          "nodeType": "statistical",
-          "operator": "ct",
-          "interval": {
-            "lower": 0,
-            "upper": 10,
-            "lowerInclusive": true,
-            "upperInclusive": true
-          },
-          "operand": {
-            "nodeType": "predicate",
-            "left": {
-              "exprType": "signal",
-              "name": "danger"
-            },
-            "relation": "==",
-            "right": {
-              "exprType": "constant",
-              "value": 1
-            }
-          },
-          "threshold": {
-            "relation": "<=",
-            "value": 2
           }
         }
       ]
