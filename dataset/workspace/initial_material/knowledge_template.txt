@@ -1,0 +1,150 @@
+domain:领域
+scenario:场景1（每个领域可以有多个场景）
+signals:
+    signal name 1 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+    signal name 2 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+    signal name 3 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+
+scenario:场景2（每个领域可以有多个场景）
+signals:
+    signal name 1 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+    signal name 2 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+    signal name 3 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+scenario:场景3（每个领域可以有多个场景）
+signals:
+    signal name 1 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+    signal name 2 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+    signal name 3 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+场景n:...
+
+
+
+
+domain:领域2
+scenario:场景1（每个领域可以有多个场景）
+signals:
+    signal name 1 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+    signal name 2 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+    signal name 3 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+
+scenario:场景2（每个领域可以有多个场景）
+signals:
+    signal name 1 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+    signal name 2 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+    signal name 3 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+scenario:场景3（每个领域可以有多个场景）
+signals:
+    signal name 1 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+    signal name 2 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+    signal name 3 [信号名]
+    signal message [这个信号表示什么信息]
+    type [信号的取值类型，bool/int/float/Enum]
+    Reasonable number range [信号的合理取值范围]
+    unit [信号数值的单位,optional]
+    according to: 这些信息的依据是什么?取自哪个文件的的什么信息?
+
+场景n:...
+
+

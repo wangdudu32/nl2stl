@@ -1,0 +1,1616 @@
+domain: aerospace（航空航天）
+scenario: altitude_hold（飞行引导系统高度保持）
+signals:
+    signal name: altitude_hold_mode_selected
+    signal message: 飞行员是否选择了高度保持模式；在平飞中选择后，系统应保持选择瞬间的高度。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: aerospace/altitude_hold/AERO_ALT_FAA_AC_25_1329_1C_CHG2_2026_en.pdf，PDF第69页，§64.h(1)(a)1。
+
+    signal name: aircraft_vertical_speed_fpm
+    signal message: 飞机垂直速度；在爬升或下降中选择高度保持后，系统应改变俯仰并在达到平飞判据时保持高度；适用说明：FAA文件给出的“达到平飞”示例判据；不是飞机完整爬升率包线。
+    type: float
+    Reasonable number range: [-200, 200]
+    unit: ft/min
+    according to: aerospace/altitude_hold/AERO_ALT_FAA_AC_25_1329_1C_CHG2_2026_en.pdf，PDF第69页，§64.h(1)(a)2。
+
+    signal name: altitude_capture_transitioned
+    signal message: 是否由高度捕获模式自动转换到高度保持模式。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: aerospace/altitude_hold/AERO_ALT_FAA_AC_25_1329_1C_CHG2_2026_en.pdf，PDF第69页，§64.h(1)(b)。
+
+    signal name: selected_altitude_maintained
+    signal message: 自动从高度捕获转换后，飞行引导系统是否正在引导或控制飞机保持所选高度。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: aerospace/altitude_hold/AERO_ALT_FAA_AC_25_1329_1C_CHG2_2026_en.pdf，PDF第69页，§64.h(1)(b)。
+
+    signal name: altitude_hold_transition_annunciated
+    signal message: 自动转换到高度保持模式时，是否已向机组清晰显示模式转换提示。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: aerospace/altitude_hold/AERO_ALT_FAA_AC_25_1329_1C_CHG2_2026_en.pdf，PDF第69页，§64.h(2)。
+
+    signal name: barometric_datum_adjustment_active
+    signal message: 高度基准气压是否正在调整；调整引起的飞机响应应当平顺。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: aerospace/altitude_hold/AERO_ALT_FAA_AC_25_1329_1C_CHG2_2026_en.pdf，PDF第69页，§64.h(3)。
+
+scenario: uav_inspection_part107（小型无人机巡检运行边界）
+signals:
+    signal name: uas_total_weight_lb
+    signal message: 无人机连同附属系统、载荷和货物的总重量；Part 107小型无人机运行须低于55磅。
+    type: float
+    Reasonable number range: [0, 55)
+    unit: lb
+    according to: aerospace/uav_inspection/AERO_UAV_FAA_PART107_SUMMARY_2026_en.html，“Operating Requirements”中载荷运输段；aerospace/uav_inspection/AERO_UAV_ECFR_TITLE14_PART107_2026_en.html，§107.3“Small unmanned aircraft”定义。
+
+    signal name: uas_groundspeed_kt
+    signal message: 小型无人机地速；适用说明：等价上限100 mph。
+    type: float
+    Reasonable number range: [0, 87]
+    unit: kt
+    according to: aerospace/uav_inspection/AERO_UAV_ECFR_TITLE14_PART107_2026_en.html，§107.51(a)；aerospace/uav_inspection/AERO_UAV_FAA_PART107_SUMMARY_2026_en.html，“Operating Requirements”。
+
+    signal name: uas_altitude_agl_ft
+    signal message: 无人机相对地面的飞行高度；不使用结构物例外时不得超过400英尺。
+    type: float
+    Reasonable number range: [0, 400]
+    unit: ft AGL
+    according to: aerospace/uav_inspection/AERO_UAV_ECFR_TITLE14_PART107_2026_en.html，§107.51(b)；aerospace/uav_inspection/AERO_UAV_FAA_PART107_SUMMARY_2026_en.html，“Operating Requirements”。
+
+    signal name: distance_to_structure_ft
+    signal message: 无人机到结构物的距离；在结构物400英尺范围内运行时可采用结构物高度例外；适用说明：适用结构物高度例外的距离区间。
+    type: float
+    Reasonable number range: [0, 400]
+    unit: ft
+    according to: aerospace/uav_inspection/AERO_UAV_ECFR_TITLE14_PART107_2026_en.html，§107.51(b)(1)-(2)。
+
+    signal name: flight_visibility_sm
+    signal message: 从控制站测得的飞行能见度。
+    type: float
+    Reasonable number range: [3, +∞)
+    unit: statute mile
+    according to: aerospace/uav_inspection/AERO_UAV_ECFR_TITLE14_PART107_2026_en.html，§107.51(c)；aerospace/uav_inspection/AERO_UAV_FAA_PART107_SUMMARY_2026_en.html，“Operating Requirements”。
+
+    signal name: vertical_clearance_below_cloud_ft
+    signal message: 无人机在云层下方飞行时到云底的垂直净距。
+    type: float
+    Reasonable number range: [500, +∞)
+    unit: ft
+    according to: aerospace/uav_inspection/AERO_UAV_ECFR_TITLE14_PART107_2026_en.html，§107.51(d)(1)。
+
+    signal name: horizontal_clearance_from_cloud_ft
+    signal message: 无人机到云体的水平净距。
+    type: float
+    Reasonable number range: [2000, +∞)
+    unit: ft
+    according to: aerospace/uav_inspection/AERO_UAV_ECFR_TITLE14_PART107_2026_en.html，§107.51(d)(2)。
+
+    signal name: visual_line_of_sight_maintained
+    signal message: 遥控驾驶员或目视观察员是否始终以无辅助视力保持对无人机的目视观察。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: aerospace/uav_inspection/AERO_UAV_ECFR_TITLE14_PART107_2026_en.html，§107.31；aerospace/uav_inspection/AERO_UAV_FAA_PART107_SUMMARY_2026_en.html，“Keep your drone within sight”。
+
+    signal name: anti_collision_lighting_active
+    signal message: 夜间或曙暮光运行时，防撞灯是否启用并满足规定可见距离。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: aerospace/uav_inspection/AERO_UAV_ECFR_TITLE14_PART107_2026_en.html，§107.29(b)；aerospace/uav_inspection/AERO_UAV_FAA_PART107_SUMMARY_2026_en.html，“Operating Requirements”。
+
+
+domain: autonomous_driving（自动驾驶与驾驶辅助）
+scenario: adaptive_cruise_control（全速域自适应巡航）
+signals:
+    signal name: acc_active
+    signal message: 动态雷达巡航的车距控制模式是否启用。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: autonomous_driving/acc/AD_ACC_TOYOTA_SIENNA_2022_OM08045U_FULL_en.pdf，PDF第291-295页，“Dynamic radar cruise control with full-speed range”。
+
+    signal name: preceding_vehicle_detected
+    signal message: 前向雷达是否检测到前车。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: autonomous_driving/acc/AD_ACC_TOYOTA_SIENNA_2022_OM08045U_FULL_en.pdf，PDF第294-295页，车距控制模式说明。
+
+    signal name: radar_forward_detection_distance_m
+    signal message: 雷达对前方车辆的标称探测距离；适用说明：约328 ft。
+    type: float
+    Reasonable number range: [0, 100]
+    unit: m
+    according to: autonomous_driving/acc/AD_ACC_TOYOTA_SIENNA_2022_OM08045U_FULL_en.pdf，PDF第294页，车距控制模式说明。
+
+    signal name: acc_settable_vehicle_speed_kmh
+    signal message: 用“-SET”建立巡航设定速度时的车辆速度；低于该值设定时系统将设定为约30 km/h；适用说明：文档规定的最低设定速度，最高值由车辆配置决定。
+    type: float
+    Reasonable number range: [30, +∞)
+    unit: km/h
+    according to: autonomous_driving/acc/AD_ACC_TOYOTA_SIENNA_2022_OM08045U_FULL_en.pdf，PDF第296页及第300页。
+
+    signal name: following_distance_level
+    signal message: 驾驶员选择的车距档位；Toyota手册中的开关顺序为1=Long、2=Medium、3=Short。
+    type: Enum
+    Reasonable number range: {LONG, MEDIUM, SHORT}
+    according to: autonomous_driving/acc/AD_ACC_TOYOTA_SIENNA_2022_OM08045U_FULL_en.pdf，PDF第297页，“Distance options”。
+
+    signal name: desired_following_distance_m
+    signal message: 车辆在80 km/h时的标称车距；Short约30 m、Medium约40 m、Long约50 m，并随车速变化；适用说明：仅对应80 km/h的表列档位。
+    type: float
+    Reasonable number range: [30, 50]
+    unit: m
+    according to: autonomous_driving/acc/AD_ACC_TOYOTA_SIENNA_2022_OM08045U_FULL_en.pdf，PDF第296-297页，“Vehicle-to-vehicle distance settings”。
+
+    signal name: acc_approach_warning_active
+    signal message: 系统自动减速不足以避免接近前车时，接近警告显示和蜂鸣器是否激活。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: autonomous_driving/acc/AD_ACC_TOYOTA_SIENNA_2022_OM08045U_FULL_en.pdf，PDF第297页，“Approach warning”。
+
+    signal name: acc_brake_control_active
+    signal message: 为保持车距而由系统施加制动的状态。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: autonomous_driving/acc/AD_ACC_TOYOTA_SIENNA_2022_OM08045U_FULL_en.pdf，PDF第295页，减速巡航说明。
+
+    signal name: stopped_by_acc
+    signal message: 车辆是否已由车距控制系统制动至停止并继续保持停止。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: autonomous_driving/acc/AD_ACC_TOYOTA_SIENNA_2022_OM08045U_FULL_en.pdf，PDF第295页，跟随停车说明。
+
+    signal name: preceding_vehicle_start_window_s
+    signal message: 本车停止后，前车起步可触发自动恢复跟随巡航的时间窗。
+    type: float
+    Reasonable number range: [0, 3]
+    unit: s
+    according to: autonomous_driving/acc/AD_ACC_TOYOTA_SIENNA_2022_OM08045U_FULL_en.pdf，PDF第300页，“When the vehicle stops while follow-up cruising”。
+
+    signal name: acc_system_stop_duration_s
+    signal message: 车辆被系统保持停止的持续时间；约3分钟会成为车距控制自动取消条件；适用说明：自动取消前的近似区间。
+    type: float
+    Reasonable number range: [0, 180]
+    unit: s
+    according to: autonomous_driving/acc/AD_ACC_TOYOTA_SIENNA_2022_OM08045U_FULL_en.pdf，PDF第300页，自动取消条件。
+
+scenario: aeb_vehicle_collision（车辆目标自动紧急制动）
+signals:
+    signal name: vehicle_aeb_active
+    signal message: 车辆对车辆场景的AEBS是否处于规定激活速度域并且未被允许的条件停用。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: autonomous_driving/aeb/AD_AEB_UN_R152_EURLEX_2024_en.pdf，PDF第7页，§5.2.1.3。
+
+    signal name: vehicle_aeb_speed_kmh
+    signal message: 车辆对车辆AEBS必须至少保持激活的车辆速度。
+    type: float
+    Reasonable number range: [10, 60]
+    unit: km/h
+    according to: autonomous_driving/aeb/AD_AEB_UN_R152_EURLEX_2024_en.pdf，PDF第7页，§5.2.1.3。
+
+    signal name: time_to_collision_s
+    signal message: 本车与目标纵向距离除以纵向相对速度所得的碰撞时间。
+    type: float
+    Reasonable number range: [0, +∞)
+    unit: s
+    according to: autonomous_driving/aeb/AD_AEB_UN_R152_EURLEX_2024_en.pdf，PDF第3页，§2.12定义。
+
+    signal name: aeb_test_initial_ttc_s
+    signal message: AEB功能测试部分开始时，本车与目标之间的最小TTC。
+    type: float
+    Reasonable number range: [4, +∞)
+    unit: s
+    according to: autonomous_driving/aeb/AD_AEB_UN_R152_EURLEX_2024_en.pdf，PDF第17-20页，§6.4-§6.7测试条件。
+
+    signal name: collision_warning_lead_time_s
+    signal message: 在能够预见碰撞的通常情况下，碰撞警告相对紧急制动开始的提前时间；适用说明：无法提前预见时，例外允许最晚在制动开始时警告。
+    type: float
+    Reasonable number range: [0.8, +∞)
+    unit: s
+    according to: autonomous_driving/aeb/AD_AEB_UN_R152_EURLEX_2024_en.pdf，PDF第6页，§5.2.1.1。
+
+    signal name: aeb_braking_demand_mps2
+    signal message: 检测到即将碰撞时向行车制动系统发出的减速度需求幅值。
+    type: float
+    Reasonable number range: [5.0, +∞)
+    unit: m/s²
+    according to: autonomous_driving/aeb/AD_AEB_UN_R152_EURLEX_2024_en.pdf，PDF第6页，§5.2.1.2。
+
+    signal name: collision_warning_modality_count
+    signal message: 碰撞警告采用的声学、触觉、光学方式数量。
+    type: int
+    Reasonable number range: [2, 3]
+    unit: count
+    according to: autonomous_driving/aeb/AD_AEB_UN_R152_EURLEX_2024_en.pdf，PDF第14页，§5.5.1。
+
+    signal name: aeb_failure_warning_delay_s
+    signal message: 模拟故障后故障警告被激活并保持的最迟时间。
+    type: float
+    Reasonable number range: [0, 10]
+    unit: s
+    according to: autonomous_driving/aeb/AD_AEB_UN_R152_EURLEX_2024_en.pdf，PDF第20页，§6.8.2。
+
+scenario: aeb_vulnerable_road_user（行人和自行车目标自动紧急制动）
+signals:
+    signal name: vru_aeb_speed_kmh
+    signal message: 对行人及自行车场景，AEBS必须至少保持激活的车辆速度。
+    type: float
+    Reasonable number range: [20, 60]
+    unit: km/h
+    according to: autonomous_driving/aeb/AD_AEB_UN_R152_EURLEX_2024_en.pdf，PDF第9页§5.2.2.3及第11页§5.2.3.3。
+
+    signal name: pedestrian_target_speed_kmh
+    signal message: 横穿测试中行人目标的恒定速度及容差。
+    type: float
+    Reasonable number range: [4.8, 5.2]
+    unit: km/h
+    according to: autonomous_driving/aeb/AD_AEB_UN_R152_EURLEX_2024_en.pdf，PDF第18页，§6.6.1。
+
+    signal name: bicycle_target_speed_kmh
+    signal message: 横穿测试中自行车目标的恒定速度及容差。
+    type: float
+    Reasonable number range: [14, 15]
+    unit: km/h
+    according to: autonomous_driving/aeb/AD_AEB_UN_R152_EURLEX_2024_en.pdf，PDF第19页，§6.7.1。
+
+    signal name: pedestrian_detected
+    signal message: AEBS是否识别到与本车存在碰撞路径的行人目标。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: autonomous_driving/aeb/AD_AEB_UN_R152_EURLEX_2024_en.pdf，§5.2.2及§6.6。
+
+    signal name: bicycle_detected
+    signal message: AEBS是否识别到与本车存在碰撞路径的自行车目标。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: autonomous_driving/aeb/AD_AEB_UN_R152_EURLEX_2024_en.pdf，§5.2.3及§6.7。
+
+    signal name: vru_collision_warning_active
+    signal message: 对易受伤害道路使用者的碰撞警告是否已激活。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: autonomous_driving/aeb/AD_AEB_UN_R152_EURLEX_2024_en.pdf，§5.2.2.1、§5.2.3.1和§5.5.1。
+
+    signal name: vru_emergency_braking_active
+    signal message: 对行人或自行车碰撞风险的自动紧急制动是否已介入。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: autonomous_driving/aeb/AD_AEB_UN_R152_EURLEX_2024_en.pdf，§5.2.2.2、§5.2.3.2。
+
+scenario: driver_drowsiness_warning（驾驶员困倦与注意力警告）
+signals:
+    signal name: ddaw_activation_speed_kmh
+    signal message: DDAW自动激活的车辆速度阈值。
+    type: float
+    Reasonable number range: [70, +∞)
+    unit: km/h
+    according to: autonomous_driving/driver_engagement/AD_DDAW_EU_2021_1341_en.pdf，PDF第4页，Part 1 §3.1.4。
+
+    signal name: ddaw_normal_operation_speed_kmh
+    signal message: DDAW激活后必须正常工作的速度范围；上限还受车辆最大允许速度约束。
+    type: float
+    Reasonable number range: [65, 130]
+    unit: km/h
+    according to: autonomous_driving/driver_engagement/AD_DDAW_EU_2021_1341_en.pdf，PDF第5页，Part 1 §3.1.5。
+
+    signal name: ddaw_monitoring_start_delay_s
+    signal message: 达到激活条件到开始主动监测困倦之间的延迟。
+    type: float
+    Reasonable number range: [0, 300)
+    unit: s
+    according to: autonomous_driving/driver_engagement/AD_DDAW_EU_2021_1341_en.pdf，PDF第5页，Part 1 §3.1.6。
+
+    signal name: driver_kss_level
+    signal message: 驾驶员Karolinska困倦量表等级；达到8级或以上必须告警，7级可提前告警。
+    type: int
+    Reasonable number range: [1, 9]
+    unit: KSS level
+    according to: autonomous_driving/driver_engagement/AD_DDAW_EU_2021_1341_en.pdf，PDF第5页，Part 1 §3.3.1及附录KSS量表。
+
+    signal name: drowsiness_warning_active
+    signal message: DDAW是否已通过人机界面向困倦驾驶员发出警告。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: autonomous_driving/driver_engagement/AD_DDAW_EU_2021_1341_en.pdf，PDF第4-6页，Part 1 §2.1、§3.3和§3.4。
+
+    signal name: ddaw_acoustic_frequency_hz
+    signal message: DDAW声学警告主要能量所在的频率。
+    type: float
+    Reasonable number range: [200, 8000]
+    unit: Hz
+    according to: autonomous_driving/driver_engagement/AD_DDAW_EU_2021_1341_en.pdf，PDF第6页，Part 1 §3.4.3.2。
+
+    signal name: ddaw_acoustic_level_db
+    signal message: DDAW声学警告的幅度范围。
+    type: float
+    Reasonable number range: [50, 90]
+    unit: dB
+    according to: autonomous_driving/driver_engagement/AD_DDAW_EU_2021_1341_en.pdf，PDF第6页，Part 1 §3.4.3.2。
+
+    signal name: ddaw_failure_warning_active
+    signal message: 导致DDAW不能满足要求的故障被检测后，恒定视觉故障警告是否显示。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: autonomous_driving/driver_engagement/AD_DDAW_EU_2021_1341_en.pdf，PDF第6页，Part 1 §3.5.1。
+
+scenario: driver_distraction_warning（驾驶员视觉分心警告）
+signals:
+    signal name: addw_activation_speed_kmh
+    signal message: ADDW自动激活的车辆速度阈值；制造商可选择更低阈值。
+    type: float
+    Reasonable number range: [20, +∞)
+    unit: km/h
+    according to: autonomous_driving/driver_engagement/AD_ADDW_EU_2023_2590_en.pdf，PDF第4页，Part 1 §3.1.1。
+
+    signal name: addw_calibration_duration_s
+    signal message: 车辆达到20 km/h后，系统用于开始测量驾驶员状态和自校准的累计时间。
+    type: float
+    Reasonable number range: [0, 60]
+    unit: s
+    according to: autonomous_driving/driver_engagement/AD_ADDW_EU_2023_2590_en.pdf，PDF第4页，Part 1 §3.1.1。
+
+    signal name: driver_gaze_area
+    signal message: ADDW对驾驶员当前视线位置的法规区域分类；AREA_1、AREA_2和AREA_3按法规几何定义，Area 3持续时间用于触发视觉分心警告。
+    type: Enum
+    Reasonable number range: {AREA_1, AREA_2, AREA_3}
+    according to: autonomous_driving/driver_engagement/AD_ADDW_EU_2023_2590_en.pdf，PDF第6-7页，Part 1 §3.3.1-§3.3.2。
+
+    signal name: high_speed_gaze_away_duration_s
+    signal message: 车速不低于50 km/h时，视线连续停留在Area 3的时间；正常条件最迟3.5秒告警；适用说明：正常条件告警边界。
+    type: float
+    Reasonable number range: [0, 3.5]
+    unit: s
+    according to: autonomous_driving/driver_engagement/AD_ADDW_EU_2023_2590_en.pdf，PDF第7页，Part 1 §3.3.2.1。
+
+    signal name: low_speed_gaze_away_duration_s
+    signal message: 车速不低于20 km/h时，视线连续停留在Area 3的时间；正常条件最迟6秒告警；适用说明：正常条件告警边界。
+    type: float
+    Reasonable number range: [0, 6]
+    unit: s
+    according to: autonomous_driving/driver_engagement/AD_ADDW_EU_2023_2590_en.pdf，PDF第7页，Part 1 §3.3.2.2。
+
+    signal name: addw_non_nominal_extension_s
+    signal message: 非标称条件下可附加到正常视觉分心告警时限的扩展量。
+    type: float
+    Reasonable number range: [0, 1.5]
+    unit: s
+    according to: autonomous_driving/driver_engagement/AD_ADDW_EU_2023_2590_en.pdf，PDF第7页，Part 1 §3.3.2.1-§3.3.2.2。
+
+    signal name: distraction_warning_active
+    signal message: ADDW视觉警告以及声学和/或触觉警告是否已激活。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: autonomous_driving/driver_engagement/AD_ADDW_EU_2023_2590_en.pdf，PDF第8页，Part 1 §3.4.1.1。
+
+    signal name: addw_test_speed_kmh
+    signal message: 视觉注视点抽查速度；应覆盖20-35 km/h和50-65 km/h两个区间。
+    type: float
+    Reasonable number range: [20, 35] ∪ [50, 65]
+    unit: km/h
+    according to: autonomous_driving/driver_engagement/AD_ADDW_EU_2023_2590_en.pdf，PDF第12页，Part 2 §1.5.1。
+
+scenario: driver_engagement_dcas（驾驶控制辅助系统驾驶员参与）
+signals:
+    signal name: dcas_vehicle_speed_kmh
+    signal message: 触发“手握方向盘请求”时适用的车辆速度。
+    type: float
+    Reasonable number range: (10, +∞)
+    unit: km/h
+    according to: autonomous_driving/driver_engagement/AD_DCAS_UN_R171_EURLEX_2024_en.pdf，PDF第20页，§5.5.4.2.6.1.1。
+
+    signal name: motoric_disengagement_duration_s
+    signal message: 驾驶员被判定为动作脱离的持续时间；超过5秒应最迟发出手握方向盘请求；适用说明：初始请求边界。
+    type: float
+    Reasonable number range: [0, 5]
+    unit: s
+    according to: autonomous_driving/driver_engagement/AD_DCAS_UN_R171_EURLEX_2024_en.pdf，PDF第20页，§5.5.4.2.6.1.1。
+
+    signal name: hands_on_request_state
+    signal message: 手握方向盘请求（HOR）的当前阶段；INITIAL为初始视觉请求，ESCALATED为加入声学和/或触觉信息的升级请求，CONFIRMED表示驾驶员已将手放回转向控制装置。
+    type: Enum
+    Reasonable number range: {INACTIVE, INITIAL, ESCALATED, CONFIRMED}
+    according to: autonomous_driving/driver_engagement/AD_DCAS_UN_R171_EURLEX_2024_en.pdf，PDF第19-20页，§5.5.4.2.3.1及§5.5.4.2.6.1。
+
+    signal name: hor_escalation_delay_s
+    signal message: 持续脱离时，从初始HOR到升级HOR的最迟时间。
+    type: float
+    Reasonable number range: [0, 10]
+    unit: s
+    according to: autonomous_driving/driver_engagement/AD_DCAS_UN_R171_EURLEX_2024_en.pdf，PDF第20页，§5.5.4.2.6.1.2。
+
+    signal name: eyes_on_request_state
+    signal message: 视线回到道路请求（EOR）的当前阶段；INITIAL为初始多模态请求，ESCALATED为增强强度且必须包含声学和/或触觉信息的请求，CONFIRMED表示驾驶员已重新视觉参与。
+    type: Enum
+    Reasonable number range: {INACTIVE, INITIAL, ESCALATED, CONFIRMED}
+    according to: autonomous_driving/driver_engagement/AD_DCAS_UN_R171_EURLEX_2024_en.pdf，PDF第19-20页，§5.5.4.2.3.2及§5.5.4.2.6.2。
+
+    signal name: direct_control_alert_delay_s
+    signal message: EOR升级后发出直接控制警报（DCA）的最迟延迟。
+    type: float
+    Reasonable number range: [0, 5]
+    unit: s
+    according to: autonomous_driving/driver_engagement/AD_DCAS_UN_R171_EURLEX_2024_en.pdf，PDF第20页，§5.5.4.2.6.3.1。
+
+    signal name: driver_unavailability_response_delay_s
+    signal message: 首次升级请求或警报后，系统启动驾驶员不可用响应的最迟时间。
+    type: float
+    Reasonable number range: [0, 10]
+    unit: s
+    according to: autonomous_driving/driver_engagement/AD_DCAS_UN_R171_EURLEX_2024_en.pdf，PDF第20页，§5.5.4.2.6.4.1。
+
+scenario: emergency_lane_keeping（车道偏离警告与紧急车道保持）
+signals:
+    signal name: ldws_active_speed_kmh
+    signal message: 车道偏离警告系统必须至少保持激活的速度范围；适用说明：若车辆最高速度低于130 km/h则以上限为车辆最高速度。
+    type: float
+    Reasonable number range: [65, 130]
+    unit: km/h
+    according to: autonomous_driving/lane_assistance/AD_ELKS_EU_2021_646_en.pdf，PDF第9页，Part 2 §3.5.1。
+
+    signal name: lane_crossing_depth_m
+    signal message: 轮胎最外缘越过可见车道线内缘的横向深度；最迟不得超过0.3 m才发出警告或完成纠正；适用说明：强制警告/干预边界。
+    type: float
+    Reasonable number range: [0, 0.3]
+    unit: m
+    according to: autonomous_driving/lane_assistance/AD_ELKS_EU_2021_646_en.pdf，PDF第9-10页，Part 2 §3.5.2和§3.6.2。
+
+    signal name: lane_departure_warning_active
+    signal message: 车辆发生非预期车道偏离时，LDWS警告是否激活。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: autonomous_driving/lane_assistance/AD_ELKS_EU_2021_646_en.pdf，PDF第9页，Part 2 §3.5.2-§3.5.3。
+
+    signal name: lane_warning_modality_count
+    signal message: 采用视觉、声学、触觉组合方案时的警告方式数量。
+    type: int
+    Reasonable number range: [2, 3]
+    unit: count
+    according to: autonomous_driving/lane_assistance/AD_ELKS_EU_2021_646_en.pdf，PDF第9页，Part 2 §3.5.3.1(a)。
+
+    signal name: cdcf_active_speed_kmh
+    signal message: 纠正方向控制功能必须至少保持激活的速度范围；适用说明：从高于70 km/h减速时至少保持到低于65 km/h。
+    type: float
+    Reasonable number range: [70, 130]
+    unit: km/h
+    according to: autonomous_driving/lane_assistance/AD_ELKS_EU_2021_646_en.pdf，PDF第10页，Part 2 §3.6.1。
+
+    signal name: lateral_departure_velocity_low_speed_mps
+    signal message: 车速不高于100 km/h时，CDCF必须覆盖的横向偏离速度。
+    type: float
+    Reasonable number range: [0.2, 0.5]
+    unit: m/s
+    according to: autonomous_driving/lane_assistance/AD_ELKS_EU_2021_646_en.pdf，PDF第10页，Part 2 §3.6.2(a)。
+
+    signal name: lateral_departure_velocity_high_speed_mps
+    signal message: 车速大于100 km/h且不高于130 km/h时，CDCF必须覆盖的横向偏离速度。
+    type: float
+    Reasonable number range: [0.2, 0.3]
+    unit: m/s
+    according to: autonomous_driving/lane_assistance/AD_ELKS_EU_2021_646_en.pdf，PDF第10页，Part 2 §3.6.2(a)。
+
+    signal name: corrective_steering_active
+    signal message: CDCF是否正在通过转向和/或单轮制动纠正车道偏离。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: autonomous_driving/lane_assistance/AD_ELKS_EU_2021_646_en.pdf，PDF第6页定义§1.2及第10页§3.6。
+
+scenario: electronic_stability_control（电子稳定控制动态性能）
+signals:
+    signal name: esc_enabled
+    signal message: ESC是否启用且故障灯及ESC Off指示未点亮。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: autonomous_driving/stability_control/AD_ESC_UN_R140_EURLEX_2018_en.pdf，PDF第10页，§9.8。
+
+    signal name: esc_test_speed_kmh
+    signal message: 缓慢增大转向与Sine-with-Dwell试验的车辆速度。
+    type: float
+    Reasonable number range: [78, 82]
+    unit: km/h
+    according to: autonomous_driving/stability_control/AD_ESC_UN_R140_EURLEX_2018_en.pdf，PDF第10页，§9.6和§9.9.1。
+
+    signal name: yaw_rate_ratio_at_1s
+    signal message: 转向输入完成1秒后的横摆角速度与首次横摆角速度峰值之比。
+    type: float
+    Reasonable number range: [0, 0.35]
+    unit: 1
+    according to: autonomous_driving/stability_control/AD_ESC_UN_R140_EURLEX_2018_en.pdf，PDF第5页，§7.1。
+
+    signal name: yaw_rate_ratio_at_1_75s
+    signal message: 转向输入完成1.75秒后的横摆角速度与首次横摆角速度峰值之比。
+    type: float
+    Reasonable number range: [0, 0.20]
+    unit: 1
+    according to: autonomous_driving/stability_control/AD_ESC_UN_R140_EURLEX_2018_en.pdf，PDF第5页，§7.2。
+
+    signal name: lateral_displacement_light_vehicle_m
+    signal message: 最大总质量不超过3500 kg车辆在开始转向1.07秒后的质心横向位移。
+    type: float
+    Reasonable number range: [1.83, +∞)
+    unit: m
+    according to: autonomous_driving/stability_control/AD_ESC_UN_R140_EURLEX_2018_en.pdf，PDF第6页，§7.3。
+
+    signal name: lateral_displacement_heavy_vehicle_m
+    signal message: 最大质量大于3500 kg车辆在开始转向1.07秒后的质心横向位移。
+    type: float
+    Reasonable number range: [1.52, +∞)
+    unit: m
+    according to: autonomous_driving/stability_control/AD_ESC_UN_R140_EURLEX_2018_en.pdf，PDF第6页，§7.3。
+
+    signal name: sine_with_dwell_frequency_hz
+    signal message: Sine-with-Dwell试验转向正弦波频率。
+    type: float
+    Reasonable number range: [0.7, 0.7]
+    unit: Hz
+    according to: autonomous_driving/stability_control/AD_ESC_UN_R140_EURLEX_2018_en.pdf，PDF第10页，§9.9。
+
+
+domain: electrical_systems（电气系统）
+scenario: battery_management（电动汽车电池管理与试验）
+signals:
+    signal name: battery_soc_percent
+    signal message: 电池荷电状态，相对于寿命初期额定容量或工作容量的百分比估计。
+    type: float
+    Reasonable number range: [0, 100]
+    unit: %
+    according to: electrical_systems/battery_management/ELEC_BMS_DOE_INL_EV_BATTERY_TEST_MANUAL_REV3_2015_en.pdf，PDF第17页，“State-of-Charge (SOC)”定义及§3.1.1。
+
+    signal name: battery_operating_temperature_c
+    signal message: EV电池目标工作环境温度。
+    type: float
+    Reasonable number range: [-30, 52]
+    unit: °C
+    according to: electrical_systems/battery_management/ELEC_BMS_DOE_INL_EV_BATTERY_TEST_MANUAL_REV3_2015_en.pdf，PDF第19页，Table 1“Operating Environment”。
+
+    signal name: battery_test_ambient_temperature_c
+    signal message: 未在设备专用试验计划中另行规定时的默认环境试验温度。
+    type: float
+    Reasonable number range: [30, 30]
+    unit: °C
+    according to: electrical_systems/battery_management/ELEC_BMS_DOE_INL_EV_BATTERY_TEST_MANUAL_REV3_2015_en.pdf，PDF第21页，§3.1.2。
+
+    signal name: ev_pack_operating_voltage_v
+    signal message: DOE/USABC 2020 EV系统级性能目标中的电池工作电压窗口。
+    type: float
+    Reasonable number range: [220, 420]
+    unit: V
+    according to: electrical_systems/battery_management/ELEC_BMS_DOE_INL_EV_BATTERY_TEST_MANUAL_REV3_2015_en.pdf，PDF第19页，Table 1“Maximum/Minimum Operating Voltage”。
+
+    signal name: peak_discharge_current_a
+    signal message: EV系统级性能目标允许持续不超过30秒的峰值放电电流。
+    type: float
+    Reasonable number range: [0, 400]
+    unit: A
+    according to: electrical_systems/battery_management/ELEC_BMS_DOE_INL_EV_BATTERY_TEST_MANUAL_REV3_2015_en.pdf，PDF第19页，Table 1“Peak Current (30 sec)”及术语“Imax”。
+
+    signal name: high_rate_charge_delta_soc_percent
+    signal message: 高倍率充电目标在规定时间内增加的荷电状态。
+    type: float
+    Reasonable number range: [0, 80]
+    unit: percentage points
+    according to: electrical_systems/battery_management/ELEC_BMS_DOE_INL_EV_BATTERY_TEST_MANUAL_REV3_2015_en.pdf，PDF第19页，Table 1“80% DSOC in 15 min”。
+
+    signal name: high_rate_charge_duration_min
+    signal message: 达成80%荷电状态变化目标的充电时间上限。
+    type: float
+    Reasonable number range: [0, 15]
+    unit: min
+    according to: electrical_systems/battery_management/ELEC_BMS_DOE_INL_EV_BATTERY_TEST_MANUAL_REV3_2015_en.pdf，PDF第19页，Table 1“High Rate Charge”。
+
+    signal name: hppc_discharge_pulse_duration_s
+    signal message: HPPC用于评估最低脉冲电压放电功率能力的放电脉冲持续时间。
+    type: float
+    Reasonable number range: [0, 30]
+    unit: s
+    according to: electrical_systems/battery_management/ELEC_BMS_DOE_INL_EV_BATTERY_TEST_MANUAL_REV3_2015_en.pdf，PDF第23页，§3.4。
+
+    signal name: hppc_regen_pulse_duration_s
+    signal message: HPPC用于评估最高脉冲电压再生功率能力的再生脉冲持续时间。
+    type: float
+    Reasonable number range: [0, 10]
+    unit: s
+    according to: electrical_systems/battery_management/ELEC_BMS_DOE_INL_EV_BATTERY_TEST_MANUAL_REV3_2015_en.pdf，PDF第23页，§3.4。
+
+    signal name: capacity_deviation_percent
+    signal message: 实测容量相对额定或工作容量的偏差；绝对偏差超过10%应在继续试验前复核。
+    type: float
+    Reasonable number range: [-10, 10]
+    unit: %
+    according to: electrical_systems/battery_management/ELEC_BMS_DOE_INL_EV_BATTERY_TEST_MANUAL_REV3_2015_en.pdf，PDF第22页，§3.2。
+
+    signal name: dc_bus_isolation_resistance_ohm_per_v
+    signal message: 与AC高压母线电隔离时，DC高压母线对电气底盘的绝缘电阻。
+    type: float
+    Reasonable number range: [100, +∞)
+    unit: Ω/V
+    according to: electrical_systems/battery_management/ELEC_BMS_UN_R100_EURLEX_2024_en.pdf，PDF第10页，§5.1.3.1。
+
+    signal name: ac_bus_isolation_resistance_ohm_per_v
+    signal message: 与DC高压母线电隔离时，AC高压母线对电气底盘的绝缘电阻。
+    type: float
+    Reasonable number range: [500, +∞)
+    unit: Ω/V
+    according to: electrical_systems/battery_management/ELEC_BMS_UN_R100_EURLEX_2024_en.pdf，PDF第10页，§5.1.3.1。
+
+    signal name: overcharge_protection_terminated_current
+    signal message: 过充保护是否已经终止REESS充电电流。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: electrical_systems/battery_management/ELEC_BMS_UN_R100_EURLEX_2024_en.pdf，PDF第79-80页，Annex 9G §3.2。
+
+    signal name: overdischarge_protection_terminated_current
+    signal message: 过放保护是否已经终止REESS放电电流。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: electrical_systems/battery_management/ELEC_BMS_UN_R100_EURLEX_2024_en.pdf，PDF第82-83页，Annex 9H §3.2。
+
+    signal name: overdischarge_test_voltage_percent
+    signal message: 过放保护不动作时，试验继续放电所至的REESS标称电压百分比；适用说明：25%为保护失效试验终止边界。
+    type: float
+    Reasonable number range: [25, 100]
+    unit: % of nominal voltage
+    according to: electrical_systems/battery_management/ELEC_BMS_UN_R100_EURLEX_2024_en.pdf，PDF第82-83页，Annex 9H §3.2。
+
+    signal name: overcurrent_temperature_gradient_c_per_2h
+    signal message: 最大过流充电水平后两小时内REESS外壳温度变化幅度；未终止充电时应达到稳定判据。
+    type: float
+    Reasonable number range: [0, 4)
+    unit: °C/2 h
+    according to: electrical_systems/battery_management/ELEC_BMS_UN_R100_EURLEX_2024_en.pdf，PDF第20页，§6.10.2.2。
+
+scenario: grid_frequency_control（电网频率响应控制）
+signals:
+    signal name: grid_frequency_hz
+    signal message: 欧洲大陆同步区系统频率；额定值为50 Hz；适用说明：法规规定的发电模块保持并网运行覆盖区间。
+    type: float
+    Reasonable number range: [47.5, 51.5]
+    unit: Hz
+    according to: electrical_systems/grid_control/ELEC_GRID_EU_RFG_2016_631_en.pdf，PDF第7页§2(22)及第14页Article 13 Table 2。
+
+    signal name: continuous_operation_frequency_hz
+    signal message: 欧洲大陆发电模块应能不限时保持并网运行的频率区间。
+    type: float
+    Reasonable number range: [49.0, 51.0]
+    unit: Hz
+    according to: electrical_systems/grid_control/ELEC_GRID_EU_RFG_2016_631_en.pdf，PDF第14页，Article 13 Table 2。
+
+    signal name: outer_frequency_band_min_duration_s
+    signal message: 欧洲大陆47.5-48.5 Hz和51.0-51.5 Hz外侧频带的最短保持运行时间。
+    type: float
+    Reasonable number range: [1800, +∞)
+    unit: s
+    according to: electrical_systems/grid_control/ELEC_GRID_EU_RFG_2016_631_en.pdf，PDF第14页，Article 13 Table 2。
+
+    signal name: lfsm_overfrequency_threshold_hz
+    signal message: 有限频率敏感模式-过频（LFSM-O）的可设频率阈值。
+    type: float
+    Reasonable number range: [50.2, 50.5]
+    unit: Hz
+    according to: electrical_systems/grid_control/ELEC_GRID_EU_RFG_2016_631_en.pdf，PDF第16页，Article 13(2)(c)。
+
+    signal name: lfsm_underfrequency_threshold_hz
+    signal message: 有限频率敏感模式-欠频（LFSM-U）的可设频率阈值。
+    type: float
+    Reasonable number range: [49.5, 49.8]
+    unit: Hz
+    according to: electrical_systems/grid_control/ELEC_GRID_EU_RFG_2016_631_en.pdf，PDF第22页，Article 15(2)(c)(i)。
+
+    signal name: frequency_response_droop_percent
+    signal message: LFSM或FSM有功功率频率响应的下垂设置。
+    type: float
+    Reasonable number range: [2, 12]
+    unit: %
+    according to: electrical_systems/grid_control/ELEC_GRID_EU_RFG_2016_631_en.pdf，PDF第16页Article 13(2)(d)、第22-23页Article 15(2)(c)-(d)。
+
+    signal name: frequency_response_deadband_hz
+    signal message: FSM有意设置为不响应的频率偏差死区。
+    type: float
+    Reasonable number range: [0, 0.5]
+    unit: Hz
+    according to: electrical_systems/grid_control/ELEC_GRID_EU_RFG_2016_631_en.pdf，PDF第23页，Article 15 Table 4（0-500 mHz）。
+
+    signal name: full_frequency_response_activation_time_s
+    signal message: 频率阶跃后选择的全有功功率频率响应激活时间；适用说明：TSO因稳定性允许更长时间的情形除外。
+    type: float
+    Reasonable number range: [0, 30]
+    unit: s
+    according to: electrical_systems/grid_control/ELEC_GRID_EU_RFG_2016_631_en.pdf，PDF第25页，Article 15 Table 5。
+
+    signal name: active_power_frequency_response_active
+    signal message: 发电模块是否正在根据频率偏差增减有功功率以帮助频率恢复。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: electrical_systems/grid_control/ELEC_GRID_EU_RFG_2016_631_en.pdf，PDF第7页§2(35)-(38)及Article 13、15。
+
+scenario: generator_frequency_voltage_ride_through（发电资源频率与电压不跳闸边界）
+signals:
+    signal name: eastern_interconnection_frequency_hz
+    signal message: NERC东部互联频率保护设置评估值；边界外不是强制跳闸区；适用说明：Attachment 1表列边界范围。
+    type: float
+    Reasonable number range: [57.8, 61.8]
+    unit: Hz
+    according to: electrical_systems/grid_control/ELEC_GRID_NERC_PRC_024_3_EFFECTIVE_en.pdf，PDF第14页，Attachment 1 Table 1。
+
+    signal name: eastern_continuous_high_frequency_limit_hz
+    signal message: 东部互联高频侧连续运行区的上界。
+    type: float
+    Reasonable number range: [60.5, 60.5]
+    unit: Hz
+    according to: electrical_systems/grid_control/ELEC_GRID_NERC_PRC_024_3_EFFECTIVE_en.pdf，PDF第14页，Attachment 1 Table 1。
+
+    signal name: eastern_continuous_low_frequency_limit_hz
+    signal message: 东部互联低频侧连续运行区的下界。
+    type: float
+    Reasonable number range: [59.5, 59.5]
+    unit: Hz
+    according to: electrical_systems/grid_control/ELEC_GRID_NERC_PRC_024_3_EFFECTIVE_en.pdf，PDF第14页，Attachment 1 Table 1。
+
+    signal name: western_interconnection_frequency_hz
+    signal message: NERC西部互联频率保护设置评估的表列边界范围。
+    type: float
+    Reasonable number range: [57.0, 61.7]
+    unit: Hz
+    according to: electrical_systems/grid_control/ELEC_GRID_NERC_PRC_024_3_EFFECTIVE_en.pdf，PDF第15页，Attachment 1 Table 2。
+
+    signal name: ride_through_voltage_pu
+    signal message: 东部、西部及ERCOT互联在高压侧GSU/MPT测得的基频RMS标幺电压；适用说明：Attachment 2表列不跳闸边界。
+    type: float
+    Reasonable number range: [0, 1.2]
+    unit: pu
+    according to: electrical_systems/grid_control/ELEC_GRID_NERC_PRC_024_3_EFFECTIVE_en.pdf，PDF第18页，Attachment 2 Table 1。
+
+    signal name: severe_low_voltage_duration_s
+    signal message: 电压低于0.45 pu时表列的最短不跳闸持续时间。
+    type: float
+    Reasonable number range: [0.15, +∞)
+    unit: s
+    according to: electrical_systems/grid_control/ELEC_GRID_NERC_PRC_024_3_EFFECTIVE_en.pdf，PDF第18页，Attachment 2 Table 1。
+
+    signal name: low_voltage_0_65pu_duration_s
+    signal message: 电压低于0.65 pu时表列的最短不跳闸持续时间。
+    type: float
+    Reasonable number range: [0.30, +∞)
+    unit: s
+    according to: electrical_systems/grid_control/ELEC_GRID_NERC_PRC_024_3_EFFECTIVE_en.pdf，PDF第18页，Attachment 2 Table 1。
+
+    signal name: voltage_no_trip_zone_duration_s
+    signal message: 对不低于0.90 pu且低于1.10 pu的电压，PRC-024电压不跳闸区覆盖的持续时间。
+    type: float
+    Reasonable number range: [0, 4]
+    unit: s
+    according to: electrical_systems/grid_control/ELEC_GRID_NERC_PRC_024_3_EFFECTIVE_en.pdf，PDF第18页，Attachment 2 Figure 1和Table 1。
+
+
+domain: environmental_monitoring（环境监测）
+scenario: ambient_air_quality_us（美国环境空气质量监测）
+signals:
+    signal name: co_8h_ppm
+    signal message: 一氧化碳8小时平均浓度；一级标准为9 ppm且每年不得超过一次。
+    type: float
+    Reasonable number range: [0, 9]
+    unit: ppm
+    according to: environmental_monitoring/air_quality/ENV_AIR_EPA_NAAQS_TABLE_2025_en.html，“NAAQS Table”，Carbon Monoxide行。
+
+    signal name: co_1h_ppm
+    signal message: 一氧化碳1小时平均浓度；一级标准为35 ppm且每年不得超过一次。
+    type: float
+    Reasonable number range: [0, 35]
+    unit: ppm
+    according to: environmental_monitoring/air_quality/ENV_AIR_EPA_NAAQS_TABLE_2025_en.html，“NAAQS Table”，Carbon Monoxide行。
+
+    signal name: lead_3month_ug_m3
+    signal message: 铅的滚动3个月平均浓度。
+    type: float
+    Reasonable number range: [0, 0.15]
+    unit: μg/m³
+    according to: environmental_monitoring/air_quality/ENV_AIR_EPA_NAAQS_TABLE_2025_en.html，“NAAQS Table”，Lead行。
+
+    signal name: no2_1h_ppb
+    signal message: 二氧化氮1小时日最大浓度的年度第98百分位值（3年平均）。
+    type: float
+    Reasonable number range: [0, 100]
+    unit: ppb
+    according to: environmental_monitoring/air_quality/ENV_AIR_EPA_NAAQS_TABLE_2025_en.html，“NAAQS Table”，Nitrogen Dioxide行。
+
+    signal name: ozone_8h_ppm
+    signal message: 臭氧每日最大8小时浓度的年度第四高值（3年平均）。
+    type: float
+    Reasonable number range: [0, 0.070]
+    unit: ppm
+    according to: environmental_monitoring/air_quality/ENV_AIR_EPA_NAAQS_TABLE_2025_en.html，“NAAQS Table”，Ozone行。
+
+    signal name: pm2_5_annual_ug_m3
+    signal message: PM2.5年度平均浓度（3年平均）的美国一级标准。
+    type: float
+    Reasonable number range: [0, 9.0]
+    unit: μg/m³
+    according to: environmental_monitoring/air_quality/ENV_AIR_EPA_NAAQS_TABLE_2025_en.html，“NAAQS Table”，PM2.5 primary annual行。
+
+    signal name: pm2_5_24h_ug_m3
+    signal message: PM2.5 24小时浓度年度第98百分位值（3年平均）。
+    type: float
+    Reasonable number range: [0, 35]
+    unit: μg/m³
+    according to: environmental_monitoring/air_quality/ENV_AIR_EPA_NAAQS_TABLE_2025_en.html，“NAAQS Table”，PM2.5 24-hour行。
+
+    signal name: pm10_24h_ug_m3
+    signal message: PM10 24小时浓度标准；3年平均每年超过次数不得多于一次。
+    type: float
+    Reasonable number range: [0, 150]
+    unit: μg/m³
+    according to: environmental_monitoring/air_quality/ENV_AIR_EPA_NAAQS_TABLE_2025_en.html，“NAAQS Table”，PM10行。
+
+    signal name: so2_1h_ppb
+    signal message: 二氧化硫1小时日最大浓度的年度第99百分位值（3年平均）。
+    type: float
+    Reasonable number range: [0, 75]
+    unit: ppb
+    according to: environmental_monitoring/air_quality/ENV_AIR_EPA_NAAQS_TABLE_2025_en.html，“NAAQS Table”，Sulfur Dioxide primary行。
+
+scenario: ambient_air_quality_eu_2030（欧盟2030环境空气限值）
+signals:
+    signal name: eu_pm2_5_daily_ug_m3
+    signal message: 2030年应达到的PM2.5日均限值；每年允许超过不多于18次。
+    type: float
+    Reasonable number range: [0, 25]
+    unit: μg/m³
+    according to: environmental_monitoring/air_quality/ENV_AIR_EU_DIRECTIVE_2024_2881_en.pdf，PDF第30页，Annex I Section 1 Table 1。
+
+    signal name: eu_pm2_5_annual_ug_m3
+    signal message: 2030年应达到的PM2.5年均限值。
+    type: float
+    Reasonable number range: [0, 10]
+    unit: μg/m³
+    according to: environmental_monitoring/air_quality/ENV_AIR_EU_DIRECTIVE_2024_2881_en.pdf，PDF第30页，Annex I Section 1 Table 1。
+
+    signal name: eu_pm10_daily_ug_m3
+    signal message: 2030年应达到的PM10日均限值；每年允许超过不多于18次。
+    type: float
+    Reasonable number range: [0, 45]
+    unit: μg/m³
+    according to: environmental_monitoring/air_quality/ENV_AIR_EU_DIRECTIVE_2024_2881_en.pdf，PDF第30页，Annex I Section 1 Table 1。
+
+    signal name: eu_pm10_annual_ug_m3
+    signal message: 2030年应达到的PM10年均限值。
+    type: float
+    Reasonable number range: [0, 20]
+    unit: μg/m³
+    according to: environmental_monitoring/air_quality/ENV_AIR_EU_DIRECTIVE_2024_2881_en.pdf，PDF第30页，Annex I Section 1 Table 1。
+
+    signal name: eu_no2_hourly_ug_m3
+    signal message: 2030年二氧化氮1小时限值；每年允许超过不多于3次。
+    type: float
+    Reasonable number range: [0, 200]
+    unit: μg/m³
+    according to: environmental_monitoring/air_quality/ENV_AIR_EU_DIRECTIVE_2024_2881_en.pdf，PDF第30页，Annex I Section 1 Table 1。
+
+    signal name: eu_no2_daily_ug_m3
+    signal message: 2030年二氧化氮日均限值；每年允许超过不多于18次。
+    type: float
+    Reasonable number range: [0, 50]
+    unit: μg/m³
+    according to: environmental_monitoring/air_quality/ENV_AIR_EU_DIRECTIVE_2024_2881_en.pdf，PDF第30页，Annex I Section 1 Table 1。
+
+    signal name: eu_no2_annual_ug_m3
+    signal message: 2030年二氧化氮年均限值。
+    type: float
+    Reasonable number range: [0, 20]
+    unit: μg/m³
+    according to: environmental_monitoring/air_quality/ENV_AIR_EU_DIRECTIVE_2024_2881_en.pdf，PDF第30页，Annex I Section 1 Table 1。
+
+    signal name: eu_so2_daily_ug_m3
+    signal message: 2030年二氧化硫日均限值；每年允许超过不多于18次。
+    type: float
+    Reasonable number range: [0, 50]
+    unit: μg/m³
+    according to: environmental_monitoring/air_quality/ENV_AIR_EU_DIRECTIVE_2024_2881_en.pdf，PDF第30页，Annex I Section 1 Table 1。
+
+    signal name: eu_ozone_alert_1h_ug_m3
+    signal message: 臭氧1小时公众警报阈值。
+    type: float
+    Reasonable number range: [0, 240]
+    unit: μg/m³
+    according to: environmental_monitoring/air_quality/ENV_AIR_EU_DIRECTIVE_2024_2881_en.pdf，PDF第33-34页，Annex I Section 4(A)。
+
+    signal name: eu_pm10_alert_daily_ug_m3
+    signal message: PM10日均公众警报阈值。
+    type: float
+    Reasonable number range: [0, 90]
+    unit: μg/m³
+    according to: environmental_monitoring/air_quality/ENV_AIR_EU_DIRECTIVE_2024_2881_en.pdf，PDF第34页，Annex I Section 4(A)。
+
+scenario: drinking_water_us（美国饮用水水质）
+signals:
+    signal name: arsenic_mg_l
+    signal message: 饮用水砷浓度，最大污染物水平为0.010 mg/L。
+    type: float
+    Reasonable number range: [0, 0.010]
+    unit: mg/L
+    according to: environmental_monitoring/water_quality/ENV_WATER_EPA_NPDWR_2025_en.html，“National Primary Drinking Water Regulations”表，Arsenic行。
+
+    signal name: barium_mg_l
+    signal message: 饮用水钡浓度。
+    type: float
+    Reasonable number range: [0, 2]
+    unit: mg/L
+    according to: environmental_monitoring/water_quality/ENV_WATER_EPA_NPDWR_2025_en.html，NPDWR表，Barium行。
+
+    signal name: cadmium_mg_l
+    signal message: 饮用水镉浓度。
+    type: float
+    Reasonable number range: [0, 0.005]
+    unit: mg/L
+    according to: environmental_monitoring/water_quality/ENV_WATER_EPA_NPDWR_2025_en.html，NPDWR表，Cadmium行。
+
+    signal name: total_chromium_mg_l
+    signal message: 饮用水总铬浓度。
+    type: float
+    Reasonable number range: [0, 0.1]
+    unit: mg/L
+    according to: environmental_monitoring/water_quality/ENV_WATER_EPA_NPDWR_2025_en.html，NPDWR表，Chromium (total)行。
+
+    signal name: copper_mg_l
+    signal message: 饮用水铜浓度；处理技术的行动水平为1.3 mg/L。
+    type: float
+    Reasonable number range: [0, 1.3]
+    unit: mg/L
+    according to: environmental_monitoring/water_quality/ENV_WATER_EPA_NPDWR_2025_en.html，NPDWR表，Copper行。
+
+    signal name: lead_mg_l
+    signal message: 饮用水铅浓度；处理技术的行动水平为0.010 mg/L。
+    type: float
+    Reasonable number range: [0, 0.010]
+    unit: mg/L
+    according to: environmental_monitoring/water_quality/ENV_WATER_EPA_NPDWR_2025_en.html，NPDWR表，Lead行。
+
+    signal name: fluoride_mg_l
+    signal message: 饮用水氟化物浓度。
+    type: float
+    Reasonable number range: [0, 4.0]
+    unit: mg/L
+    according to: environmental_monitoring/water_quality/ENV_WATER_EPA_NPDWR_2025_en.html，NPDWR表，Fluoride行。
+
+    signal name: nitrate_as_n_mg_l
+    signal message: 以氮计的硝酸盐浓度。
+    type: float
+    Reasonable number range: [0, 10]
+    unit: mg/L
+    according to: environmental_monitoring/water_quality/ENV_WATER_EPA_NPDWR_2025_en.html，NPDWR表，Nitrate (measured as Nitrogen)行。
+
+    signal name: nitrite_as_n_mg_l
+    signal message: 以氮计的亚硝酸盐浓度。
+    type: float
+    Reasonable number range: [0, 1]
+    unit: mg/L
+    according to: environmental_monitoring/water_quality/ENV_WATER_EPA_NPDWR_2025_en.html，NPDWR表，Nitrite (measured as Nitrogen)行。
+
+    signal name: chlorine_residual_mg_l
+    signal message: 以Cl2计的饮用水氯残留；最大残留消毒剂水平为4.0 mg/L。
+    type: float
+    Reasonable number range: [0, 4.0]
+    unit: mg/L
+    according to: environmental_monitoring/water_quality/ENV_WATER_EPA_NPDWR_2025_en.html，NPDWR表，Chlorine (as Cl2)行。
+
+scenario: drinking_water_who（WHO饮用水验证与指导值）
+signals:
+    signal name: e_coli_count_per_100ml
+    signal message: 直接饮用水、进入配水系统的处理水及配水系统内处理水中的大肠杆菌或耐热大肠菌群计数；适用说明：任何100 mL样品均不得检出。
+    type: int
+    Reasonable number range: [0, 0]
+    unit: CFU/100 mL
+    according to: environmental_monitoring/water_quality/ENV_WATER_WHO_DRINKING_WATER_GUIDELINES_2026_en.pdf，PDF第190页，Table 7.10。
+
+    signal name: turbidity_for_effective_disinfection_ntu
+    signal message: 为支持有效消毒而建议维持的浊度；适用说明：不可行时应以更高剂量或接触时间保持低于5 NTU。
+    type: float
+    Reasonable number range: [0, 1)
+    unit: NTU
+    according to: environmental_monitoring/water_quality/ENV_WATER_WHO_DRINKING_WATER_GUIDELINES_2026_en.pdf，PDF第178页，消毒性能表及说明。
+
+    signal name: free_chlorine_residual_mg_l
+    signal message: 集中处理水在交付点推荐的游离氯残留。
+    type: float
+    Reasonable number range: [0.2, 0.5]
+    unit: mg/L
+    according to: environmental_monitoring/water_quality/ENV_WATER_WHO_DRINKING_WATER_GUIDELINES_2026_en.pdf，PDF第180页，家庭氯化处理说明。
+
+    signal name: who_arsenic_mg_l
+    signal message: WHO饮用水砷指导值。
+    type: float
+    Reasonable number range: [0, 0.01]
+    unit: mg/L
+    according to: environmental_monitoring/water_quality/ENV_WATER_WHO_DRINKING_WATER_GUIDELINES_2026_en.pdf，PDF第220页Table 8.8及第580页Annex 3，Arsenic行。
+
+    signal name: who_fluoride_mg_l
+    signal message: WHO饮用水氟化物指导值；制定国家标准时还应考虑饮水量和其他来源摄入。
+    type: float
+    Reasonable number range: [0, 1.5]
+    unit: mg/L
+    according to: environmental_monitoring/water_quality/ENV_WATER_WHO_DRINKING_WATER_GUIDELINES_2026_en.pdf，PDF第220页Table 8.8及第581页Annex 3，Fluoride行。
+
+    signal name: who_nitrate_mg_l
+    signal message: 以硝酸根离子计的WHO饮用水硝酸盐指导值。
+    type: float
+    Reasonable number range: [0, 50]
+    unit: mg/L
+    according to: environmental_monitoring/water_quality/ENV_WATER_WHO_DRINKING_WATER_GUIDELINES_2026_en.pdf，PDF第226页Table 8.11及第496页“Nitrate and nitrite”。
+
+    signal name: who_nitrite_mg_l
+    signal message: 以亚硝酸根离子计的WHO饮用水亚硝酸盐指导值。
+    type: float
+    Reasonable number range: [0, 3]
+    unit: mg/L
+    according to: environmental_monitoring/water_quality/ENV_WATER_WHO_DRINKING_WATER_GUIDELINES_2026_en.pdf，PDF第226页Table 8.11及第496页“Nitrate and nitrite”。
+
+    signal name: drinking_water_microbiological_compliant
+    signal message: E. coli验证结果是否满足任何100 mL样品不得检出的要求。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: environmental_monitoring/water_quality/ENV_WATER_WHO_DRINKING_WATER_GUIDELINES_2026_en.pdf，PDF第190页，Table 7.10。
+
+domain: industrial_control（工业过程控制）
+scenario: steam_boiler_protection（蒸汽锅炉燃烧、水位与压力保护）
+signals:
+    signal name: boiler_type
+    signal message: 锅炉结构类型；FIRETUBE表示火管锅炉，WATERTUBE表示水管锅炉，用于选择相应压力边界与保护逻辑。
+    type: Enum
+    Reasonable number range: {FIRETUBE, WATERTUBE}
+    according to: industrial_control/boiler/IND_BOILER_DOE_STEAM_SOURCEBOOK_en.pdf，PDF第11页及第17页，“Boiler Types”与压力范围说明。
+
+    signal name: boiler_steam_pressure_psig
+    signal message: 锅炉蒸汽表压；火管锅炉通常不用于高于300 psig的压力，水管锅炉可用于约3000 psi且有时更高的压力，因此实际压力边界取决于boiler_type和设备设计值。
+    type: float
+    Reasonable number range: [0, +∞)
+    unit: psig
+    according to: industrial_control/boiler/IND_BOILER_DOE_STEAM_SOURCEBOOK_en.pdf，PDF第11页及第17页，“Boiler Types”。
+
+    signal name: maximum_allowable_working_pressure_psig
+    signal message: 压力系统设计规定的最大允许工作压力，作为高压联锁和安全阀整定的设备特定上限；适用说明：具体值取设备铭牌和书面检验方案。
+    type: float
+    Reasonable number range: [0, +∞)
+    unit: psig
+    according to: industrial_control/boiler/IND_BOILER_HSE_PRESSURE_SYSTEMS_L122_en.pdf，压力系统安全工作限值和书面检验方案章节；industrial_control/boiler/IND_BOILER_HSE_SAFE_MANAGEMENT_INDG436_en.pdf，安全阀和最大允许工作压力说明。
+
+    signal name: boiler_water_level_percent
+    signal message: 锅炉汽包或壳体水位的量程百分比，是燃烧许可、给水控制和低水位保护的过程变量；适用说明：报警和跳闸点由锅炉制造商及风险评估确定。
+    type: float
+    Reasonable number range: [0, 100]
+    unit: %量程
+    according to: industrial_control/boiler/IND_BOILER_DOE_STEAM_SOURCEBOOK_en.pdf，PDF第17页，锅炉控制系统的水位与给水控制说明；industrial_control/boiler/IND_BOILER_HSE_OUT_OF_CONTROL_HSG238_en.pdf，PDF第13页，低水位保护说明。
+
+    signal name: low_water_condition
+    signal message: 水位是否低于经验证的最低安全水位；触发时燃烧器应关闭并锁定，直至安全复位条件满足。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: industrial_control/boiler/IND_BOILER_HSE_OUT_OF_CONTROL_HSG238_en.pdf，PDF第13页，§47低水位安全目标；industrial_control/boiler/IND_BOILER_DOE_STEAM_SOURCEBOOK_en.pdf，低水位切断装置说明。
+
+    signal name: high_steam_pressure_condition
+    signal message: 蒸汽压力是否达到设备规定的高压报警或跳闸点。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: industrial_control/boiler/IND_BOILER_HSE_OUT_OF_CONTROL_HSG238_en.pdf，PDF第11-13页，报警、联锁和保护系统说明；industrial_control/boiler/IND_BOILER_HSE_PRESSURE_SYSTEMS_L122_en.pdf，安全工作限值说明。
+
+    signal name: burner_flame_proven
+    signal message: 燃烧器火焰是否由火焰监测系统可靠确认；失火时不得继续供给燃料。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: industrial_control/boiler/IND_BOILER_HSE_OUT_OF_CONTROL_HSG238_en.pdf，燃烧器控制、火焰监测及燃料切断章节。
+
+    signal name: burner_fuel_shutoff_active
+    signal message: 燃料安全切断阀是否处于切断状态；低水位、失火或超压保护动作时应切断热输入。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: industrial_control/boiler/IND_BOILER_HSE_OUT_OF_CONTROL_HSG238_en.pdf，PDF第13页，§47及燃烧器保护说明；industrial_control/boiler/IND_BOILER_DOE_STEAM_SOURCEBOOK_en.pdf，安全控制和低水位切断说明。
+
+    signal name: natural_gas_flue_temperature_f
+    signal message: 天然气燃烧锅炉排烟温度；通常应保持在约250°F以上以避免烟气中水分凝结，除非系统按冷凝运行设计；适用说明：非冷凝天然气锅炉的典型下限。
+    type: float
+    Reasonable number range: [250, +∞)
+    unit: °F
+    according to: industrial_control/boiler/IND_BOILER_DOE_STEAM_SOURCEBOOK_en.pdf，PDF第12页，“Economizers”中天然气排烟冷凝说明。
+
+    signal name: boiler_protective_trip_active
+    signal message: 锅炉保护系统是否已经因危险偏差执行跳闸。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: industrial_control/boiler/IND_BOILER_HSE_OUT_OF_CONTROL_HSG238_en.pdf，PDF第11-13页，报警、联锁、保护及低水位切断要求。
+
+scenario: chemical_reactor_thermal_runaway（化学反应器热失控预防与缓解）
+signals:
+    signal name: reactor_temperature_c
+    signal message: 反应器物料温度；正常操作、报警和联锁边界应由反应危险性评估及量热试验确定；适用说明：实际安全上下限为工艺特定值。
+    type: float
+    Reasonable number range: [-273.15, +∞)
+    unit: °C
+    according to: industrial_control/reactor/IND_REACTOR_OSHA_PROCESS_SAFETY_MANAGEMENT_3132_en.pdf，PDF第11页，工艺温度安全上下限；industrial_control/reactor/IND_REACTOR_HSE_THERMAL_RUNAWAY_INDG254_en.pdf，PDF第2-4页。
+
+    signal name: reactor_temperature_rate_c_per_min
+    signal message: 反应温度变化率；持续正斜率可用于识别产热超过散热的失控趋势；适用说明：报警斜率由反应动力学与量热数据确定。
+    type: float
+    Reasonable number range: (-∞, +∞)
+    unit: °C/min
+    according to: industrial_control/reactor/IND_REACTOR_HSE_THERMAL_RUNAWAY_INDG254_en.pdf，PDF第2页，产热随温度指数增长而散热近似线性增长的说明。
+
+    signal name: reactor_pressure_barg
+    signal message: 反应器表压；沸腾、气体生成或分解可使热失控伴随快速升压；适用说明：物理下限为近似完全真空；报警、跳闸和泄放设定值为设备特定值。
+    type: float
+    Reasonable number range: [-1, +∞)
+    unit: barg
+    according to: industrial_control/reactor/IND_REACTOR_HSE_THERMAL_RUNAWAY_INDG254_en.pdf，PDF第2-4页，超压及紧急泄放说明；industrial_control/reactor/IND_REACTOR_OSHA_PROCESS_SAFETY_MANAGEMENT_3132_en.pdf，PDF第11页。
+
+    signal name: reaction_heat_generation_kw
+    signal message: 反应产热率，用于与可用散热能力比较并判断热平衡裕量。
+    type: float
+    Reasonable number range: [0, +∞)
+    unit: kW
+    according to: industrial_control/reactor/IND_REACTOR_HSE_THERMAL_RUNAWAY_INDG254_en.pdf，PDF第2页，反应产热和散热关系图及说明。
+
+    signal name: available_heat_removal_kw
+    signal message: 冷却系统当前可移除的热功率。
+    type: float
+    Reasonable number range: [0, +∞)
+    unit: kW
+    according to: industrial_control/reactor/IND_REACTOR_HSE_THERMAL_RUNAWAY_INDG254_en.pdf，PDF第2-4页，冷却失效和紧急冷却措施说明。
+
+    signal name: cooling_available
+    signal message: 正常冷却介质、换热器和循环系统是否可用。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: industrial_control/reactor/IND_REACTOR_HSE_THERMAL_RUNAWAY_INDG254_en.pdf，PDF第3-4页，冷却丧失和控制措施。
+
+    signal name: thermal_runaway_alarm_active
+    signal message: 温度、温升率、压力或热平衡偏差是否已达到热失控报警条件。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: industrial_control/reactor/IND_REACTOR_HSE_THERMAL_RUNAWAY_INDG254_en.pdf，PDF第4页，传感器、报警和跳闸；industrial_control/reactor/IND_REACTOR_OSHA_PROCESS_SAFETY_MANAGEMENT_3132_en.pdf，PDF第11-12页。
+
+    signal name: emergency_cooling_active
+    signal message: 快速应急冷却或“crash cooling”是否已启用。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: industrial_control/reactor/IND_REACTOR_HSE_THERMAL_RUNAWAY_INDG254_en.pdf，PDF第4页，超出设定限值时的快速冷却措施。
+
+    signal name: inhibitor_or_quench_injection_active
+    signal message: 抑制剂或淬灭介质注入是否已动作，以终止或减缓反应。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: industrial_control/reactor/IND_REACTOR_HSE_THERMAL_RUNAWAY_INDG254_en.pdf，PDF第4页，抑制、淬灭和应急控制措施。
+
+    signal name: emergency_vent_open
+    signal message: 经设计的应急泄放系统是否已开启以限制反应器超压。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: industrial_control/reactor/IND_REACTOR_HSE_THERMAL_RUNAWAY_INDG254_en.pdf，PDF第4页，应急泄放说明。
+
+    signal name: reactor_emergency_shutdown_active
+    signal message: 反应器紧急停车系统是否已动作并使危险物料或能量输入进入安全状态。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: industrial_control/reactor/IND_REACTOR_OSHA_PROCESS_SAFETY_MANAGEMENT_3132_en.pdf，PDF第16页及第23页，紧急停车和联锁要求。
+
+domain: nuclear_power（核电仪控与反应堆保护）
+scenario: pwr_reactor_protection_setpoints（压水堆保护定值与通道状态）
+signals:
+    signal name: protected_variable_kind
+    signal message: 保护系统监测的过程变量种类；IAEA列举温度、压力、流量和液位，OTHER用于具体设计中的其他被保护变量。
+    type: Enum
+    Reasonable number range: {TEMPERATURE, PRESSURE, FLOW, LEVEL, OTHER}
+    according to: nuclear_power/pwr_protection/NUC_PWR_IAEA_SSG39_IC_DESIGN_2016_en.pdf，PDF第102页，§7.2保护系统监测变量。
+
+    signal name: trip_direction
+    signal message: 被保护变量触发跳闸的不利变化方向；HIGH表示达到高侧定值时动作，LOW表示达到低侧定值时动作。
+    type: Enum
+    Reasonable number range: {HIGH, LOW}
+    according to: nuclear_power/pwr_protection/NUC_PWR_IAEA_SSG39_IC_DESIGN_2016_en.pdf，PDF第99-102页，§6.205-6.213和§7.2。
+
+    signal name: protected_process_value
+    signal message: 保护通道当前测得的过程变量值；必须与analytical_limit、trip_setpoint和allowable_value使用同一工程单位。IAEA文件未给出具体机组数值。
+    type: float
+    Reasonable number range: (-∞, +∞)
+    unit: process-specific engineering unit
+    according to: nuclear_power/pwr_protection/NUC_PWR_IAEA_SSG39_IC_DESIGN_2016_en.pdf，PDF第102页，§7.2保护系统监测变量。
+
+    signal name: analytical_limit
+    signal message: 安全分析确定的分析限值；保护动作必须在过程变量达到该限值前发生，具体数值和单位由机组安全分析确定。
+    type: float
+    Reasonable number range: (-∞, +∞)
+    unit: same as protected_process_value
+    according to: nuclear_power/pwr_protection/NUC_PWR_IAEA_SSG39_IC_DESIGN_2016_en.pdf，PDF第99-101页，§6.205-6.213及图7。
+
+    signal name: trip_setpoint
+    signal message: 保护通道跳闸定值；应在分析限值的安全一侧，并包含仪表偏差、不确定度、校准误差和漂移裕量。
+    type: float
+    Reasonable number range: (-∞, +∞)
+    unit: same as protected_process_value
+    according to: nuclear_power/pwr_protection/NUC_PWR_IAEA_SSG39_IC_DESIGN_2016_en.pdf，PDF第99-101页，§6.205-6.213及图7。
+
+    signal name: allowable_value
+    signal message: 在定期试验或校准时用于判定保护通道可运行性的允许值；其工程单位与被保护过程变量一致。
+    type: float
+    Reasonable number range: (-∞, +∞)
+    unit: same as protected_process_value
+    according to: nuclear_power/pwr_protection/NUC_PWR_IAEA_SSG39_IC_DESIGN_2016_en.pdf，PDF第99-101页，允许值与跳闸定值关系。
+
+    signal name: setpoint_uncertainty_margin
+    signal message: 为偏差、测量不确定度、校准误差和漂移预留的非负裕量；应用方向由trip_direction确定。
+    type: float
+    Reasonable number range: [0, +∞)
+    unit: same as protected_process_value
+    according to: nuclear_power/pwr_protection/NUC_PWR_IAEA_SSG39_IC_DESIGN_2016_en.pdf，PDF第100-101页，§6.211-6.213。
+
+    signal name: reactor_trip_demand
+    signal message: 任一保护参数是否满足反应堆跳闸逻辑的动作条件。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: nuclear_power/pwr_protection/NUC_PWR_IAEA_SSG39_IC_DESIGN_2016_en.pdf，PDF第102-107页，保护系统监测、逻辑与执行要求。
+
+    signal name: restrictive_setpoint_selected
+    signal message: 当电厂状态改变时，是否选择了适应该状态的更严格保护定值。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: nuclear_power/pwr_protection/NUC_PWR_IAEA_SSG39_IC_DESIGN_2016_en.pdf，PDF第106页，§7.31。
+
+    signal name: protection_channel_bypassed
+    signal message: 保护通道或功能是否处于旁路状态。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: nuclear_power/pwr_protection/NUC_PWR_IAEA_SSG39_IC_DESIGN_2016_en.pdf，PDF第107页，§7.35旁路控制要求。
+
+    signal name: bypass_warning_active
+    signal message: 保护通道旁路状态是否已向操纵员提供持续且清晰的警告。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: nuclear_power/pwr_protection/NUC_PWR_IAEA_SSG39_IC_DESIGN_2016_en.pdf，PDF第107页，§7.35。
+
+    signal name: redundant_trip_channels_available
+    signal message: 满足保护逻辑所需的独立冗余通道是否可用。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: nuclear_power/pwr_protection/NUC_PWR_IAEA_SSG39_IC_DESIGN_2016_en.pdf，PDF第61、68-69及106页，冗余与多样性要求；nuclear_power/pwr_protection/NUC_PWR_IAEA_SSR2_1_REV1_2024_eversion_en.html，Requirement 62及相关设计要求。
+
+domain: rail_transport（轨道交通与ERTMS/ETCS）
+scenario: etcs_speed_and_braking_supervision（ETCS速度与制动监督）
+signals:
+    signal name: etcs_train_speed_kmh
+    signal message: ETCS车载设备使用的列车速度；语言变量V_TRAIN以5 km/h为分辨率编码。
+    type: float
+    Reasonable number range: [0, 600]
+    unit: km/h
+    according to: rail_transport/etcs/subset026_v4_0_0/SUBSET-026-7 v400.pdf，PDF第91页，§7.5.1.172 V_TRAIN。
+
+    signal name: etcs_maximum_train_speed_kmh
+    signal message: 列车最大允许速度V_MAXTRAIN。
+    type: float
+    Reasonable number range: [0, 600]
+    unit: km/h
+    according to: rail_transport/etcs/subset026_v4_0_0/SUBSET-026-7 v400.pdf，PDF第88-89页，§7.5.1.160 V_MAXTRAIN。
+
+    signal name: etcs_signalling_speed_restriction_kmh
+    signal message: V_MAIN携带数值限速时的信号相关速度；停车命令由etcs_signalling_speed_command单独表达，避免把特殊命令与物理速度混为一类。
+    type: float
+    Reasonable number range: [0, 600]
+    unit: km/h
+    according to: rail_transport/etcs/subset026_v4_0_0/SUBSET-026-7 v400.pdf，PDF第88页，§7.5.1.158 V_MAIN。
+
+    signal name: etcs_signalling_speed_command
+    signal message: V_MAIN字段的语义类别；NUMERIC_RESTRICTION表示携带数值限速，TRIP_ORDER对应编码值0的停车命令语义。
+    type: Enum
+    Reasonable number range: {NUMERIC_RESTRICTION, TRIP_ORDER}
+    according to: rail_transport/etcs/subset026_v4_0_0/SUBSET-026-7 v400.pdf，PDF第88页，§7.5.1.158 V_MAIN。
+
+    signal name: etcs_eoa_permitted_speed_kmh
+    signal message: 行车许可终点处允许速度V_EMA。
+    type: float
+    Reasonable number range: [0, 600]
+    unit: km/h
+    according to: rail_transport/etcs/subset026_v4_0_0/SUBSET-026-7 v400.pdf，PDF第88页，§7.5.1.157 V_EMA。
+
+    signal name: etcs_release_speed_kmh
+    signal message: V_RELEASEDP直接携带数值时的危险点关联释放速度；特殊来源由etcs_release_speed_source表达。
+    type: float
+    Reasonable number range: [0, 600]
+    unit: km/h
+    according to: rail_transport/etcs/subset026_v4_0_0/SUBSET-026-7 v400.pdf，PDF第90页，§7.5.1.168 V_RELEASEDP。
+
+    signal name: etcs_release_speed_source
+    signal message: 危险点释放速度的来源；TRACKSIDE_NUMERIC表示字段直接给出数值，ONBOARD_CALCULATED对应编码126，NATIONAL_VALUE对应编码127。
+    type: Enum
+    Reasonable number range: {TRACKSIDE_NUMERIC, ONBOARD_CALCULATED, NATIONAL_VALUE}
+    according to: rail_transport/etcs/subset026_v4_0_0/SUBSET-026-7 v400.pdf，PDF第90页，§7.5.1.168 V_RELEASEDP。
+
+    signal name: distance_eoa_to_danger_point_m
+    signal message: 行车许可终点到危险点的距离D_DP；分辨率由Q_SCALE选择为0.1、1或10米。
+    type: float
+    Reasonable number range: [0, 327670]
+    unit: m
+    according to: rail_transport/etcs/subset026_v4_0_0/SUBSET-026-7 v400.pdf，PDF第47页，§7.5.1.4 D_DP。
+
+    signal name: trainborne_clock_s
+    signal message: 报文发送时的车载时钟T_TRAIN，以10 ms分辨率编码；仅在trainborne_clock_status为KNOWN时使用该数值。
+    type: float
+    Reasonable number range: [0, 42949672.94]
+    unit: s
+    according to: rail_transport/etcs/subset026_v4_0_0/SUBSET-026-7 v400.pdf，PDF第87页，§7.5.1.154 T_TRAIN。
+
+    signal name: trainborne_clock_status
+    signal message: T_TRAIN是否携带有效车载时钟；UNKNOWN对应保留编码4294967295。
+    type: Enum
+    Reasonable number range: {KNOWN, UNKNOWN}
+    according to: rail_transport/etcs/subset026_v4_0_0/SUBSET-026-7 v400.pdf，PDF第87页，§7.5.1.154 T_TRAIN。
+
+    signal name: etcs_supervision_status
+    signal message: ETCS人机界面的速度与距离监督状态；NORMAL、INDICATION、OVERSPEED、WARNING和INTERVENTION分别对应NoS、IndS、OvS、WaS和IntS。具体可用状态取决于CSM、TSM或RSM监督模式，并按规范优先级显示。
+    type: Enum
+    Reasonable number range: {NORMAL, INDICATION, OVERSPEED, WARNING, INTERVENTION}
+    according to: rail_transport/etcs/dmi_v4_0_0/ERA_ERTMS_015560_v400.pdf，PDF第36-45页，第7章及Tables 6-7。
+
+    signal name: brake_intervention_active
+    signal message: ETCS制动干预是否已经触发并在DMI上显示。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: rail_transport/etcs/dmi_v4_0_0/ERA_ERTMS_015560_v400.pdf，PDF第74-76页，制动干预指示要求；rail_transport/etcs/RAIL_ETCS_SUBSET034_TRAIN_INTERFACE_V4.0.0_en.pdf，制动命令接口章节。
+
+scenario: etcs_operating_state（ETCS运行等级、模式与行车许可状态）
+signals:
+    signal name: etcs_operating_level
+    signal message: 当前ETCS运行等级M_LEVEL；LEVEL_0、NTC、LEVEL_1、LEVEL_2分别对应编码0、1、2、3，编码4至7为保留值，不列入合理运行集合。
+    type: Enum
+    Reasonable number range: {LEVEL_0, NTC, LEVEL_1, LEVEL_2}
+    according to: rail_transport/etcs/subset026_v4_0_0/SUBSET-026-7 v400.pdf，PDF第59-60页，§7.5.1.65 M_LEVEL。
+
+    signal name: etcs_operating_mode
+    signal message: ETCS车载运行模式M_MODE；枚举顺序对应规范编码0至17，编码18至31为保留值，不列入合理运行集合。
+    type: Enum
+    Reasonable number range: {FULL_SUPERVISION, ON_SIGHT, STAFF_RESPONSIBLE, SHUNTING, UNFITTED, SLEEPING, STAND_BY, TRIP, POST_TRIP, SYSTEM_FAILURE, ISOLATION, NON_LEADING, LIMITED_SUPERVISION, NATIONAL_SYSTEM, REVERSING, PASSIVE_SHUNTING, AUTOMATIC_DRIVING, SUPERVISED_MANOEUVRE}
+    according to: rail_transport/etcs/subset026_v4_0_0/SUBSET-026-7 v400.pdf，PDF第62-63页，§7.5.1.72 M_MODE。
+
+    signal name: movement_authority_available
+    signal message: 当前是否存在可供车载系统监督的有效行车许可。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: rail_transport/etcs/subset026_v4_0_0/SUBSET-026-3 v400.pdf，行车许可管理章节；rail_transport/etcs/RAIL_ETCS_EU_CCS_TSI_BASE_2023_en.pdf，ERTMS/ETCS车载功能要求。
+
+    signal name: end_of_authority_reached
+    signal message: 列车估算前端是否已经到达当前行车许可终点。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: rail_transport/etcs/subset026_v4_0_0/SUBSET-026-3 v400.pdf，行车许可和监督目标章节；rail_transport/etcs/subset026_v4_0_0/SUBSET-026-4 v400.pdf，制动曲线监督章节。
+
+    signal name: safe_radio_connection_status
+    signal message: 车载设备与相关RBC/RIU之间安全无线连接的DMI状态；规范区分连接已建立、无连接、连接丢失或建立失败三种状态。
+    type: Enum
+    Reasonable number range: {CONNECTION_UP, NO_CONNECTION, CONNECTION_LOST_OR_SETUP_FAILED}
+    according to: rail_transport/etcs/dmi_v4_0_0/ERA_ERTMS_015560_v400.pdf，PDF第115-116页，§8.4.1；rail_transport/etcs/subset026_v4_0_0/SUBSET-026-3 v400.pdf，无线会话管理章节。
+
+    signal name: emergency_stop_order_received
+    signal message: 是否收到ETCS紧急停车命令。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: rail_transport/etcs/subset026_v4_0_0/SUBSET-026-3 v400.pdf，紧急停车功能章节；rail_transport/etcs/subset026_v4_0_0/SUBSET-026-8 v400.pdf，紧急停车报文定义。
+
+scenario: etcs_measurement_performance（ETCS速度、位置与时钟性能）
+signals:
+    signal name: onboard_speed_error_kmh
+    signal message: 车载测得速度相对于真实速度的误差；低于30 km/h时允许误差为±2 km/h，随后线性增加，500 km/h时为±12 km/h；适用说明：0至500 km/h性能包线。
+    type: float
+    Reasonable number range: [-12, 12]
+    unit: km/h
+    according to: rail_transport/etcs/RAIL_ETCS_SUBSET041_PERFORMANCE_V4.0.0_en.pdf，PDF第18页，速度测量准确度要求。
+
+    signal name: speed_measurement_age_s
+    signal message: 供ETCS功能使用的速度测量数据龄期。
+    type: float
+    Reasonable number range: [0, 1)
+    unit: s
+    according to: rail_transport/etcs/RAIL_ETCS_SUBSET041_PERFORMANCE_V4.0.0_en.pdf，PDF第18页，速度与位置数据龄期要求。
+
+    signal name: position_measurement_age_s
+    signal message: 供ETCS功能使用的位置估计数据龄期。
+    type: float
+    Reasonable number range: [0, 1)
+    unit: s
+    according to: rail_transport/etcs/RAIL_ETCS_SUBSET041_PERFORMANCE_V4.0.0_en.pdf，PDF第18页，速度与位置数据龄期要求。
+
+    signal name: trainborne_clock_drift_percent
+    signal message: 车载时钟相对真实时间的漂移率。
+    type: float
+    Reasonable number range: [-0.1, 0.1]
+    unit: %
+    according to: rail_transport/etcs/RAIL_ETCS_SUBSET041_PERFORMANCE_V4.0.0_en.pdf，PDF第18页，§5.3.2时钟性能要求。
+
+domain: robotics（机器人与自主移动平台）
+scenario: robot_speed_separation_monitoring（协作机器人速度与间距监控）
+signals:
+    signal name: protective_separation_distance_mm
+    signal message: 人与机器人之间为避免碰撞而要求保持的保护间距S。
+    type: float
+    Reasonable number range: [0, +∞)
+    unit: mm
+    according to: robotics/collision_avoidance/ROB_SSM_NIST_IMPLEMENTING_SSM_2015_en.pdf，PDF第2-3页，速度与间距监控公式。
+
+    signal name: measured_human_robot_distance_mm
+    signal message: 传感器测得的人体到机器人危险部位的当前最小距离。
+    type: float
+    Reasonable number range: [0, +∞)
+    unit: mm
+    according to: robotics/collision_avoidance/ROB_SSM_NIST_IMPLEMENTING_SSM_2015_en.pdf，PDF第2-5页，保护间距及测量不确定度说明。
+
+    signal name: human_approach_speed_mm_s
+    signal message: 人员朝向危险区的接近速度；NIST文献说明ISO/TS 15066采用1600 mm/s，而ISO 13855常用2000 mm/s；适用说明：文献中的标准化接近速度包线。
+    type: float
+    Reasonable number range: [0, 2000]
+    unit: mm/s
+    according to: robotics/collision_avoidance/ROB_SSM_NIST_IMPLEMENTING_SSM_2015_en.pdf，PDF第3、5页，人类接近速度比较。
+
+    signal name: robot_approach_speed_mm_s
+    signal message: 机器人在系统反应时间内朝向人员的接近速度；适用说明：上限由风险评估和机器人安全配置确定。
+    type: float
+    Reasonable number range: [0, +∞)
+    unit: mm/s
+    according to: robotics/collision_avoidance/ROB_SSM_NIST_IMPLEMENTING_SSM_2015_en.pdf，PDF第2-3页，机器人接近项vR·TR。
+
+    signal name: sensing_reaction_time_s
+    signal message: 从人员检测到机器人开始制动的系统反应时间TR。
+    type: float
+    Reasonable number range: [0, +∞)
+    unit: s
+    according to: robotics/collision_avoidance/ROB_SSM_NIST_IMPLEMENTING_SSM_2015_en.pdf，PDF第2页，保护间距公式；PDF第8页，NIST反应时间测量示例。
+
+    signal name: robot_stopping_time_s
+    signal message: 机器人从制动开始到停止的时间TS。
+    type: float
+    Reasonable number range: [0, +∞)
+    unit: s
+    according to: robotics/collision_avoidance/ROB_SSM_NIST_IMPLEMENTING_SSM_2015_en.pdf，PDF第2-3页，保护间距公式；robotics/collision_avoidance/ROB_SSM_UR_STOP_TIME_DISTANCE_SW5_23_en.html，停止时间和停止距离数据说明。
+
+    signal name: robot_stopping_distance_mm
+    signal message: 当前负载、速度和姿态条件下机器人的停止距离B。
+    type: float
+    Reasonable number range: [0, +∞)
+    unit: mm
+    according to: robotics/collision_avoidance/ROB_SSM_NIST_IMPLEMENTING_SSM_2015_en.pdf，PDF第2-3页，保护间距公式；robotics/collision_avoidance/ROB_SSM_UR_STOP_TIME_DISTANCE_SW5_23_en.html，停止数据说明。
+
+    signal name: position_uncertainty_margin_mm
+    signal message: 人体和机器人位置测量不确定度以及系统侵入裕量之和C+ZR+ZS。
+    type: float
+    Reasonable number range: [0, +∞)
+    unit: mm
+    according to: robotics/collision_avoidance/ROB_SSM_NIST_IMPLEMENTING_SSM_2015_en.pdf，PDF第2-5页，保护间距公式及不确定度说明。
+
+    signal name: protective_distance_violated
+    signal message: 测得间距是否小于计算所得保护间距；为真时应执行风险评估确定的减速或停止响应。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: robotics/collision_avoidance/ROB_SSM_NIST_IMPLEMENTING_SSM_2015_en.pdf，PDF第2-5页，速度与间距监控原则；robotics/collision_avoidance/ROB_SSM_ISO_TS15066_2016_public_metadata.html，标准范围元数据。
+
+scenario: collaborative_robot_safety_limits（协作机器人安全限值与恢复模式）
+signals:
+    signal name: robot_safety_operating_state
+    signal message: 机器人当前采用的安全限值状态；NORMAL_LIMITS和REDUCED_LIMITS对应可配置的正常与降低参数集，RECOVERY_LIMITS表示安全限值越界后用于人工移回安全范围的恢复限值。
+    type: Enum
+    Reasonable number range: {NORMAL_LIMITS, REDUCED_LIMITS, RECOVERY_LIMITS}
+    according to: robotics/collision_avoidance/ROB_SAFE_UR10E_USER_MANUAL_SW5_20_en.pdf，PDF第132-133页，§8.3.3“Safety Parameter Set”及“Recovery”。
+
+    signal name: robot_tcp_speed_mm_s
+    signal message: 机器人工具中心点线速度；手动手引导线性运动时，除非风险评估允许更高速度，最大速度应设置为250 mm/s；适用说明：手引导应用默认上限。
+    type: float
+    Reasonable number range: [0, 250]
+    unit: mm/s
+    according to: robotics/collision_avoidance/ROB_SAFE_UR10E_USER_MANUAL_SW5_20_en.pdf，PDF第130页，手引导速度警告。
+
+    signal name: recovery_joint_speed_deg_s
+    signal message: 恢复模式下的关节速度。
+    type: float
+    Reasonable number range: [0, 30]
+    unit: °/s
+    according to: robotics/collision_avoidance/ROB_SAFE_UR10E_USER_MANUAL_SW5_20_en.pdf，PDF第133页，“Recovery”安全限值表。
+
+    signal name: recovery_tcp_speed_mm_s
+    signal message: 恢复模式下的工具速度。
+    type: float
+    Reasonable number range: [0, 250]
+    unit: mm/s
+    according to: robotics/collision_avoidance/ROB_SAFE_UR10E_USER_MANUAL_SW5_20_en.pdf，PDF第133页，“Recovery”安全限值表。
+
+    signal name: recovery_force_n
+    signal message: 恢复模式安全系统监控的机器人力。
+    type: float
+    Reasonable number range: [0, 100]
+    unit: N
+    according to: robotics/collision_avoidance/ROB_SAFE_UR10E_USER_MANUAL_SW5_20_en.pdf，PDF第133页，“Recovery”安全限值表。
+
+    signal name: recovery_momentum_kg_m_s
+    signal message: 恢复模式安全系统监控的机器人动量。
+    type: float
+    Reasonable number range: [0, 10]
+    unit: kg·m/s
+    according to: robotics/collision_avoidance/ROB_SAFE_UR10E_USER_MANUAL_SW5_20_en.pdf，PDF第133页，“Recovery”安全限值表。
+
+    signal name: recovery_power_w
+    signal message: 恢复模式安全系统监控的机器人机械功率。
+    type: float
+    Reasonable number range: [0, 80]
+    unit: W
+    according to: robotics/collision_avoidance/ROB_SAFE_UR10E_USER_MANUAL_SW5_20_en.pdf，PDF第133页，“Recovery”安全限值表。
+
+    signal name: safety_limit_violation
+    signal message: 是否检测到已配置安全限值被违反；UR安全系统对限值违反执行停止类别0。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: robotics/collision_avoidance/ROB_SAFE_UR10E_USER_MANUAL_SW5_20_en.pdf，PDF第131及133页，安全系统反应和恢复限值。
+
+    signal name: robot_stop_category
+    signal message: 安全系统当前执行的停止类别；限值违反或故障触发CATEGORY_0，急停触发CATEGORY_1，防护停止或三位使能装置停止触发CATEGORY_2，NONE表示未执行安全停止。
+    type: Enum
+    Reasonable number range: {NONE, CATEGORY_0, CATEGORY_1, CATEGORY_2}
+    according to: robotics/collision_avoidance/ROB_SAFE_UR10E_USER_MANUAL_SW5_20_en.pdf，PDF第131及133页，§8.3.2和Recovery安全反应；robotics/collision_avoidance/ROB_SAFE_OSHA_OTM_SECTION4_CH4_2021_en.html，机器人安全与危险控制章节。
+
+scenario: mobile_robot_obstacle_avoidance（自主移动机器人障碍物探测与安全停车）
+signals:
+    signal name: mobile_robot_speed_fraction
+    signal message: 自主移动工业车辆当前速度相对于额定最大速度的比例。
+    type: float
+    Reasonable number range: [0, 1]
+    unit: 1
+    according to: robotics/mobile_navigation/ROB_NAV_NIST_INDUSTRIAL_VEHICLE_HUMAN_SAFETY_2013_en.pdf，PDF第6-8页，0%、50%、100%速度测试及受限通道速度要求。
+
+    signal name: path_clearance_m
+    signal message: 车辆运行路径与相邻危险物或边界之间的可用净距。
+    type: float
+    Reasonable number range: [0, +∞)
+    unit: m
+    according to: robotics/mobile_navigation/ROB_NAV_NIST_INDUSTRIAL_VEHICLE_HUMAN_SAFETY_2013_en.pdf，PDF第8页，净距低于0.5 m的路径要求。
+
+    signal name: restricted_path_speed_limit_fraction
+    signal message: 在危险环境或路径净距小于0.5 m时的最大速度比例。
+    type: float
+    Reasonable number range: [0, 0.30]
+    unit: 1
+    according to: robotics/mobile_navigation/ROB_NAV_NIST_INDUSTRIAL_VEHICLE_HUMAN_SAFETY_2013_en.pdf，PDF第8页，30%最大速度要求。
+
+    signal name: distance_to_obstacle_m
+    signal message: 车辆轮廓到前方人员或障碍物的当前最小距离。
+    type: float
+    Reasonable number range: [0, +∞)
+    unit: m
+    according to: robotics/mobile_navigation/ROB_NAV_NIST_INDUSTRIAL_VEHICLE_HUMAN_SAFETY_2013_en.pdf，PDF第6-9页，非接触探测区和停车区说明。
+
+    signal name: minimum_safe_stopping_distance_m
+    signal message: 当前速度、负载、路面和制动状态下使车辆完全停止所需的最小安全距离。
+    type: float
+    Reasonable number range: [0, +∞)
+    unit: m
+    according to: robotics/mobile_navigation/ROB_NAV_NIST_INDUSTRIAL_VEHICLE_HUMAN_SAFETY_2013_en.pdf，PDF第6-7及11页，安全停车距离和Stop Range定义。
+
+    signal name: obstacle_in_vehicle_contour
+    signal message: 标准测试件、人员或障碍物是否进入包含车辆、载荷和拖车在内的运动轮廓区域。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: robotics/mobile_navigation/ROB_NAV_NIST_INDUSTRIAL_VEHICLE_HUMAN_SAFETY_2013_en.pdf，PDF第6页，车辆轮廓和非接触探测测试方法。
+
+    signal name: obstacle_within_stopping_distance
+    signal message: 障碍物是否出现在当前最小安全停车距离以内。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: robotics/mobile_navigation/ROB_NAV_NIST_INDUSTRIAL_VEHICLE_HUMAN_SAFETY_2013_en.pdf，PDF第7页，停车区内障碍物说明。
+
+    signal name: safety_sensor_object_detected
+    signal message: 安全传感器是否检测到车辆路径内或邻近路径的人员/障碍物。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: robotics/mobile_navigation/ROB_NAV_NIST_INDUSTRIAL_VEHICLE_HUMAN_SAFETY_2013_en.pdf，PDF第6-10页，2D/3D传感器试验；robotics/mobile_navigation/ROB_NAV_NIST_MOBILE_ROBOT_TEST_SUITES_2010_en.pdf，移动机器人测试套件概述。
+
+    signal name: controlled_slowdown_active
+    signal message: 是否已因慢速区、路径净距或动态障碍物启动受控减速。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: robotics/mobile_navigation/ROB_NAV_NIST_INDUSTRIAL_VEHICLE_HUMAN_SAFETY_2013_en.pdf，PDF第7-8页，慢速区与受控制动说明。
+
+    signal name: safety_stop_active
+    signal message: 是否已执行安全停车；非接触传感器测试要求车辆在与人员或物体接触前停止。
+    type: bool
+    Reasonable number range: {false, true}
+    according to: robotics/mobile_navigation/ROB_NAV_NIST_INDUSTRIAL_VEHICLE_HUMAN_SAFETY_2013_en.pdf，PDF第6页，B56.5非接触探测测试方法。

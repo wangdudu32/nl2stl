@@ -1,6 +1,11 @@
 import re
+from collections.abc import Mapping
+from typing import Any
 
 import rtamt
+
+from STL2AST import stl2ast
+from ast_semantics import validate_ast_with_rtamt
 
 IDENTIFIER = r"[A-Za-z_][A-Za-z0-9_]*"
 IDENTIFIER_SCAN_RE = re.compile(
@@ -28,11 +33,19 @@ RESERVED_WORDS = {
 }
 
 
-def stl_syntax_validator(stl: str) -> bool:
+def stl_syntax_validator(
+    stl: str,
+    symbols: Mapping[str, Mapping[str, Any]] | None = None,
+) -> bool:
     if not isinstance(stl, str) or not stl.strip():
         return False
 
     try:
+        if symbols is not None:
+            ast = stl2ast(stl, symbols)
+            validate_ast_with_rtamt(ast, symbols)
+            return True
+
         spec = rtamt.StlDiscreteTimeSpecification()
         for variable in extract_variables(stl):
             spec.declare_var(variable, "float")

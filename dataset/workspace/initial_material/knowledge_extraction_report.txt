@@ -1,0 +1,174 @@
+领域知识库提取报告
+生成日期: 2026-07-19
+
+一、结果摘要
+
+- 模板: knowledge_template.txt
+- 输入资料: 85份（55 PDF、28 HTML、2 ZIP），未修改任何原始资料
+- 输出知识库: knowledge_base.txt
+- 覆盖范围: 8个领域、26个场景、232个信号
+- 信号类型: bool 54个、int 4个、float 158个、Enum 16个
+- 单位字段: 162/162个数值信号均包含unit；bool和Enum按模板省略unit
+- 字段完整性: 232/232个信号均包含signal name、signal message、type、Reasonable number range、according to
+- 来源处置: P直接证据39份、S辅助证据26份、M元数据/索引18份、A归档容器2份，共85份
+
+二、提取规则
+
+1. 逐份读取当前目录中的PDF、HTML和ZIP；PDF按页保留分页信息，HTML提取正文结构，ZIP检查成员并将其中PDF与目录内已展开版本去重使用。
+2. 按“领域 -> 场景 -> 信号”组织，字段名称和顺序遵循knowledge_template.txt。
+3. signal name统一为英文snake_case；signal message采用中文；type严格限定为bool、int、float或Enum。
+4. bool只表达真正的二值谓词；资料明确给出互斥状态、模式、类别或特殊编码时使用Enum，枚举值采用大写英文snake_case。
+5. int和float的Reasonable number range只保留数值区间或区间并集，物理单位单独写入unit；范围适用条件和例外移入signal message。
+6. 有法规、标准或手册明确数值时，直接记录数值和适用条件；资料没有给出具体设备数值时，不人为制造统一定值，并明确标注为设备、工艺或过程变量特定。
+7. according to使用相对文件路径，并尽量给出PDF页码、章节、条款或HTML表格位置。报告和知识库中的“PDF第N页”均指文件从1开始的PDF页序。
+8. 同一规范的网页元数据、有效性页面、正式PDF和历史/辅助材料分开处置，避免把标题页或元数据当作数值证据。
+
+三、质量检查
+
+- 领域唯一数: 8；场景数: 26；信号名唯一数: 232，无重复信号名。
+- 五个必需字段计数均为232，未发现缺字段信号。
+- type白名单检查通过，未出现bool/int/float/Enum之外的类型。
+- 162个数值信号全部具有且只具有一个unit字段；54个bool和16个Enum均未错误附带unit。
+- 所有bool范围均为{false, true}；所有Enum均为非空有限集合。
+- 数值范围中不再混入单位或括号说明；非连续ADDW测试速度使用区间并集表示。
+- 每个信号至少有一条本地来源引用；引用均位于当前资料目录内。
+- 对WHO饮用水、ETCS变量、IAEA保护定值、锅炉保护、机器人安全等关键内容进行了页码级回查。
+
+四、使用边界
+
+- “Reasonable number range”既包含法规/标准硬边界，也包含试验工况、产品手册默认值和工程表示范围；其性质在signal message中说明，不能不加区分地视为统一安全限值。
+- 标为M的公开元数据或索引页不含完整标准正文，因此没有据此提取其未公开的数值要求。
+- 两个ETCS ZIP为归档容器；知识提取引用目录内已展开、可逐页定位的PDF。DMI归档内的图片和声音属于界面资产，没有单独生成数值信号。
+- 本次结果只依据当前目录的本地资料，不包含联网核验或目录外标准版本。
+
+五、来源处置清单
+
+标记说明:
+P = 直接用于信号、范围或行为约束
+S = 已读取，用于术语、背景、交叉核对或补充，但未作为主要数值依据
+M = 公开元数据、状态页或规范索引，仅用于版本和适用范围确认
+A = ZIP归档容器，其有效正文使用目录内已展开版本
+
+[aerospace: 5]
+P aerospace/altitude_hold/AERO_ALT_FAA_AC_25_1329_1C_CHG2_2026_en.pdf
+S aerospace/altitude_hold/AERO_ALT_FAA_AIRPLANE_FLYING_HANDBOOK_CH4_en.pdf
+P aerospace/uav_inspection/AERO_UAV_ECFR_TITLE14_PART107_2026_en.html
+P aerospace/uav_inspection/AERO_UAV_FAA_PART107_SUMMARY_2026_en.html
+S aerospace/uav_inspection/AERO_UAV_FAA_REMOTE_PILOT_STUDY_GUIDE_en.pdf
+
+[autonomous_driving: 21]
+M autonomous_driving/acc/AD_ACC_ISO_15622_2018_public_metadata.html
+S autonomous_driving/acc/AD_ACC_TOYOTA_SIENNA_2022_DRCC_manual.html
+P autonomous_driving/acc/AD_ACC_TOYOTA_SIENNA_2022_OM08045U_FULL_en.pdf
+S autonomous_driving/aeb/AD_AEB_ECFR_49_571_127_2026_en.html
+S autonomous_driving/aeb/AD_AEB_EURONCAP_VRU_V11.4_2023_en.pdf
+S autonomous_driving/aeb/AD_AEB_NHTSA_FMVSS127_EFFECTIVE_DATE_2025_en.pdf
+S autonomous_driving/aeb/AD_AEB_NHTSA_FMVSS127_FEDERAL_REGISTER_2024_en.pdf
+S autonomous_driving/aeb/AD_AEB_NHTSA_FMVSS127_RECONSIDERATION_2024_en.pdf
+M autonomous_driving/aeb/AD_AEB_SAMR_GBT39901_2021_metadata_zh.html
+P autonomous_driving/aeb/AD_AEB_UN_R152_EURLEX_2024_en.pdf
+P autonomous_driving/driver_engagement/AD_ADDW_EU_2023_2590_en.pdf
+M autonomous_driving/driver_engagement/AD_DCAS_SAMR_GBT44461_1_2024_metadata_zh.html
+P autonomous_driving/driver_engagement/AD_DCAS_UN_R171_EURLEX_2024_en.pdf
+P autonomous_driving/driver_engagement/AD_DDAW_EU_2021_1341_en.pdf
+P autonomous_driving/lane_assistance/AD_ELKS_EU_2021_646_en.pdf
+M autonomous_driving/lane_assistance/AD_LANE_SAMR_GBT39323_2020_metadata_zh.html
+S autonomous_driving/lane_assistance/AD_LANE_UN_R79_EURLEX_2025_en.pdf
+S autonomous_driving/shared/AD_SHARED_NHTSA_NCAP_ADAS_FINAL_DECISION_FR_2024_en.pdf
+S autonomous_driving/stability_control/AD_ESC_ECFR_49_571_126_2026_en.html
+S autonomous_driving/stability_control/AD_ESC_NHTSA_FMVSS126_FINAL_RULE_2007_en.pdf
+P autonomous_driving/stability_control/AD_ESC_UN_R140_EURLEX_2018_en.pdf
+
+[electrical_systems: 19]
+P electrical_systems/battery_management/ELEC_BMS_DOE_INL_EV_BATTERY_TEST_MANUAL_REV3_2015_en.pdf
+M electrical_systems/battery_management/ELEC_BMS_IEC62660_3_2022_public_metadata.html
+M electrical_systems/battery_management/ELEC_BMS_ISO6469_1_2019_public_metadata.html
+M electrical_systems/battery_management/ELEC_BMS_SAMR_GB38031_2025_metadata_zh.html
+S electrical_systems/battery_management/ELEC_BMS_SANDIA_USABC_ABUSE_TEST_MANUAL_2022_en.pdf
+P electrical_systems/battery_management/ELEC_BMS_UN_R100_EURLEX_2024_en.pdf
+P electrical_systems/grid_control/ELEC_GRID_EU_RFG_2016_631_en.pdf
+S electrical_systems/grid_control/ELEC_GRID_FERC_ORDER_842_2018_en.pdf
+S electrical_systems/grid_control/ELEC_GRID_NERC_BAL_003_2_2019_en.pdf
+S electrical_systems/grid_control/ELEC_GRID_NERC_BAL_003_2_EFFECTIVE_en.pdf
+S electrical_systems/grid_control/ELEC_GRID_NERC_FREQUENCY_RESPONSE_ANALYSIS_2025_en.pdf
+S electrical_systems/grid_control/ELEC_GRID_NERC_PRC_006_5_EFFECTIVE_en.pdf
+S electrical_systems/grid_control/ELEC_GRID_NERC_PRC_024_3_2019_en.pdf
+P electrical_systems/grid_control/ELEC_GRID_NERC_PRC_024_3_EFFECTIVE_en.pdf
+M electrical_systems/grid_control/ELEC_GRID_NERC_PRC_CURRENT_STATUS_2026_en.html
+S electrical_systems/grid_control/ELEC_GRID_NERC_PRIMARY_FREQUENCY_CONTROL_GUIDELINE_V4_2023_en.pdf
+M electrical_systems/grid_control/ELEC_GRID_SAMR_GBT15945_2008_metadata_zh.html
+M electrical_systems/grid_control/ELEC_GRID_SAMR_GBT19963_1_2021_metadata_zh.html
+M electrical_systems/grid_control/ELEC_GRID_SAMR_GBT40595_2021_metadata_zh.html
+
+[environmental_monitoring: 5]
+P environmental_monitoring/air_quality/ENV_AIR_EPA_NAAQS_TABLE_2025_en.html
+P environmental_monitoring/air_quality/ENV_AIR_EU_DIRECTIVE_2024_2881_en.pdf
+M environmental_monitoring/air_quality/ENV_AIR_WHO_GLOBAL_AQ_GUIDELINES_2021_metadata.html
+P environmental_monitoring/water_quality/ENV_WATER_EPA_NPDWR_2025_en.html
+P environmental_monitoring/water_quality/ENV_WATER_WHO_DRINKING_WATER_GUIDELINES_2026_en.pdf
+
+[industrial_control: 7]
+P industrial_control/boiler/IND_BOILER_DOE_STEAM_SOURCEBOOK_en.pdf
+P industrial_control/boiler/IND_BOILER_HSE_OUT_OF_CONTROL_HSG238_en.pdf
+P industrial_control/boiler/IND_BOILER_HSE_PRESSURE_SYSTEMS_L122_en.pdf
+P industrial_control/boiler/IND_BOILER_HSE_SAFE_MANAGEMENT_INDG436_en.pdf
+S industrial_control/reactor/IND_REACTOR_HSE_REACTION_PRODUCT_TESTING.html
+P industrial_control/reactor/IND_REACTOR_HSE_THERMAL_RUNAWAY_INDG254_en.pdf
+P industrial_control/reactor/IND_REACTOR_OSHA_PROCESS_SAFETY_MANAGEMENT_3132_en.pdf
+
+[nuclear_power: 2]
+P nuclear_power/pwr_protection/NUC_PWR_IAEA_SSG39_IC_DESIGN_2016_en.pdf
+M nuclear_power/pwr_protection/NUC_PWR_IAEA_SSR2_1_REV1_2024_eversion_en.html
+
+[rail_transport: 18]
+A rail_transport/etcs/RAIL_ETCS_DMI_V4.0.0.zip
+M rail_transport/etcs/RAIL_ETCS_ERA_B4_R1_SPEC_INDEX_2026_en.html
+M rail_transport/etcs/RAIL_ETCS_ERA_CCS_TSI_CURRENT_2026_en.html
+P rail_transport/etcs/RAIL_ETCS_EU_CCS_TSI_BASE_2023_en.pdf
+M rail_transport/etcs/RAIL_ETCS_EU_CCS_TSI_CONSOLIDATED_2026_en.html
+A rail_transport/etcs/RAIL_ETCS_SUBSET026_SRS_V4.0.0.zip
+P rail_transport/etcs/RAIL_ETCS_SUBSET034_TRAIN_INTERFACE_V4.0.0_en.pdf
+P rail_transport/etcs/RAIL_ETCS_SUBSET041_PERFORMANCE_V4.0.0_en.pdf
+P rail_transport/etcs/dmi_v4_0_0/ERA_ERTMS_015560_v400.pdf
+S rail_transport/etcs/subset026_v4_0_0/SUBSET-026-1 v400.pdf
+S rail_transport/etcs/subset026_v4_0_0/SUBSET-026-2 v400.pdf
+P rail_transport/etcs/subset026_v4_0_0/SUBSET-026-3 v400.pdf
+P rail_transport/etcs/subset026_v4_0_0/SUBSET-026-4 v400.pdf
+S rail_transport/etcs/subset026_v4_0_0/SUBSET-026-5 v400.pdf
+S rail_transport/etcs/subset026_v4_0_0/SUBSET-026-6 v400.pdf
+P rail_transport/etcs/subset026_v4_0_0/SUBSET-026-7 v400.pdf
+P rail_transport/etcs/subset026_v4_0_0/SUBSET-026-8 v400.pdf
+S rail_transport/etcs/subset026_v4_0_0/SUBSET-026-9 v400.pdf
+
+[robotics: 8]
+M robotics/collision_avoidance/ROB_SAFE_ISO_10218_1_2025_public_metadata.html
+P robotics/collision_avoidance/ROB_SAFE_OSHA_OTM_SECTION4_CH4_2021_en.html
+P robotics/collision_avoidance/ROB_SAFE_UR10E_USER_MANUAL_SW5_20_en.pdf
+M robotics/collision_avoidance/ROB_SSM_ISO_TS15066_2016_public_metadata.html
+P robotics/collision_avoidance/ROB_SSM_NIST_IMPLEMENTING_SSM_2015_en.pdf
+P robotics/collision_avoidance/ROB_SSM_UR_STOP_TIME_DISTANCE_SW5_23_en.html
+P robotics/mobile_navigation/ROB_NAV_NIST_INDUSTRIAL_VEHICLE_HUMAN_SAFETY_2013_en.pdf
+P robotics/mobile_navigation/ROB_NAV_NIST_MOBILE_ROBOT_TEST_SUITES_2010_en.pdf
+
+六、场景清单
+
+aerospace: altitude_hold, uav_inspection_part107
+autonomous_driving: adaptive_cruise_control, aeb_vehicle_collision, aeb_vulnerable_road_user, driver_drowsiness_warning, driver_distraction_warning, driver_engagement_dcas, emergency_lane_keeping, electronic_stability_control
+electrical_systems: battery_management, grid_frequency_control, generator_frequency_voltage_ride_through
+environmental_monitoring: ambient_air_quality_us, ambient_air_quality_eu_2030, drinking_water_us, drinking_water_who
+industrial_control: steam_boiler_protection, chemical_reactor_thermal_runaway
+nuclear_power: pwr_reactor_protection_setpoints
+rail_transport: etcs_speed_and_braking_supervision, etcs_operating_state, etcs_measurement_performance
+robotics: robot_speed_separation_monitoring, collaborative_robot_safety_limits, mobile_robot_obstacle_avoidance
+
+七、新版模板修订记录
+
+- 将知识库从226个信号修订为232个信号；新增6个信号用于表达核电保护变量种类/方向、ETCS特殊值来源与车载时钟状态、机器人安全限值状态。
+- 将10个原有int或bool信号改为Enum，包括车距档位、驾驶员视线区域、HOR/EOR阶段、锅炉类型、ETCS监督状态/等级/模式/无线连接状态及机器人停止类别。
+- 修正Toyota车距档位映射：手册规定1=Long、2=Medium、3=Short；旧版将1与3写反。
+- 为全部162个数值信号增加独立unit字段，并从Reasonable number range中移除单位和括号说明。
+- 为避免破坏既有引用，原有信号名中的单位后缀予以保留；独立unit字段是单位解释的规范来源。
+- 将ADDW两个非连续测试速度区间规范化为区间并集。
+- 将ETCS V_MAIN、V_RELEASEDP和T_TRAIN的特殊编码从数值信号中拆分为Enum，避免特殊语义被误当成物理量。
+- 取消核电保护定值的人工百分比归一化，改为过程变量原始工程单位，并增加变量种类和高/低侧跳闸方向。
+- 修正锅炉蒸汽压力范围：300 psig仅为火管锅炉典型适用上限，不再作为水管锅炉的统一上限。

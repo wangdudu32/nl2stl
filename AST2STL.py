@@ -1,8 +1,10 @@
 import json
+from collections.abc import Mapping
+from typing import Any
 
 
-def ast2stl(ast: str) -> str:
-    data = json.loads(ast)
+def ast2stl(ast: str | Mapping[str, Any]) -> str:
+    data = json.loads(ast) if isinstance(ast, str) else dict(ast)
     bool_prec = {"iff": 10, "implies": 20, "or": 40, "and": 50, "not": 60}
     arith = {
         "add": (" + ", 10),
@@ -42,6 +44,10 @@ def ast2stl(ast: str) -> str:
             return node["name"], 100
         if kind == "constant":
             return str(node["value"]), 100
+        if kind == "booleanConstant":
+            return ("true" if node["value"] else "false"), 100
+        if kind == "enumConstant":
+            return node["value"], 100
         op = node["operator"]
         symbol, prec = arith[op]
         left, lp = expr(node["left"])

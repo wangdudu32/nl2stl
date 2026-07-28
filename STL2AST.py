@@ -1,5 +1,7 @@
 import json
 import re
+from collections.abc import Mapping
+from typing import Any
 
 
 TOKEN_RE = re.compile(
@@ -17,8 +19,18 @@ RELATIONS = {"<", "<=", ">", ">=", "==", "!="}
 ARITH_OPS = {"+": "add", "-": "subtract", "*": "multiply", "/": "divide"}
 
 
-def stl2ast(stl):
-    return json.dumps(_Parser(_tokenize(stl)).parse(), ensure_ascii=False, separators=(",", ":"))
+def stl2ast(stl, symbols=None):
+    """Parse STL into AST JSON.
+
+    ``symbols`` is an optional scenario-scoped mapping from signal name to
+    metadata.  When supplied, Boolean literals and Enum members are preserved
+    as typed constants instead of being mistaken for signal names.
+    """
+    return json.dumps(
+        _Parser(_tokenize(stl), symbols or {}).parse(),
+        ensure_ascii=False,
+        separators=(",", ":"),
+    )
 
 
 def _tokenize(stl):
@@ -72,10 +84,26 @@ def _number(token):
     return int(value) if value.is_integer() else value
 
 
-def _expr(token):
+def _expr(token, symbols):
     if _is_number(token):
         return {"exprType": "constant", "value": _number(token)}
-    return {"exprType": "signal", "name": token}
+    if token.lower() in {"true", "false"}:
+        return {"exprType": "booleanConstant", "value": token.lower() == "true"}
+
+    node = {"exprType": "signal", "name": token}
+    metadata = symbols.get(token)
+    if not metadata:
+        return node
+
+    signal_type = str(metadata.get("type", "")).lower()
+    if signal_type == "bool":
+        node["valueType"] = "boolean"
+    elif signal_type == "enum":
+        node["valueType"] = "enum"
+        node["enumType"] = metadata.get("enum_type", token)
+    elif signal_type in {"float", "int", "number", "numeric"}:
+        node["valueType"] = "number"
+    return node
 
 
 def _is_number(token):
@@ -87,8 +115,9 @@ def _is_number(token):
 
 
 class _Parser:
-    def __init__(self, tokens):
+    def __init__(self, tokens, symbols: Mapping[str, Mapping[str, Any]]):
         self.tokens = tokens
+        self.symbols = symbols
         self.i = 0
 
     def parse(self):
@@ -155,11 +184,13 @@ class _Parser:
         relation = self._next()
         if relation not in RELATIONS:
             raise ValueError(f"expected relation, got: {relation}")
+        right = self._real_expr()
+        left, right = self._coerce_enum_constants(left, right)
         return {
             "nodeType": "predicate",
             "left": left,
             "relation": relation,
-            "right": self._real_expr(),
+            "right": right,
         }
 
     def _real_expr(self):
@@ -176,15 +207,57 @@ class _Parser:
 
     def _real_factor(self):
         if self._accept("-"):
-            token = self._next()
-            if not _is_number(token):
-                raise ValueError(f"expected number after -, got: {token}")
-            return {"exprType": "constant", "value": -_number(token)}
+            operand = self._real_factor()
+            if operand.get("exprType") == "constant":
+                return {"exprType": "constant", "value": -operand["value"]}
+            return {
+                "exprType": "binary",
+                "operator": "subtract",
+                "left": {"exprType": "constant", "value": 0},
+                "right": operand,
+            }
         if self._accept("("):
             node = self._real_expr()
             self._expect(")")
             return node
-        return _expr(self._next())
+        return _expr(self._next(), self.symbols)
+
+    def _coerce_enum_constants(self, left, right):
+        left_type = self._enum_type(left)
+        right_type = self._enum_type(right)
+        if left_type and not right_type:
+            right = self._enum_member(right, left_type)
+        elif right_type and not left_type:
+            left = self._enum_member(left, right_type)
+        return left, right
+
+    def _enum_type(self, node):
+        if node.get("exprType") == "enumConstant":
+            return node["enumType"]
+        if node.get("exprType") != "signal" or node.get("valueType") != "enum":
+            return None
+        return node["enumType"]
+
+    def _enum_member(self, node, enum_type):
+        if node.get("exprType") != "signal":
+            return node
+        token = node["name"]
+        if token in self.symbols:
+            return node
+
+        for metadata in self.symbols.values():
+            if str(metadata.get("type", "")).lower() != "enum":
+                continue
+            if metadata.get("enum_type") != enum_type:
+                continue
+            values = metadata.get("enum_values", {})
+            if token in values:
+                return {
+                    "exprType": "enumConstant",
+                    "enumType": enum_type,
+                    "value": token,
+                }
+        return node
 
     def _binary_expr(self, op, left, right):
         return {"exprType": "binary", "operator": op, "left": left, "right": right}

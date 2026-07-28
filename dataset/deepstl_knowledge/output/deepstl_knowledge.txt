@@ -1,0 +1,1718 @@
+[metadata]
+source_dataset:deepstl_train_14k.csv + deepstl_test_2k.csv
+processed_scope:deepstl_train_14k.csv rows 1-3550
+extraction_method:LLM-only row-by-row semantic extraction
+batch_update:knowledge base updated after rows 1-50, rows 51-100, rows 101-150, rows 151-200, rows 201-250, rows 251-300, rows 301-350, rows 351-400, rows 401-450, rows 451-500, rows 501-550, rows 551-600, rows 601-650, rows 651-700, rows 701-750, rows 751-800, rows 801-850, rows 851-900, rows 901-950, rows 951-1000, rows 1001-1050, rows 1051-1100, rows 1101-1150, rows 1151-1200, rows 1201-1250, rows 1251-1300, rows 1301-1350, rows 1351-1400, rows 1401-1450, rows 1451-1500, rows 1501-1550, rows 1551-1600, rows 1601-1650, rows 1651-1700, rows 1701-1750, rows 1751-1800, rows 1801-1850, rows 1851-1900, rows 1901-1950, rows 1951-2000, rows 2001-2050, rows 2051-2100, rows 2101-2150, rows 2151-2200, rows 2201-2250, rows 2251-2300, rows 2301-2350, rows 2351-2400, rows 2401-2450, rows 2451-2500, rows 2501-2550, rows 2551-2600, rows 2601-2650, rows 2651-2700, rows 2701-2750, rows 2751-2800, rows 2801-2850, rows 2851-2900, rows 2901-2950, rows 2951-3000, rows 3001-3050, rows 3051-3100, rows 3101-3150, rows 3151-3200, rows 3201-3250, rows 3251-3300, rows 3301-3350, rows 3351-3400, rows 3401-3450, rows 3451-3500, and rows 3501-3550
+temporal_operator_style:DeepSTL word form
+
+[formula_templates]
+
+type:invariance_reachability
+stl:always[<T_START>,<T_END>](<STATE_REQUIREMENT>)
+semantics:The state requirement holds continuously throughout the bounded interval.
+applicable_when:
+    antecedent_kind:none
+    response_kind:state
+    time_scope:bounded
+nl_patterns:
+    - Continuously <STATE_REQUIREMENT_NL> for each time point in the first <T_END> time units.[when T_START is 0]
+    - For every time point during the first <T_START> to <T_END> time units <STATE_REQUIREMENT_NL>.
+    - Without interruption <STATE_REQUIREMENT_NL> for every time instant in the first <T_END> time units.
+    - <STATE_REQUIREMENT_NL> without interruption during the first <T_END> time units.
+    - During the first <T_START> to <T_END> time units, <STATE_REQUIREMENT_NL>.
+    - <STATE_REQUIREMENT_NL> for every time point in the first <T_END> time units.
+    - For every time point during the first <T_END> time units <STATE_REQUIREMENT_NL>.
+    - <STATE_REQUIREMENT_NL> all the time for each moment during the first <T_END> time units.
+    - For every time point within the first <T_END> time units, <STATE_REQUIREMENT_NL>.
+    - For every time point during the first <T_START> to <T_END> time units, <STATE_REQUIREMENT_NL>.
+    - For each moment in the first <T_START> to <T_END> time units, <STATE_REQUIREMENT_NL>.
+    - During the first <T_END> time units <STATE_REQUIREMENT_NL>.
+    - For each time point in the first <T_START> to <T_END> time units consistently <STATE_REQUIREMENT_NL>.
+    - <STATE_REQUIREMENT_NL> all the time within <T_START> to <T_END> time units.
+    - Continuously <STATE_REQUIREMENT_NL> within the first <T_END> time units.
+    - For every time instant in the first <T_START> to <T_END> time units, consecutively <STATE_REQUIREMENT_NL>.
+    - For each time instant within the first <T_START> to <T_END> time units <STATE_REQUIREMENT_NL> uninterruptedly.
+    - Continuously <STATE_REQUIREMENT_NL> for each time point within <T_END> time units.
+    - For every moment within <T_END> time units, <STATE_REQUIREMENT_NL> uninterruptedly.
+    - <STATE_REQUIREMENT_NL> for every time instant in the first <T_START> to <T_END> time units.
+    - <NEGATED_STATE_REQUIREMENT_NL> for more than <T_END> time units.
+    - For every time instant within <T_START> to <T_END> time units <STATE_REQUIREMENT_NL>.
+    - In the first <T_START> to <T_END> time units <STATE_REQUIREMENT_NL> consistently.
+    - For every moment in the first <T_START> to <T_END> time units, <STATE_REQUIREMENT_NL>.
+    - For every time point during the first <T_END> time units <STATE_REQUIREMENT_NL> consecutively.
+    - For each time instant in the first <T_END> time units consistently <STATE_REQUIREMENT_NL>.
+    - <STATE_REQUIREMENT_NL> continuously for at least <T_END> time units.
+    - For more than <T_END> time units <STATE_REQUIREMENT_NL>.
+    - For each moment within <T_END> time units <STATE_REQUIREMENT_NL> uninterruptedly.
+    - During the first <T_END> time units continuously <STATE_REQUIREMENT_NL>.
+    - <STATE_REQUIREMENT_NL> all the time for each time instant within <T_END> time units.
+    - <STATE_REQUIREMENT_NL> continuously for each time point during the first <T_START> to <T_END> time units.
+    - For every time point within the first <T_END> time units <STATE_REQUIREMENT_NL> consistently.
+    - For every moment within <T_END> time units <STATE_REQUIREMENT_NL> consecutively.
+pattern_notes:
+    - The first bound is commonly omitted in English when it is zero.
+    - Continuity wording may precede or follow the state requirement.
+
+type:invariance_reachability
+stl:eventually[<T_START>,<T_END>](<STATE_REQUIREMENT>)
+semantics:The state requirement becomes true at least once in the bounded interval.
+applicable_when:
+    antecedent_kind:none
+    response_kind:state
+    time_scope:bounded
+nl_patterns:
+    - At a time in less than <T_END> time units <STATE_REQUIREMENT_NL> eventually.
+    - At a certain moment within the first <T_END> time units, <STATE_REQUIREMENT_NL>.
+    - At a time during the first <T_END> time units, <STATE_REQUIREMENT_NL> eventually.
+    - Eventually there has to be a certain time instant after between <T_START> to <T_END> time units, at which <STATE_REQUIREMENT_NL>.
+    - Finally <STATE_REQUIREMENT_NL> at a time within the first <T_START> to <T_END> time units.
+    - There has to be a certain time instant during the first <T_END> time units eventually, at which <STATE_REQUIREMENT_NL>.
+    - There must be a time after between <T_START> to <T_END> time units, at which <STATE_REQUIREMENT_NL>.
+    - At sometime in the first <T_START> to <T_END> time units, <STATE_REQUIREMENT_NL> eventually.
+    - There will be a certain time instant during the first <T_END> time units, at which finally <STATE_REQUIREMENT_NL>.
+    - There shall be a certain time point starting at most <T_END> time units ultimately, at which <STATE_REQUIREMENT_NL>.
+    - There ought to exist a certain time instant in the first <T_END> time units ultimately, at which <STATE_REQUIREMENT_NL>.
+    - There has to be a certain time instant within <T_END> time units, at which <STATE_REQUIREMENT_NL> finally.
+    - <STATE_REQUIREMENT_NL> eventually at a certain time point in the first <T_START> to <T_END> time units.
+    - At sometime starting between <T_START> to <T_END> time units <STATE_REQUIREMENT_NL> finally.
+    - There will have to be a time in the first <T_START> to <T_END> time units, at which <STATE_REQUIREMENT_NL> ultimately.
+    - At sometime within the first <T_END> time units, <STATE_REQUIREMENT_NL> finally, and <STATE_REQUIREMENT2_NL>.
+    - There will have to be sometime during the first <T_END> time units, at which <STATE_REQUIREMENT_NL> finally.
+    - Finally at a time starting between <T_START> to <T_END> time units <STATE_REQUIREMENT_NL>.
+    - <STATE_REQUIREMENT_NL> finally at a certain time instant within the first <T_START> to <T_END> time units.
+    - Eventually <STATE_REQUIREMENT_NL> at a certain moment after at most <T_END> time units.
+    - At sometime after between <T_START> to <T_END> time units, <STATE_REQUIREMENT_NL> finally.
+    - Finally <STATE_REQUIREMENT_NL> at sometime within <T_END> time units.
+    - There must exist a certain time point within the first <T_END> time units, at which finally <STATE_REQUIREMENT_NL>.
+    - <STATE_REQUIREMENT_NL> at sometime within the first <T_START> to <T_END> time units.
+    - Ultimately there will have to exist a certain time instant within <T_END> time units, at which <STATE_REQUIREMENT_NL>.
+    - At a certain time instant within <T_END> time units <STATE_REQUIREMENT_NL> eventually.
+    - At sometime in the first <T_START> to <T_END> time units, <STATE_REQUIREMENT_NL>.
+    - There has to be a certain moment starting at most <T_END> time units, at which <STATE_REQUIREMENT_NL> eventually.
+    - <STATE_REQUIREMENT_NL> eventually at a time within the first <T_END> time units.
+    - There needs to be a certain time point after between <T_START> to <T_END> time units, at which <STATE_REQUIREMENT_NL> finally.
+    - There should exist sometime within the first <T_END> time units, at which eventually <STATE_REQUIREMENT_NL>.
+    - Ultimately there needs to exist a certain time instant starting between <T_START> to <T_END> time units, at which <STATE_REQUIREMENT_NL>.
+    - There will be sometime after between <T_START> to <T_END> time units, at which <STATE_REQUIREMENT_NL> finally.
+    - At sometime within the next <T_END> time units <STATE_REQUIREMENT_NL> eventually.
+    - Ultimately at a certain moment in the following <T_END> time units <STATE_REQUIREMENT_NL>.
+    - There has to be a certain time instant within the first <T_END> time units, at which <STATE_REQUIREMENT_NL>.
+    - There exists sometime in the first <T_END> time units, at which ultimately <STATE_REQUIREMENT_NL>.
+    - There will be a time within <T_END> time units, at which ultimately <STATE_REQUIREMENT_NL>.
+    - <STATE_REQUIREMENT_NL> eventually at sometime during the first <T_START> to <T_END> time units.
+    - There shall exist a certain time point during the first <T_END> time units, at which <STATE_REQUIREMENT_NL>.
+    - There must be a certain time point within the first <T_START> to <T_END> time units, at which eventually <STATE_REQUIREMENT_NL>.
+    - <STATE_REQUIREMENT_NL> ultimately at a certain time point within <T_END> time units.
+    - There has to exist a time within <T_END> time units, at which finally <STATE_REQUIREMENT_NL>.
+    - There shall exist a certain time point within the first <T_START> to <T_END> time units, at which <STATE_REQUIREMENT_NL> eventually.
+
+type:invariance_reachability
+stl:eventually(<STATE_REQUIREMENT>)
+semantics:The state requirement becomes true sometime in the unbounded future.
+applicable_when:
+    antecedent_kind:none
+    response_kind:state
+    time_scope:unbounded
+nl_patterns:
+    - Ultimately <STATE_REQUIREMENT_NL> at sometime in the future.
+    - At a certain time instant in the future before the end of the execution finally <STATE_REQUIREMENT_NL>.
+    - <STATE_REQUIREMENT_NL> finally at a certain time point in the future.
+    - At a certain time instant in the future before the simulation ends, ultimately <STATE_REQUIREMENT_NL>.
+
+type:immediate_response
+stl:always(<TRIGGER> -> <RESPONSE>)
+semantics:Whenever the trigger holds or occurs, the response is required at the same instant.
+applicable_when:
+    antecedent_kind:state | event
+    response_kind:state | event
+    time_scope:unbounded
+nl_patterns:
+    - It is always the case that whenever <TRIGGER_NL> then at the same moment <RESPONSE_NL>.
+    - In the case <TRIGGER_NL> then in response <RESPONSE_NL> at the same time.
+    - In the case <TRIGGER_NL>, then the following condition holds: <RESPONSE_NL>.
+    - As soon as <TRIGGER_NL>, then in response <RESPONSE_NL> instantly.
+    - It is always the case that if <TRIGGER_NL> then all of the following conditions hold: <RESPONSE_NL>.
+    - As soon as <TRIGGER_NL> then the following condition is true: <RESPONSE_NL> at the same time instant.
+    - On condition that <TRIGGER_NL> then in response <RESPONSE_NL>.
+    - It is always the case that when <TRIGGER_NL>, then without any delay <RESPONSE_NL>.
+    - It is always the case that if <TRIGGER_NL> then the following condition holds: right away <RESPONSE_NL>.
+    - It is always the case that in case that <TRIGGER_NL> then all of the following conditions are true: <RESPONSE_NL> in no time.
+    - If <TRIGGER_NL>, then the following condition holds: <RESPONSE_NL> without any delay.
+    - While <TRIGGER_NL> then all of the following conditions are true: at the same time instant <RESPONSE_NL>.
+    - In the event that <TRIGGER_NL> then all of the following conditions are true: at the same time point <RESPONSE_NL>.
+    - Globally, if <TRIGGER_NL>, then in response <RESPONSE_NL> right away.
+    - If <TRIGGER_NL> then in response <RESPONSE_NL> at once.
+    - While <TRIGGER_NL>, then in response starting without any delay <RESPONSE_NL>.
+    - Globally, if <TRIGGER_NL> then the following condition holds: at the same time point <RESPONSE_NL>.
+    - Everytime when <TRIGGER_NL>, then all of the following conditions are true: promptly <RESPONSE_NL>.
+    - Globally, whenever <TRIGGER_NL>, then simultaneously <RESPONSE_NL>.
+    - Whenever <TRIGGER_NL>, and <TRIGGER2_NL> then in response <RESPONSE_NL> instantly.
+    - When <TRIGGER_NL>, or <TRIGGER2_NL> then <RESPONSE_NL> at the same time instant.
+    - As soon as <TRIGGER_NL> then all of the following conditions hold: <RESPONSE_NL> in no time.
+    - Everytime when <TRIGGER_NL> then <RESPONSE_NL> at the same time.
+    - In the event that <TRIGGER_NL>, then all of the following conditions hold: simultaneously <RESPONSE_NL>.
+    - If <TRIGGER_NL> then the following condition holds: <RESPONSE_NL> simultaneously.
+    - During the interval that <TRIGGER_NL> then <RESPONSE_NL> at the same time.
+    - In case that <TRIGGER_NL>, then <RESPONSE_NL>.
+    - If <TRIGGER_NL> or <TRIGGER2_NL>, then <RESPONSE_NL> at the same time instant.
+    - As soon as <TRIGGER_NL> and <TRIGGER2_NL> then all of the following conditions hold: <RESPONSE_NL>.
+pattern_notes:
+    - Immediate timing may be expressed as at the same moment, at the same time, instantly, simultaneously, promptly, or without any delay.
+
+type:temporal_response
+stl:always(<TRIGGER> -> <TEMPORAL_RESPONSE>)
+semantics:Whenever the trigger holds or occurs, a one-level temporal response is required.
+applicable_when:
+    antecedent_kind:state | event | temporal
+    response_kind:temporal
+    time_scope:bounded | unbounded | mixed
+nl_patterns:
+    - It is always the case that when <TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+    - It is always the case that whenever <TRIGGER_NL>, then all of the following conditions are true: <TEMPORAL_RESPONSE_NL>.
+    - If <TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+    - On condition that <TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+    - Globally, whenever <TRIGGER_NL>, then the following condition is true: <TEMPORAL_RESPONSE_NL>.
+    - It is always the case that when <TRIGGER_NL> then in response <TEMPORAL_RESPONSE_NL>.
+    - As soon as <TRIGGER_NL> then the following condition is true: <TEMPORAL_RESPONSE_NL>.
+    - Whenever <TRIGGER_NL>, then in response <TEMPORAL_RESPONSE_NL>.
+    - Everytime when <TRIGGER_NL> then in response <TEMPORAL_RESPONSE_NL>.
+    - It is always the case that if <TRIGGER_NL> then in response <TEMPORAL_RESPONSE_NL>.
+    - Globally, in case that <TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+    - If the following condition won't be true: <TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+    - Everytime when <TRIGGER_NL>, then in response <TEMPORAL_RESPONSE_NL>.
+    - Globally, everytime when <TRIGGER_NL>, then all of the following conditions hold: <TEMPORAL_RESPONSE_NL>.
+    - In case that <TRIGGER_NL>, then all of the following conditions hold: <TEMPORAL_RESPONSE_NL>.
+    - In the case <TRIGGER_NL>, then the following condition is true: <TEMPORAL_RESPONSE_NL>.
+    - As soon as <TRIGGER_NL>, then all of the following conditions hold: <TEMPORAL_RESPONSE_NL>.
+    - During the interval that <TRIGGER_NL>, then all of the following conditions hold: <TEMPORAL_RESPONSE_NL>.
+    - Whenever <TRIGGER_NL>, then all of the following conditions are true: <TEMPORAL_RESPONSE_NL>.
+    - If <TRIGGER_NL> and <TRIGGER2_NL>, then all of the following conditions hold: <TEMPORAL_RESPONSE_NL>.
+    - In case that <TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+    - Whenever <TEMPORAL_TRIGGER_NL>, then there needs to exist a certain time instant within the following <T_END> time units, at which <TEMPORAL_RESPONSE_NL>.
+    - Globally, when <PAST_TRIGGER_NL>, then the following condition is true: <TEMPORAL_RESPONSE_NL>.
+    - If <PAST_TRIGGER_NL> then in response <TEMPORAL_RESPONSE_NL>.
+    - It is always the case that while <TRIGGER_NL>, then the following condition holds: <TEMPORAL_RESPONSE_NL>.
+    - It is always the case that if <TRIGGER_NL> or <TRIGGER2_NL> then in response <TEMPORAL_RESPONSE_NL>.
+    - Globally, everytime when <TEMPORAL_EVENT_TRIGGER_NL>, then in response <TEMPORAL_RESPONSE_NL>.
+    - In case that <EVENT_ABSENCE_TRIGGER_NL> or <TRIGGER2_NL>, then all of the following conditions are true: <TEMPORAL_RESPONSE_NL>.
+    - In the event that <TRIGGER_NL> and <TRIGGER2_NL> then in response <TEMPORAL_RESPONSE_NL>.
+    - In the case <UNTIL_TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+
+type:stabilization_recurrence
+stl:always(<TRIGGER> -> <NESTED_TEMPORAL_RESPONSE>)
+semantics:Whenever the trigger holds or occurs, a nested stabilization or recurrence response is required.
+applicable_when:
+    antecedent_kind:state | event | temporal
+    response_kind:nested_temporal
+    time_scope:bounded | unbounded | mixed
+nl_patterns:
+    - It is always the case that while <TRIGGER_NL>, then all of the following conditions are true: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - On condition that <TRIGGER_NL>, then in response <NESTED_TEMPORAL_RESPONSE_NL>.
+    - If <TRIGGER_NL>, then all of the following conditions are true: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - Globally, during the interval that <TRIGGER_NL>, then all of the following conditions hold: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - On condition that <TRIGGER_NL> then all of the following conditions are true: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - It is always the case that everytime when <TRIGGER_NL> then the following condition holds: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - Globally, when <TRIGGER_NL> then <NESTED_TEMPORAL_RESPONSE_NL>.
+    - Everytime when <TRIGGER_NL> then the following condition holds: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - Globally, while <TRIGGER_NL>, then all of the following conditions are true: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - As soon as <TRIGGER_NL> then the following condition is true: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - Globally, if <TRIGGER_NL>, then the following condition is true: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - Globally, if <TRIGGER_NL>, then all of the following conditions are true: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - It is always the case that if <TRIGGER_NL>, then <NESTED_TEMPORAL_RESPONSE_NL>.
+    - In the case <TRIGGER_NL> then all of the following conditions are true: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - On condition that <TRIGGER_NL> then <NESTED_TEMPORAL_RESPONSE_NL>.
+    - Globally, whenever <TRIGGER_NL> then <NESTED_TEMPORAL_RESPONSE_NL>.
+    - When <TRIGGER_NL>, then <NESTED_TEMPORAL_RESPONSE_NL>.
+    - Whenever <TRIGGER_NL>, then the following condition is true: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - Globally, during the interval that <TRIGGER_NL>, then <NESTED_TEMPORAL_RESPONSE_NL>.
+    - Globally, in case that <TRIGGER_NL> then all of the following conditions hold: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - Whenever <TRIGGER_NL> or <TRIGGER2_NL>, then <NESTED_TEMPORAL_RESPONSE_NL>.
+    - If <TRIGGER_NL>, then in response <NESTED_TEMPORAL_RESPONSE_NL>.
+    - In case that <TRIGGER_NL>, then the following condition holds: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - Whenever <TRIGGER_NL> and <TRIGGER2_NL>, then in response <NESTED_TEMPORAL_RESPONSE_NL>.
+    - As soon as <TRIGGER_NL>, and <TRIGGER2_NL>, then all of the following conditions hold: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - On condition that <TRIGGER_NL>, then the following condition is true: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - It is always the case that in case that <TEMPORAL_TRIGGER_NL> then all of the following conditions are true: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - Globally, whenever <NEGATED_TEMPORAL_TRIGGER_NL>, then the following condition holds: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - It is always the case that when <TRIGGER_NL> then the following condition holds: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - When <TRIGGER_NL> and <TRIGGER2_NL> then in response <NESTED_TEMPORAL_RESPONSE_NL>.
+    - Globally, when <TRIGGER_NL> and <TRIGGER2_NL> then the following condition holds: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - It is always the case that if <PAST_EVENT_TRIGGER_NL>, then all of the following conditions are true: <NESTED_TEMPORAL_RESPONSE_NL>.
+    - Globally, whenever <ALWAYS_TRIGGER_NL>, then all of the following conditions are true: <NESTED_TEMPORAL_RESPONSE_NL>.
+
+type:invariance_reachability
+stl:always[<T_START>,<T_END>](<EVENT_REQUIREMENT>)
+semantics:The event requirement is continuously absent or constrained throughout the bounded interval.
+applicable_when:
+    antecedent_kind:none
+    response_kind:event
+    time_scope:bounded
+nl_patterns:
+    - Consecutively <EVENT_REQUIREMENT_NL> for each time instant during the first <T_END> time units.
+    - For at least <T_END> time units continuously <EVENT_REQUIREMENT_NL>.
+
+type:invariance_reachability
+stl:always(<REQUIREMENT>)
+semantics:The state, event, or mixed requirement holds throughout the unbounded future.
+applicable_when:
+    antecedent_kind:none
+    response_kind:state | event | mixed
+    time_scope:unbounded
+nl_patterns:
+    - In the future until the execution ends consecutively <REQUIREMENT_NL>.
+    - Consistently <REQUIREMENT_NL> in the future until the end of the simulation.
+    - Uninterruptedly <REQUIREMENT_NL> in the future till the execution ends.
+    - In the future until the end of the simulation without interruption <REQUIREMENT_NL>.
+    - In the future till the end of the simulation, consecutively <REQUIREMENT_NL>.
+
+type:invariance_reachability
+stl:eventually[<T_START>,<T_END>](<REQUIREMENT>)
+semantics:The event or mixed requirement becomes true at least once in the bounded interval.
+applicable_when:
+    antecedent_kind:none
+    response_kind:event | mixed
+    time_scope:bounded
+nl_patterns:
+    - At a certain time point starting at most <T_END> time units <REQUIREMENT_NL>.
+    - At a certain moment in the first <T_END> time units, eventually <REQUIREMENT_NL>.
+    - At sometime in the first <T_START> to <T_END> time units, <REQUIREMENT_NL> eventually.
+    - There ought to be sometime within <T_START> to <T_END> time units, at which <REQUIREMENT_NL> eventually.
+    - There should exist sometime after between <T_START> to <T_END> time units, at which <REQUIREMENT_NL>.
+    - There must exist sometime within <T_START> to <T_END> time units, at which <REQUIREMENT_NL>.
+    - At a certain moment in less than <T_END> time units eventually <REQUIREMENT_NL>.
+    - At a certain time point in the first <T_START> to <T_END> time units, <REQUIREMENT_NL> finally.
+    - There must exist a certain moment starting between <T_START> to <T_END> time units, at which ultimately <REQUIREMENT_NL>.
+    - There must be a certain time instant within <T_START> to <T_END> time units, at which <REQUIREMENT_NL> eventually.
+    - At a time within the first <T_START> to <T_END> time units, <REQUIREMENT_NL> finally.
+    - There must be a certain moment starting at most <T_END> time units, at which <REQUIREMENT_NL> finally, and <REQUIREMENT2_NL> ultimately.
+    - Finally there needs to exist a certain time point during the first <T_START> to <T_END> time units, at which <REQUIREMENT_NL> or <REQUIREMENT2_NL>.
+    - At sometime during the first <T_END> time units, <REQUIREMENT_NL> ultimately, or <REQUIREMENT2_NL>.
+    - At a time in less than <T_END> time units, finally <REQUIREMENT_NL> or <REQUIREMENT2_NL>.
+    - There has to be a time within <T_END> time units, at which <REQUIREMENT_NL>, and ultimately <REQUIREMENT2_NL>.
+    - There exists sometime after at most <T_END> time units, at which <REQUIREMENT_NL> or ultimately <REQUIREMENT2_NL>.
+
+type:invariance_reachability
+stl:eventually(<REQUIREMENT>)
+semantics:The state, event, or mixed requirement becomes true sometime in the unbounded future.
+applicable_when:
+    antecedent_kind:none
+    response_kind:state | event | mixed
+    time_scope:unbounded
+nl_patterns:
+    - At a certain time point in the future, <REQUIREMENT_NL> finally.
+    - There will be a certain time point in the future before the execution ends, at which <REQUIREMENT_NL>.
+    - There will have to be a certain time instant in the future, at which <REQUIREMENT_NL> eventually.
+    - There will have to be sometime in the future before the end of the simulation, at which <REQUIREMENT_NL>.
+    - At a certain time point in the future before the simulation ends ultimately <REQUIREMENT_NL>.
+    - There exists a time in the future before the execution ends ultimately, at which <REQUIREMENT_NL>.
+    - There shall exist sometime in the future before the simulation ends, at which <REQUIREMENT_NL> eventually.
+    - There will have to be eventually a time in the future before the simulation ends, at which <REQUIREMENT_NL>.
+    - Finally there ought to exist a certain time instant in the future before the simulation ends, at which <REQUIREMENT_NL>.
+    - At a certain time point in the future before the simulation ends <REQUIREMENT_NL> eventually, and <REQUIREMENT2_NL>.
+    - At a certain time instant in the future before the simulation ends, ultimately <REQUIREMENT_NL>, and <REQUIREMENT2_NL>.
+    - There will have to be a certain time instant in the future before the end of the simulation finally, at which <REQUIREMENT_NL>.
+    - At a time in the future before the execution ends finally <REQUIREMENT_NL>.
+    - At a certain moment in the future, <REQUIREMENT_NL> ultimately.
+    - There ought to exist a certain moment in the future before the execution ends, at which <REQUIREMENT_NL>.
+    - At a certain moment in the future, <REQUIREMENT_NL> finally.
+    - There has to be a certain time point in the future before the simulation ends, at which finally <REQUIREMENT_NL>.
+    - Eventually there will have to exist a time in the future before the end of the simulation, at which <REQUIREMENT_NL>.
+    - At sometime in the future ultimately <REQUIREMENT_NL>, and <REQUIREMENT2_NL> eventually.
+    - There exists a certain moment in the future before the end of the simulation, at which <REQUIREMENT_NL>.
+    - There needs to exist sometime in the future, at which <REQUIREMENT_NL>.
+    - <REQUIREMENT_NL> eventually at a certain moment in the future.
+
+[subexpression_templates]
+
+type:temporal_unary
+stl:historically[<T_START>,<T_END>](<EVENT_REQUIREMENT>)
+semantics:The event requirement holds throughout the bounded past interval.
+applicable_when:
+    input_kind:event
+    output_role:response
+    time_scope:past bounded
+nl_patterns:
+    - <EVENT_REQUIREMENT_NL> during the past <T_END> time units.
+    - in the past <T_START> to <T_END> time units uninterruptedly <EVENT_REQUIREMENT_NL>
+
+type:temporal_unary
+stl:historically[<T_START>,<T_END>](<PRED>)
+semantics:The predicate holds throughout the bounded past interval.
+applicable_when:
+    input_kind:state | range
+    output_role:trigger | response
+    time_scope:past bounded
+nl_patterns:
+    - <PRED_NL> during the elapsed <T_END> time units
+    - within the past <T_END> time units <PRED_NL> consistently
+    - for the past <T_END> time units <PRED_NL> consecutively
+    - in the elapsed <T_END> time units <PRED_NL> has consecutively kept
+    - <PRED_NL> uninterruptedly during the past <T_START> to <T_END> time units
+    - <PRED_NL> and consistently stayed like this within the past <T_END> time units
+    - <PRED_NL> then this scenario will have been continuing all the time in the past <T_START> to <T_END> time units
+    - <PRED_NL> and this scenario has been remaining uninterruptedly in the past <T_END> time units
+    - <PRED_NL> has been holding uninterruptedly in the elapsed <T_END> time units
+    - for the past <T_END> time units <PRED_NL> has been always true
+    - <PRED_NL> and then has to always continue like this for the last <T_END> time units
+    - <PRED_NL> and then has stayed like that without interruption in the elapsed <T_END> time units
+    - <PRED_NL> has continuously stayed within the past <T_END> time units
+    - <PRED_NL> and has remained like that in the last <T_START> to <T_END> time units
+    - <PRED_NL> without interruption during the past
+    - at a certain moment in the last <T_START> to <T_END> time units <PRED_NL>
+    - <PRED_NL> and continues like this consistently in the last <T_START> to <T_END> time units
+
+type:temporal_unary
+stl:historically(<PRED>)
+semantics:The predicate holds throughout the unbounded past.
+applicable_when:
+    input_kind:state
+    output_role:trigger | response
+    time_scope:past unbounded
+nl_patterns:
+    - <PRED_NL> and then this condition has kept uninterruptedly in the past since the start of the simulation
+    - <PRED_NL> and this condition lasts without interruption in the past
+    - <PRED_NL> then this scenario uninterruptedly keeps in the past since the start of the simulation
+    - in the past since the beginning of the simulation <PRED_NL> consecutively
+    - in the past since the start of the simulation, continuously <PRED_NL>
+    - in the past since the start of the execution, uninterruptedly <PRED_NL>
+    - <PRED_NL> continuously in the past
+    - in the past since the start of the simulation, consistently <PRED_NL>
+    - <PRED_NL> has kept continuously in the past since the beginning of the simulation
+
+type:temporal_unary
+stl:historically(<EVENT_REQUIREMENT>)
+semantics:The event requirement has held or has been continuously absent throughout the unbounded past.
+applicable_when:
+    input_kind:event_absence
+    output_role:trigger
+    time_scope:past unbounded
+nl_patterns:
+    - in the past since the start of the execution, <EVENT_REQUIREMENT_NL> has uninterruptedly not been detected
+
+type:temporal_unary
+stl:once(<PRED>)
+semantics:The predicate held at least once in the unbounded past.
+applicable_when:
+    input_kind:state
+    output_role:trigger | response
+    time_scope:past unbounded
+nl_patterns:
+    - <PRED_NL> once at a time in the past.
+    - once at a certain time instant in the past starting from the beginning of the execution <PRED_NL>
+    - there would exist a certain moment in the past from the start of the simulation once, at which <PRED_NL>
+    - <PRED_NL> at a certain moment in the past from the beginning of the simulation
+
+type:temporal_unary
+stl:once(<EVENT_REQUIREMENT>)
+semantics:The event requirement occurred at least once in the unbounded past.
+applicable_when:
+    input_kind:event
+    output_role:trigger | response
+    time_scope:past unbounded
+nl_patterns:
+    - there would exist a certain moment in the past from the start of the simulation once, at which <EVENT_REQUIREMENT_NL> was observed
+    - at a certain moment in the past from the beginning of the execution <EVENT_REQUIREMENT_NL> took place
+    - <EVENT_REQUIREMENT_NL> once at a certain time instant in the past starting from the beginning of the simulation
+
+type:temporal_unary
+stl:once[<T_START>,<T_END>](<PRED>)
+semantics:The predicate held at least once in the bounded past interval.
+applicable_when:
+    input_kind:state
+    output_role:trigger | temporal_response | temporal_modifier_input
+    time_scope:past bounded
+nl_patterns:
+    - there will be a certain time instant during the last <T_END> time units, at which <PRED_NL>
+    - at a certain moment during the elapsed <T_END> time units, once <PRED_NL>
+    - once there is a certain time point in the elapsed <T_START> to <T_END> time units, at which <PRED_NL>
+    - there existed sometime before less than <T_END> time units, at which once <PRED_NL>
+    - once <PRED_NL> at a certain time point during the elapsed <T_END> time units
+    - once at a certain time point in the last <T_END> time units, <PRED_NL>
+    - there was sometime in the past <T_END> time units, at which <PRED_NL> once
+    - at a certain time instant before at most <T_END> time units, <PRED_NL> once
+    - at a certain time instant before less than <T_END> time units, <PRED_NL> once
+    - at sometime in the last <T_START> to <T_END> time units <PRED_NL> once
+    - <PRED_NL> once at a time in the last <T_END> time units
+    - <PRED_NL> at a time in the elapsed <T_END> time units
+    - at a time before less than <T_END> time units, <PRED_NL> once
+    - there once existed a certain moment before less than <T_END> time units, at which <PRED_NL>
+    - <PRED_NL> once at a certain time instant during the elapsed <T_START> to <T_END> time units
+
+type:temporal_unary
+stl:once[<T_START>,<T_END>](<EVENT_REQUIREMENT>)
+semantics:The event requirement occurred at least once in the bounded past interval.
+applicable_when:
+    input_kind:event
+    output_role:temporal_response
+    time_scope:past bounded
+nl_patterns:
+    - there had to be a time in the elapsed <T_START> to <T_END> time units, at which once <EVENT_REQUIREMENT_NL> needed to occur
+    - there is sometime within the last <T_START> to <T_END> time units once, at which <EVENT_REQUIREMENT_NL> takes place
+    - there ought to be once a certain moment within the last <T_END> time units, at which <EVENT_REQUIREMENT_NL> should be detected
+    - at a certain time instant within the elapsed <T_END> time units once <EVENT_REQUIREMENT_NL>
+    - at a time during the elapsed <T_END> time units, <EVENT_REQUIREMENT_NL> occurred once
+
+type:temporal_unary
+stl:eventually[<T_START>,<T_END>](<PRED>)
+semantics:The predicate becomes true at least once in the bounded future interval.
+applicable_when:
+    input_kind:state
+    output_role:trigger | temporal_response
+    time_scope:future bounded
+nl_patterns:
+    - ultimately <PRED_NL> at a certain time instant in the subsequent <T_START> to <T_END> time units
+    - eventually after a time within the coming <T_END> time units, <PRED_NL>
+    - there shall be a time in the following <T_END> time units finally, at which <PRED_NL>
+    - at a certain time instant in less than <T_END> time units, <PRED_NL> ultimately
+    - finally <PRED_NL> at a certain moment in the next <T_END> time units
+    - at a time during the following <T_START> to <T_END> time units <PRED_NL> eventually
+    - at a time in the first <T_START> to <T_END> time units, ultimately <PRED_NL>
+    - at a certain time point in the coming <T_END> time units, <PRED_NL> ultimately
+    - there exists a certain time point in the first <T_START> to <T_END> time units, at which finally <PRED_NL>
+    - at a certain moment in the future, finally <PRED_NL>
+    - finally <PRED_NL> at a certain time point during the subsequent <T_END> time units
+    - there is a time starting at most <T_END> time units, at which finally <PRED_NL>
+    - <PRED_NL> at a time within the first <T_END> time units
+    - there is a time starting at most <T_END> time units finally, at which <PRED_NL>
+    - there will exist a certain time instant within the next <T_END> time units ultimately, at which <PRED_NL>
+    - eventually there ought to be sometime in the coming <T_END> time units, at which <PRED_NL>
+
+type:temporal_unary
+stl:eventually[<T_START>,<T_END>](<EVENT_REQUIREMENT>)
+semantics:The event occurs at least once in the bounded future interval.
+applicable_when:
+    input_kind:event
+    output_role:temporal_response
+    time_scope:future bounded
+nl_patterns:
+    - there shall be sometime in the coming <T_START> to <T_END> time units ultimately, at which <EVENT_REQUIREMENT_NL>
+    - at a certain moment during the next <T_END> time units, finally <EVENT_REQUIREMENT_NL>
+    - at a certain time instant after at most <T_END> time units <EVENT_REQUIREMENT_NL>
+    - at a time after between <T_START> to <T_END> time units <EVENT_REQUIREMENT_NL>
+    - there will have to be sometime during the subsequent <T_END> time units finally, at which <EVENT_REQUIREMENT_NL>
+    - at a time in the first <T_START> to <T_END> time units, <EVENT_REQUIREMENT_NL> finally
+    - there ought to exist a certain time instant within <T_END> time units finally, at which <EVENT_REQUIREMENT_NL>
+    - there must exist a certain moment starting at most <T_END> time units ultimately, at which <EVENT_REQUIREMENT_NL>
+    - there should be a certain time instant in the coming <T_END> time units eventually, at which <EVENT_REQUIREMENT_NL>
+    - <EVENT_REQUIREMENT_NL> eventually gets detected at a time within the first <T_START> to <T_END> time units
+    - eventually there must exist a certain time instant in the coming <T_END> time units, at which <EVENT_REQUIREMENT_NL>
+    - <EVENT_REQUIREMENT_NL> needs to be detected eventually at a certain moment in the following <T_END> time units
+    - eventually the event that <EVENT_REQUIREMENT_NL> shall take place at a certain time point in the subsequent <T_END> time units
+    - at a certain moment during the subsequent <T_START> to <T_END> time units eventually <EVENT_REQUIREMENT_NL>
+    - <EVENT_REQUIREMENT_NL> finally at a certain moment starting at most <T_END> time units
+    - at sometime during the first <T_END> time units, finally <EVENT_REQUIREMENT_NL>
+    - at a certain time point within the coming <T_END> time units, <EVENT_REQUIREMENT_NL>
+    - <EVENT_REQUIREMENT_NL> at a certain moment after between <T_START> to <T_END> time units
+    - eventually at a time within the first <T_END> time units <EVENT_REQUIREMENT_NL>
+    - <EVENT_REQUIREMENT_NL> at a certain time point in the subsequent <T_START> to <T_END> time units finally
+    - <EVENT_REQUIREMENT_NL> finally at a time within the subsequent <T_END> time units
+    - <EVENT_REQUIREMENT_NL> should occur finally at a certain time instant in less than <T_END> time units
+    - at a certain time point after at most <T_END> time units <EVENT_REQUIREMENT_NL> has to be eventually observed
+
+type:temporal_unary
+stl:eventually(<PRED>)
+semantics:The predicate becomes true sometime in the unbounded future.
+applicable_when:
+    input_kind:state
+    output_role:temporal_response
+    time_scope:future unbounded
+nl_patterns:
+    - at sometime in the future before the end of the simulation <PRED_NL> eventually
+    - at a time in the future before the execution ends, <PRED_NL> ultimately
+
+type:temporal_unary
+stl:eventually(<EVENT_REQUIREMENT>)
+semantics:The event occurs sometime in the unbounded future.
+applicable_when:
+    input_kind:event
+    output_role:temporal_response
+    time_scope:future unbounded
+nl_patterns:
+    - there ought to exist sometime in the future before the simulation ends, at which <EVENT_REQUIREMENT_NL>
+    - at a time in the future before the simulation ends <EVENT_REQUIREMENT_NL> eventually
+    - at sometime in the future, <EVENT_REQUIREMENT_NL>
+    - at a time in the future before the execution ends, <EVENT_REQUIREMENT_NL> eventually
+    - there needs to be a certain moment in the future before the end of the execution, at which <EVENT_REQUIREMENT_NL> eventually
+    - eventually <EVENT_REQUIREMENT_NL> needs to occur at a time in the future before the end of the simulation
+    - at a certain time point in the future before the simulation ends eventually <EVENT_REQUIREMENT_NL>
+
+type:temporal_unary
+stl:always[<T_START>,<T_END>](<PRED>)
+semantics:The predicate remains true throughout the bounded future interval.
+applicable_when:
+    input_kind:state | predicate_composition
+    output_role:trigger | temporal_response
+    time_scope:future bounded
+nl_patterns:
+    - <PRED_NL> and this condition ought to consecutively hold for each time instant within the next <T_END> time units
+    - <PRED_NL> and ought to continue like that without interruption within the coming <T_END> time units
+    - <PRED_NL> and this scenario should hold consecutively for the next <T_END> time units
+    - <PRED_NL> and has to continue like that consistently for each time point during the next <T_START> to <T_END> time units
+    - in the future before the end of the simulation continuously <PRED_NL>
+    - for each time point in the coming <T_START> to <T_END> time units consistently <PRED_NL>
+    - within <T_END> time units <PRED_NL> consecutively
+    - <PRED_NL> and then this condition needs to always keep in the next <T_START> to <T_END> time units
+    - <PRED_NL> and this condition has to continue all the time for every moment in the first <T_END> time units
+    - <PRED_NL> and must continuously remain in this condition for each time point during the following <T_END> time units
+    - <PRED_NL> and then this scenario should sustain without interruption for every time instant within the first <T_START> to <T_END> time units
+    - <PRED_NL> and then must keep like that without interruption for every moment in the coming <T_START> to <T_END> time units
+    - <PRED_NL> and this condition will be lasting uninterruptedly for every time point during the next <T_END> time units
+    - <PRED_NL> and consistently this condition will be lasting for every time instant in the first <T_START> to <T_END> time units
+    - <PRED_NL> and consecutively this scenario keeps for each moment during the subsequent <T_END> time units
+    - for every moment within the next <T_END> time units <PRED_NL> consecutively
+    - <PRED_NL> uninterruptedly within <T_START> to <T_END> time units
+    - <PRED_NL> for each time point within the first <T_END> time units
+
+type:temporal_unary
+stl:always(<PRED>)
+semantics:The predicate remains true throughout the unbounded future.
+applicable_when:
+    input_kind:state
+    output_role:response
+    time_scope:future unbounded
+nl_patterns:
+    - <PRED_NL> always in the future till the execution ends
+    - <PRED_NL> without interruption in the future before the execution ends
+    - in the future before the end of the simulation continuously <PRED_NL>
+    - <PRED_NL> and then will always keep like this in the future until the simulation ends
+    - <PRED_NL> consistently in the future till the end of the simulation
+pattern_notes:
+    - The second observed wording occurred under an outer not and must not be reused without that negation.
+
+type:temporal_binary
+stl:<PRED1> until[<T_START>,<T_END>] <PRED2>
+semantics:The first predicate or event-absence requirement remains true until the second predicate becomes true or event occurs within the bounded interval.
+applicable_when:
+    input_kind:state | event_absence | predicate_composition
+    output_role:trigger | response
+    time_scope:future bounded
+nl_patterns:
+    - <PRED1_NL> and should hold like that consistently until finally at a certain moment within the first <T_START> to <T_END> time units <PRED2_NL>
+    - there shall be a time in the following <T_END> time units finally, at which <PRED2_NL>, and before that continuously <PRED1_NL>
+    - finally there exists a certain time instant during the coming <T_START> to <T_END> time units, at which <PRED2_NL>, and before that without interruption <PRED1_NL>
+    - <PRED1_NL> till there is sometime in the first <T_END> time units eventually, at which <PRED2_NL>
+    - <PRED1_NL> till at a certain moment in the following <T_START> to <T_END> time units, ultimately <PRED2_NL>
+    - <PRED1_NL> then this condition has to continue uninterruptedly till <PRED2_NL>, which ought to ultimately get observed at a certain time instant within the next <T_END> time units
+    - <PRED1_NL> then this scenario will last uninterruptedly until there will be a certain time instant in the next <T_END> time units, at which <PRED2_NL> eventually
+    - at a certain time instant in the next <T_END> time units finally <PRED2_NL>, before that <PRED1_NL>
+    - <PRED1_NL> consecutively till <PRED2_NL>, which is observed at a certain time point within the coming <T_START> to <T_END> time units
+    - <PRED1_NL> consecutively till <PRED2_NL>, which will have to be detected at sometime within the first <T_END> time units eventually
+    - <PRED1_NL> and then will remain in this range all the time until there will exist sometime starting at most <T_END> time units ultimately, at which <PRED2_NL>
+    - <PRED1_NL> until there will be finally sometime in the next <T_START> to <T_END> time units, at which <PRED2_NL>
+    - <PRED1_NL> shall continue like that without interruption till there will be a certain moment within <T_END> time units, at which <PRED2_NL> ultimately
+    - <PRED1_NL> consistently until <PRED2_NL> at sometime in the coming <T_START> to <T_END> time units
+    - there will have to be a certain time instant within the subsequent <T_START> to <T_END> time units, at which <PRED2_NL>, before this <PRED1_NL> continuously
+    - <PRED1_NL> until <PRED2_NL>, which has to be finally observed at a certain time instant within the following <T_END> time units
+    - <PRED1_NL> then consecutively this scenario has to keep till there is eventually a certain time instant starting at most <T_END> time units, at which <PRED2_NL>
+    - <PRED1_NL> all the time till <PRED2_NL> ultimately at a time in the following <T_START> to <T_END> time units
+    - <PRED1_NL> and has to stay like this uninterruptedly till there is a certain time instant starting at most <T_END> time units, at which <PRED2_NL>
+    - <PRED1_NL> till <PRED2_NL> finally, which must happen at a certain time point in the subsequent <T_END> time units
+    - <PRED1_NL> till ultimately there will exist a time during the following <T_END> time units, at which <PRED2_NL>
+    - <PRED1_NL> until <PRED2_NL> eventually at a certain time point in the first <T_START> to <T_END> time units
+    - there will have to exist sometime within the first <T_START> to <T_END> time units, at which <PRED2_NL>, and before that <PRED1_NL>
+    - <PRED1_NL> till there is sometime within the following <T_START> to <T_END> time units, at which ultimately <PRED2_NL>
+    - at a time within the coming <T_START> to <T_END> time units, <PRED2_NL> eventually, before that uninterruptedly <PRED1_NL>
+    - <PRED1_NL> until <PRED2_NL> finally at a certain time instant after at most <T_END> time units
+    - <PRED1_NL> until <PRED2_NL> ultimately at a time during the subsequent <T_END> time units
+    - <PRED1_NL> until <PRED2_NL> at a time during the subsequent <T_START> to <T_END> time units
+    - <PRED1_NL> until at a certain time instant during the next <T_END> time units, <PRED2_NL> is observed
+    - <PRED2_NL> finally, which shall be detected at a certain moment in the coming <T_END> time units, and until then <PRED1_NL>
+    - <PRED1_NL> without interruption till <PRED2_NL>, which should be observed at a certain time instant during the subsequent <T_END> time units
+    - at a certain moment in less than <T_END> time units <PRED2_NL> finally, and before that <PRED1_NL> all the time
+    - <PRED1_NL> consecutively till <PRED2_NL>, which ultimately takes place at a time in the following <T_END> time units
+
+type:temporal_binary
+stl:<PRED1> until <PRED2>
+semantics:The first predicate remains true until the second eventually becomes true.
+applicable_when:
+    input_kind:state | predicate_composition
+    output_role:response
+    time_scope:future unbounded
+nl_patterns:
+    - consecutively <PRED1_NL> until at sometime in the future before the end of the execution, <PRED2_NL> eventually
+    - <PRED1_NL> should always hold until eventually <PRED2_NL> at a certain time point in the future before the simulation ends
+    - <PRED1_NL> and this scenario has to uninterruptedly remain until <PRED2_NL>, which is detected at sometime in the future before the end of the execution
+    - <PRED1_NL> and then this scenario needs to uninterruptedly hold until there will exist a certain time point in the future before the end of the simulation, at which ultimately <PRED2_NL>
+    - consistently <PRED1_NL> till finally <PRED2_NL>, which has to be observed at a certain moment in the future before the end of the simulation
+    - there ought to be a certain time instant in the future before the end of the execution, at which <PRED2_NL>, before this without interruption <PRED1_NL>
+    - <PRED1_NL> will be being continuously true till eventually <PRED2_NL> at sometime in the future before the end of the simulation
+    - <PRED1_NL> and uninterruptedly this condition will hold until at sometime in the future before the simulation ends <PRED2_NL>
+    - <PRED1_NL> and uninterruptedly this condition will hold until <PRED2_NL> at a time in the future before the simulation ends ultimately
+    - <PRED1_NL> till there will be a certain moment in the future before the execution ends, at which ultimately <PRED2_NL>
+    - continuously <PRED1_NL> till there exists sometime in the future before the end of the execution, at which <PRED2_NL>
+    - <PRED1_NL> will uninterruptedly continue till there is a certain moment in the future before the execution ends eventually, at which <PRED2_NL>
+    - there has to exist a certain moment in the future before the end of the simulation, at which eventually <PRED2_NL>, before this uninterruptedly <PRED1_NL>
+    - consecutively <PRED1_NL> until at a time in the future <PRED2_NL> ultimately
+    - <PRED1_NL> without interruption till <PRED2_NL> eventually, which will be observed at a certain time point in the future before the execution ends
+    - <PRED1_NL> until ultimately <PRED2_NL> at sometime in the future before the end of the simulation
+    - <PRED1_NL> until eventually <PRED2_NL>, which should be observed at a certain time point in the future before the execution ends
+    - <PRED1_NL> till <PRED2_NL> ultimately, which shall be detected at sometime in the future
+    - <PRED1_NL> till there is a certain moment in the future eventually, at which <PRED2_NL>
+    - <PRED2_NL> needs to eventually get observed at a time in the future before the end of the simulation, and until then without interruption <PRED1_NL>
+    - <PRED1_NL> continuously keeps till there exists a time in the future before the end of the execution, at which <PRED2_NL> finally
+
+type:temporal_binary
+stl:<PRED1> since[<T_START>,<T_END>] <PRED2>
+semantics:The first predicate has held since the second predicate or event occurred in the bounded past interval.
+applicable_when:
+    input_kind:state | event | event_absence
+    output_role:trigger | response
+    time_scope:past bounded
+nl_patterns:
+    - consistently <PRED1_NL> since there is sometime during the last <T_START> to <T_END> time units once, at which <PRED2_NL>
+    - there would be a certain time point during the last <T_START> to <T_END> time units once, at which <PRED2_NL>, and after that <PRED1_NL>
+    - consistently <PRED1_NL> since <PRED2_NL>, which took place at a time during the elapsed <T_END> time units
+    - there would exist sometime within the past <T_END> time units, at which <PRED2_NL> needed to take place, since then <PRED1_NL> will have been remaining uninterruptedly
+    - <PRED1_NL> and consecutively this scenario keeps since at a time in the elapsed <T_END> time units once <PRED2_NL>
+    - consecutively <PRED1_NL> since at a certain time point within the last <T_START> to <T_END> time units, once <PRED2_NL>
+    - <PRED1_NL> and has been uninterruptedly holding like that since <PRED2_NL>, which once got detected at a time before between <T_START> to <T_END> time units
+    - there would be a certain moment during the elapsed <T_END> time units, at which <PRED2_NL>, and after that continuously <PRED1_NL>
+    - continuously <PRED1_NL> since once at a certain time point during the past <T_START> to <T_END> time units, <PRED2_NL>
+    - <PRED1_NL> since <PRED2_NL>, which ought to once get observed at sometime in the elapsed <T_END> time units
+    - there shall exist a certain moment in the last <T_END> time units, at which <PRED2_NL> once, since then <PRED1_NL> consistently
+    - <PRED1_NL> and must remain in this range uninterruptedly since <PRED2_NL> once, which should get observed at sometime before at most <T_END> time units
+    - uninterruptedly <PRED1_NL> since at a certain time point within the past <T_END> time units, <PRED2_NL>
+    - <PRED1_NL> since there was a certain time instant within the elapsed <T_START> to <T_END> time units, at which <PRED2_NL> happened once
+    - <PRED1_NL> and this condition has been continuing consistently since <PRED2_NL> once at a certain time instant within the elapsed <T_END> time units
+    - there was a certain time point in the last <T_END> time units, at which <PRED2_NL> once, after this <PRED1_NL> was always true
+    - there was a certain time instant during the past <T_END> time units, at which <PRED2_NL>, and after that <PRED1_NL> continuously
+    - <PRED2_NL> once at a certain time instant during the elapsed <T_START> to <T_END> time units, and after that uninterruptedly <PRED1_NL>
+    - at sometime during the past <T_START> to <T_END> time units, <PRED2_NL> once, after that without interruption <PRED1_NL>
+    - <PRED1_NL> since once <PRED2_NL>, which got detected at a certain moment within the last <T_END> time units
+    - <PRED1_NL> since there was a certain time instant within the past <T_END> time units, at which <PRED2_NL>
+
+type:temporal_binary
+stl:<PRED1> since <PRED2>
+semantics:The first predicate has held since the second predicate became true at some prior time.
+applicable_when:
+    input_kind:state | range
+    output_role:trigger | response
+    time_scope:past unbounded
+nl_patterns:
+    - <PRED1_NL> all the time since <PRED2_NL> at a time in the past from the beginning of the execution
+    - uninterruptedly <PRED1_NL> since <PRED2_NL>, which would once get detected at a certain moment in the past from the beginning of the execution
+    - <PRED1_NL> since <PRED2_NL> once at a time in the past from the beginning of the execution
+    - <PRED2_NL> at sometime during the past, and since then uninterruptedly <PRED1_NL>
+    - <PRED1_NL> and stays like this consecutively since <PRED2_NL>, which would be once observed at a time in the past starting from the beginning of the simulation
+    - <PRED2_NL> once at a certain moment in the past starting from the beginning of the simulation, and after that <PRED1_NL> all the time
+    - at sometime in the past from the start of the execution <PRED2_NL> was observed, after that consistently <PRED1_NL>
+    - there existed a certain time point in the past, at which <PRED2_NL>, after this <PRED1_NL>
+
+type:temporal_negation
+stl:not(eventually[<T_START>,<T_END>](<EVENT_REQUIREMENT>))
+semantics:The event requirement does not occur within the bounded future interval.
+applicable_when:
+    input_kind:event
+    output_role:temporal_response
+    time_scope:future bounded
+nl_patterns:
+    - for any time instant in the next <T_END> time units <EVENT_REQUIREMENT_NL> won't occur
+    - there shouldn't be any time point in the following <T_END> time units, at which <EVENT_REQUIREMENT_NL>
+    - at anytime during the following <T_END> time units, <EVENT_REQUIREMENT_NL> won't be detected
+
+type:temporal_negation
+stl:not(eventually[<T_START>,<T_END>](<PRED>))
+semantics:The predicate does not become true within the bounded future interval.
+applicable_when:
+    input_kind:state | range
+    output_role:temporal_response
+    time_scope:future bounded
+nl_patterns:
+    - at any moment during the following <T_END> time units <PRED_NL> is not true
+    - for any time instant during the next <T_END> time units <PRED_NL> is not true
+    - the condition that <PRED_NL> at a certain time instant in the coming <T_END> time units is not true
+    - there shouldn't be any time point in the following <T_END> time units, at which <PRED_NL>
+    - for any moment starting between <T_START> to <T_END> time units, <PRED_NL> won't be true
+
+type:temporal_negation
+stl:not(eventually(<PRED>))
+semantics:The predicate never becomes true in the unbounded future.
+applicable_when:
+    input_kind:state | range
+    output_role:trigger | temporal_response
+    time_scope:future unbounded
+nl_patterns:
+    - there doesn't exist any time instant in the future before the end of the execution, at which <PRED_NL>
+    - <PRED_NL> for anytime in the future before the execution ends should never be true
+
+type:temporal_negation
+stl:not(<PRED1> since[<T_START>,<T_END>] <PRED2>)
+semantics:The whole bounded since expression is false; negation scope covers the complete since expression.
+applicable_when:
+    input_kind:temporal
+    output_role:trigger
+    time_scope:past bounded
+nl_patterns:
+    - the condition that <PRED1_NL> since <PRED2_NL> at a certain time instant before between <T_START> to <T_END> time units will not be true
+    - the condition that <PRED1_NL> since once <PRED2_NL> at a certain moment within the last <T_START> to <T_END> time units is not true
+    - the condition that <PRED1_NL> without interruption since <PRED2_NL> once at a time during the last <T_START> to <T_END> time units shall not be true
+
+type:temporal_negation
+stl:not(<PRED1> since <PRED2>)
+semantics:The whole unbounded since expression is false; negation scope covers the complete since expression.
+applicable_when:
+    input_kind:temporal
+    output_role:trigger
+    time_scope:past unbounded
+nl_patterns:
+    - the condition that uninterruptedly <PRED1_NL> since <PRED2_NL> at a certain moment in the past from the start of the execution won't be true
+
+type:temporal_negation
+stl:not(once[<T_START>,<T_END>](<PRED>))
+semantics:The bounded past once condition is false; negation scope covers the complete once expression.
+applicable_when:
+    input_kind:state
+    output_role:trigger | temporal_response
+    time_scope:past bounded
+nl_patterns:
+    - there won't be any moment in the last <T_START> to <T_END> time units, at which <PRED_NL>
+    - <PRED_NL> shall never hold for any time instant before at most <T_END> time units
+
+type:temporal_negation
+stl:not(once[<T_START>,<T_END>](<EVENT_REQUIREMENT>))
+semantics:The bounded past once event condition is false; negation scope covers the complete once expression.
+applicable_when:
+    input_kind:event | event_absence
+    output_role:trigger | temporal_response
+    time_scope:past bounded
+nl_patterns:
+    - the condition that <EVENT_REQUIREMENT_NL> once at a time within the elapsed <T_START> to <T_END> time units won't be true
+    - <EVENT_REQUIREMENT_NL> is never detected at any time instant within the last <T_END> time units
+
+type:temporal_negation
+stl:not(historically[<T_START>,<T_END>](<PRED>))
+semantics:The bounded historical condition is false; negation scope covers the complete historically expression.
+applicable_when:
+    input_kind:state | range
+    output_role:trigger
+    time_scope:past bounded
+nl_patterns:
+    - within the elapsed <T_END> time units, <PRED_NL> did not uninterruptedly remain true
+    - <PRED_NL> did not remain true consecutively in the past <T_END> time units
+
+type:temporal_negation
+stl:not(historically(<PRED>))
+semantics:The unbounded historical predicate condition is false; negation scope covers the complete historically expression.
+applicable_when:
+    input_kind:state | range
+    output_role:trigger
+    time_scope:past unbounded
+nl_patterns:
+    - the condition that <PRED_NL> consistently during the past won't be true
+    - the condition that <PRED_NL> has always stayed true during the past won't be true
+
+type:temporal_negation
+stl:not(historically(<EVENT_REQUIREMENT>))
+semantics:The unbounded historical event-absence condition is false; negation scope covers the complete historically expression.
+applicable_when:
+    input_kind:event_absence
+    output_role:trigger
+    time_scope:past unbounded
+nl_patterns:
+    - the subsequent condition will not be true: <EVENT_REQUIREMENT_NL> in the past since the beginning of the simulation
+
+type:temporal_negation
+stl:not(always(<PRED>))
+semantics:The unbounded invariance requirement is false; negation scope covers the complete always expression.
+applicable_when:
+    input_kind:state | range
+    output_role:temporal_response
+    time_scope:future unbounded
+nl_patterns:
+    - in the future before the simulation ends <PRED_NL> oughtn't to keep continuously
+    - the following condition mustn't be true: <PRED_NL> and holds like this without interruption in the future until the end of the execution
+    - in the future before the end of the execution, <PRED_NL> isn't continuously true
+
+type:temporal_negation
+stl:not(always[<T_START>,<T_END>](<REQUIREMENT>))
+semantics:The bounded invariance requirement is false; negation scope covers the complete bounded always expression.
+applicable_when:
+    input_kind:state | event_absence | mixed
+    output_role:temporal_response
+    time_scope:future bounded
+nl_patterns:
+    - <REQUIREMENT_NL> shouldn't stay true uninterruptedly for every time point within the subsequent <T_END> time units
+    - the subsequent condition shouldn't be true: <REQUIREMENT_NL> and then uninterruptedly this scenario will remain for every time point during the subsequent <T_START> to <T_END> time units
+    - for each time instant within the following <T_END> time units, <REQUIREMENT_NL> shall not be consecutively true
+    - for every moment during the next <T_END> time units, <REQUIREMENT_NL> never remains true without interruption
+    - <REQUIREMENT_NL> does not keep true uninterruptedly for each time instant within the first <T_START> to <T_END> time units
+    - the following condition is not true: <REQUIREMENT_NL> consistently during the coming <T_END> time units
+    - the following condition isn't true: <REQUIREMENT_NL> and then consecutively this scenario continues for each time instant within the coming <T_START> to <T_END> time units
+    - <REQUIREMENT_NL> will never be true all the time for each moment during the first <T_END> time units
+    - the following condition shall not be true: <REQUIREMENT_NL> and then this condition will continue continuously for each time point during the coming <T_END> time units
+
+type:temporal_negation
+stl:not(<PRED1> until[<T_START>,<T_END>] <PRED2>)
+semantics:The whole bounded until expression is false; negation scope covers the complete until expression and must not be pushed into either side.
+applicable_when:
+    input_kind:temporal
+    output_role:temporal_response
+    time_scope:future bounded
+nl_patterns:
+    - the following condition should not be true: <PRED1_NL> until <PRED2_NL> at a certain time within the following <T_START> to <T_END> time units
+    - the subsequent condition oughtn't to be true: <PRED1_NL> keeps continuously before <PRED2_NL> is finally observed during the next <T_START> to <T_END> time units
+    - the subsequent condition is not true: <PRED1_NL> then this scenario lasts until <PRED2_NL>, which gets detected at sometime during the first <T_END> time units
+    - the condition that <PRED1_NL> all the time till <PRED2_NL> ultimately at a time in the following <T_START> to <T_END> time units ought not to be true
+    - the subsequent condition shouldn't be true: <PRED1_NL> remains without interruption until <PRED2_NL> gets detected at a time in the following <T_START> to <T_END> time units
+    - the condition that <PRED1_NL> till <PRED2_NL> finally at sometime within <T_END> time units is not true
+    - the subsequent condition won't be true: <PRED1_NL> and uninterruptedly this condition remains until <PRED2_NL> at a certain time instant during the subsequent <T_END> time units
+    - the subsequent condition mustn't be true: <PRED1_NL> and consecutively stays until <PRED2_NL>, which will get observed at a certain time point within the subsequent <T_END> time units
+    - the condition that <PRED1_NL> until <PRED2_NL> at sometime in the future before the end of the simulation must not be true
+    - the condition that <PRED1_NL> until <PRED2_NL> in the future must not remain true
+    - the condition that <PRED1_NL> until <PRED2_NL> finally at a certain time point in the future won't be true
+
+type:temporal_negation
+stl:not(<TEMPORAL_RESPONSE>)
+semantics:The entire temporal response is false; the negation scope covers the whole temporal expression.
+applicable_when:
+    input_kind:temporal
+    output_role:temporal_response
+    time_scope:bounded | unbounded | mixed
+nl_patterns:
+    - the following condition must not be true: <TEMPORAL_RESPONSE_NL>
+    - the subsequent condition oughtn't to be true: <TEMPORAL_RESPONSE_NL>
+    - <TEMPORAL_RESPONSE_NL> does not remain true
+    - the subsequent condition should not be true: <TEMPORAL_RESPONSE_NL>
+    - in the future before the simulation ends <TEMPORAL_RESPONSE_NL> oughtn't to keep continuously
+    - the following condition is not true: <TEMPORAL_RESPONSE_NL>
+
+type:temporal_nested
+stl:always(eventually[<INNER_T_START>,<INNER_T_END>](<PRED>))
+semantics:At every future instant, the predicate becomes true within the inner bounded interval.
+applicable_when:
+    input_kind:state
+    output_role:nested_temporal_response
+    time_scope:mixed
+nl_patterns:
+    - for every time point in the future until the execution ends, <PRED_NL> finally at a time within the following <INNER_T_START> to <INNER_T_END> time units
+    - for every moment in the future until the execution ends, eventually <PRED_NL> at sometime in the next <INNER_T_END> time units
+    - for each time instant in the future before the end of the execution at sometime in the next <INNER_T_START> to <INNER_T_END> time units finally <PRED_NL>
+    - for every time instant in the future until the end of the execution there should exist a time within the first <INNER_T_START> to <INNER_T_END> time units, at which <PRED_NL>
+    - for every time instant in the future till the execution ends, at sometime in the following <INNER_T_END> time units, <PRED_NL> finally
+    - for each moment in the future before the execution ends, eventually at a time within the subsequent <INNER_T_END> time units <PRED_NL>
+    - for every time instant in the future before the end of the simulation there shall exist a certain time instant in the following <INNER_T_START> to <INNER_T_END> time units, at which <PRED_NL>
+    - for each time point in the future, there ought to exist a certain moment within <INNER_T_END> time units, at which <PRED_NL> ultimately
+    - for every moment in the future before the execution ends, there will have to exist a certain time point within <INNER_T_START> to <INNER_T_END> time units, at which <PRED_NL>
+    - for every moment in the future till the end of the simulation there must be finally a time during the subsequent <INNER_T_START> to <INNER_T_END> time units, at which <PRED_NL>
+    - for each moment in the future until the end of the execution there eventually exists a certain time instant in the future, at which <PRED_NL>
+    - for each time point in the future before the simulation ends, <PRED_NL> finally at sometime in the future before the simulation ends
+    - for every time instant in the future till the end of the simulation, <PRED_NL> ultimately at a certain moment in the future before the end of the simulation
+
+type:temporal_nested
+stl:always(eventually[<INNER_T_START>,<INNER_T_END>](<EVENT_REQUIREMENT>))
+semantics:At every future instant, the event occurs within the inner bounded interval.
+applicable_when:
+    input_kind:event
+    output_role:nested_temporal_response
+    time_scope:mixed
+nl_patterns:
+    - for every moment in the future before the end of the execution at a certain moment within the next <INNER_T_START> to <INNER_T_END> time units, finally <EVENT_REQUIREMENT_NL>
+    - for every moment in the future before the end of the execution <EVENT_REQUIREMENT_NL> at a certain time instant after between <INNER_T_START> to <INNER_T_END> time units
+    - for every time instant in the future before the end of the simulation there shall exist a certain time instant in the following <INNER_T_START> to <INNER_T_END> time units, at which <EVENT_REQUIREMENT_NL>
+    - for each moment in the future before the execution ends <EVENT_REQUIREMENT_NL> finally at a time in the following <INNER_T_START> to <INNER_T_END> time units
+    - for each moment in the future, at a certain time instant during the next <INNER_T_START> to <INNER_T_END> time units <EVENT_REQUIREMENT_NL> eventually
+    - for each moment in the future until the end of the execution, at a certain moment within the coming <INNER_T_START> to <INNER_T_END> time units <EVENT_REQUIREMENT_NL> finally
+
+type:temporal_nested
+stl:always(eventually(<PRED>))
+semantics:At every future instant, the predicate eventually becomes true.
+applicable_when:
+    input_kind:state
+    output_role:nested_temporal_response
+    time_scope:unbounded
+nl_patterns:
+    - for each time point in the future before the end of the simulation, at sometime in the future before the end of the simulation <PRED_NL>
+    - for every time point in the future till the execution ends, at a time in the future before the execution ends, <PRED_NL> ultimately
+    - for every time point in the future till the execution ends there has to be a time in the future before the end of the simulation, at which <PRED_NL> eventually
+    - for each time point in the future before the end of the execution there shall be a certain time point in the future before the end of the execution finally, at which <PRED_NL>
+
+type:temporal_nested
+stl:always(eventually(<EVENT_REQUIREMENT>))
+semantics:At every future instant, the event eventually occurs in the unbounded future.
+applicable_when:
+    input_kind:event
+    output_role:nested_temporal_response
+    time_scope:unbounded
+nl_patterns:
+    - for each time point in the future until the end of the simulation, there will have to exist a certain time point in the future before the end of the execution, at which <EVENT_REQUIREMENT_NL>
+    - for each moment in the future <EVENT_REQUIREMENT_NL> finally takes place at a certain moment in the future
+    - for every moment in the future until the end of the simulation <EVENT_REQUIREMENT_NL> at a time in the future before the end of the simulation
+
+type:temporal_nested
+stl:eventually(always(<PRED>))
+semantics:The system eventually enters a state that then persists throughout the unbounded future.
+applicable_when:
+    input_kind:state
+    output_role:nested_temporal_response
+    time_scope:unbounded
+nl_patterns:
+    - finally there should exist a certain moment in the future before the end of the execution, after which in the future until the simulation ends <PRED_NL> consecutively
+    - there eventually exists a certain time instant in the future before the end of the simulation, at which <PRED_NL> and shall keep like this in the future until the execution ends
+    - finally after a certain time instant in the future before the end of the execution <PRED_NL> in the future till the execution ends
+    - finally there has to exist a certain moment in the future before the simulation ends, at which <PRED_NL> and then this scenario will have to always sustain in the future till the end of the simulation
+
+type:temporal_nested
+stl:eventually[<OUTER_T_START>,<OUTER_T_END>](always[<INNER_T_START>,<INNER_T_END>](<PRED>))
+semantics:Within the outer interval, the system enters a state that persists throughout the inner interval.
+applicable_when:
+    input_kind:state
+    output_role:nested_temporal_response
+    time_scope:future bounded
+nl_patterns:
+    - eventually after a time within the coming <OUTER_T_END> time units, <PRED_NL> and this condition ought to consecutively hold for each time instant within the next <INNER_T_END> time units
+    - at a time within the coming <OUTER_T_END> time units, <PRED_NL> consistently for every time instant in the subsequent <INNER_T_END> time units
+    - there ought to exist a certain time instant starting at most <OUTER_T_END> time units finally, after which <PRED_NL> and then this scenario shall consistently keep for every moment during the subsequent <INNER_T_END> time units
+    - eventually at sometime within the following <OUTER_T_START> to <OUTER_T_END> time units, <PRED_NL> and has to continue like that consistently for each time point during the next <INNER_T_START> to <INNER_T_END> time units
+    - there ought to eventually exist sometime within the following <OUTER_T_START> to <OUTER_T_END> time units, after which for each moment within the following <INNER_T_START> to <INNER_T_END> time units <PRED_NL>
+    - there will have to be a certain time point in the first <OUTER_T_END> time units eventually, after which <PRED_NL> and then will have to consistently remain like this for each time instant within the next <INNER_T_END> time units
+    - eventually there will exist a certain moment after at most <OUTER_T_END> time units, after which <PRED_NL> and then needs to uninterruptedly stay like this for every moment in the coming <INNER_T_START> to <INNER_T_END> time units
+    - there needs to be finally a certain time instant within the first <OUTER_T_END> time units, at which for each moment in the coming <INNER_T_END> time units <PRED_NL>
+    - at a certain moment during the subsequent <OUTER_T_END> time units, <PRED_NL> without interruption for every moment in the subsequent <INNER_T_END> time units
+    - ultimately at a certain time instant in the next <OUTER_T_END> time units, <PRED_NL> and then this condition will continue uninterruptedly for every time point in the next <INNER_T_END> time units
+    - finally after sometime during the coming <OUTER_T_END> time units <PRED_NL> uninterruptedly for every moment within the subsequent <INNER_T_START> to <INNER_T_END> time units
+    - there needs to finally exist a time within the following <OUTER_T_START> to <OUTER_T_END> time units, at which without interruption <PRED_NL> for each moment during the next <INNER_T_START> to <INNER_T_END> time units
+    - after a certain time point within the next <OUTER_T_END> time units <PRED_NL> then this scenario has to keep for every time instant during the next <INNER_T_END> time units
+    - ultimately at a certain time point in the subsequent <OUTER_T_END> time units in the next <INNER_T_END> time units, <PRED_NL>
+    - at a certain time instant during the following <OUTER_T_START> to <OUTER_T_END> time units consistently <PRED_NL> for each time instant within the next <INNER_T_END> time units
+    - at a certain time instant during the first <OUTER_T_START> to <OUTER_T_END> time units <PRED_NL> consistently for every time instant within the coming <INNER_T_START> to <INNER_T_END> time units
+    - after sometime during the following <OUTER_T_END> time units, <PRED_NL> and then will continue like this in the next <INNER_T_END> time units
+    - there will have to exist sometime within the following <OUTER_T_END> time units eventually, at which <PRED_NL> and then has to stay like that consecutively for each moment in the next <INNER_T_END> time units
+    - eventually there exists a certain moment during the subsequent <OUTER_T_START> to <OUTER_T_END> time units, after which <PRED_NL> and then needs to always remain in this range for every time instant in the subsequent <INNER_T_END> time units
+    - after a certain time point in the coming <OUTER_T_START> to <OUTER_T_END> time units consecutively <PRED_NL> for each moment during the coming <INNER_T_END> time units
+    - there will have to be ultimately a certain moment during the subsequent <OUTER_T_START> to <OUTER_T_END> time units, at which within <INNER_T_START> to <INNER_T_END> time units <PRED_NL>
+    - after sometime starting between <OUTER_T_START> to <OUTER_T_END> time units <PRED_NL> and then be remaining on this state all the time for every time instant during the subsequent <INNER_T_END> time units
+    - there should be a certain time instant after at most <OUTER_T_END> time units eventually, after which for the following <INNER_T_START> to <INNER_T_END> time units, <PRED_NL> continuously
+    - finally there exists a certain moment in the following <OUTER_T_END> time units, at which <PRED_NL> for every time point within the coming <INNER_T_END> time units
+    - there must exist a time within the next <OUTER_T_END> time units, after which <PRED_NL> and shall keep like this consistently for every time instant during the next <INNER_T_END> time units
+    - there should be a certain time instant within the following <OUTER_T_END> time units, at which <PRED_NL> and should continue like that consecutively for every time instant in the following <INNER_T_END> time units
+    - there has to exist a time within the first <OUTER_T_END> time units ultimately, at which <PRED_NL> and then uninterruptedly this condition will keep for each time instant during the next <INNER_T_END> time units
+    - after sometime during the following <OUTER_T_END> time units, for every time point within <INNER_T_START> to <INNER_T_END> time units, continuously <PRED_NL>
+    - ultimately at a certain time instant within <OUTER_T_END> time units, <PRED_NL> for every moment within the subsequent <INNER_T_END> time units
+    - there ought to exist a certain time instant within the coming <OUTER_T_END> time units finally, at which <PRED_NL> and this condition shall last without interruption for each moment within the following <INNER_T_END> time units
+    - ultimately there exists sometime in the following <OUTER_T_END> time units, after which for every time point in the following <INNER_T_END> time units <PRED_NL> all the time
+
+type:temporal_nested
+stl:always[<OUTER_T_START>,<OUTER_T_END>](eventually[<INNER_T_START>,<INNER_T_END>](<EVENT_REQUIREMENT>))
+semantics:At every instant of the outer interval, the event occurs within the inner interval.
+applicable_when:
+    input_kind:event
+    output_role:nested_temporal_response
+    time_scope:future bounded
+nl_patterns:
+    - for every moment during the following <OUTER_T_START> to <OUTER_T_END> time units there shall be sometime in the coming <INNER_T_START> to <INNER_T_END> time units ultimately, at which <EVENT_REQUIREMENT_NL>
+    - for each moment during the first <OUTER_T_END> time units at a certain moment during the next <INNER_T_END> time units, finally <EVENT_REQUIREMENT_NL>
+    - for each moment in the subsequent <OUTER_T_END> time units, at a certain time instant after at most <INNER_T_END> time units <EVENT_REQUIREMENT_NL>
+    - for each time point during the following <OUTER_T_END> time units <EVENT_REQUIREMENT_NL> at a time after between <INNER_T_START> to <INNER_T_END> time units
+    - for every moment during the first <OUTER_T_END> time units at a certain moment in less than <INNER_T_END> time units <EVENT_REQUIREMENT_NL>
+    - for each time point within the coming <OUTER_T_END> time units, there will be a time in the following <INNER_T_END> time units, at which <EVENT_REQUIREMENT_NL>
+    - for every time instant during the coming <OUTER_T_END> time units, there eventually exists a certain time instant in the subsequent <INNER_T_END> time units, at which <EVENT_REQUIREMENT_NL>
+    - for each time instant in the following <OUTER_T_START> to <OUTER_T_END> time units, there should exist a time in the following <INNER_T_END> time units, at which <EVENT_REQUIREMENT_NL>
+    - for every time instant within the first <OUTER_T_END> time units at a certain time point in the subsequent <INNER_T_END> time units, <EVENT_REQUIREMENT_NL> ultimately
+    - for every time instant in the subsequent <OUTER_T_END> time units, there will have to be a time after at most <INNER_T_END> time units eventually, at which <EVENT_REQUIREMENT_NL>
+    - for every moment during the subsequent <OUTER_T_START> to <OUTER_T_END> time units, finally there will have to be a time after at most <INNER_T_END> time units, at which <EVENT_REQUIREMENT_NL>
+    - for each moment within the following <OUTER_T_END> time units <EVENT_REQUIREMENT_NL> should be detected eventually at a time during the following <INNER_T_END> time units
+    - for every time point in the subsequent <OUTER_T_START> to <OUTER_T_END> time units, there will be a time within the coming <INNER_T_END> time units, at which <EVENT_REQUIREMENT_NL>
+    - for every time point during the following <OUTER_T_END> time units, there has to exist a certain time instant in the future before the end of the execution, at which <EVENT_REQUIREMENT_NL> ultimately
+    - for each moment in the subsequent <OUTER_T_END> time units at a certain moment in the future before the end of the execution <EVENT_REQUIREMENT_NL>
+    - for every time point during the subsequent <OUTER_T_END> time units there has to exist a certain moment within the coming <INNER_T_END> time units, at which <EVENT_REQUIREMENT_NL>
+    - for every moment in the first <OUTER_T_START> to <OUTER_T_END> time units there shall be a certain moment within <INNER_T_START> to <INNER_T_END> time units finally, at which <EVENT_REQUIREMENT_NL>
+    - for each moment in the following <OUTER_T_START> to <OUTER_T_END> time units there needs to be a time within the next <INNER_T_END> time units, at which <EVENT_REQUIREMENT_NL>
+    - for each moment during the next <OUTER_T_END> time units there has to exist a time in the following <INNER_T_END> time units, at which eventually <EVENT_REQUIREMENT_NL>
+    - for every moment within the next <OUTER_T_START> to <OUTER_T_END> time units, at a certain time point in the next <INNER_T_START> to <INNER_T_END> time units <EVENT_REQUIREMENT_NL> eventually
+
+type:temporal_nested
+stl:always[<OUTER_T_START>,<OUTER_T_END>](eventually[<INNER_T_START>,<INNER_T_END>](<PRED>))
+semantics:At every instant of the outer interval, the predicate becomes true within the inner interval.
+applicable_when:
+    input_kind:state
+    output_role:nested_temporal_response
+    time_scope:future bounded
+nl_patterns:
+    - for each moment during the first <OUTER_T_END> time units, at a certain time instant in less than <INNER_T_END> time units, <PRED_NL> ultimately
+    - for every time instant within <OUTER_T_END> time units, there is a certain time point within the following <INNER_T_END> time units, at which eventually <PRED_NL>
+    - for each time instant during the coming <OUTER_T_END> time units, at a certain time point in the coming <INNER_T_END> time units, <PRED_NL> ultimately
+    - for every time instant in the subsequent <OUTER_T_END> time units <PRED_NL> at a certain moment starting at most <INNER_T_END> time units
+    - for every moment within <OUTER_T_END> time units, eventually there will have to exist a certain moment in the first <INNER_T_END> time units, at which <PRED_NL>
+    - for each time instant in the following <OUTER_T_END> time units <PRED_NL> finally at a certain moment starting at most <INNER_T_END> time units
+    - for every time point within the next <OUTER_T_END> time units, eventually at a certain moment during the coming <INNER_T_END> time units, <PRED_NL>
+    - for every moment during the subsequent <OUTER_T_END> time units, there shall be a certain moment during the next <INNER_T_END> time units, at which <PRED_NL> finally
+    - for each time point in the subsequent <OUTER_T_END> time units, there must exist a certain moment during the coming <INNER_T_END> time units, at which <PRED_NL> eventually
+    - for every time point during the following <OUTER_T_START> to <OUTER_T_END> time units there must be eventually a certain time instant starting at most <INNER_T_END> time units, at which <PRED_NL>
+    - for every time instant within <OUTER_T_END> time units, at a certain time instant during the coming <INNER_T_START> to <INNER_T_END> time units ultimately <PRED_NL>
+    - for every moment within the subsequent <OUTER_T_START> to <OUTER_T_END> time units there shall eventually exist a certain time instant within the subsequent <INNER_T_END> time units, at which <PRED_NL>
+    - for every time point within the following <OUTER_T_END> time units, there has to be sometime within the subsequent <INNER_T_END> time units, at which finally <PRED_NL>
+    - for every time instant in the following <OUTER_T_END> time units, there will have to exist a certain time point within the next <INNER_T_START> to <INNER_T_END> time units, at which <PRED_NL>
+    - for each time instant in the next <OUTER_T_END> time units, there has to exist a certain time instant during the next <INNER_T_END> time units, at which <PRED_NL>
+    - for every moment in the following <OUTER_T_END> time units, <PRED_NL> at a certain moment in the subsequent <INNER_T_END> time units
+    - for every time point during the subsequent <OUTER_T_END> time units at a certain moment within the next <INNER_T_END> time units <PRED_NL> finally
+    - for every time instant within the first <OUTER_T_START> to <OUTER_T_END> time units <PRED_NL> at a time within the following <INNER_T_START> to <INNER_T_END> time units
+
+type:temporal_nested
+stl:eventually[<OUTER_T_START>,<OUTER_T_END>](always[<INNER_T_START>,<INNER_T_END>](<EVENT_REQUIREMENT>))
+semantics:Within the outer interval, the event-absence requirement begins holding throughout the inner interval.
+applicable_when:
+    input_kind:event_absence
+    output_role:nested_temporal_response
+    time_scope:future bounded
+nl_patterns:
+    - after a time within the next <OUTER_T_END> time units, for every moment during the coming <INNER_T_END> time units, <EVENT_REQUIREMENT_NL>
+    - there ought to exist sometime in the next <OUTER_T_END> time units eventually, at which <EVENT_REQUIREMENT_NL> and this condition keeps for each time point within the next <INNER_T_END> time units
+    - there has to exist sometime in the coming <OUTER_T_START> to <OUTER_T_END> time units eventually, after which for every time point during the following <INNER_T_START> to <INNER_T_END> time units consistently <EVENT_REQUIREMENT_NL>
+    - ultimately after a certain moment in the following <OUTER_T_END> time units <EVENT_REQUIREMENT_NL> and shall continue like that uninterruptedly for each time point within the next <INNER_T_END> time units
+
+type:temporal_nested
+stl:always[<OUTER_T_START>,<OUTER_T_END>](eventually(<EVENT_REQUIREMENT>))
+semantics:At every instant of the outer interval, the event eventually occurs in the unbounded future.
+applicable_when:
+    input_kind:event | event_absence
+    output_role:nested_temporal_response
+    time_scope:mixed
+nl_patterns:
+    - for each moment during the next <OUTER_T_END> time units, there ought to exist sometime in the future before the simulation ends, at which <EVENT_REQUIREMENT_NL>
+    - for every time instant within <OUTER_T_START> to <OUTER_T_END> time units, eventually there needs to be sometime in the future before the simulation ends, at which <EVENT_REQUIREMENT_NL>
+    - for every moment during the following <OUTER_T_START> to <OUTER_T_END> time units <EVENT_REQUIREMENT_NL> at a certain time instant in the future before the simulation ends
+    - for every moment within <OUTER_T_END> time units there should exist a time in the future, at which ultimately <EVENT_REQUIREMENT_NL>
+    - for every moment during the next <OUTER_T_START> to <OUTER_T_END> time units <EVENT_REQUIREMENT_NL> should occur ultimately at a certain time point in the future before the simulation ends
+    - for every time point in the future until the simulation ends eventually at a certain moment in the next <INNER_T_START> to <INNER_T_END> time units, <EVENT_REQUIREMENT_NL>
+    - for every time instant in the future till the execution ends at a certain time instant in the following <INNER_T_START> to <INNER_T_END> time units, <EVENT_REQUIREMENT_NL>
+    - for each moment during the next <OUTER_T_END> time units <EVENT_REQUIREMENT_NL> at sometime in the future before the end of the simulation
+
+type:temporal_nested
+stl:eventually[<OUTER_T_START>,<OUTER_T_END>](always(<PRED>))
+semantics:Within the outer interval, the system enters a state that persists throughout the unbounded future.
+applicable_when:
+    input_kind:state
+    output_role:nested_temporal_response
+    time_scope:mixed
+nl_patterns:
+    - there has to exist a certain moment starting between <OUTER_T_START> to <OUTER_T_END> time units ultimately, at which <PRED_NL> and then this scenario shall keep uninterruptedly in the future
+    - there should finally exist a time within the subsequent <OUTER_T_END> time units, at which <PRED_NL> consistently in the future till the end of the simulation
+    - at a certain moment within the next <OUTER_T_END> time units <PRED_NL> consistently in the future till the end of the simulation
+    - at a time during the following <OUTER_T_START> to <OUTER_T_END> time units <PRED_NL> and then ought to consistently remain like this in the future until the simulation ends
+    - eventually at a certain time point in the subsequent <OUTER_T_START> to <OUTER_T_END> time units, in the future uninterruptedly <PRED_NL>
+    - there ought to be finally sometime during the first <OUTER_T_END> time units, at which continuously <PRED_NL> in the future.
+    - there shall exist a certain moment during the first <OUTER_T_END> time units eventually, after which <PRED_NL> and stays like that in the future before the simulation ends
+    - there must exist sometime within the subsequent <OUTER_T_END> time units, at which in the future until the end of the simulation <PRED_NL>
+    - there will be ultimately a certain moment in the subsequent <OUTER_T_END> time units, at which <PRED_NL> and then will have to remain like that uninterruptedly in the future
+    - there has to be a time within the subsequent <OUTER_T_END> time units eventually, at which <PRED_NL> and will uninterruptedly stay like this in the future before the end of the execution
+    - ultimately after a time during the first <OUTER_T_START> to <OUTER_T_END> time units, <PRED_NL> consecutively in the future before the end of the execution
+
+type:temporal_nested
+stl:eventually[<OUTER_T_START>,<OUTER_T_END>](always(<EVENT_REQUIREMENT>))
+semantics:Within the outer interval, the event-absence requirement begins holding throughout the unbounded future.
+applicable_when:
+    input_kind:event_absence
+    output_role:nested_temporal_response
+    time_scope:mixed
+nl_patterns:
+    - there should finally exist a time within the subsequent <OUTER_T_END> time units, after which uninterruptedly <EVENT_REQUIREMENT_NL> in the future till the end of the simulation
+    - there ought to be a time during the subsequent <OUTER_T_END> time units ultimately, after which in the future consistently <EVENT_REQUIREMENT_NL>
+    - at a certain time point in the coming <OUTER_T_END> time units, <EVENT_REQUIREMENT_NL> and then this condition shall remain consecutively in the future till the end of the simulation
+
+type:temporal_nested
+stl:eventually(always[<INNER_T_START>,<INNER_T_END>](<PRED>))
+semantics:At some future time, the predicate begins holding throughout the bounded inner interval.
+applicable_when:
+    input_kind:state | range
+    output_role:nested_temporal_response
+    time_scope:mixed
+nl_patterns:
+    - eventually at a certain time point in the future before the end of the simulation <PRED_NL> and then this condition ought to continuously keep for each moment in the subsequent <INNER_T_START> to <INNER_T_END> time units
+    - finally after a certain time point in the future before the end of the simulation, for each time point in the following <INNER_T_END> time units, <PRED_NL> without interruption
+    - eventually at a certain time instant in the future before the simulation ends for every moment in the subsequent <INNER_T_START> to <INNER_T_END> time units, continuously <PRED_NL>
+    - eventually there will have to be a certain time point in the future, at which for each time instant in the following <INNER_T_END> time units <PRED_NL> always stays true
+    - finally there needs to be a certain time point in the future before the end of the simulation, at which for every moment in the subsequent <INNER_T_START> to <INNER_T_END> time units <PRED_NL> without interruption
+
+[predicates]
+
+type:numeric_equal
+stl:<SIGNAL> == <VALUE>
+semantics:The numeric signal equals the value.
+nl:
+    standalone:
+        - the value of <SIGNAL> should be equal to <VALUE>
+        - <SIGNAL> ought to be equal to <VALUE>
+        - the value of <SIGNAL> is consistently equal to <VALUE>
+        - <SIGNAL> must stay at <VALUE>
+        - the value of <SIGNAL> should remain on <VALUE> all the time
+        - the <SIGNAL> signal will have to be <VALUE>
+        - <SIGNAL> ought to be <VALUE>
+        - the value of signal <SIGNAL> ought to remain equal to <VALUE>
+    trigger:
+        - the value of signal <SIGNAL> stays equal to <VALUE>
+        - the <SIGNAL> signal keeps equal to <VALUE>
+        - <SIGNAL> is equal to <VALUE>
+        - the value of <SIGNAL> is <VALUE>
+        - the <SIGNAL> signal is <VALUE>
+        - <SIGNAL> is equal to <VALUE>
+    response:
+        - the value of <SIGNAL> shall be <VALUE>
+        - the value of <SIGNAL> remains on <VALUE>
+        - the value of signal <SIGNAL> will have to remain equal to <VALUE>
+        - <SIGNAL> must be set to <VALUE>
+        - <SIGNAL> is <VALUE>
+        - the value of <SIGNAL> must be promptly <VALUE>
+        - the value of <SIGNAL> immediately remains on <VALUE>
+        - the value of <SIGNAL> is equal to <VALUE> simultaneously
+        - the value of <SIGNAL> has to be <VALUE> right away
+    temporal_inner:
+        - the value of <SIGNAL> has to be equal to <VALUE>
+        - the value of <SIGNAL> will be <VALUE>
+        - <SIGNAL> should settle to <VALUE>
+        - <SIGNAL> ultimately settles to <VALUE>
+        - the value of <SIGNAL> needs to be <VALUE>
+        - the value of <SIGNAL> ought to equal to <VALUE>
+        - <SIGNAL> will be continuously staying at <VALUE>
+        - <SIGNAL> must be equal to <VALUE>
+        - <SIGNAL> should equal to <VALUE>
+        - <SIGNAL> must remain equal to <VALUE>
+
+type:state_equal
+stl:<SIGNAL> == <STATE>
+semantics:The signal is in the discrete state.
+nl:
+    standalone:
+        - the mode of signal <SIGNAL> has to be set to <STATE>
+        - the <SIGNAL> signal has to be <STATE>
+        - <SIGNAL> ought to be <STATE>
+        - the state of signal <SIGNAL> shall remain in <STATE>
+        - the mode of signal <SIGNAL> will be in <STATE>
+        - <SIGNAL> ought to continuously keep in <STATE>
+    trigger:
+        - the state of <SIGNAL> is in <STATE>
+        - the mode of <SIGNAL> is set to <STATE>
+        - the state of <SIGNAL> is set to <STATE>
+        - <SIGNAL> is set to <STATE>
+        - the <SIGNAL> signal is in <STATE>
+        - the state of signal <SIGNAL> is <STATE>
+        - <SIGNAL> is <STATE>
+    response:
+        - the <SIGNAL> signal has to be in <STATE>
+        - the mode of signal <SIGNAL> is <STATE>
+        - <SIGNAL> shall be in <STATE>
+        - the state of <SIGNAL> will have to be <STATE>
+        - the mode of signal <SIGNAL> will remain in <STATE>
+        - the mode of <SIGNAL> needs to immediately remain in <STATE>
+        - the mode of <SIGNAL> must be promptly <STATE>
+        - the state of <SIGNAL> should be <STATE> at once
+        - the mode of <SIGNAL> immediately remains in <STATE>
+        - <SIGNAL> should be <STATE> starting without any delay
+        - the mode of <SIGNAL> has to be set to <STATE> without any delay
+    temporal_inner:
+        - the state of <SIGNAL> has to keep in <STATE>
+        - the state of <SIGNAL> is always in <STATE>
+        - <SIGNAL> needs to be set to <STATE>
+        - the mode of signal <SIGNAL> keeps in <STATE>
+        - <SIGNAL> will stay in <STATE>
+        - the state of <SIGNAL> is set to <STATE>
+        - <SIGNAL> has to be eventually <STATE>
+        - <SIGNAL> will be being in <STATE>
+        - <SIGNAL> should keep in <STATE> consistently
+
+type:less_than
+stl:<SIGNAL> < <VALUE>
+semantics:The signal is strictly less than the value.
+nl:
+    standalone:
+        - the value of signal <SIGNAL> needs to remain below <VALUE>
+        - the value of <SIGNAL> will continuously stay below <VALUE>
+        - <SIGNAL> must stay less than <VALUE>
+        - the value of signal <SIGNAL> is smaller than <VALUE>
+        - the value of signal <SIGNAL> needs to remain smaller than <VALUE>
+        - the <SIGNAL> signal needs to keep smaller than <VALUE>
+        - the value of signal <SIGNAL> should remain less than <VALUE>
+    trigger:
+        - the <SIGNAL> signal is smaller than <VALUE>
+        - <SIGNAL> remains smaller than <VALUE>
+        - the value of <SIGNAL> is less than <VALUE>
+        - the <SIGNAL> signal is below <VALUE>
+        - the value of signal <SIGNAL> is less than <VALUE>
+        - <SIGNAL> is below <VALUE>
+    response:
+        - <SIGNAL> will have to be smaller than <VALUE>
+        - the value of signal <SIGNAL> has to be below <VALUE>
+        - the value of signal <SIGNAL> remains less than <VALUE>
+        - the value of signal <SIGNAL> is lower than <VALUE>
+        - the value of <SIGNAL> needs to be smaller than <VALUE> starting without any delay
+        - <SIGNAL> will be below <VALUE>
+        - <SIGNAL> must be below <VALUE> in no time
+        - <SIGNAL> ought to be below <VALUE> simultaneously
+        - <SIGNAL> has to be smaller than <VALUE>
+    temporal_inner:
+        - the <SIGNAL> signal has to stay less than <VALUE>
+        - the value of signal <SIGNAL> shall be smaller than <VALUE>
+        - <SIGNAL> is lower than <VALUE>
+        - the <SIGNAL> signal is lower than <VALUE>
+        - <SIGNAL> ought to stay less than <VALUE>
+        - <SIGNAL> should be smaller than <VALUE>
+
+type:less_or_equal
+stl:<SIGNAL> <= <VALUE>
+semantics:The signal is less than or equal to the value.
+nl:
+    standalone:
+        - the <SIGNAL> signal shall keep at most <VALUE>
+        - the value of <SIGNAL> will stay less than or equal to <VALUE>
+        - <SIGNAL> should be no larger than <VALUE>
+    trigger:
+        - <SIGNAL> is no more than <VALUE>
+        - <SIGNAL> is less than or equal to <VALUE>
+        - the <SIGNAL> signal is less than or equal to <VALUE>
+        - <SIGNAL> is at most <VALUE>
+    response:
+        - the value of signal <SIGNAL> should be no more than <VALUE>
+        - <SIGNAL> has to be less than or equal to <VALUE> immediately
+        - <SIGNAL> must be less than or equal to <VALUE>
+    temporal_inner:
+        - the value of <SIGNAL> will remain at most <VALUE>
+        - <SIGNAL> will be less than or equal to <VALUE>
+        - <SIGNAL> will have to be less than or equal to <VALUE>
+        - <SIGNAL> ought to keep less than or equal to <VALUE>
+        - <SIGNAL> is less than or equal to <VALUE>
+        - <SIGNAL> must be at most <VALUE>
+        - <SIGNAL> should stay less than or equal to <VALUE>
+
+type:greater_than
+stl:<SIGNAL> > <VALUE>
+semantics:The signal is strictly greater than the value.
+nl:
+    standalone:
+        - the value of <SIGNAL> ought to be larger than <VALUE>
+        - the value of signal <SIGNAL> ought to consistently remain above <VALUE>
+        - <SIGNAL> shall stay greater than <VALUE>
+        - the value of signal <SIGNAL> shall stay higher than <VALUE>
+        - the value of signal <SIGNAL> shall uninterruptedly remain over <VALUE>
+        - <SIGNAL> will have to be larger than <VALUE>
+    trigger:
+        - <SIGNAL> is over <VALUE>
+        - the <SIGNAL> signal stays greater than <VALUE>
+        - the <SIGNAL> signal keeps greater than <VALUE>
+        - the value of signal <SIGNAL> is above <VALUE>
+        - <SIGNAL> is higher than <VALUE>
+        - <SIGNAL> gets larger than <VALUE>
+    temporal_inner:
+        - the <SIGNAL> signal must be higher than <VALUE>
+        - the value of <SIGNAL> is above <VALUE>
+        - <SIGNAL> is greater than <VALUE>
+        - <SIGNAL> needs to be higher than <VALUE>
+
+type:greater_or_equal
+stl:<SIGNAL> >= <VALUE>
+semantics:The signal is greater than or equal to the value.
+nl:
+    standalone:
+        - the value of signal <SIGNAL> remains greater than or equal to <VALUE>
+        - <SIGNAL> will remain no less than <VALUE>
+        - the value of <SIGNAL> should uninterruptedly stay greater than or equal to <VALUE>
+    trigger:
+        - the <SIGNAL> signal is at least <VALUE>
+        - the value of signal <SIGNAL> is greater than or equal to <VALUE>
+        - <SIGNAL> is no less than <VALUE>
+    response:
+        - the value of signal <SIGNAL> must stay greater than or equal to <VALUE>
+        - <SIGNAL> needs to be no less than <VALUE>
+        - the <SIGNAL> signal will be greater than or equal to <VALUE>
+        - <SIGNAL> will have to be no less than <VALUE>
+        - <SIGNAL> should be greater than or equal to <VALUE> at the same time
+        - <SIGNAL> must be greater than or equal to <VALUE> promptly
+        - <SIGNAL> ought to stay greater than or equal to <VALUE> in no time
+    temporal_inner:
+        - the <SIGNAL> signal will have to be greater than or equal to <VALUE>
+        - the <SIGNAL> signal ought to keep greater than or equal to <VALUE>
+        - <SIGNAL> must remain greater than or equal to <VALUE>
+        - <SIGNAL> shall be greater than or equal to <VALUE>
+        - <SIGNAL> shall be at least <VALUE>
+        - <SIGNAL> ought to be finally greater than or equal to <VALUE>
+
+type:open_range
+stl:<LOW> < <SIGNAL> < <HIGH>
+semantics:The signal lies strictly between the two bounds.
+nl:
+    standalone:
+        - the value of <SIGNAL> will be greater than <LOW> and below <HIGH>
+        - the <SIGNAL> signal needs to be consistently bigger than <LOW> and less than <HIGH>
+        - the <SIGNAL> signal has to be over <LOW> and smaller than <HIGH>
+        - the value of <SIGNAL> is larger than <LOW> and less than <HIGH>
+    trigger:
+        - <SIGNAL> stays larger than <LOW> and below <HIGH>
+        - the value of <SIGNAL> keeps larger than <LOW> and below <HIGH>
+        - the <SIGNAL> signal remains above <LOW> and below <HIGH>
+        - the value of <SIGNAL> is over <LOW> and smaller than <HIGH>
+        - the value of signal <SIGNAL> is higher than <LOW> and below <HIGH>
+        - the value of <SIGNAL> is greater than <LOW> and smaller than <HIGH>
+        - the value of <SIGNAL> is above <LOW> and lower than <HIGH>
+        - the value of signal <SIGNAL> is larger than <LOW> and less than <HIGH>
+        - <SIGNAL> enters the range (<LOW>, <HIGH>)
+    response:
+        - <SIGNAL> will be higher than <LOW> and less than <HIGH>
+        - <SIGNAL> must be larger than <LOW> and less than <HIGH>
+        - <SIGNAL> shall keep larger than <LOW> and below <HIGH>
+        - <SIGNAL> shall be above <LOW> and lower than <HIGH>
+        - <SIGNAL> needs to be within the range (<LOW>, <HIGH>) instantly
+    temporal_inner:
+        - the <SIGNAL> signal is bigger than <LOW> and smaller than <HIGH>
+        - the value of <SIGNAL> is bigger than <LOW> and less than <HIGH>
+        - the value of signal <SIGNAL> must be larger than <LOW> and less than <HIGH>
+        - <SIGNAL> needs to keep larger than <LOW> and below <HIGH>
+        - <SIGNAL> gets into the range (<LOW>, <HIGH>)
+
+type:right_open_range
+stl:<LOW> <= <SIGNAL> < <HIGH>
+semantics:The signal lies in a left-closed, right-open interval.
+nl:
+    trigger:
+        - the <SIGNAL> signal is greater than or equal to <LOW> and smaller than <HIGH>
+        - the value of signal <SIGNAL> is greater than or equal to <LOW> and less than <HIGH>
+        - <SIGNAL> is within the interval [<LOW>, <HIGH>)
+    response:
+        - the value of signal <SIGNAL> is greater than or equal to <LOW> and less than <HIGH>
+        - <SIGNAL> is no less than <LOW> and less than <HIGH>
+    temporal_inner:
+        - <SIGNAL> is greater than or equal to <LOW> and less than <HIGH>
+        - <SIGNAL> keeps between [<LOW>, <HIGH>) consistently
+
+type:left_open_right_closed_range
+stl:<LOW> < <SIGNAL> <= <HIGH>
+semantics:The signal lies in a left-open, right-closed interval.
+nl:
+    standalone:
+        - <SIGNAL> has to be in the interval (<LOW>, <HIGH>]
+    trigger:
+        - the <SIGNAL> signal enters the range (<LOW>, <HIGH>]
+        - the <SIGNAL> signal is greater than <LOW> and no larger than <HIGH>
+    temporal_inner:
+        - <SIGNAL> has to be in the interval (<LOW>, <HIGH>]
+
+type:closed_range
+stl:<LOW> <= <SIGNAL> <= <HIGH>
+semantics:The signal lies in the closed interval.
+nl:
+    standalone:
+        - the value of signal <SIGNAL> should continuously stay greater than or equal to <LOW> and no larger than <HIGH>
+        - the value of signal <SIGNAL> should remain greater than or equal to <LOW> and no more than <HIGH>
+        - the <SIGNAL> signal will be keeping no less than <LOW> and less than or equal to <HIGH> continuously
+    trigger:
+        - the value of signal <SIGNAL> is greater than or equal to <LOW> and less than or equal to <HIGH>
+        - the value of <SIGNAL> is no less than <LOW> and no more than <HIGH>
+        - the value of <SIGNAL> is within the interval [<LOW>, <HIGH>]
+        - the value of <SIGNAL> is no less than <LOW> and less than or equal to <HIGH>
+        - <SIGNAL> is between the closed interval [<LOW>, <HIGH>]
+        - the value of signal <SIGNAL> is no less than <LOW> and no more than <HIGH>
+    response:
+        - the <SIGNAL> signal shall be between [<LOW>, <HIGH>]
+        - the <SIGNAL> signal should be no less than <LOW> and less than or equal to <HIGH>
+        - the <SIGNAL> signal must be between [<LOW>, <HIGH>]
+        - <SIGNAL> shall be between the range [<LOW>, <HIGH>]
+        - <SIGNAL> ought to be greater than or equal to <LOW> and less than or equal to <HIGH>
+        - <SIGNAL> should be in the interval [<LOW>, <HIGH>]
+        - <SIGNAL> needs to be between <LOW> (closed) and <HIGH> (closed)
+        - <SIGNAL> ought to stay greater than or equal to <LOW> and no larger than <HIGH> instantly
+        - <SIGNAL> needs to be within the interval [<LOW>, <HIGH>]
+    temporal_inner:
+        - <SIGNAL> will stay greater than or equal to <LOW> and at most <HIGH>
+        - the value of signal <SIGNAL> will be uninterruptedly greater than or equal to <LOW> and less than or equal to <HIGH>
+        - <SIGNAL> remains greater than or equal to <LOW> and less than or equal to <HIGH>
+        - <SIGNAL> will remain in the range [<LOW>, <HIGH>]
+
+[predicate_modifiers]
+
+modifier:not
+stl:not(<PRED>)
+semantics:The inner predicate or temporal condition is not true.
+applicable_when:
+    input_kind:state | range | temporal
+    output_kind:state
+nl:
+    standalone:
+        - the value of <SIGNAL> is outside the range (<LOW>, <HIGH>)
+        - the value of <SIGNAL> is out of the range [<LOW>, <HIGH>]
+        - the value of <SIGNAL> mustn't be set to <VALUE>
+        - the <SIGNAL> signal shall not be lower than <VALUE>
+        - the value of <SIGNAL> is not less than or equal to <VALUE>
+        - the mode of <SIGNAL> will not be in <STATE>
+        - the value of signal <SIGNAL> is not equal to <VALUE>
+        - <SIGNAL> is in the outside of the range (<LOW>, <HIGH>)
+        - <SIGNAL> is out of the range (<LOW>, <HIGH>)
+        - <SIGNAL> keeps in the outside of the range [<LOW>, <HIGH>) continuously
+        - <SIGNAL> is in the outside of the range (<LOW>, <HIGH>)
+    trigger:
+        - the subsequent condition is not true: <TEMPORAL_RESPONSE_NL>
+        - the <SIGNAL> signal isn't set to <STATE>
+        - the mode of <SIGNAL> is not set to <STATE>
+        - the following condition won't be true: <TEMPORAL_RESPONSE_NL>
+        - the subsequent condition isn't true: <TEMPORAL_RESPONSE_NL>
+        - the mode of signal <SIGNAL> is not <STATE>
+        - <SIGNAL> is not greater than or equal to <VALUE>
+    response:
+        - <PRED_NL> should not hold without interruption in the future before the execution ends
+        - right away the <SIGNAL> signal shouldn't be <STATE>
+        - at any time instant starting at most <T_END> time units <PRED_NL> must never hold
+        - the condition that <TEMPORAL_RESPONSE_NL> won't be true
+        - the value of signal <SIGNAL> has to be out of the range [<LOW>, <HIGH>]
+        - the value of signal <SIGNAL> will be in the outside of the range [<LOW>, <HIGH>]
+        - <SIGNAL> does not settle to <VALUE>
+        - <SIGNAL> shouldn't be less than or equal to <VALUE>
+        - <SIGNAL> ought not to be less than <VALUE>
+        - <SIGNAL> should not be within (<LOW>, <HIGH>]
+        - <SIGNAL> will never be less than or equal to <VALUE>
+        - <SIGNAL> shall never be less than or equal to <VALUE>
+        - <SIGNAL> won't have been <STATE>
+        - <SIGNAL> shall not be greater than or equal to <VALUE>
+        - <SIGNAL> will be in the outside of the range (<LOW>, <HIGH>)
+    temporal_inner:
+        - the <SIGNAL> signal is not less than or equal to <VALUE>
+        - the <SIGNAL> signal shan't be less than or equal to <VALUE>
+        - the value of <SIGNAL> isn't no less than <VALUE>
+        - the <SIGNAL> signal will not be greater than <VALUE>
+        - the value of signal <SIGNAL> mustn't be higher than <VALUE>
+        - <SIGNAL> will not be greater than <VALUE>
+        - <SIGNAL> is not equal to <VALUE>
+        - <SIGNAL> must never be equal to <VALUE>
+        - <SIGNAL> shouldn't be no larger than <VALUE>
+        - <SIGNAL> oughtn't to keep in <STATE> continuously
+        - <SIGNAL> should never be <VALUE>
+        - <SIGNAL> shan't be no larger than <VALUE>
+        - <SIGNAL> shall not be at most <VALUE>
+        - <SIGNAL> mustn't be no less than <VALUE>
+
+modifier:rise
+stl:rise(<PRED>)
+semantics:The inner predicate changes from false to true.
+applicable_when:
+    input_kind:state | range
+    output_kind:event
+nl:
+    standalone:
+        - the event that <PRED_NL> gets detected finally
+        - the value of <SIGNAL> has to be ultimately shifted to <VALUE>
+        - the transition action that <PRED_NL> ought to eventually get observed
+    trigger:
+        - the transition action that <PRED_NL> gets detected
+        - the event that <PRED_NL> takes place
+        - the event that <PRED_NL> occurs
+        - the scenario that <PRED_NL> is observed
+        - the scenario that <PRED_NL> gets observed
+        - the transition action that <PRED_NL> occurs
+        - the transition action that <PRED_NL> is detected
+        - the scenario that <PRED_NL> gets into the range is detected
+        - the event that <PRED_NL> jumps to the threshold takes place
+        - the transition action that <PRED_NL> is observed
+        - the event that <PRED_NL> gets observed
+        - the scenario that <PRED_NL> happens
+        - the event that <PRED_NL> gets changed takes place
+        - the event that <PRED_NL> gets to the threshold gets observed
+        - the scenario that <PRED_NL> gets shifted occurs
+        - the scenario that <PRED_NL> crosses the threshold gets observed
+        - the event that <PRED_NL> exceeds the threshold gets observed
+        - the scenario that <PRED_NL> increases to the threshold occurs
+        - the transition action that <PRED_NL> jumps to the threshold is detected
+        - the event that <PRED_NL> increases above the threshold gets detected
+        - the transition action that <PRED_NL> falls to the threshold occurs
+        - the scenario that <PRED_NL> gets lower than the threshold happens
+        - the event that <PRED_NL> goes to the threshold is observed
+        - the value of <SIGNAL> jumps to no less than <VALUE>
+        - the scenario that <PRED_NL> drops below the threshold occurs
+        - the scenario that <PRED_NL> gets to at most <VALUE> takes place
+        - the event that <PRED_NL> is changed to <VALUE> gets observed
+        - the scenario that <PRED_NL> decreases to no more than <VALUE> will happen
+        - the scenario that <PRED_NL> goes down to less than <VALUE> will happen
+        - the event that <PRED_NL> goes to no more than <VALUE> is detected
+        - the event that <PRED_NL> changes to <VALUE> occurs
+        - the scenario that <PRED_NL> gets set to <VALUE> takes place
+        - the scenario that <PRED_NL> gets into the range is observed
+    response:
+        - the scenario that <PRED_NL> will immediately take place
+        - the scenario that <PRED_NL> will get observed without any delay
+        - the event that <PRED_NL> will happen
+        - the event that <PRED_NL> takes place
+        - the transition action that <PRED_NL> ought to take place without any delay
+        - the event that <PRED_NL> must take place at the same time point
+        - the event that <PRED_NL> has to happen right away
+        - the event that <PRED_NL> has to be detected ultimately
+        - the scenario that <PRED_NL> will happen simultaneously
+        - the event that <PRED_NL> must get observed at once
+    temporal_inner:
+        - the event that <PRED_NL> will get detected
+        - the scenario that <PRED_NL> ought to be observed
+        - the transition action that <PRED_NL> should ultimately occur
+        - the event that <PRED_NL> gets detected
+        - the event that <PRED_NL> must be eventually detected
+        - the transition action that <PRED_NL> has to ultimately get observed
+        - the scenario that <PRED_NL> will occur
+        - the scenario that <PRED_NL> will have to get detected
+        - the event that <PRED_NL> will have to occur eventually
+        - the event that <PRED_NL> will have to get observed
+        - the event that <PRED_NL> shall take place
+pattern_notes:
+    - Range-entry wording includes enters the region, gets into the range, and enters the interval.
+    - Threshold wording includes crosses the threshold, exceeds, becomes larger, goes below, and goes to no less than.
+
+modifier:fall
+stl:fall(<PRED>)
+semantics:The inner predicate changes from true to false.
+applicable_when:
+    input_kind:state | range
+    output_kind:event
+nl:
+    standalone:
+        - the scenario that <PRED_NL> will have to take place
+    trigger:
+        - the transition action that the state of <SIGNAL> becomes not set to <STATE> occurs
+        - the event that the value of <SIGNAL> goes out of the bound [<LOW>, <HIGH>] gets detected
+        - the scenario that the value of <SIGNAL> deviates from <VALUE> happens
+        - the scenario that the value of <SIGNAL> gets out of the range [<LOW>, <HIGH>) occurs
+        - the transition action that the value of <SIGNAL> starts deviating from <VALUE> gets detected
+        - the transition action that the value of <SIGNAL> leaves the range (<LOW>, <HIGH>) is detected
+        - the scenario that the value of <SIGNAL> gets out of the range [<LOW>, <HIGH>] happens
+        - the scenario that the value of <SIGNAL> starts not equaling to <VALUE> happens
+        - the <SIGNAL> signal becomes not set to <STATE>
+        - the transition action that <SIGNAL> gets out of the range (<LOW>, <HIGH>) gets detected
+        - the transition action that the state of <SIGNAL> leaves <STATE> is detected
+        - the event that <SIGNAL> goes out of the bound (<LOW>, <HIGH>] gets observed
+    response:
+        - the transition action that <PRED_NL> will have to take place without any delay
+        - the transition action that <PRED_NL> ought to be detected at the same time
+        - the transition action that <PRED_NL> ought to be observed at the same moment
+        - the scenario that <PRED_NL> has to take place at the same time
+    temporal_inner:
+        - the event that <PRED_NL> will have to get detected finally
+        - the event that <PRED_NL> will have to occur eventually
+        - the event that <PRED_NL> will have to be eventually observed
+        - the transition action that <PRED_NL> ought to get observed
+
+modifier:not_rise
+stl:not rise(<PRED>)
+semantics:No false-to-true transition of the inner predicate is observed.
+applicable_when:
+    input_kind:state
+    output_kind:event_absence
+nl:
+    standalone:
+        - the value of signal <SIGNAL> isn't shifted to <VALUE>
+    temporal_inner:
+        - the scenario that <PRED_NL> should consecutively not get observed
+        - the scenario that <PRED_NL> doesn't occur
+        - <PRED_NL> will never occur
+        - <PRED_NL> shall not be observed
+
+modifier:not_rise
+stl:not rise(<TEMPORAL_RESPONSE>)
+semantics:The temporal response is not observed to change from false to true.
+applicable_when:
+    input_kind:temporal
+    output_kind:event_absence
+nl:
+    response:
+        - the subsequent condition mustn't be detected to change from false to true: <TEMPORAL_RESPONSE_NL>
+        - the following condition does not shift from false to true: <TEMPORAL_RESPONSE_NL>
+        - the condition that <TEMPORAL_RESPONSE_NL> shouldn't be detected to shift from false to true
+        - the condition that <TEMPORAL_RESPONSE_NL> shan't be observed to shift from false to true
+        - the following condition should not be detected to change from false to true: <TEMPORAL_RESPONSE_NL>
+        - the condition that <TEMPORAL_RESPONSE_NL> ought not to change from false to true
+        - the subsequent condition mustn't be detected to shift from false to true: <TEMPORAL_RESPONSE_NL>
+    trigger:
+        - the subsequent condition isn't detected to shift from false to true: <TEMPORAL_RESPONSE_NL>
+        - the following condition is not detected to shift from false to true: <TEMPORAL_RESPONSE_NL>
+        - the condition that <TEMPORAL_RESPONSE_NL> is not detected to shift from false to true
+        - the condition that <TEMPORAL_RESPONSE_NL> will not shift from false to true
+
+modifier:not_fall
+stl:not fall(<REQUIREMENT>)
+semantics:The state or temporal requirement is not observed to change from true to false.
+applicable_when:
+    input_kind:state | temporal
+    output_kind:event_absence
+nl:
+    standalone:
+        - the scenario that <PRED_NL> will not be observed
+        - the scenario that <PRED_NL> isn't detected
+    trigger:
+        - the value of <SIGNAL> does not deviate from <VALUE>
+        - the condition that <TEMPORAL_RESPONSE_NL> does not change from true to false
+        - the event that <PRED_NL> never gets observed
+        - the <SIGNAL> signal does not decrease to no longer satisfying <PRED_NL>
+    response:
+        - the condition that <TEMPORAL_RESPONSE_NL> shan't be detected to shift from true to false
+        - the following condition shall not be observed to shift from true to false: <TEMPORAL_RESPONSE_NL>
+        - the value of <SIGNAL> must not start deviating from <VALUE>
+        - the scenario that <PRED_NL> shouldn't happen
+        - the scenario that <PRED_NL> shall never happen
+        - the transition action that <PRED_NL> oughtn't to take place
+        - the condition that <TEMPORAL_RESPONSE_NL> does not shift from true to false
+        - the subsequent condition should not be detected to change from true to false: <TEMPORAL_RESPONSE_NL>
+    temporal_inner:
+        - <SIGNAL> ought not to start deviating from <VALUE>
+        - the scenario that <SIGNAL> leaves <STATE> oughtn't to get observed
+        - the value of <SIGNAL> didn't go lower than <VALUE>
+        - the event that <PRED_NL> shouldn't take place
+        - <PRED_NL> mustn't occur
+        - <PRED_NL> shouldn't get detected
+        - <PRED_NL> ought never to take place
+
+modifier:rise
+stl:rise(<TEMPORAL_RESPONSE>)
+semantics:The temporal response changes from false to true.
+applicable_when:
+    input_kind:temporal
+    output_kind:event
+nl:
+    trigger:
+        - the condition that <TEMPORAL_RESPONSE_NL> will be observed to change from false to true
+        - the subsequent condition will be observed to shift from false to true: <TEMPORAL_RESPONSE_NL>
+    response:
+        - the subsequent condition shall be detected to shift from false to true: <TEMPORAL_RESPONSE_NL>
+        - the condition that <TEMPORAL_RESPONSE_NL> has to be observed to change from false to true
+        - the condition that <TEMPORAL_RESPONSE_NL> ought to be observed to shift from false to true
+        - the condition that <TEMPORAL_RESPONSE_NL> needs to be observed to shift from false to true
+        - the subsequent condition must be observed to shift from false to true: <TEMPORAL_RESPONSE_NL>
+        - the following condition should be detected to change from false to true: <TEMPORAL_RESPONSE_NL>
+
+modifier:fall
+stl:fall(<TEMPORAL_RESPONSE>)
+semantics:The temporal response changes from true to false.
+applicable_when:
+    input_kind:temporal
+    output_kind:event
+nl:
+    trigger:
+        - the following condition shifts from true to false: <TEMPORAL_RESPONSE_NL>
+        - the subsequent condition is observed to shift from true to false: <TEMPORAL_RESPONSE_NL>
+        - the condition that <TEMPORAL_RESPONSE_NL> will be detected to change from true to false
+    response:
+        - the following condition has to change from true to false: <TEMPORAL_RESPONSE_NL>
+        - the condition that <TEMPORAL_RESPONSE_NL> must be detected to change from true to false
+        - the condition that <TEMPORAL_RESPONSE_NL> ought to be detected to shift from true to false
+        - the following condition must shift from true to false: <TEMPORAL_RESPONSE_NL>
+        - the subsequent condition should be observed to change from true to false: <TEMPORAL_RESPONSE_NL>
+        - the following condition has to be detected to change from true to false: <TEMPORAL_RESPONSE_NL>
+        - the condition that <TEMPORAL_RESPONSE_NL> needs to change from true to false
+
+[predicate_composition]
+
+operator:and
+stl:<PRED1> and <PRED2>
+semantics:Both child predicates hold.
+applicable_when:
+    child_kind:state | event | mixed
+nl:
+    standalone:
+        - <PRED1_NL> and <PRED2_NL>
+        - <PRED1_NL>, and <PRED2_NL>
+    trigger:
+        - <PRED1_NL> and <PRED2_NL>
+        - <PRED1_NL>, and <PRED2_NL>
+    temporal_inner:
+        - <PRED1_NL> and <PRED2_NL>
+
+operator:or
+stl:<PRED1> or <PRED2>
+semantics:At least one child predicate holds.
+applicable_when:
+    child_kind:state | event | mixed
+nl:
+    standalone:
+        - <PRED1_NL> or <PRED2_NL>
+    trigger:
+        - <PRED1_NL>, or <PRED2_NL>
+    response:
+        - <PRED1_NL>, or <PRED2_NL>

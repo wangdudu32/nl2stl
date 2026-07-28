@@ -1,0 +1,142 @@
+[metadata]
+source_dataset:<deepstl_train_14k.csv + deepstl_test_2k.csv>
+goal:从 DeepSTL 数据中反推出可复用的 STL->NL 知识库
+extraction_method:LLM-only row-by-row knowledge extraction
+
+[placeholder_annotations]
+<PRED>:任意谓词结构
+<PRED1>, <PRED2>:多个谓词结构
+<TRIGGER>:蕴含左侧触发结构
+<RESPONSE>:蕴含右侧立即响应结构
+<STATE_REQUIREMENT>:状态型要求
+<EVENT_REQUIREMENT>:事件型要求
+<REQUIREMENT>:状态、事件或二者组合形成的通用要求
+<TEMPORAL_RESPONSE>:一层时间响应结构
+<NESTED_TEMPORAL_RESPONSE>:嵌套时间响应结构
+
+<TRIGGER_NL>:触发条件的自然语言表达
+<RESPONSE_NL>:立即响应的自然语言表达
+<STATE_REQUIREMENT_NL>:状态型要求的自然语言表达
+<EVENT_REQUIREMENT_NL>:事件型要求的自然语言表达
+<REQUIREMENT_NL>:状态、事件或混合要求的自然语言表达
+<TEMPORAL_RESPONSE_NL>:一层时间响应的自然语言表达
+<NESTED_TEMPORAL_RESPONSE_NL>:嵌套时间响应的自然语言表达
+<PRED_NL>:谓词的自然语言表达
+<PRED1_NL>, <PRED2_NL>:多个谓词的自然语言表达
+
+<SIGNAL>:信号变量
+<SIGNAL1>, <SIGNAL2>, ...:同一表达中的多个信号变量
+<VALUE>:普通数值阈值
+<VALUE1>, <VALUE2>, ...:同一表达中的多个普通数值阈值
+<STATE>:离散状态
+<STATE1>, <STATE2>, ...:同一表达中的多个离散状态
+<LOW>, <HIGH>:单个数值区间的下界和上界
+<LOW1>/<HIGH1>, <LOW2>/<HIGH2>, ...:多个数值区间
+<T_START>, <T_END>:单个时间区间的下界和上界
+<OUTER_T_START>, <OUTER_T_END>:嵌套时间表达的外层区间
+<INNER_T_START>, <INNER_T_END>:嵌套时间表达的内层区间
+
+[formula_templates]
+description:只记录完整公式骨架和公式级 NL 连接句式，不重复展开局部表达。
+
+templates:
+    type:<invariance_reachability | immediate_response | temporal_response | stabilization_recurrence | other>
+    stl:<使用语义角色占位符的完整 STL 骨架>
+    semantics:<整体语义>
+    applicable_when:
+        antecedent_kind:<none | state | event | temporal | any>
+        response_kind:<none | state | event | temporal | nested_temporal | any>
+        time_scope:<bounded | unbounded | mixed | any>
+        notes:<使用限制>
+    nl_patterns:
+        - <只使用公式级 NL 角色占位符的观察句式>
+    pattern_notes:
+        - <句式差异和使用限制>
+
+[subexpression_templates]
+description:记录可复用的局部时间表达；所有算子使用单词形式。
+
+templates:
+    type:<temporal_unary | temporal_binary | temporal_nested | other>
+    stl:<局部 STL 结构>
+    semantics:<局部结构语义>
+    applicable_when:
+        input_kind:<state | event | predicate_composition | temporal | any>
+        output_role:<standalone | trigger | response | temporal_response | nested_temporal_response | any>
+        time_scope:<bounded | unbounded | past | future | mixed | any>
+        notes:<使用限制>
+    nl_patterns:
+        - <使用局部 NL 角色占位符的观察句式>
+    pattern_notes:
+        - <句式差异和使用限制>
+
+[predicates]
+description:记录原子谓词和区间谓词在实际观察到的上下文中的表达。
+
+templates:
+    type:<numeric_equal | state_equal | less_than | less_or_equal | greater_than | greater_or_equal | open_range | left_open_range | right_open_range | closed_range>
+    stl:<谓词结构>
+    semantics:<谓词语义>
+    applicable_when:
+        signal_kind:<numeric | discrete_state | any>
+        notes:<使用限制>
+    nl:
+        standalone:
+            - <观察到的表达>
+        trigger:
+            - <观察到的表达>
+        response:
+            - <观察到的表达>
+        temporal_inner:
+            - <观察到的表达>
+
+[predicate_modifiers]
+description:记录 not/rise/fall/not rise/not fall 的实际表达。
+
+templates:
+    modifier:<not | rise | fall | not_rise | not_fall>
+    stl:<修饰结构>
+    semantics:<事件或否定语义>
+    applicable_when:
+        input_kind:<state | range | temporal | any>
+        output_kind:<state | event | event_absence>
+        notes:<使用限制>
+    nl:
+        standalone:
+            - <观察到的表达>
+        trigger:
+            - <观察到的表达>
+        response:
+            - <观察到的表达>
+        temporal_inner:
+            - <观察到的表达>
+
+[predicate_composition]
+description:记录 and/or 在实际上下文中的组合表达。
+
+templates:
+    operator:<and | or>
+    stl:<PRED1> <operator> <PRED2>
+    semantics:<合取或析取语义>
+    applicable_when:
+        child_kind:<state | event | mixed | any>
+        notes:<使用限制>
+    nl:
+        standalone:
+            - <观察到的表达>
+        trigger:
+            - <观察到的表达>
+        response:
+            - <观察到的表达>
+        temporal_inner:
+            - <观察到的表达>
+
+[quality_rules]
+- 所有知识由 LLM 逐条阅读原始 STL/English/Type 后提取。
+- 程序只允许读取单条数据，不参与知识判断。
+- 时间算子使用 always/eventually/historically/once/until/since。
+- 嵌套结构使用 eventually(always(...)) 或 always(eventually(...))。
+- 只保留原 English 中实际观察到的 NL 表达。
+- 无可靠 NL 时省略字段，不输出空占位符。
+- 知识库不包含次数、support 或频率统计。
+- 否定、rise/fall、比较方向和时间范围必须与 STL 一致。
