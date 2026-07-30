@@ -2,12 +2,11 @@
 
 ## Scope
 
-- Source: `deepstl_train_14k.csv`
-- Processed range: rows 1–3550
-- Current batch: rows 3501–3550
+- Source: `deepstl_train_14k.csv` + `deepstl_test_2k.csv`
+- Processed range: train rows 1–14318; test rows 1–2000
+- Current batch: test rows 1501–2000
 - Batch state: the current batch is complete
-- Knowledge-base update: performed after row 3550 for the current batch
-- Row 3551: not read or processed
+- Knowledge-base update: performed after test row 2000 for the current batch
 
 ## Method
 
@@ -38,7 +37,7 @@ knowledge into the maintained TXT knowledge base and this report.
 - Nested structures use forms such as `always(eventually(...))` and
   `eventually(always(...))`.
 - Empty NL fields are omitted.
-- The knowledge base contains no per-template counting fields.
+- The knowledge base contains only reusable semantic and wording patterns.
 - Deduplication was semantic and performed by the LLM within the same template
   and context.
 
@@ -218,6 +217,97 @@ knowledge into the maintained TXT knowledge base and this report.
 - The twenty-third batch expands responses driven by bounded or unbounded
   historical conditions, including `once(...)`, `once[...]`, `since[...]`,
   and `not fall(eventually(...))` temporal triggers.
+- The current 500-row batch confirms that no new top-level template family is
+  needed; the rows combine existing state, mode, range, event, event-absence,
+  and temporal atoms under Boolean composition.
+- The current 500-row batch expands complete-formula temporal modifiers such
+  as `rise(always[...](...))`, `rise(eventually[...](...))`,
+  `fall(once[...](...))`, `fall(historically[...](...))`,
+  `not rise(eventually(...))`, and `not fall(until[...](...))`.
+- The current 500-row batch expands cross-time responses where `since`,
+  `since[...]`, `once`, `once[...]`, `historically`, `historically[...]`,
+  `until`, and `until[...]` can appear on either side of the implication with
+  mixed atom types.
+- Rows 5551–6050 keep the same top-level template families and add denser
+  combinations of temporal triggers with recurrence and temporal-response
+  consequents.
+- Rows 5551–6050 add complete-formula modifier cases including
+  `not fall(historically[...](...))`, `rise(historically[...](...))`,
+  `fall(eventually(...))`, `fall(once[...](...))`,
+  `not fall(always[...](...))`, and `not rise(until[...](...))`.
+- Rows 5551–6050 expand cross-time response pairings with `since[...]`,
+  `since`, `until[...]`, `until`, `once[...]`, `historically[...]`, and
+  `historically` used as triggers or consequents for bounded/unbounded
+  always/eventually, whole-negated temporal formulas, and recurrence.
+- Rows 6051–6550 keep the same top-level template families and mainly add
+  denser combinations of past/future temporal formulas with temporal-response
+  and recurrence consequents.
+- Rows 6051–6550 add complete-formula modifier cases including
+  `rise(eventually[...](...))`, `rise(until(...))`,
+  `not fall(until[...](...))`, `fall(always(...))`,
+  `not fall(always[...](...))`, `rise(once[...](...))`,
+  `rise(always[...](...))`, `fall(until[...](...))`,
+  `fall(eventually(...))`, `not rise(eventually[...](...))`, and
+  `fall(since[...](...))`.
+- Rows 6051–6550 expand cross-time pairings where `since`, `since[...]`,
+  `once`, `once[...]`, `historically`, `historically[...]`, `until`, and
+  `until[...]` connect bounded/unbounded always/eventually responses,
+  whole-negated temporal formulas, past responses, and recurrence.
+- Rows 6551–7050 remain within the existing template families while adding
+  more temporal-formula triggers and responses with long, delayed, and
+  decimal windows.
+- Rows 6551–7050 add complete-formula modifier cases including
+  `not fall(eventually(...))`, `rise(eventually[...](...))`,
+  `not fall(once(rise(...)))`, `rise(always(...))`,
+  `rise(always[...](...))`, `rise(until(...))`,
+  `not rise(until(...))`, `rise(since[...](...))`, `rise(once(...))`,
+  `not fall(since(...))`, and `rise(since(...))`.
+- Rows 6551–7050 expand cross-time pairings where `historically`,
+  `historically[...]`, `once`, `once[...]`, `since`, `since[...]`,
+  `until`, `until[...]`, `eventually`, and `eventually[...]` act as
+  antecedents or consequents for bounded/unbounded eventually/always,
+  bounded once, bounded historically, whole-negated temporal formulas, and
+  recurrence.
+- Rows 7051–7550 confirm that existing reusable templates cover
+  immediate state/event mixtures, event absence, range entry/exit, and mode
+  predicates without requiring row-level traces.
+- Rows 7051–7550 expand temporal-response coverage around bounded
+  `since[...]` antecedents, bounded/unbounded `until` consequents,
+  bounded `historically[...]` consequents, whole-negated temporal responses,
+  and complete-formula modifiers such as `rise(always(...))`,
+  `fall(always(...))`, and `not rise(until(...))`.
+- Rows 7051–7550 expand stabilization/recurrence coverage for mixed bounded
+  and unbounded nesting, including eventual stabilization, sliding-window
+  recurrence, delayed inner windows, and inner event or event-absence targets.
+- Rows 7051–7550 add no new top-level template family; the rows
+  remain covered by invariance/reachability, immediate response, temporal
+  response, and stabilization/recurrence.
+- Rows 7051–7550 add more scope-sensitive temporal modifiers over complete
+  subformulas, including `not rise(once[...](...))`,
+  `not fall(always[...](...))`, `rise(since[...](...))`,
+  `fall(since[...](...))`, `not fall(until(...))`,
+  `not rise(until[...](...))`, `rise(always[...](...))`,
+  `fall(always(...))`, and `not rise(always[...](...))`.
+- Rows 7051–7550 expand mixed past/future triggers and responses using
+  `since[...]`, unbounded `since`, `once`, `once[...]`, `historically`,
+  `historically[...]`, bounded `always[...]`, unbounded `always`,
+  bounded `eventually[...]`, and unbounded `eventually` with state, mode,
+  range, event, event-absence, and whole-negated atoms.
+- Rows 7551–8050 remain within the existing template families and add denser
+  use of complete temporal formulas as modified events.
+- Rows 7551–8050 expand temporal-response coverage with
+  `rise(eventually[...](...))`, `fall(eventually[...](...))`,
+  `fall(always[...](...))`, `not fall(eventually[...](...))`,
+  `not fall(always[...](...))`, `not rise(always(...))`, bounded
+  `historically[...]` consequents, unbounded `historically` consequents, and
+  past `once` consequents.
+- Rows 7551–8050 expand stabilization/recurrence coverage where antecedents
+  are built from `historically[...]`, `since[...]`, `until[...]`,
+  `once[...]`, whole-negated future/past formulas, and mixed state/event
+  disjunctions.
+- Rows 7551–8050 add no new top-level template family; the useful change is
+  larger delayed windows, decimal windows, inner event-absence targets, and
+  immediate outputs mixing state predicates with not-rise/not-fall atoms.
 - The twenty-third batch adds temporal-response cases where a bounded
   `until[...]` antecedent triggers unbounded `not(eventually(...))`, and
   where event triggers require bounded `once[...]` past evidence.
@@ -1119,4 +1209,444 @@ knowledge into the maintained TXT knowledge base and this report.
   with bounded OR/conjunction invariance, unbounded OR invariance, delayed
   bounded reachability, unbounded event-absence reachability, and immediate
   event/state disjunction outputs.
+- Rows 3551–4050 were processed as the first 500-row batch after the batch-size
+  change. The knowledge update was intentionally compact: no row trace, no
+  confidence placeholders, and no statistical fields.
+- Rows 3551–4050 reinforce mixed state/event invariance and reachability,
+  immediate state/event/event-absence outputs, temporal triggers built from
+  past and future subformulas, and whole-formula temporal negation.
+- Rows 3551–4050 reinforce recurrence forms including
+  eventually(always(...)), always(eventually(...)),
+  eventually(always[...](...)), and always[...](eventually[...](...)).
 - No per-row trace or evidence file was created.
+- Rows 8051–8550 were processed as one 500-row batch. The update remains
+  compact and semantic-only: no row trace, no confidence placeholders, and no
+  statistical fields.
+- Rows 8051–8550 add complete-formula event modifiers over past, future, and
+  binary temporal subexpressions, including fall(historically(...)),
+  fall(once(...)), fall(until[...](...)), fall(eventually[...](...)),
+  rise(once[...](...)), rise(eventually(...)), not rise(always[...](...)),
+  not rise(once[...](...)), not fall(historically(...)),
+  not fall(always(...)), and not fall(since[...](...)).
+- Rows 8051–8550 expand temporal responses where bounded or unbounded
+  `historically`, `once`, `since`, and `until` formulas appear as triggers or
+  consequents; negation and event-modifier scope is preserved over complete
+  temporal subexpressions.
+- Rows 8051–8550 reinforce stabilization/recurrence with delayed
+  `eventually[...](always[...](...))`, unbounded
+  `eventually[...](always(...))`, bounded
+  `always[...](eventually[...](...))`, bounded
+  `always[...](eventually(...))`, and unbounded
+  `always(eventually[...](...))` or `always(eventually(...))`.
+- Rows 8051–8550 reinforce invariance/reachability and immediate responses
+  with mixed state/event conjunctions and disjunctions, delayed bounded
+  reachability, unbounded reachability, event absence, not-rise/not-fall atoms,
+  decimal windows, and large bounded intervals.
+- Rows 8551–9050 were processed as one 500-row batch. The update stays
+  compact and semantic-only: no row trace, no confidence placeholders, and no
+  statistical fields.
+- Rows 8551–9050 add complete-formula modifiers over temporal subexpressions,
+  including fall(historically(...)), fall(since[...](...)), fall(since(...)),
+  rise(always[...](...)), rise(until[...](...)), not rise(always(...)),
+  not rise(always[...](...)), not rise(since[...](...)),
+  not fall(historically[...](...)), not fall(since(...)), and
+  not fall(eventually(...)).
+- Rows 8551–9050 expand temporal responses with whole-negated
+  `eventually[...]`, `always[...]`, `always`, `since`, `since[...]`, `until`,
+  and `until[...]` formulas; negation and event-modifier scope is preserved
+  over the complete temporal subexpression.
+- Rows 8551–9050 reinforce cross-time responses where `historically`,
+  `historically[...]`, `once`, `once[...]`, `since`, `since[...]`, `until`,
+  and `until[...]` appear as triggers or consequents for bounded always,
+  bounded eventually, unbounded always, unbounded eventually, and
+  bounded/unbounded until responses.
+- Rows 8551–9050 reinforce stabilization/recurrence with large and decimal
+  windows, including delayed `eventually[...](always[...](...))`,
+  `eventually(always[...](...))`, `eventually(always(...))`,
+  `always[...](eventually[...](...))`, `always[...](eventually(...))`,
+  `always(eventually[...](...))`, and `always(eventually(...))`.
+- Rows 8551–9050 reinforce invariance/reachability and immediate responses
+  with unbounded and bounded invariance, delayed reachability, conjunction and
+  disjunction requirements, event and event-absence targets, negated ranges,
+  and same-instant mixed state/event outputs.
+- Rows 9051–9550 were processed as one 500-row batch. The update stays
+  compact and semantic-only: no row trace, no confidence placeholders, and no
+  statistical fields.
+- Rows 9051–9550 add complete-formula modifiers over temporal subexpressions,
+  including fall(always(...)), fall(always[...](...)),
+  fall(historically(...)), fall(since[...](...)), fall(until[...](...)),
+  rise(since[...](...)), rise(until[...](...)), not rise(since(...)),
+  not rise(since[...](...)), not rise(until[...](...)),
+  not fall(eventually(...)), not fall(eventually[...](...)),
+  not fall(always[...](...)), and not fall(once[...](...)).
+- Rows 9051–9550 expand whole-negated temporal responses and triggers over
+  `once`, `once[...]`, `historically`, `historically[...]`, `since[...]`,
+  `until`, `until[...]`, `always`, `always[...]`, `eventually`, and
+  `eventually[...]`; scope is preserved over the complete temporal formula.
+- Rows 9051–9550 reinforce cross-time pairings where past temporal formulas
+  trigger bounded always, bounded eventually, bounded/unbounded until, bounded
+  historically, bounded once, and stabilization/recurrence responses.
+- Rows 9051–9550 reinforce stabilization/recurrence with long delayed
+  windows, decimal windows, event targets, event-absence targets, and
+  combinations such as `eventually[...](always[...](...))`,
+  `eventually(always(...))`, `always[...](eventually[...](...))`,
+  `always[...](eventually(...))`, and `always(eventually[...](...))`.
+- Rows 9051–9550 reinforce invariance/reachability and immediate responses
+  with unbounded invariance, bounded invariance, delayed reachability,
+  state/event conjunctions, state/event disjunctions, negated ranges, and
+  same-instant outputs containing rise, fall, not-rise, and not-fall atoms.
+- Rows 9551–10050 were processed as one 500-row batch. The update stays
+  compact and semantic-only: no row trace, no confidence placeholders, and no
+  statistical fields.
+- Rows 9551–10050 add complete-formula modifiers over temporal subexpressions,
+  including fall(once[...](...)), rise(eventually[...](...)),
+  rise(until[...](...)), fall(until(...)), not rise(eventually(...)),
+  not rise(until[...](...)), and not fall(eventually[...](...)).
+- Rows 9551–10050 expand whole-negated temporal responses and triggers over
+  `always`, `always[...]`, `eventually`, `eventually[...]`, `since[...]`,
+  `until`, and `until[...]`; scope is preserved over the complete temporal
+  formula.
+- Rows 9551–10050 reinforce cross-time pairings where `historically`,
+  `historically[...]`, `once`, `once[...]`, `since`, `since[...]`, `until`,
+  and `until[...]` appear as triggers or consequents for bounded always,
+  bounded eventually, unbounded always, unbounded eventually, bounded or
+  unbounded until, bounded historically, and bounded once responses.
+- Rows 9551–10050 reinforce stabilization/recurrence with long delayed
+  windows, decimal windows, past-temporal antecedents, whole-temporal
+  antecedents, event targets, event-absence targets, and combinations such as
+  `eventually(always(...))`, `eventually[...](always[...](...))`,
+  `always(eventually[...](...))`, and
+  `always[...](eventually[...](...))`.
+- Rows 9551–10050 reinforce invariance/reachability and immediate responses
+  with bounded and unbounded invariance, delayed reachability, conjunction and
+  disjunction requirements, negated ranges, and same-instant mixed outputs
+  containing state predicates, mode predicates, rise, fall, not-rise, and
+  not-fall atoms.
+- Rows 10051–10550 were processed as one 500-row batch. The update stays
+  compact and semantic-only: no row trace, no confidence placeholders, and no
+  statistical fields.
+- Rows 10051–10550 add complete-formula modifiers over temporal subexpressions,
+  including not fall(always[...](...)), not rise(always[...](...)),
+  rise(always(...)), rise(always[...](...)), rise(since[...](...)),
+  fall(eventually(...)), fall(historically(...)), not fall(until[...](...)),
+  fall(until(...)), rise(historically(...)), and
+  not rise(historically[...](...)).
+- Rows 10051–10550 expand whole-negated temporal responses and triggers over
+  `always`, `always[...]`, `eventually`, `eventually[...]`, `historically`,
+  `historically[...]`, `once`, `once[...]`, `since`, `since[...]`, `until`,
+  and `until[...]`; scope is preserved over the complete temporal formula.
+- Rows 10051–10550 reinforce cross-time pairings where past temporal formulas
+  trigger or answer with bounded/unbounded `until`, `since`, `historically`,
+  `once`, bounded eventually, bounded always, and stabilization/recurrence
+  responses.
+- Rows 10051–10550 reinforce stabilization/recurrence with whole-negated
+  antecedents, whole-temporal antecedents, long windows, decimal windows,
+  event targets, event-absence targets, and combinations such as
+  `eventually(always(...))`, `eventually(always[...](...))`,
+  `always(eventually[...](...))`, and
+  `always[...](eventually[...](...))`.
+- Rows 10051–10550 reinforce invariance/reachability and immediate responses
+  with mixed state/mode/range predicates, delayed reachability, event and
+  event-absence targets, same-instant Boolean outputs, and negated range or
+  mode predicates.
+- Rows 10551–11050 were processed as one 500-row batch. The update stays
+  compact and semantic-only: no row trace, no confidence placeholders, and no
+  statistical fields.
+- Rows 10551–11050 add complete-formula modifiers over temporal
+  subexpressions, including rise(eventually(...)), not fall(once(...)),
+  fall(since(...)), fall(eventually(...)), rise(historically[...](...)),
+  not fall(always(...)), fall(always(...)), not rise(until(...)),
+  not fall(since[...](...)), fall(historically(...)), fall(until(...)), and
+  fall(always[...](...)).
+- Rows 10551–11050 expand whole-negated temporal responses and triggers over
+  `always`, `always[...]`, `eventually`, `eventually[...]`,
+  `historically[...]`, `once`, `once[...]`, `since`, `since[...]`, `until`,
+  and `until[...]`; scope is preserved over the complete temporal formula.
+- Rows 10551–11050 reinforce cross-time pairings where past and binary
+  temporal formulas serve as triggers or consequents for past responses,
+  bounded always responses, bounded or unbounded eventually responses,
+  bounded or unbounded until responses, and stabilization/recurrence.
+- Rows 10551–11050 reinforce stabilization/recurrence with long delayed
+  windows, decimal windows, whole-negated antecedents, whole-temporal
+  antecedents, event targets, event-absence targets, and combinations such as
+  `always(eventually(...))`, `always[...](eventually[...](...))`,
+  `eventually(always(...))`, and `eventually[...](always[...](...))`.
+- Rows 10551–11050 reinforce invariance/reachability and immediate responses
+  with event/state conjunctions and disjunctions, delayed reachability,
+  bounded and unbounded invariance, event absence, negated ranges, and
+  same-instant mixed outputs.
+- Rows 11051–11550 were processed as one 500-row batch. The update stays
+  compact and semantic-only: no row trace and no confidence placeholders.
+- Rows 11051–11550 add complete-formula modifiers over temporal
+  subexpressions, including not rise(always(...)),
+  not rise(eventually[...](...)), not rise(until[...](...)),
+  rise(always(...)), rise(always[...](...)), rise(eventually(...)),
+  fall(until[...](...)), not fall(eventually(...)),
+  not fall(until(...)), not fall(until[...](...)),
+  not fall(since[...](...)), and rise(historically[...](...)).
+- Rows 11051–11550 expand whole-negated temporal responses and triggers over
+  `always`, `always[...]`, `eventually`, `eventually[...]`,
+  `historically[...]`, `once`, `once[...]`, `since`, `since[...]`, `until`,
+  and `until[...]`; scope is preserved over the complete temporal formula.
+- Rows 11051–11550 reinforce cross-time pairings where full past, future, and
+  binary temporal formulas serve as triggers or consequents for past
+  responses, bounded or unbounded eventually responses, bounded always
+  responses, bounded or unbounded until responses, and recurrence structures.
+- Rows 11051–11550 reinforce stabilization/recurrence with large windows,
+  decimal windows, whole-negated antecedents, full-temporal antecedents, event
+  targets, event-absence targets, sustained negated ranges, and combinations
+  such as `always(eventually(...))`,
+  `always[...](eventually[...](...))`, `eventually(always(...))`, and
+  `eventually[...](always[...](...))`.
+- Rows 11051–11550 reinforce invariance/reachability and immediate responses
+  with bounded and unbounded invariance, delayed reachability, mode predicates,
+  range predicates, event and event-absence targets, same-instant Boolean
+  outputs, and negated state or range requirements.
+- Rows 11551–12050 were processed as one 500-row batch. The update stays
+  compact and semantic-only: no row trace and no confidence placeholders.
+- Rows 11551–12050 add complete-formula modifiers over temporal
+  subexpressions, including not fall(always[...](...)),
+  not fall(eventually[...](...)), not rise(always[...](...)),
+  not rise(eventually[...](...)), rise(always[...](...)),
+  rise(eventually[...](...)), rise(historically[...](...)),
+  rise(until[...](...)), fall(once(...)), fall(once[...](...)),
+  fall(since(...)), fall(historically(...)), and fall(until[...](...)).
+- Rows 11551–12050 expand whole-negated temporal responses and triggers over
+  `always`, `always[...]`, `eventually`, `eventually[...]`, `historically`,
+  `historically[...]`, `once`, `once[...]`, `since`, `since[...]`, `until`,
+  and `until[...]`; scope is preserved over the complete temporal formula.
+- Rows 11551–12050 reinforce cross-time pairings where full past, future, and
+  binary temporal formulas serve as triggers or consequents for past
+  responses, future responses, binary-temporal responses, and recurrence
+  structures.
+- Rows 11551–12050 reinforce stabilization/recurrence with long delayed
+  windows, decimal windows, full-temporal antecedents, whole-negated
+  antecedents, event targets, event-absence targets, sustained negated
+  state/range targets, and combinations such as
+  `always(eventually[...](...))`, `always[...](eventually[...](...))`,
+  `eventually(always[...](...))`, and `eventually[...](always(...))`.
+- Rows 11551–12050 reinforce invariance/reachability and immediate responses
+  with bounded and unbounded invariance, delayed reachability, same-instant
+  event/state mixtures, mode predicates, open/closed ranges, event absence,
+  and negated state or range requirements.
+- Rows 12051–12550 were processed as one 500-row batch. The update stays
+  compact and semantic-only: no row trace and no confidence placeholders.
+- Rows 12051–12550 add complete-formula modifiers over temporal
+  subexpressions, including fall(eventually[...](...)), fall(always(...)),
+  fall(always[...](...)), rise(until[...](...)),
+  not rise(always[...](...)), not rise(historically(...)),
+  not fall(always(...)), and not fall(until[...](...)).
+- Rows 12051–12550 expand whole-negated temporal responses and triggers over
+  `always`, `always[...]`, `eventually`, `eventually[...]`,
+  `historically[...]`, `once[...]`, `since[...]`, `until`, and
+  `until[...]`; scope is preserved over the complete temporal formula.
+- Rows 12051–12550 reinforce cross-time pairings where full past, future, and
+  binary temporal formulas serve as triggers or consequents for past
+  responses, future responses, binary-temporal responses, and recurrence
+  structures.
+- Rows 12051–12550 reinforce stabilization/recurrence with delayed windows,
+  decimal windows, full-temporal antecedents, whole-negated antecedents, event
+  targets, event-absence targets, sustained negated state/range targets, and
+  combinations such as `always(eventually[...](...))`,
+  `always[...](eventually[...](...))`, `eventually(always[...](...))`, and
+  `eventually[...](always(...))`.
+- Rows 12051–12550 reinforce invariance/reachability and immediate responses
+  with bounded and unbounded invariance, delayed reachability, same-instant
+  event/state mixtures, mode predicates, open/closed ranges, event absence,
+  and negated state or range requirements.
+- Rows 12551–13050 were processed as one 500-row batch. The update stays
+  compact and semantic-only: no row trace and no confidence placeholders.
+- Rows 12551–13050 add complete-formula modifiers over temporal
+  subexpressions, including rise(always(...)), rise(always[...](...)),
+  rise(eventually[...](...)), fall(eventually(...)),
+  fall(eventually[...](...)), fall(always(...)), fall(always[...](...)),
+  fall(until[...](...)), fall(once[...](...)), not fall(once(...)),
+  not fall(since[...](...)), not fall(until(...)),
+  not rise(historically[...](...)), not rise(since[...](...)),
+  not rise(always(...)), and not rise(always[...](...)).
+- Rows 12551–13050 expand whole-negated temporal responses and triggers over
+  `always`, `always[...]`, `eventually`, `eventually[...]`,
+  `historically[...]`, `once`, `once[...]`, `since`, `since[...]`, `until`,
+  and `until[...]`; scope is preserved over the complete temporal formula.
+- Rows 12551–13050 reinforce cross-time pairings where full past, future, and
+  binary temporal formulas serve as triggers or consequents for past
+  responses, future responses, binary-temporal responses, and recurrence
+  structures.
+- Rows 12551–13050 reinforce stabilization/recurrence with delayed windows,
+  decimal windows, full-temporal antecedents, whole-negated antecedents, event
+  targets, event-absence targets, sustained negated state/range targets, and
+  combinations such as `always(eventually[...](...))`,
+  `always[...](eventually[...](...))`, `eventually(always[...](...))`, and
+  `eventually[...](always(...))`.
+- Rows 12551–13050 reinforce invariance/reachability and immediate responses
+  with bounded and unbounded invariance, delayed reachability, same-instant
+  event/state mixtures, mode predicates, open/closed ranges, event absence,
+  and negated state or range requirements.
+- Rows 13051–13550 were processed as one 500-row batch. The update stays
+  compact and semantic-only: no row trace and no confidence placeholders.
+- Rows 13051–13550 add complete-formula modifiers over temporal
+  subexpressions, including rise(historically[...](...)),
+  fall(historically(...)), fall(since(...)), fall(until(...)),
+  not fall(always[...](...)), not fall(eventually[...](...)),
+  not fall(historically[...](...)), and not rise(until[...](...)).
+- Rows 13051–13550 expand whole-negated temporal responses and triggers over
+  `always`, `always[...]`, `eventually`, `eventually[...]`,
+  `historically[...]`, `once`, `once[...]`, `since`, `since[...]`, `until`,
+  and `until[...]`; scope is preserved over the complete temporal formula.
+- Rows 13051–13550 reinforce cross-time pairings where full past, future, and
+  binary temporal formulas serve as triggers or consequents for past
+  responses, future responses, binary-temporal responses, and recurrence
+  structures.
+- Rows 13051–13550 reinforce stabilization/recurrence with long delayed
+  windows, decimal windows, full-temporal antecedents, whole-negated
+  antecedents, event targets, event-absence targets, sustained negated
+  state/range targets, and combinations such as
+  `always(eventually[...](...))`,
+  `always[...](eventually[...](...))`, `eventually(always[...](...))`,
+  and `eventually[...](always(...))`.
+- Rows 13051–13550 reinforce invariance/reachability and immediate responses
+  with bounded and unbounded invariance, delayed reachability, same-instant
+  event/state mixtures, mode predicates, open/closed ranges, event absence,
+  and negated state or range requirements.
+- Rows 13551–14050 were processed as one 500-row batch. The update stays
+  compact and semantic-only: no row trace and no confidence placeholders.
+- Rows 13551–14050 add complete-formula modifiers over temporal
+  subexpressions, including fall(historically(...)),
+  fall(historically[...](...)), fall(once(...)), fall(always(...)),
+  fall(eventually[...](...)), rise(always(...)), rise(always[...](...)),
+  not rise(historically(...)), not rise(historically[...](...)),
+  not rise(since(...)), not rise(until(...)),
+  not fall(always[...](...)), and not fall(once[...](...)).
+- Rows 13551–14050 expand whole-negated temporal responses and triggers over
+  `always`, `always[...]`, `eventually`, `eventually[...]`,
+  `historically[...]`, `once`, `since`, `since[...]`, `until`, and
+  `until[...]`; scope is preserved over the complete temporal formula.
+- Rows 13551–14050 reinforce cross-time pairings where full past, future, and
+  binary temporal formulas serve as triggers or consequents for past
+  responses, future responses, binary-temporal responses, and recurrence
+  structures.
+- Rows 13551–14050 reinforce stabilization/recurrence with long delayed
+  windows, decimal windows, past-temporal antecedents, binary-temporal
+  antecedents, whole-negated antecedents, event targets, event-absence
+  targets, sustained negated state/range targets, and combinations such as
+  `always(eventually[...](...))`,
+  `always[...](eventually[...](...))`, `eventually(always[...](...))`,
+  and `eventually[...](always(...))`.
+- Rows 13551–14050 reinforce invariance/reachability and immediate responses
+  with bounded and unbounded invariance, delayed reachability, same-instant
+  event/state mixtures, mode predicates, open/closed ranges, event absence,
+  and negated state or range requirements.
+- Rows 14051–14318 complete the train split. This split-end batch is smaller
+  than 500 rows because no train rows remain after row 14318.
+- Rows 14051–14318 add complete-formula modifiers over temporal
+  subexpressions, including rise(always[...](...)), rise(until(...)),
+  rise(once[...](...)), fall(always[...](...)), fall(until[...](...)),
+  fall(since[...](...)), not rise(eventually[...](...)),
+  not rise(once[...](...)), not fall(eventually[...](...)), and
+  not fall(since[...](...)).
+- Rows 14051–14318 expand whole-negated temporal responses and triggers over
+  `historically[...]`, `once[...]`, `eventually[...]`, `always`,
+  `always[...]`, `until`, and `until[...]`; scope is preserved over the
+  complete temporal formula.
+- Rows 14051–14318 reinforce cross-time pairings where full past, future, and
+  binary temporal formulas serve as triggers or consequents for past
+  responses, future responses, binary-temporal responses, and recurrence
+  structures.
+- Rows 14051–14318 reinforce stabilization/recurrence with long delayed
+  windows, decimal windows, past-temporal antecedents, binary-temporal
+  antecedents, whole-negated antecedents, event targets, event-absence
+  targets, sustained negated state/range targets, and combinations such as
+  `always(eventually[...](...))`,
+  `always[...](eventually[...](...))`, `eventually(always[...](...))`,
+  and `eventually[...](always[...](...))`.
+- Rows 14051–14318 reinforce invariance/reachability and immediate responses
+  with bounded and unbounded invariance, delayed reachability, same-instant
+  event/state mixtures, mode predicates, open/closed ranges, event absence,
+  and negated state or range requirements.
+- Test rows 1–500 were processed as one 500-row batch. The update stays
+  compact and semantic-only: no row trace and no extra numeric bookkeeping.
+- Test rows 1–500 stay within the same four template families:
+  invariance/reachability, immediate response, temporal response, and
+  stabilization/recurrence.
+- Test rows 1–500 reinforce complete-formula modifiers and whole temporal
+  negation, including rise(always(...)), fall(always[...](...)),
+  not rise(eventually(...)), rise(once[...](...)), fall(once(...)),
+  fall(since(...)), not(eventually[...](...)), not(always[...](...)),
+  not(since[...](...)), and not(until[...](...)).
+- Test rows 1–500 reinforce cross-time pairings where `once`, `once[...]`,
+  `historically`, `historically[...]`, `since`, `since[...]`, `until`,
+  `until[...]`, `always`, `always[...]`, `eventually`, and
+  `eventually[...]` serve as triggers, consequents, or recurrence conditions.
+- Test rows 1–500 reinforce stabilization/recurrence with delayed, decimal,
+  long, and nonzero windows, including `always(eventually(...))`,
+  `always(eventually[...](...))`, `always[...](eventually(...))`,
+  `always[...](eventually[...](...))`, `eventually(always(...))`,
+  `eventually(always[...](...))`, and
+  `eventually[...](always[...](...))`.
+- Test rows 1–500 reinforce invariance/reachability and immediate responses
+  with mixed state, mode, range, event, event-absence, whole-negated, and
+  same-instant Boolean requirements.
+- Test rows 501–1000 were processed as one 500-row batch. The update stays
+  compact and semantic-only: no row trace and no extra numeric bookkeeping.
+- Test rows 501–1000 stay within the same four template families:
+  invariance/reachability, immediate response, temporal response, and
+  stabilization/recurrence.
+- Test rows 501–1000 reinforce complete-formula modifiers over temporal
+  inputs, including not rise(eventually[...](...)),
+  not fall(eventually[...](...)), rise(until(...)), rise(until[...](...)),
+  fall(until[...](...)), fall(always[...](...)), fall(once(...)), and
+  not rise(since[...](...)).
+- Test rows 501–1000 reinforce whole-negated temporal formulas over
+  `eventually`, `eventually[...]`, `always`, `always[...]`, `since`,
+  `since[...]`, `until`, and `until[...]`; negation scope stays attached to
+  the full temporal expression.
+- Test rows 501–1000 reinforce cross-time response pairings where `once`,
+  `once[...]`, `historically`, `historically[...]`, `since`, `since[...]`,
+  `until`, `until[...]`, `eventually`, and `eventually[...]` appear as
+  antecedents or consequents.
+- Test rows 501–1000 reinforce stabilization/recurrence with past, future,
+  and binary-temporal antecedents; inner targets may be state, mode, range,
+  event, event absence, or whole-negated requirements across short, long,
+  decimal, delayed, and nonzero windows.
+- Test rows 1001–1500 were processed as one 500-row batch. The update stays
+  compact and semantic-only: no row trace and no extra numeric bookkeeping.
+- Test rows 1001–1500 stay within the same four template families:
+  invariance/reachability, immediate response, temporal response, and
+  stabilization/recurrence.
+- Test rows 1001–1500 reinforce complete-formula modifiers over temporal
+  inputs, including not fall(until[...](...)), not fall(eventually(...)),
+  fall(historically(...)), fall(always[...](...)), fall(once(...)),
+  not rise(since[...](...)), and rise(until[...](...)).
+- Test rows 1001–1500 reinforce whole-negated temporal formulas over
+  `always`, `always[...]`, `eventually`, `eventually[...]`,
+  `historically[...]`, `once[...]`, `since`, `since[...]`, `until`, and
+  `until[...]`; negation scope stays attached to the full temporal expression.
+- Test rows 1001–1500 reinforce cross-time pairings where past, future, and
+  binary temporal formulas appear as antecedents or consequents.
+- Test rows 1001–1500 reinforce stabilization/recurrence where inner targets
+  may be state, mode, range, event, event absence, not-rise, not-fall, or
+  whole-negated requirements across delayed, decimal, long, and nonzero
+  windows.
+- Test rows 1501–2000 were processed as one 500-row batch and complete the
+  test split. The update stays compact and semantic-only: no row trace and no
+  extra numeric bookkeeping.
+- Test rows 1501–2000 stay within the same four template families:
+  invariance/reachability, immediate response, temporal response, and
+  stabilization/recurrence.
+- Test rows 1501–2000 reinforce complete-formula modifiers over temporal
+  inputs, including fall(once(...)), fall(historically(...)),
+  fall(eventually[...](...)), fall(until[...](...)),
+  not fall(always[...](...)), not fall(since(...)),
+  not rise(eventually[...](...)), and not rise(until[...](...)).
+- Test rows 1501–2000 reinforce whole-negated temporal formulas over
+  `always`, `always[...]`, `eventually`, `eventually[...]`, `historically`,
+  `historically[...]`, `once`, `once[...]`, `since`, `since[...]`, `until`,
+  and `until[...]`; full-expression scope remains preserved.
+- Test rows 1501–2000 reinforce cross-time pairings such as
+  eventually-to-until, until-to-until, until-to-since,
+  since-to-historically, since-to-until, since-to-recurrence,
+  historically-to-until, and historically-to-recurrence.
+- Test rows 1501–2000 reinforce stabilization/recurrence with future, past,
+  binary-temporal, and whole-negated antecedents; inner targets may be state,
+  mode, range, event, event absence, not-rise, not-fall, or whole-negated
+  requirements across delayed, decimal, long, and nonzero windows.
