@@ -1,0 +1,1326 @@
+{
+  {
+    taskid:0,
+    gold_stl:"always ( rise (sig1 <= 514.6) -> not fall (sig2 > 2898) )",
+    pred_stl:"always ( rise (sig1 <= 514.6) -> not rise (sig2 <= 2898) )",
+  },
+  {
+    taskid:1,
+    gold_stl:"always [0:106] (sig1 == sig2 and sig3 >= 63)",
+    pred_stl:"always [0:106] (sig1 == sig2 and sig3 >= 63)",
+  },
+  {
+    taskid:2,
+    gold_stl:"eventually [3:64] (sig1 < 74.7 or sig2 <= 94)",
+    pred_stl:"eventually [3:64] (always (sig1 < 74.7) or eventually (sig2 <= 94))",
+  },
+  {
+    taskid:3,
+    gold_stl:"always ( rise (sig1 == sig2) -> sig3 == 2 )",
+    pred_stl:"always ( rise (sig1 == SIG2) -> sig3 == 2 )",
+  },
+  {
+    taskid:4,
+    gold_stl:"always ( rise (sig1 < 94.3) and not (sig2 <= 32.8) -> not (eventually [0:87] (sig3 >= 1 and sig3 <= 66)) )",
+    pred_stl:"always ( rise (sig1 < 94.3) and sig2 > 32.8 -> always [0:87] (not (sig3 >= 1 and sig3 <= 66)) )",
+  },
+  {
+    taskid:5,
+    gold_stl:"always [4:7] (sig1 == 9)",
+    pred_stl:"always [4:7] (sig1 == 9)",
+  },
+  {
+    taskid:6,
+    gold_stl:"always ( rise (sig1 > 2.4 and sig1 < 9.6) -> sig2 == 1 )",
+    pred_stl:"always ( rise (sig1 > 2.4 and sig1 < 9.6) -> sig2 == 1 )",
+  },
+  {
+    taskid:7,
+    gold_stl:"always ( sig1 == sig2 -> sig3 <= 11.08 )",
+    pred_stl:"always ( sig1 == sig2 -> sig3 <= 11.08 )",
+  },
+  {
+    taskid:8,
+    gold_stl:"always ( fall (sig1 == sig2) -> not ((sig3 > 8 and sig3 < 9) until (rise (sig4 == sig5))) )",
+    pred_stl:"always ( fall (sig1 == SIG2) -> not ((sig3 > 8 and sig3 < 9) until (rise (sig4 == SIG5))) )",
+  },
+  {
+    taskid:9,
+    gold_stl:"always (sig1 < 2166.15 or sig2 > 38)",
+    pred_stl:"always (sig1 < 2166.15 or sig2 > 38)",
+  },
+  {
+    taskid:10,
+    gold_stl:"eventually (rise (sig1 > 39) or sig2 < 30)",
+    pred_stl:"eventually (rise (sig1 > 39)) or eventually (sig2 < 30)",
+  },
+  {
+    taskid:11,
+    gold_stl:"eventually [6:10] (sig1 == sig2)",
+    pred_stl:"eventually [6:10] (sig1 == SIG2)",
+  },
+  {
+    taskid:12,
+    gold_stl:"eventually (sig1 == sig2 and rise (sig3 < 4))",
+    pred_stl:"eventually (sig1 == sig2) and eventually (sig3 < 4)",
+  },
+  {
+    taskid:13,
+    gold_stl:"always ( once [0:1185] (sig1 >= 1) -> eventually [386.17:538.86] (sig2 == sig3) )",
+    pred_stl:"always ( once [0:1185] (sig1 >= 1) -> eventually [386.17:538.86] (sig2 == sig3) )",
+  },
+  {
+    taskid:14,
+    gold_stl:"always ( rise (sig1 == 85.5) -> always [0:756] (eventually [0:8.22] (rise (sig2 == 83))) )",
+    pred_stl:"always ( rise (sig1 == 85.5) -> always [0:756] (eventually [0:8.22] (rise (sig2 == 83))) )",
+  },
+  {
+    taskid:15,
+    gold_stl:"always ( fall (sig1 == 21.68) -> always [43:81] (eventually [0:2176] (rise (sig2 >= 37 and sig2 <= 50))) )",
+    pred_stl:"always ( fall (sig1 == 21.68) -> always [43:81] (eventually [0:2176] (sig2 >= 37 and sig2 <= 50)) )",
+  },
+  {
+    taskid:16,
+    gold_stl:"always ( rise (sig1 == 71) -> eventually (sig2 == 28) )",
+    pred_stl:"always ( rise (sig1 == 71) -> eventually (sig2 == 28) )",
+  },
+  {
+    taskid:17,
+    gold_stl:"eventually [0:711.04] (sig1 == sig2 and rise (sig3 >= 678))",
+    pred_stl:"eventually [0:711.04] (sig1 == SIG2 and rise (sig3 >= 678))",
+  },
+  {
+    taskid:18,
+    gold_stl:"always ( sig1 == sig2 -> eventually (sig3 == 298) )",
+    pred_stl:"always ( sig1 == SIG2 -> eventually (sig3 == 298) )",
+  },
+  {
+    taskid:19,
+    gold_stl:"always ( rise (sig1 < 23.5) -> always [69:74] (eventually [6:8] (rise (sig2 >= 1322))) )",
+    pred_stl:"always ( rise (sig1 < 23.5) -> always [69:74] (eventually [6:8] (rise (sig2 >= 1322))) )",
+  },
+  {
+    taskid:20,
+    gold_stl:"always (sig1 > 2)",
+    pred_stl:"always (sig1 > 2)",
+  },
+  {
+    taskid:21,
+    gold_stl:"always ( rise (sig1 < 10) -> not (eventually [0:1] (not (sig2 > 1678 and sig2 < 2158))) )",
+    pred_stl:"always ( rise (sig1 < 10) -> not (eventually [0:1] (not (1678 < sig2 and sig2 < 2158))) )",
+  },
+  {
+    taskid:22,
+    gold_stl:"eventually (rise (sig1 == 5))",
+    pred_stl:"eventually (sig1 == 5)",
+  },
+  {
+    taskid:23,
+    gold_stl:"always ( sig1 == 0 -> eventually [0:29] (not fall (sig2 == 1)) )",
+    pred_stl:"always ( sig1 == 0 -> not (eventually [0:29] (fall (sig2 == 1))) )",
+  },
+  {
+    taskid:24,
+    gold_stl:"always ( sig1 == sig2 -> always (sig3 == 8.5) )",
+    pred_stl:"always ( sig1 == SIG2 -> always (sig3 == 8.5) )",
+  },
+  {
+    taskid:25,
+    gold_stl:"always ( sig1 == 0 and sig2 <= 41 -> (not rise (sig3 >= 10)) until [0:6.6] (sig4 <= 6) )",
+    pred_stl:"always ( sig1 == 0 and sig2 <= 41 -> (not rise (sig3 >= 10)) until [0:6.6] (sig4 <= 6) )",
+  },
+  {
+    taskid:26,
+    gold_stl:"always ( rise (sig1 <= 9) -> historically [0:2439] (sig2 == 82.5) )",
+    pred_stl:"always ( rise (sig1 <= 9) -> sig2 == 82.5 and historically [0:2439] (sig2 == 82.5) )",
+  },
+  {
+    taskid:27,
+    gold_stl:"eventually (sig1 == 60 and fall (sig2 == 2.75))",
+    pred_stl:"eventually (sig1 == 60) and eventually (fall (sig2 == 2.75))",
+  },
+  {
+    taskid:28,
+    gold_stl:"always ( rise (sig1 <= 99.89) -> rise (sig2 >= 1) )",
+    pred_stl:"always ( fall (sig1 <= 99.89) -> rise (sig2 >= 1) )",
+  },
+  {
+    taskid:29,
+    gold_stl:"always ( fall (sig1 >= 1 and sig1 <= 3) -> sig2 == 16.7 )",
+    pred_stl:"always ( fall (sig1 >= 1 and sig1 <= 3) -> sig2 == 16.7 )",
+  },
+  {
+    taskid:30,
+    gold_stl:"always ( rise (sig1 <= 7.9) -> eventually [0:4] (always [0:1757.7] (sig2 < 57)) )",
+    pred_stl:"always ( fall (sig1 <= 7.9) -> eventually [0:4] (always [0:1757.7] (sig2 < 57)) )",
+  },
+  {
+    taskid:31,
+    gold_stl:"always ( not (sig1 >= 50.1) and fall (sig2 == 3.95) -> sig3 >= 8 and sig3 < 9 )",
+    pred_stl:"always ( sig1 < 50.1 and fall (sig2 == 3.95) -> sig3 >= 8 and sig3 < 9 )",
+  },
+  {
+    taskid:32,
+    gold_stl:"always ( rise (sig1 > 0 and sig1 < 87) -> (sig2 < 1.5) until [0:1070] (rise (sig3 <= 8.31)) )",
+    pred_stl:"always ( rise (sig1 > 0 and sig1 < 87) -> (sig2 < 1.5) until [0:1070] (rise (sig3 <= 8.31)) )",
+  },
+  {
+    taskid:33,
+    gold_stl:"always ( fall (sig1 >= 1416.9 and sig1 <= 2790.8) -> not (eventually [2.4:6.0] (sig2 == sig3)) )",
+    pred_stl:"always ( fall (sig1 >= 1416.9 and sig1 <= 2790.8) -> not (eventually [2.4:6.0] (sig2 == sig3)) )",
+  },
+  {
+    taskid:34,
+    gold_stl:"always ( sig1 < 9 -> eventually [0:41.7] (always [0:36] (sig2 == 612)) )",
+    pred_stl:"always ( sig1 < 9 -> eventually [0:41.7] (always [0:36] (sig2 == 612)) )",
+  },
+  {
+    taskid:35,
+    gold_stl:"always ( sig1 > 42 or sig2 >= 8 -> sig3 < 47 )",
+    pred_stl:"always ( sig1 > 42 or sig2 >= 8 -> sig3 < 47 )",
+  },
+  {
+    taskid:36,
+    gold_stl:"always ( sig1 >= 99 -> sig2 <= 0 and sig3 == 8 )",
+    pred_stl:"always ( sig1 >= 99 -> sig2 <= 0 and sig3 == 8 )",
+  },
+  {
+    taskid:37,
+    gold_stl:"always ( rise (sig1 < 41.7) -> eventually [0:59] (sig2 >= 1405.13) )",
+    pred_stl:"always ( rise (sig1 < 41.7) -> eventually [0:59] (sig2 >= 1405.13) )",
+  },
+  {
+    taskid:38,
+    gold_stl:"always [0:1815] (sig1 == 8)",
+    pred_stl:"always [0:1815] (sig1 == 8)",
+  },
+  {
+    taskid:39,
+    gold_stl:"eventually [1119:2527] (sig1 > 30.72 and sig1 < 70.7)",
+    pred_stl:"eventually [1119:2527] (sig1 > 30.72 and sig1 < 70.7)",
+  },
+  {
+    taskid:40,
+    gold_stl:"always ( rise (sig1 >= 9) -> not (sig2 == sig3) and sig4 == 77 )",
+    pred_stl:"always ( rise (sig1 >= 9) -> sig2 != sig3 and sig4 == 77 )",
+  },
+  {
+    taskid:41,
+    gold_stl:"always ( sig1 == 1756 and (sig2 >= 91 and sig2 <= 95) -> eventually (rise (sig3 > 0 and sig3 < 8)) )",
+    pred_stl:"always ( sig1 == 1756 and sig2 >= 91 and sig2 <= 95 -> eventually (rise (sig3 > 0 and sig3 < 8)) )",
+  },
+  {
+    taskid:42,
+    gold_stl:"always ( rise (sig1 > 43.43) -> always [0:88] (sig2 >= 3.81) )",
+    pred_stl:"always ( rise (sig1 > 43.43) -> always [0:88] (sig2 >= 3.81) )",
+  },
+  {
+    taskid:43,
+    gold_stl:"always ( sig1 < 62.6 and (sig2 > 47 and sig2 < 53) -> historically [0:5] (sig3 <= 51) )",
+    pred_stl:"always ( sig1 < 62.6 and sig2 > 47 and sig2 < 53 -> always [0:5] (sig3 <= 51) )",
+  },
+  {
+    taskid:44,
+    gold_stl:"always [6:8] (sig1 > 93 and sig1 < 95)",
+    pred_stl:"always [6:8] (sig1 > 93 and sig1 < 95)",
+  },
+  {
+    taskid:45,
+    gold_stl:"always ( rise (sig1 == 4) -> (sig2 <= 4) until (sig3 > 771) )",
+    pred_stl:"always ( rise (sig1 == 4) -> (sig2 <= 4) until (sig3 > 771) )",
+  },
+  {
+    taskid:46,
+    gold_stl:"always ( sig1 > 4.5 and sig1 < 5.1 -> sig2 <= 10 )",
+    pred_stl:"always ( sig1 > 4.5 and sig1 < 5.1 -> sig2 <= 10 )",
+  },
+  {
+    taskid:47,
+    gold_stl:"always ( rise (sig1 < 4) -> once [0:16] (rise (sig2 > 1)) )",
+    pred_stl:"always ( fall (sig1 < 4) -> once [0:16] (rise (sig2 > 1)) )",
+  },
+  {
+    taskid:48,
+    gold_stl:"always ( fall (sig1 > 9.0 and sig1 < 9.8) -> always [0:7] (eventually [0:2270] (rise (sig2 == 8))) )",
+    pred_stl:"always ( fall (sig1 > 9.0 and sig1 < 9.8) -> always [0:7] (eventually [0:2270] (rise (sig2 == 8))) )",
+  },
+  {
+    taskid:49,
+    gold_stl:"always ( rise (sig1 < 7) -> eventually [0:41] (always [0:2] (sig2 == sig3)) )",
+    pred_stl:"always ( fall (sig1 >= 7) -> eventually [0:41] (always [0:2] (sig2 == sig3)) )",
+  },
+  {
+    taskid:50,
+    gold_stl:"always ( rise (sig1 == 3) -> not fall (sig2 > 12 and sig2 < 65) and rise (sig3 == 4) )",
+    pred_stl:"always ( rise (sig1 == 3) -> not fall (sig2 > 12 and sig2 < 65) and rise (sig3 == 4) )",
+  },
+  {
+    taskid:51,
+    gold_stl:"always ( fall (sig1 > 75.8 and sig1 < 91.1) -> always [0:41.2] (eventually [0:3.35] (fall (sig2 == 7))) )",
+    pred_stl:"always ( fall (sig1 > 75.8 and sig1 < 91.1) -> always [0:41.2] (eventually [0:3.35] (fall (sig2 == 7))) )",
+  },
+  {
+    taskid:52,
+    gold_stl:"always ( rise (sig1 < 4.09) -> (sig2 > 46.63 and sig2 < 69.0) since [0:6] (not (sig3 == sig4)) )",
+    pred_stl:"always ( fall (sig1 >= 4.09) -> (sig2 > 46.63 and sig2 < 69.0) since [0:6] (sig3 != SIG4) )",
+  },
+  {
+    taskid:53,
+    gold_stl:"always ( sig1 == 81 and rise (sig2 <= 61) -> eventually [0:7] (always (sig3 == sig4)) )",
+    pred_stl:"always ( sig1 == 81 and rise (sig2 <= 61) -> eventually [0:7] (always (sig3 == sig4)) )",
+  },
+  {
+    taskid:54,
+    gold_stl:"always ( rise (sig1 < 43.54) -> sig2 <= 60 )",
+    pred_stl:"always ( rise (sig1 < 43.54) -> sig2 <= 60 )",
+  },
+  {
+    taskid:55,
+    gold_stl:"always ( rise (sig1 == sig2) -> historically [53:99] (sig3 <= 1628) )",
+    pred_stl:"always ( rise (sig1 == SIG2) -> historically [53:99] (sig3 <= 1628) )",
+  },
+  {
+    taskid:56,
+    gold_stl:"always ( rise (sig1 > 1.7) -> (sig2 <= 88) until [0:2569.6] (rise (sig3 > 0)) )",
+    pred_stl:"always ( rise (sig1 > 1.7) -> (sig2 <= 88) until [0:2569.6] (sig3 > 0) )",
+  },
+  {
+    taskid:57,
+    gold_stl:"always ( sig1 < 3 -> not (eventually [0:91.81] (sig2 > 6)) )",
+    pred_stl:"always ( sig1 < 3 -> not (eventually [0:91.81] (sig2 > 6)) )",
+  },
+  {
+    taskid:58,
+    gold_stl:"always (sig1 == sig2)",
+    pred_stl:"always (sig1 == sig2)",
+  },
+  {
+    taskid:59,
+    gold_stl:"always ( rise (sig1 == sig2) -> sig3 == sig4 )",
+    pred_stl:"always ( rise (sig1 == sig2) -> sig3 == sig4 )",
+  },
+  {
+    taskid:60,
+    gold_stl:"always ( rise (sig1 >= 64) or sig2 >= 9.23 -> always (eventually [0:55] (rise (sig3 < 60.18))) )",
+    pred_stl:"always ( rise (sig1 >= 64) or sig2 >= 9.23 -> always (eventually [0:55] (rise (sig3 < 60.18))) )",
+  },
+  {
+    taskid:61,
+    gold_stl:"eventually [3:9] (sig1 >= 45 and sig1 <= 93)",
+    pred_stl:"eventually [3:9] (sig1 >= 45 and sig1 <= 93)",
+  },
+  {
+    taskid:62,
+    gold_stl:"always ( sig1 <= 1 or rise (sig2 == 1019.84) -> eventually [5:10] (always [0:33] (sig3 > 63.2 and sig3 < 93.7)) )",
+    pred_stl:"always ( sig1 <= 1 or rise (sig2 == 1019.84) -> eventually [5:10] (always [0:33] (sig3 > 63.2 and sig3 < 93.7)) )",
+  },
+  {
+    taskid:63,
+    gold_stl:"always ( rise (sig1 < 32.6) -> eventually [0:619] (always [0:1014] (sig2 == 35)) )",
+    pred_stl:"always ( rise (sig1 < 32.6) -> eventually [0:619] (always [0:1014] (sig2 == 35)) )",
+  },
+  {
+    taskid:64,
+    gold_stl:"always ( sig1 == sig2 or sig3 >= 76.3 -> always [0:7.9] (eventually [0:2274] (not (sig4 < 2594))) )",
+    pred_stl:"always ( sig1 == SIG2 or sig3 >= 76.3 -> always [0:7.9] (eventually [0:2274] (sig4 >= 2594)) )",
+  },
+  {
+    taskid:65,
+    gold_stl:"always ( rise (sig1 <= 4) -> eventually [3.9:8.79] (sig2 == sig3) )",
+    pred_stl:"always ( rise (sig1 <= 4) -> eventually [3.9:8.79] (sig2 == SIG3) )",
+  },
+  {
+    taskid:66,
+    gold_stl:"always ( rise (sig1 < 10) -> always [0:5] (eventually [0:87] (sig2 < 2.2)) )",
+    pred_stl:"always ( rise (sig1 < 10) -> always [0:5] (eventually [0:87] (sig2 < 2.2)) )",
+  },
+  {
+    taskid:67,
+    gold_stl:"always ( rise (sig1 > 98) -> (sig2 <= 0) until (rise (sig3 < 290)) )",
+    pred_stl:"always ( rise (sig1 > 98) -> (sig2 <= 0) until (sig3 < 290) )",
+  },
+  {
+    taskid:68,
+    gold_stl:"always [0:70] (not (sig1 == 3))",
+    pred_stl:"always [0:70] (sig1 != 3)",
+  },
+  {
+    taskid:69,
+    gold_stl:"always ( not fall (sig1 == 97.03) -> sig2 < 7 )",
+    pred_stl:"always ( not fall (sig1 == 97.03) -> sig2 < 7 )",
+  },
+  {
+    taskid:70,
+    gold_stl:"always (sig1 < 99.67)",
+    pred_stl:"always (sig1 < 99.67)",
+  },
+  {
+    taskid:71,
+    gold_stl:"always ( rise (sig1 == 53.15) -> eventually [0:2.17] (always [0:21] (sig2 < 42)) )",
+    pred_stl:"always ( rise (sig1 == 53.15) -> eventually [0:2.17] (always [0:21] (sig2 < 42)) )",
+  },
+  {
+    taskid:72,
+    gold_stl:"always ( rise (sig1 >= 4) -> (sig2 < 8) since [0:27] (rise (sig3 == sig4)) )",
+    pred_stl:"always ( rise (sig1 >= 4) -> (sig2 < 8) since [0:27] (rise (sig3 == SIG4)) )",
+  },
+  {
+    taskid:73,
+    gold_stl:"always ( rise (sig1 == 2299) -> sig2 <= 29 )",
+    pred_stl:"always ( rise (sig1 == 2299) -> sig2 <= 29 )",
+  },
+  {
+    taskid:74,
+    gold_stl:"eventually [0:2137] (sig1 >= 1 and sig1 <= 7)",
+    pred_stl:"eventually [0:2137] (sig1 >= 1 and sig1 <= 7)",
+  },
+  {
+    taskid:75,
+    gold_stl:"always ( (sig1 >= 387) since (sig2 > 12 and sig2 < 56) -> eventually (sig3 == 2400.67) )",
+    pred_stl:"always ( (sig1 >= 387) since (sig2 > 12 and sig2 < 56) -> eventually (sig3 == 2400.67) )",
+  },
+  {
+    taskid:76,
+    gold_stl:"eventually (sig1 >= 2877 or rise (sig2 <= 73))",
+    pred_stl:"eventually (sig1 >= 2877 or rise (sig2 <= 73))",
+  },
+  {
+    taskid:77,
+    gold_stl:"always ( fall (sig1 == sig2) -> always [2838:2951] (eventually [0:1] (rise (sig3 == sig4))) )",
+    pred_stl:"always ( fall (sig1 == sig2) -> always [2838:2951] (eventually [0:1] (rise (sig3 == sig4))) )",
+  },
+  {
+    taskid:78,
+    gold_stl:"eventually [0:88] (sig1 >= 5)",
+    pred_stl:"eventually [0:88] (sig1 >= 5)",
+  },
+  {
+    taskid:79,
+    gold_stl:"always ( rise (sig1 < 10) -> always [0:6] (eventually [0:2490] (sig2 == 15)) )",
+    pred_stl:"always ( rise (sig1 < 10) -> always [0:6] (eventually [0:2490] (sig2 == 15)) )",
+  },
+  {
+    taskid:80,
+    gold_stl:"eventually [1018:1204] (sig1 < 9.7 or sig2 >= 2)",
+    pred_stl:"eventually [1018:1204] (sig1 < 9.7 or eventually (sig2 >= 2))",
+  },
+  {
+    taskid:81,
+    gold_stl:"eventually [0:7] (sig1 <= 89.0)",
+    pred_stl:"eventually [0:7] (sig1 <= 89.0)",
+  },
+  {
+    taskid:82,
+    gold_stl:"always ( fall (sig1 == sig2) -> always [0:1921] (eventually [0:983.86] (sig3 > 712.0)) )",
+    pred_stl:"always ( fall (sig1 == sig2) -> always [0:1921] (eventually [0:983.86] (sig3 > 712.0)) )",
+  },
+  {
+    taskid:83,
+    gold_stl:"always ( sig1 > 3 -> eventually [0:6] (always [2:3] (sig2 == 38)) )",
+    pred_stl:"always ( sig1 > 3 -> eventually [0:6] (sig2 == 38 and always [2:3] (sig2 == 38)) )",
+  },
+  {
+    taskid:84,
+    gold_stl:"always ( rise (sig1 == sig2) -> sig3 < 7.6 )",
+    pred_stl:"always ( rise (sig1 == sig2) -> sig3 < 7.6 )",
+  },
+  {
+    taskid:85,
+    gold_stl:"eventually (rise (sig1 == 0.8))",
+    pred_stl:"eventually (rise (sig1 == 0.8))",
+  },
+  {
+    taskid:86,
+    gold_stl:"always ( sig1 > 2 or sig2 < 57 -> eventually [0:8] (sig3 < 27) )",
+    pred_stl:"always ( sig1 > 2 or sig2 < 57 -> eventually [0:8] (sig3 < 27) )",
+  },
+  {
+    taskid:87,
+    gold_stl:"eventually [74:100] (sig1 >= 29 and sig1 <= 66)",
+    pred_stl:"eventually [74:100] (sig1 >= 29 and sig1 <= 66)",
+  },
+  {
+    taskid:88,
+    gold_stl:"always ( rise (sig1 >= 32.5 and sig1 <= 48.1) -> always (sig2 >= 2333 and sig2 < 2658) )",
+    pred_stl:"always ( rise (sig1 >= 32.5 and sig1 <= 48.1) -> always (sig2 >= 2333 and sig2 < 2658) )",
+  },
+  {
+    taskid:89,
+    gold_stl:"always ( historically [1:5] (not (sig1 > 2333 and sig1 < 2389)) -> eventually [0:26] (always [0:49] (not fall (sig2 == sig3))) )",
+    pred_stl:"always ( historically [1:5] (not (sig1 > 2333 and sig1 < 2389)) -> eventually [0:26] (always [0:49] (not fall (sig2 == sig3))) )",
+  },
+  {
+    taskid:90,
+    gold_stl:"always ( fall (sig1 > 7 and sig1 <= 10) -> eventually (sig2 >= 70) )",
+    pred_stl:"always ( fall (sig1 > 7 and sig1 <= 10) -> eventually (sig2 >= 70) )",
+  },
+  {
+    taskid:91,
+    gold_stl:"always ( eventually (sig1 > 36) -> always [0:8.5] (eventually (not fall (sig2 > 2766.0))) )",
+    pred_stl:"always ( eventually (sig1 > 36) -> always [0:8.5] (not (eventually (rise (sig2 <= 2766.0)))) )",
+  },
+  {
+    taskid:92,
+    gold_stl:"always ( sig1 == sig2 or sig3 == 8.5 -> sig4 == sig5 )",
+    pred_stl:"always ( sig1 == SIG2 or sig3 == 8.5 -> sig4 == SIG5 )",
+  },
+  {
+    taskid:93,
+    gold_stl:"always (not fall (sig1 == 8.83))",
+    pred_stl:"always (not fall (sig1 == 8.83))",
+  },
+  {
+    taskid:94,
+    gold_stl:"always ( sig1 == 2405.5 and sig2 == 0.66 -> eventually [0:8] (always [0:95.1] (sig3 == 8)) )",
+    pred_stl:"always ( sig1 == 2405.5 and sig2 == 0.66 -> eventually [0:8] (always [0:95.1] (sig3 == 8)) )",
+  },
+  {
+    taskid:95,
+    gold_stl:"always ( sig1 > 9 -> sig2 >= 58 )",
+    pred_stl:"always ( sig1 > 9 -> sig2 >= 58 )",
+  },
+  {
+    taskid:96,
+    gold_stl:"always [35:95] (sig1 <= 7)",
+    pred_stl:"always [35:95] (sig1 <= 7)",
+  },
+  {
+    taskid:97,
+    gold_stl:"always ( sig1 >= 84 -> (sig2 == sig3) until [5:10] (sig4 > 29 and sig4 < 37) )",
+    pred_stl:"always ( sig1 >= 84 -> (sig2 == SIG3) until [5:10] (sig4 > 29 and sig4 < 37) )",
+  },
+  {
+    taskid:98,
+    gold_stl:"always ( rise (sig1 == 3) -> eventually [0:62] (always [0:2192] (sig2 == 2)) )",
+    pred_stl:"always ( rise (sig1 == 3) -> eventually [0:62] (always [0:2192] (sig2 == 2)) )",
+  },
+  {
+    taskid:99,
+    gold_stl:"always ( sig1 < 816 -> eventually [0:4] (sig2 == 2302) )",
+    pred_stl:"always ( sig1 < 816 -> eventually [0:4] (sig2 == 2302) )",
+  },
+  {
+    taskid:100,
+    gold_stl:"always ( sig1 > 23 and sig1 < 32 -> eventually [4:5] (sig2 == sig3) )",
+    pred_stl:"always ( sig1 > 23 and sig1 < 32 -> eventually [4:5] (sig2 == sig3) )",
+  },
+  {
+    taskid:101,
+    gold_stl:"always ( sig1 > 7 and sig1 < 10 -> eventually [0:67] (always [0:6.7] (not (sig2 <= 7))) )",
+    pred_stl:"always ( sig1 > 7 and sig1 < 10 -> eventually [0:67] (always [0:6.7] (sig2 > 7)) )",
+  },
+  {
+    taskid:102,
+    gold_stl:"always ( sig1 > 5 and sig1 < 9 -> not ((not (sig2 >= 3 and sig2 <= 9)) since [0:3] (not fall (sig3 >= 428 and sig3 <= 1045))) )",
+    pred_stl:"always ( sig1 > 5 and sig1 < 9 -> not ((sig2 < 3 or sig2 > 9) since (once [0:3] (not fall (sig3 >= 428 and sig3 <= 1045)))) )",
+  },
+  {
+    taskid:103,
+    gold_stl:"always ( sig1 > 68 -> sig2 == 69 )",
+    pred_stl:"always ( sig1 > 68 -> sig2 == 69 )",
+  },
+  {
+    taskid:104,
+    gold_stl:"always ( sig1 == sig2 and sig3 == 1200 -> sig4 == sig5 )",
+    pred_stl:"always ( sig1 == SIG2 and sig3 == 1200 -> sig4 == SIG5 )",
+  },
+  {
+    taskid:105,
+    gold_stl:"always ( historically [21:89] (sig1 > 1 and sig1 <= 5) -> always [1450.94:2653.78] (sig2 > 88.51) )",
+    pred_stl:"always ( historically [21:89] (sig1 > 1 and sig1 <= 5) -> always [1450.94:2653.78] (sig2 > 88.51) )",
+  },
+  {
+    taskid:106,
+    gold_stl:"always ( (not (sig1 > 33)) since [0:771.2] (sig2 >= 2541) -> (not (sig3 > 0 and sig3 < 10)) since [0:5] (sig4 > 7) )",
+    pred_stl:"always ( sig1 <= 33 and (sig1 <= 33) since (once [0:771.2] (sig2 >= 2541)) -> not (sig3 > 0 and sig3 < 10) and (not (sig3 > 0 and sig3 < 10)) since (once [0:5] (sig4 > 7)) )",
+  },
+  {
+    taskid:107,
+    gold_stl:"always ( sig1 <= 9 or rise (sig2 > 9) -> sig3 > 97 and sig3 < 98 )",
+    pred_stl:"always ( sig1 <= 9 or rise (sig2 > 9) -> sig3 > 97 and sig3 < 98 )",
+  },
+  {
+    taskid:108,
+    gold_stl:"always [1266:2114] (sig1 < 6)",
+    pred_stl:"always [1266:2114] (sig1 < 6)",
+  },
+  {
+    taskid:109,
+    gold_stl:"always ( fall (sig1 >= 4 and sig1 <= 7) -> always [0:5.2] (eventually [0:9] (sig2 == sig3)) )",
+    pred_stl:"always ( fall (sig1 >= 4 and sig1 <= 7) -> always [0:5.2] (eventually [0:9] (sig2 == sig3)) )",
+  },
+  {
+    taskid:110,
+    gold_stl:"always ( sig1 < 4 -> always [6:10] (eventually [0:8.4] (sig2 > 8)) )",
+    pred_stl:"always ( sig1 < 4 -> always [6:10] (eventually [0:8.4] (sig2 > 8)) )",
+  },
+  {
+    taskid:111,
+    gold_stl:"always ( fall (sig1 == sig2) -> always [0:3.0] (eventually [0:6.1] (rise (sig3 == 7.6))) )",
+    pred_stl:"fall (sig1 == sig2) -> always [0:3.0] (eventually [0:6.1] (rise (sig3 == 7.6)))",
+  },
+  {
+    taskid:112,
+    gold_stl:"always ( rise (sig1 > 3) -> sig2 > 47 and sig2 < 93 )",
+    pred_stl:"always ( rise (sig1 > 3) -> sig2 > 47 and sig2 < 93 )",
+  },
+  {
+    taskid:113,
+    gold_stl:"always ( sig1 <= 4 -> once [0:42] (sig2 == sig3) )",
+    pred_stl:"always ( sig1 <= 4 -> once [0:42] (sig2 == SIG3) )",
+  },
+  {
+    taskid:114,
+    gold_stl:"always ( sig1 >= 17 and sig1 <= 55 -> always [0:1] (eventually [0:29] (not fall (sig2 == sig3))) )",
+    pred_stl:"always ( sig1 >= 17 and sig1 <= 55 -> always [0:1] (eventually [0:29] (not fall (sig2 == sig3))) )",
+  },
+  {
+    taskid:115,
+    gold_stl:"always ( sig1 == 6.4 -> sig2 == sig3 )",
+    pred_stl:"always ( sig1 == 6.4 -> sig2 == SIG3 )",
+  },
+  {
+    taskid:116,
+    gold_stl:"always [0:39] ((sig1 > 4 and sig1 < 10) and sig2 == sig3)",
+    pred_stl:"always [0:39] (sig1 > 4 and sig1 < 10 and sig2 == sig3)",
+  },
+  {
+    taskid:117,
+    gold_stl:"always ( rise (sig1 < 23) -> always [2019:2913] (eventually [2747:2824] (sig2 > 37.6 and sig2 < 72.1)) )",
+    pred_stl:"always ( fall (sig1 > 23) -> always [2019:2913] (eventually [2747:2824] (sig2 > 37.6 and sig2 < 72.1)) )",
+  },
+  {
+    taskid:118,
+    gold_stl:"always ( sig1 == sig2 -> sig3 == sig4 and sig5 == 2825 )",
+    pred_stl:"always ( sig1 == SIG2 -> sig3 == SIG4 and sig5 == 2825 )",
+  },
+  {
+    taskid:119,
+    gold_stl:"always ( rise (sig1 >= 1972) -> not (sig2 < 412) and sig3 < 4.96 )",
+    pred_stl:"always ( rise (sig1 >= 1972) -> sig2 >= 412 and sig3 < 4.96 )",
+  },
+  {
+    taskid:120,
+    gold_stl:"always ( sig1 == sig2 -> sig3 < 1 )",
+    pred_stl:"always ( sig1 == SIG2 -> sig3 < 1 )",
+  },
+  {
+    taskid:121,
+    gold_stl:"always ( fall (sig1 == 8) -> eventually [0:72] (always [0:1] (not (sig2 >= 1 and sig2 <= 9))) )",
+    pred_stl:"always ( fall (sig1 == 8) -> eventually [0:72] (always [0:1] (sig2 < 1 or sig2 > 9)) )",
+  },
+  {
+    taskid:122,
+    gold_stl:"always ( rise (sig1 <= 2824) -> eventually [1432:1664] (not (sig2 == sig3)) )",
+    pred_stl:"always ( rise (sig1 <= 2824) -> eventually [1432:1664] (sig2 != SIG3) )",
+  },
+  {
+    taskid:123,
+    gold_stl:"always ( always [0:7] (sig1 > 78.4) -> eventually [0:64.13] (always [0:1326] (sig2 <= 2982)) )",
+    pred_stl:"always ( always [0:7] (sig1 > 78.4) -> eventually [0:64.13] (always [0:1326] (sig2 <= 2982)) )",
+  },
+  {
+    taskid:124,
+    gold_stl:"always (sig1 >= 2884.2 and sig1 < 2935.2)",
+    pred_stl:"always (sig1 >= 2884.2 and sig1 < 2935.2)",
+  },
+  {
+    taskid:125,
+    gold_stl:"eventually [0:2025] (sig1 == 1 or sig2 == 89)",
+    pred_stl:"eventually [0:2025] (sig1 == 1) or eventually (sig2 == 89)",
+  },
+  {
+    taskid:126,
+    gold_stl:"always ( rise (sig1 == sig2) -> always (sig3 > 6) )",
+    pred_stl:"always ( rise (sig1 == sig2) -> always (sig3 > 6) )",
+  },
+  {
+    taskid:127,
+    gold_stl:"always ( rise (sig1 >= 0) -> (sig2 <= 68) until [0:8.4] (rise (sig3 < 43.9)) )",
+    pred_stl:"always ( rise (sig1 >= 0) -> (sig2 <= 68) until [0:8.4] (sig3 < 43.9) )",
+  },
+  {
+    taskid:128,
+    gold_stl:"always ( rise (sig1 <= 901.5) -> rise (sig2 > 0 and sig2 < 10) )",
+    pred_stl:"always ( rise (sig1 <= 901.5) -> rise (sig2 > 0 and sig2 < 10) )",
+  },
+  {
+    taskid:129,
+    gold_stl:"always ( not (sig1 >= 23) or sig2 == 8.86 -> always [0:10] (eventually [0:4.8] (fall (sig3 >= 44 and sig3 <= 76))) )",
+    pred_stl:"always ( not (sig1 >= 23) or sig2 == 8.86 -> always [0:10] (eventually [0:4.8] (fall (sig3 >= 44 and sig3 <= 76))) )",
+  },
+  {
+    taskid:130,
+    gold_stl:"always ( fall (sig1 == 25) and sig2 == sig3 -> always [0:1489] (eventually [61:89] (sig4 >= 1 and sig4 <= 2)) )",
+    pred_stl:"always ( fall (sig1 == 25) and sig2 == SIG3 -> always [0:1489] (eventually [61:89] (sig4 >= 1 and sig4 <= 2)) )",
+  },
+  {
+    taskid:131,
+    gold_stl:"always ( rise (sig1 == 8) -> sig2 > 50.43 and sig2 < 67.2 )",
+    pred_stl:"always ( rise (sig1 == 8) -> sig2 > 50.43 and sig2 < 67.2 )",
+  },
+  {
+    taskid:132,
+    gold_stl:"eventually [0:3] (sig1 == 5.35 and sig2 == sig3)",
+    pred_stl:"eventually [0:3] (sig1 == 5.35 and sig2 == sig3)",
+  },
+  {
+    taskid:133,
+    gold_stl:"always [0:6] (sig1 > 1511 and sig2 == 1)",
+    pred_stl:"always [0:6] (sig1 > 1511 and sig2 == 1)",
+  },
+  {
+    taskid:134,
+    gold_stl:"always ( not (once [0:1.5] (not (sig1 > 5 and sig1 < 7))) -> always [2398:2857] (sig2 > 73) )",
+    pred_stl:"always ( not (once [0:1.5] (not (sig1 > 5 and sig1 < 7))) -> always [2398:2857] (sig2 > 73) )",
+  },
+  {
+    taskid:135,
+    gold_stl:"always ( sig1 == sig2 -> eventually [0:1237] (always [0:2] (sig3 >= 80.29)) )",
+    pred_stl:"always ( sig1 == sig2 -> eventually [0:1237] (always [0:2] (sig3 >= 80.29)) )",
+  },
+  {
+    taskid:136,
+    gold_stl:"always ( fall (sig1 == 88) -> always [0:98] (eventually [0:508] (sig2 > 6.7 and sig2 < 8.1)) )",
+    pred_stl:"always ( fall (sig1 == 88) -> always [0:98] (eventually [0:508] (sig2 > 6.7 and sig2 < 8.1)) )",
+  },
+  {
+    taskid:137,
+    gold_stl:"always ( not ((sig1 >= 31 and sig1 <= 68) since [0:10] (sig2 == sig3)) -> eventually [0:8.04] (always [0:1676] (sig4 == sig5)) )",
+    pred_stl:"always ( not ((sig1 >= 31 and sig1 <= 68) since [0:10] (rise (sig2 == SIG3))) -> eventually [0:8.04] (always [0:1676] (sig4 == SIG5)) )",
+  },
+  {
+    taskid:138,
+    gold_stl:"always (not fall (sig1 == 10))",
+    pred_stl:"always (not fall (sig1 == 10))",
+  },
+  {
+    taskid:139,
+    gold_stl:"always ( once [0:80.3] (sig1 >= 1950 and sig1 <= 2440) -> eventually (always (sig2 > 90)) )",
+    pred_stl:"always ( once [0:80.3] (sig1 >= 1950 and sig1 <= 2440) -> eventually (always (sig2 > 90)) )",
+  },
+  {
+    taskid:140,
+    gold_stl:"always ( rise (sig1 <= 25) or rise (sig2 > 97) -> sig3 <= 91.53 )",
+    pred_stl:"always ( rise (sig1 <= 25) or rise (sig2 > 97) -> sig3 <= 91.53 )",
+  },
+  {
+    taskid:141,
+    gold_stl:"eventually [0:2] (sig1 > 7)",
+    pred_stl:"eventually [0:2] (sig1 > 7)",
+  },
+  {
+    taskid:142,
+    gold_stl:"eventually [0:72] (sig1 < 3.27 and sig2 >= 3.6)",
+    pred_stl:"eventually [0:72] (sig1 < 3.27 and sig2 >= 3.6)",
+  },
+  {
+    taskid:143,
+    gold_stl:"always ( rise (sig1 < 10) -> always (eventually [0:8] (not (sig2 > 1.8))) )",
+    pred_stl:"always ( rise (sig1 < 10) -> always (eventually [0:8] (sig2 <= 1.8)) )",
+  },
+  {
+    taskid:144,
+    gold_stl:"always ( (not fall (sig1 == 2923)) until [0:4] (sig2 <= 7) -> not ((sig3 < 164) until (rise (sig4 < 2333.8))) )",
+    pred_stl:"always ( (not fall (sig1 == 2923)) until [0:4] (sig2 <= 7) -> not ((sig3 < 164) until (sig4 < 2333.8)) )",
+  },
+  {
+    taskid:145,
+    gold_stl:"always [35:99] ((sig1 > 38.4 and sig1 < 68.7) or sig2 < 1347)",
+    pred_stl:"always [35:99] ((sig1 > 38.4 and sig1 < 68.7) or sig2 < 1347)",
+  },
+  {
+    taskid:146,
+    gold_stl:"always ( rise (sig1 > 6) -> eventually [35:48] (always (sig2 > 13)) )",
+    pred_stl:"always ( rise (sig1 > 6) -> eventually [35:48] (sig2 > 13 and always (sig2 > 13)) )",
+  },
+  {
+    taskid:147,
+    gold_stl:"always ( rise (sig1 <= 48) and sig2 < 83 -> (sig3 >= 1618 and sig3 <= 2359) until (sig4 == sig5) )",
+    pred_stl:"always ( rise (sig1 <= 48) and sig2 < 83 -> (sig3 >= 1618 and sig3 <= 2359) until (sig4 == SIG5) )",
+  },
+  {
+    taskid:148,
+    gold_stl:"always ( rise (sig1 <= 8.47) -> sig2 <= 5.8 )",
+    pred_stl:"always ( rise (sig1 <= 8.47) -> sig2 <= 5.8 )",
+  },
+  {
+    taskid:149,
+    gold_stl:"always [0:494.91] (sig1 < 1)",
+    pred_stl:"always [0:494.91] (sig1 < 1)",
+  },
+  {
+    taskid:150,
+    gold_stl:"always ( not fall (sig1 > 1 and sig1 < 8) or sig2 <= 2598 -> sig3 >= 83 and sig3 <= 94 )",
+    pred_stl:"always ( not fall (sig1 > 1 and sig1 < 8) or sig2 <= 2598 -> sig3 >= 83 and sig3 <= 94 )",
+  },
+  {
+    taskid:151,
+    gold_stl:"eventually (sig1 == sig2)",
+    pred_stl:"eventually (sig1 == sig2)",
+  },
+  {
+    taskid:152,
+    gold_stl:"always [0:2] (not (sig1 == sig2) and not (sig3 == 6))",
+    pred_stl:"always [0:2] (sig1 != sig2 and sig3 != 6)",
+  },
+  {
+    taskid:153,
+    gold_stl:"always (not (sig1 == 9) or sig2 == 89)",
+    pred_stl:"always (not (sig1 == 9)) or always (sig2 == 89)",
+  },
+  {
+    taskid:154,
+    gold_stl:"always [4:5] (sig1 >= 23 and sig1 <= 493)",
+    pred_stl:"always [4:5] (sig1 >= 23 and sig1 <= 493)",
+  },
+  {
+    taskid:155,
+    gold_stl:"always ( historically [0:4] (sig1 <= 58) -> always [4:7] (eventually [0:93] (sig2 >= 2932)) )",
+    pred_stl:"always ( sig1 <= 58 and historically [0:4] (sig1 <= 58) -> always [4:7] (eventually [0:93] (sig2 >= 2932)) )",
+  },
+  {
+    taskid:156,
+    gold_stl:"always [85.5:2064.52] (sig1 > 1 and sig2 == 66)",
+    pred_stl:"always [85.5:2064.52] (sig1 > 1 and sig2 == 66)",
+  },
+  {
+    taskid:157,
+    gold_stl:"always ( sig1 < 1653 and rise (sig2 == 34) -> rise (sig3 <= 0) )",
+    pred_stl:"always ( sig1 < 1653 and rise (sig2 == 34) -> rise (sig3 <= 0) )",
+  },
+  {
+    taskid:158,
+    gold_stl:"always ( rise (sig1 <= 8) -> sig2 > 38.61 and sig3 <= 9 )",
+    pred_stl:"always ( rise (sig1 <= 8) -> sig2 > 38.61 and sig3 <= 9 )",
+  },
+  {
+    taskid:159,
+    gold_stl:"always ( sig1 >= 1775.32 -> not (sig2 <= 8) )",
+    pred_stl:"always ( sig1 >= 1775.32 -> sig2 > 8 )",
+  },
+  {
+    taskid:160,
+    gold_stl:"eventually [97:98] (sig1 > 98 and sig1 < 99)",
+    pred_stl:"eventually [97:98] (sig1 > 98 and sig1 < 99)",
+  },
+  {
+    taskid:161,
+    gold_stl:"always ( historically [8:9] (sig1 < 3.63) -> eventually (always (not (sig2 >= 10))) )",
+    pred_stl:"always ( historically [8:9] (sig1 < 3.63) -> eventually (always (not (sig2 >= 10))) )",
+  },
+  {
+    taskid:162,
+    gold_stl:"eventually (sig1 == 4)",
+    pred_stl:"eventually (sig1 == 4)",
+  },
+  {
+    taskid:163,
+    gold_stl:"always ( rise (sig1 <= 90) -> always (sig2 == sig3) )",
+    pred_stl:"fail",
+  },
+  {
+    taskid:164,
+    gold_stl:"always ( once [0:1938] (sig1 >= 7 and sig1 <= 9) -> eventually [0:8] (always [0:6] (sig2 >= 21 and sig2 <= 56)) )",
+    pred_stl:"always ( once [0:1938] (sig1 >= 7 and sig1 <= 9) -> eventually [0:8] (always [0:6] (sig2 >= 21 and sig2 <= 56)) )",
+  },
+  {
+    taskid:165,
+    gold_stl:"always ( rise (sig1 >= 29.24) -> eventually (always [0:91] (sig2 <= 27.11)) )",
+    pred_stl:"always ( rise (sig1 >= 29.24) -> eventually (always [0:91] (sig2 <= 27.11)) )",
+  },
+  {
+    taskid:166,
+    gold_stl:"always ( sig1 > 37 and sig2 == sig3 -> always (eventually [21:77] (sig4 <= 5)) )",
+    pred_stl:"sig1 > 37 and sig2 == SIG3 -> always (eventually [21:77] (sig4 <= 5))",
+  },
+  {
+    taskid:167,
+    gold_stl:"always ( rise (sig1 == 7) -> not (sig2 >= 33) and (sig3 > 31 and sig3 < 37) )",
+    pred_stl:"always ( rise (sig1 == 7) -> not (sig2 >= 33) and (sig3 > 31 and sig3 < 37) )",
+  },
+  {
+    taskid:168,
+    gold_stl:"always ( sig1 < 7.7 -> always (sig2 > 0 and sig2 < 2) )",
+    pred_stl:"always ( sig1 < 7.7 -> always (sig2 > 0 and sig2 < 2) )",
+  },
+  {
+    taskid:169,
+    gold_stl:"always [1:6] ((sig1 > 4 and sig1 < 8) and sig2 == sig3)",
+    pred_stl:"always [1:6] (sig1 > 4 and sig1 < 8 and sig2 == sig3)",
+  },
+  {
+    taskid:170,
+    gold_stl:"always [0:510] (sig1 == sig2)",
+    pred_stl:"always [0:510] (sig1 == sig2)",
+  },
+  {
+    taskid:171,
+    gold_stl:"always ( rise (sig1 >= 31.3) -> sig2 == sig3 )",
+    pred_stl:"always ( rise (sig1 >= 31.3) -> sig2 == sig3 )",
+  },
+  {
+    taskid:172,
+    gold_stl:"always [0:67] (sig1 >= 2683 and sig1 <= 2877)",
+    pred_stl:"always [0:67] (sig1 >= 2683 and sig1 <= 2877)",
+  },
+  {
+    taskid:173,
+    gold_stl:"eventually [32.1:57.6] (sig1 == sig2)",
+    pred_stl:"eventually [32.1:57.6] (sig1 == sig2)",
+  },
+  {
+    taskid:174,
+    gold_stl:"always ( rise (sig1 == sig2) -> sig3 < 4 or sig4 == sig5 )",
+    pred_stl:"always ( rise (sig1 == SIG2) -> sig3 < 4 or sig4 == SIG5 )",
+  },
+  {
+    taskid:175,
+    gold_stl:"always ( sig1 == sig2 or sig3 == 2499 -> sig4 >= 8.5 and sig4 <= 9.7 )",
+    pred_stl:"always ( sig1 == SIG2 or sig3 == 2499 -> sig4 >= 8.5 and sig4 <= 9.7 )",
+  },
+  {
+    taskid:176,
+    gold_stl:"always [0:325] (sig1 >= 6 and sig1 <= 10)",
+    pred_stl:"always [0:325] (sig1 >= 6 and sig1 <= 10)",
+  },
+  {
+    taskid:177,
+    gold_stl:"always ( rise (sig1 >= 2.9) -> always [201:2147] (eventually [79:89] (rise (sig2 == sig3))) )",
+    pred_stl:"always ( rise (sig1 >= 2.9) -> always [201:2147] (eventually [79:89] (rise (sig2 == SIG3))) )",
+  },
+  {
+    taskid:178,
+    gold_stl:"eventually [0:6] (fall (sig1 == 81) or not (sig2 > 1936))",
+    pred_stl:"eventually [0:6] (fall (sig1 == 81) or sig2 <= 1936)",
+  },
+  {
+    taskid:179,
+    gold_stl:"always ( fall (sig1 == 28) -> eventually [1104.1:2639.5] (always [0:6] (sig2 > 4)) )",
+    pred_stl:"always ( fall (sig1 == 28) -> eventually [1104.1:2639.5] (always [0:6] (sig2 > 4)) )",
+  },
+  {
+    taskid:180,
+    gold_stl:"always ( always [2961:2986] (not rise (sig1 >= 7)) -> always [0:7] (sig2 < 5) )",
+    pred_stl:"always ( always [2961:2986] (sig1 < 7) -> eventually (always [0:7] (sig2 < 5)) )",
+  },
+  {
+    taskid:181,
+    gold_stl:"always ( rise (sig1 > 62) -> sig2 > 8 )",
+    pred_stl:"always ( rise (sig1 > 62) -> sig2 > 8 )",
+  },
+  {
+    taskid:182,
+    gold_stl:"always ( sig1 >= 36 -> (not (sig2 == sig3)) until [0:2172] (sig4 == 36.33) )",
+    pred_stl:"always ( sig1 >= 36 -> (sig2 != SIG3) until [0:2172] (sig4 == 36.33) )",
+  },
+  {
+    taskid:183,
+    gold_stl:"always ( (sig1 == 3) since [40:67] (not (sig2 >= 75)) -> always (sig3 < 4) )",
+    pred_stl:"always ( (sig1 == 3) since [40:67] (rise (not (sig2 >= 75))) -> always (sig3 < 4) )",
+  },
+  {
+    taskid:184,
+    gold_stl:"always [0:1715] (sig1 == sig2 or sig3 < 93)",
+    pred_stl:"always [0:1715] (sig1 == SIG2 or sig3 < 93)",
+  },
+  {
+    taskid:185,
+    gold_stl:"eventually (rise (sig1 == 92))",
+    pred_stl:"eventually (rise (sig1 == 92))",
+  },
+  {
+    taskid:186,
+    gold_stl:"always ( rise (sig1 == 12) and sig2 < 3 -> eventually [0:10] (always [0:6] (sig3 <= 1225)) )",
+    pred_stl:"always ( rise (sig1 == 12) and sig2 < 3 -> eventually [0:10] (always [0:6] (sig3 <= 1225)) )",
+  },
+  {
+    taskid:187,
+    gold_stl:"always [5:9] (not (sig1 < 60))",
+    pred_stl:"always [5:9] (sig1 >= 60)",
+  },
+  {
+    taskid:188,
+    gold_stl:"always ( sig1 == sig2 and sig3 == sig4 -> always [0:46.8] (sig5 < 2885.53) )",
+    pred_stl:"always ( sig1 == SIG2 and sig3 == SIG4 -> eventually (always [0:46.8] (sig5 < 2885.53)) )",
+  },
+  {
+    taskid:189,
+    gold_stl:"always ( fall (sig1 == sig2) -> sig3 == sig4 and sig5 == sig6 )",
+    pred_stl:"always ( fall (sig1 == SIG2) -> sig3 == SIG4 and sig5 == SIG6 )",
+  },
+  {
+    taskid:190,
+    gold_stl:"always [0:94] (sig1 == sig2)",
+    pred_stl:"always [0:94] (sig1 == sig2)",
+  },
+  {
+    taskid:191,
+    gold_stl:"always [43:73] (sig1 >= 65 and sig2 == 54)",
+    pred_stl:"always [43:73] (sig1 >= 65 and sig2 == 54)",
+  },
+  {
+    taskid:192,
+    gold_stl:"eventually (rise (sig1 < 8) and sig2 <= 29)",
+    pred_stl:"eventually (rise (sig1 < 8)) and eventually (sig2 <= 29)",
+  },
+  {
+    taskid:193,
+    gold_stl:"always ( rise (sig1 == sig2) -> eventually (always [2:9] (sig3 <= 78.45)) )",
+    pred_stl:"always ( rise (sig1 == SIG2) -> eventually (sig3 <= 78.45 and always [2:9] (sig3 <= 78.45)) )",
+  },
+  {
+    taskid:194,
+    gold_stl:"always ( rise (sig1 > 1947) -> not (sig2 == sig3) )",
+    pred_stl:"always ( rise (sig1 > 1947) -> not (sig2 == SIG3) )",
+  },
+  {
+    taskid:195,
+    gold_stl:"always ( fall (sig1 == sig2) -> eventually [0:40] (always [1264:2030] (sig3 >= 11)) )",
+    pred_stl:"always ( fall (sig1 == SIG2) -> eventually [0:40] (always [1264:2030] (sig3 >= 11)) )",
+  },
+  {
+    taskid:196,
+    gold_stl:"always ( sig1 > 51 or sig2 == sig3 -> always [0:2] (eventually (rise (sig4 > 5 and sig4 < 6))) )",
+    pred_stl:"always ( sig1 > 51 or sig2 == SIG3 -> always [0:2] (eventually (rise (sig4 > 5 and sig4 < 6))) )",
+  },
+  {
+    taskid:197,
+    gold_stl:"eventually (rise (sig1 < 50) or not (sig2 <= 3))",
+    pred_stl:"eventually (rise (sig1 < 50) or not (sig2 <= 3))",
+  },
+  {
+    taskid:198,
+    gold_stl:"always [0:89.51] (sig1 <= 1046.5 and sig2 >= 1)",
+    pred_stl:"always [0:89.51] (sig1 <= 1046.5 and sig2 >= 1)",
+  },
+  {
+    taskid:199,
+    gold_stl:"always ( rise (sig1 < 6) -> always (eventually [0:28] (rise (sig2 >= 780))) )",
+    pred_stl:"always ( rise (sig1 < 6) -> always (eventually [0:28] (rise (sig2 >= 780))) )",
+  },
+  {
+    taskid:200,
+    gold_stl:"always ( sig1 == sig2 -> (sig3 > 7 and sig3 < 8) or sig4 == sig5 )",
+    pred_stl:"always ( sig1 == SIG2 -> (sig3 > 7 and sig3 < 8) or sig4 == SIG5 )",
+  },
+  {
+    taskid:201,
+    gold_stl:"always ( (sig1 >= 37.1) since [0:4] (sig2 == 4) -> eventually [0:2] (always (sig3 == 40)) )",
+    pred_stl:"always ( (sig1 >= 37.1) since [0:4] (sig2 == 4) -> eventually [0:2] (always (sig3 == 40)) )",
+  },
+  {
+    taskid:202,
+    gold_stl:"always ((sig1 > 7 and sig1 < 10) or sig2 >= 1085.3)",
+    pred_stl:"always ((sig1 > 7 and sig1 < 10) or sig2 >= 1085.3)",
+  },
+  {
+    taskid:203,
+    gold_stl:"always ( fall (sig1 > 4 and sig1 < 5) -> historically [0:7] (sig2 <= 4) )",
+    pred_stl:"always ( fall (sig1 > 4 and sig1 < 5) -> historically [0:7] (sig2 <= 4) )",
+  },
+  {
+    taskid:204,
+    gold_stl:"always ( not (sig1 < 4.85) -> (sig2 == sig3) until (sig4 == sig5) )",
+    pred_stl:"always ( sig1 >= 4.85 -> (sig2 == SIG3) until (sig4 == SIG5) )",
+  },
+  {
+    taskid:205,
+    gold_stl:"eventually [0:90] (fall (sig1 >= 47 and sig1 <= 80) and sig2 < 8.89)",
+    pred_stl:"eventually [0:90] (fall (sig1 >= 47 and sig1 <= 80) and sig2 < 8.89)",
+  },
+  {
+    taskid:206,
+    gold_stl:"always ( rise (sig1 > 92.9 and sig1 < 96.1) -> always [0:52] (eventually (sig2 == 7)) )",
+    pred_stl:"always ( rise (sig1 > 92.9 and sig1 < 96.1) -> always [0:52] (eventually (sig2 == 7)) )",
+  },
+  {
+    taskid:207,
+    gold_stl:"always ( not (sig1 > 1133 and sig1 < 1360) and (sig2 >= 1620 and sig2 <= 2818) -> (sig3 >= 85 and sig3 < 94) and sig4 < 1 )",
+    pred_stl:"always ( not (sig1 > 1133 and sig1 < 1360) and (sig2 >= 1620 and sig2 <= 2818) -> sig3 >= 85 and sig3 < 94 and sig4 < 1 )",
+  },
+  {
+    taskid:208,
+    gold_stl:"always ( rise (sig1 >= 6.7 and sig1 <= 7.52) -> always (eventually [6:7] (rise (sig2 == sig3))) )",
+    pred_stl:"always ( rise (sig1 >= 6.7 and sig1 <= 7.52) -> always (eventually [6:7] (rise (sig2 >= sig3))) )",
+  },
+  {
+    taskid:209,
+    gold_stl:"eventually (rise (sig1 >= 60.5 and sig1 <= 76.7) or sig2 < 8)",
+    pred_stl:"eventually (rise (sig1 >= 60.5 and sig1 <= 76.7) or sig2 < 8)",
+  },
+  {
+    taskid:210,
+    gold_stl:"always ( fall (sig1 == sig2) -> not (sig3 == sig4) )",
+    pred_stl:"always ( fall (sig1 == sig2) -> not (sig3 == SIG4) )",
+  },
+  {
+    taskid:211,
+    gold_stl:"always ( sig1 < 51 or sig2 < 9.95 -> (not (sig3 == 4)) until [3:7] (sig4 >= 27 and sig4 <= 40) )",
+    pred_stl:"always ( sig1 < 51 or sig2 < 9.95 -> (sig3 != 4) until [3:7] (sig4 >= 27 and sig4 <= 40) )",
+  },
+  {
+    taskid:212,
+    gold_stl:"eventually ((sig1 >= 0 and sig1 <= 4) or sig2 == 0.29)",
+    pred_stl:"eventually ((sig1 >= 0 and sig1 <= 4) or sig2 == 0.29)",
+  },
+  {
+    taskid:213,
+    gold_stl:"always ( rise (sig1 <= 81.1) -> sig2 >= 1554 )",
+    pred_stl:"always ( rise (sig1 <= 81.1) -> sig2 >= 1554 )",
+  },
+  {
+    taskid:214,
+    gold_stl:"always ( rise (sig1 == 22) -> always [0:39.6] (sig2 == 2130) )",
+    pred_stl:"always ( rise (sig1 == 22) -> always [0:39.6] (sig2 == 2130) )",
+  },
+  {
+    taskid:215,
+    gold_stl:"always ( fall (historically (sig1 <= 94)) -> always [0:8.03] (eventually [0:89.89] (rise (sig2 <= 2))) )",
+    pred_stl:"always ( fall (historically (sig1 <= 94)) -> always [0:8.03] (eventually [0:89.89] (rise (sig2 <= 2))) )",
+  },
+  {
+    taskid:216,
+    gold_stl:"eventually [63:69] (sig1 == 1984.9 or sig2 == sig3)",
+    pred_stl:"eventually [63:69] (sig1 == 1984.9 or sig2 == SIG3)",
+  },
+  {
+    taskid:217,
+    gold_stl:"always ( fall (sig1 > 57 and sig1 < 58) and sig2 == sig3 -> sig4 == sig5 )",
+    pred_stl:"always ( fall (sig1 > 57 and sig1 < 58) and sig2 == sig3 -> sig4 == sig5 )",
+  },
+  {
+    taskid:218,
+    gold_stl:"always ( rise (sig1 == sig2) -> not fall (sig3 >= 76 and sig3 <= 100) )",
+    pred_stl:"always ( rise (sig1 == SIG2) -> sig3 >= 76 and sig3 <= 100 )",
+  },
+  {
+    taskid:219,
+    gold_stl:"always ( rise (sig1 >= 7 and sig1 <= 8) -> not ((sig2 > 1274 and sig2 < 1431) until [1.12:1.84] (rise (sig3 >= 5))) )",
+    pred_stl:"always ( rise (sig1 >= 7 and sig1 <= 8) -> not ((sig2 > 1274 and sig2 < 1431) until (eventually [1.12:1.84] (sig3 >= 5))) )",
+  },
+  {
+    taskid:220,
+    gold_stl:"always ( fall (sig1 == 55) -> always [500:1494] (eventually [81:86] (not (sig2 == sig3))) )",
+    pred_stl:"always ( fall (sig1 == 55) -> always [500:1494] (eventually [81:86] (sig2 != SIG3)) )",
+  },
+  {
+    taskid:221,
+    gold_stl:"eventually [0:8] (sig1 == 10)",
+    pred_stl:"eventually [0:8] (sig1 == 10)",
+  },
+  {
+    taskid:222,
+    gold_stl:"always [0:1] (sig1 < 64)",
+    pred_stl:"always [0:1] (sig1 < 64)",
+  },
+  {
+    taskid:223,
+    gold_stl:"always ( eventually (sig1 <= 70) -> eventually [45:86] (sig2 == 2.0) )",
+    pred_stl:"always ( eventually (sig1 <= 70) -> eventually [45:86] (sig2 == 2.0) )",
+  },
+  {
+    taskid:224,
+    gold_stl:"always ( not (historically [0:9] (sig1 > 873 and sig1 < 2080)) -> eventually [0:20.2] (rise (sig2 == sig3)) )",
+    pred_stl:"always ( not (historically [0:9] (sig1 > 873 and sig1 < 2080)) -> eventually [0:20.2] (rise (sig2 == SIG3)) )",
+  },
+  {
+    taskid:225,
+    gold_stl:"always ( rise (sig1 <= 40) -> always [0:92] (eventually [0:70.29] (not fall (sig2 > 0 and sig2 < 4))) )",
+    pred_stl:"always ( rise (sig1 <= 40) -> always [0:92] (eventually [0:70.29] (not fall (sig2 > 0 and sig2 < 4))) )",
+  },
+  {
+    taskid:226,
+    gold_stl:"eventually [0:7] (sig1 > 1)",
+    pred_stl:"eventually [0:7] (sig1 > 1)",
+  },
+  {
+    taskid:227,
+    gold_stl:"always ( rise (sig1 == sig2) -> sig3 == 2828.2 )",
+    pred_stl:"always ( rise (sig1 == SIG2) -> sig3 == 2828.2 )",
+  },
+  {
+    taskid:228,
+    gold_stl:"always ( rise (sig1 == 32) or rise (sig2 <= 14) -> always [69.4:78.6] (sig3 == 2086) )",
+    pred_stl:"always ( rise (sig1 == 32) or rise (sig2 <= 14) -> always [69.4:78.6] (sig3 == 2086) )",
+  },
+  {
+    taskid:229,
+    gold_stl:"always (sig1 == 8 and sig2 > 13.0)",
+    pred_stl:"always (sig1 == 8 and sig2 > 13.0)",
+  },
+  {
+    taskid:230,
+    gold_stl:"always (not (sig1 == sig2))",
+    pred_stl:"always (sig1 != sig2)",
+  },
+  {
+    taskid:231,
+    gold_stl:"always [0:68] (sig1 == 1 or sig2 == 4)",
+    pred_stl:"always [0:68] (sig1 == 1 or sig2 == 4)",
+  },
+  {
+    taskid:232,
+    gold_stl:"always ( not (sig1 > 4.1 and sig1 < 6.5) and not (sig2 == sig3) -> eventually [0:8] (always [0:22] (sig4 < 9.1)) )",
+    pred_stl:"always ( not (4.1 < sig1 and sig1 < 6.5) and not (sig2 == SIG3) -> eventually [0:8] (always [0:22] (sig4 < 9.1)) )",
+  },
+  {
+    taskid:233,
+    gold_stl:"always ( not ((sig1 == 25.72) until (sig2 > 27 and sig2 < 49)) -> eventually [0:8] (always [0:84] (sig3 < 63)) )",
+    pred_stl:"always ( not ((sig1 == 25.72) until (eventually (sig2 > 27 and sig2 < 49))) -> eventually [0:8] (always [0:84] (sig3 < 63)) )",
+  },
+  {
+    taskid:234,
+    gold_stl:"eventually [41:64] (not (sig1 < 49) and sig2 == 2120)",
+    pred_stl:"eventually [41:64] (eventually (sig1 >= 49) and eventually (sig2 == 2120))",
+  },
+  {
+    taskid:235,
+    gold_stl:"always ( rise (sig1 > 8) -> (sig2 >= 20.19 and sig2 <= 66.94) or sig3 >= 2 )",
+    pred_stl:"always ( rise (sig1 > 8) -> (sig2 >= 20.19 and sig2 <= 66.94) or sig3 >= 2 )",
+  },
+  {
+    taskid:236,
+    gold_stl:"always ( (not (sig1 > 31)) since (sig2 == sig3) -> (not (sig4 > 2847.1 and sig4 < 2943.4)) since (rise (sig5 == 47)) )",
+    pred_stl:"always ( sig1 <= 31 -> (sig1 <= 31) since (rise (sig2 == sig3)) and (sig4 < 2847.1 or sig4 > 2943.4) since (rise (sig5 == 47)) )",
+  },
+  {
+    taskid:237,
+    gold_stl:"always (sig1 > 1138)",
+    pred_stl:"always (sig1 > 1138)",
+  },
+  {
+    taskid:238,
+    gold_stl:"always ( sig1 == 884.0 -> always [0:32] (eventually [0:29] (sig2 < 3)) )",
+    pred_stl:"always ( sig1 == 884.0 -> always [0:32] (eventually [0:29] (sig2 < 3)) )",
+  },
+  {
+    taskid:239,
+    gold_stl:"always ( sig1 > 13 and sig1 < 45 -> always [39:72] (sig2 >= 47.28) )",
+    pred_stl:"always ( sig1 > 13 and sig1 < 45 -> eventually [39:72] (sig2 >= 47.28) )",
+  },
+  {
+    taskid:240,
+    gold_stl:"always ( sig1 > 5 and sig2 >= 9 -> not (always [0:9.81] (sig3 > 6.5)) )",
+    pred_stl:"always ( sig1 > 5 and sig2 >= 9 -> always [0:9.81] (sig3 <= 6.5) )",
+  },
+  {
+    taskid:241,
+    gold_stl:"always ( fall (sig1 == sig2) -> always [0:4] (eventually [0:68.9] (rise (sig3 <= 1648))) )",
+    pred_stl:"always ( fall (sig1 == sig2) -> always [0:4] (eventually [0:68.9] (rise (sig3 <= 1648))) )",
+  },
+  {
+    taskid:242,
+    gold_stl:"always ( rise (sig1 < 761) -> not ((sig2 > 85.3) until [191:2923] (sig3 >= 1793)) )",
+    pred_stl:"always ( fall (sig1 < 761) -> not ((sig2 > 85.3) until [191:2923] (sig3 >= 1793)) )",
+  },
+  {
+    taskid:243,
+    gold_stl:"always ( rise (sig1 >= 76 and sig1 <= 82) -> always [14:67] (eventually [0:3.0] (sig2 >= 7)) )",
+    pred_stl:"always ( rise (sig1 >= 76 and sig1 <= 82) -> always [14:67] (eventually [0:3.0] (sig2 >= 7)) )",
+  },
+  {
+    taskid:244,
+    gold_stl:"always ( rise (sig1 >= 24 and sig1 < 76) -> sig2 < 85 or sig3 > 1379 )",
+    pred_stl:"always ( rise (sig1 >= 24 and sig1 < 76) -> sig2 < 85 or sig3 > 1379 )",
+  },
+  {
+    taskid:245,
+    gold_stl:"always ( fall (sig1 == sig2) -> sig3 <= 518 )",
+    pred_stl:"always ( fall (sig1 == sig2) -> sig3 <= 518 )",
+  },
+  {
+    taskid:246,
+    gold_stl:"always [19:26] (sig1 > 9 and sig2 == sig3)",
+    pred_stl:"always [19:26] (sig1 > 9 and sig2 == sig3)",
+  },
+  {
+    taskid:247,
+    gold_stl:"always ( fall (sig1 == 412) -> always [0:2] (eventually [0:3] (fall (sig2 == 49))) )",
+    pred_stl:"always ( fall (sig1 == 412) -> always [0:2] (eventually [0:3] (fall (sig2 == 49))) )",
+  },
+  {
+    taskid:248,
+    gold_stl:"always ( rise (sig1 <= 7) -> always [61:74] (sig2 == 38.5) )",
+    pred_stl:"always ( rise (sig1 <= 7) -> always [61:74] (sig2 == 38.5) )",
+  },
+  {
+    taskid:249,
+    gold_stl:"eventually [0:8.7] (sig1 > 1 or rise (sig2 >= 268))",
+    pred_stl:"eventually [0:8.7] (sig1 > 1 or rise (sig2 >= 268))",
+  },
+  {
+    taskid:250,
+    gold_stl:"eventually [0:2.2] (sig1 == sig2)",
+    pred_stl:"eventually [0:2.2] (sig1 == sig2)",
+  },
+  {
+    taskid:251,
+    gold_stl:"always ( rise (sig1 >= 5 and sig1 < 9) or sig2 > 44 -> (sig3 < 957.59) until [0:2502] (sig4 == 390) )",
+    pred_stl:"always ( rise (sig1 >= 5 and sig1 < 9) or sig2 > 44 -> (sig3 < 957.59) until [0:2502] (sig4 == 390) )",
+  },
+  {
+    taskid:252,
+    gold_stl:"always ( not (sig1 >= 9) and sig2 > 2084.23 -> sig3 == 1 or rise (sig4 > 10) )",
+    pred_stl:"always ( sig1 < 9 and sig2 > 2084.23 -> sig3 == 1 or rise (sig4 > 10) )",
+  },
+  {
+    taskid:253,
+    gold_stl:"always ( sig1 == sig2 or rise (sig3 >= 4 and sig3 <= 5) -> always [0:83] (eventually [0:7] (not rise (sig4 > 73.2 and sig4 < 89.9))) )",
+    pred_stl:"always ( sig1 == sig2 or rise (sig3 >= 4 and sig3 <= 5) -> always [0:83] (not (eventually [0:7] (rise (sig4 > 73.2 and sig4 < 89.9)))) )",
+  },
+  {
+    taskid:254,
+    gold_stl:"eventually [0:64] (rise (sig1 >= 68) and not (sig2 > 26))",
+    pred_stl:"eventually [0:64] (rise (sig1 >= 68)) and always (not (sig2 > 26))",
+  },
+  {
+    taskid:255,
+    gold_stl:"always ( fall (sig1 == 52) -> sig2 > 5.82 and sig2 <= 9.89 )",
+    pred_stl:"always ( fall (sig1 == 52) -> sig2 > 5.82 and sig2 <= 9.89 )",
+  },
+  {
+    taskid:256,
+    gold_stl:"always ( rise (sig1 == sig2) -> always [0:7] (eventually [0:19.0] (rise (sig3 < 43))) )",
+    pred_stl:"always ( rise (sig1 == sig2) -> always [0:7] (eventually [0:19] (sig3 < 43)) )",
+  },
+  {
+    taskid:257,
+    gold_stl:"always ( fall (sig1 == 36) -> (sig2 >= 50) until [0:8] (sig3 == 67) )",
+    pred_stl:"always ( fall (sig1 == 36) -> (sig2 >= 50) until [0:8] (sig3 == 67) )",
+  },
+  {
+    taskid:258,
+    gold_stl:"always ( rise (sig1 > 321.13) -> always [0:51.17] (eventually [0:47.05] (sig2 < 99)) )",
+    pred_stl:"rise (sig1 > 321.13) -> always [0:51.17] (eventually [0:47.05] (sig2 < 99))",
+  },
+  {
+    taskid:259,
+    gold_stl:"always ( sig1 == 3 or sig2 == sig3 -> not (sig4 == sig5) )",
+    pred_stl:"always ( sig1 == 3 or sig2 == sig3 -> not (sig4 == SIG5) )",
+  },
+  {
+    taskid:260,
+    gold_stl:"always ( sig1 == sig2 and rise (sig3 >= 39.87) -> sig4 <= 2792 or not (sig5 > 12 and sig5 < 50) )",
+    pred_stl:"always ( sig1 == SIG2 and rise (sig3 >= 39.87) -> sig4 <= 2792 or not (sig5 > 12 and sig5 < 50) )",
+  },
+  {
+    taskid:261,
+    gold_stl:"eventually [15:59] (rise (sig1 >= 63 and sig1 <= 80) or (sig2 >= 79.2 and sig2 < 83.5))",
+    pred_stl:"eventually [15:59] (eventually (sig1 >= 63 and sig1 <= 80) or eventually (sig2 >= 79.2 and sig2 < 83.5))",
+  },
+  {
+    taskid:262,
+    gold_stl:"always ( fall (sig1 == 5) -> always [0:550] (eventually (sig2 == 7)) )",
+    pred_stl:"always ( fall (sig1 == 5) -> always [0:550] (eventually (sig2 == 7)) )",
+  },
+  {
+    taskid:263,
+    gold_stl:"eventually [93:97] (sig1 < 3 and (sig2 > 4 and sig2 < 6))",
+    pred_stl:"eventually [93:97] (sig1 < 3 and sig2 > 4 and sig2 < 6)",
+  },
+  {
+    taskid:264,
+    gold_stl:"always ( rise (sig1 > 4.72 and sig1 < 6.34) -> not rise ((sig2 < 1411) until (sig3 <= 13)) )",
+    pred_stl:"always ( rise (sig1 > 4.72 and sig1 < 6.34) -> not rise ((sig2 < 1411) until (sig3 <= 13)) )",
+  }

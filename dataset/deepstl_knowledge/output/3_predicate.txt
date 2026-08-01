@@ -1,0 +1,593 @@
+[predicates]
+
+type:numeric_equal
+stl:<SIGNAL> == <VALUE>
+semantics:The numeric signal equals the value.
+nl:
+    standalone:
+        - the value of <SIGNAL> should be equal to <VALUE>
+        - <SIGNAL> ought to be equal to <VALUE>
+        - the value of <SIGNAL> is consistently equal to <VALUE>
+        - <SIGNAL> must stay at <VALUE>
+        - the value of <SIGNAL> should remain on <VALUE> all the time
+        - the <SIGNAL> signal will have to be <VALUE>
+        - <SIGNAL> ought to be <VALUE>
+        - the value of signal <SIGNAL> ought to remain equal to <VALUE>
+    trigger:
+        - the value of signal <SIGNAL> stays equal to <VALUE>
+        - the <SIGNAL> signal keeps equal to <VALUE>
+        - <SIGNAL> is equal to <VALUE>
+        - the value of <SIGNAL> is <VALUE>
+        - the <SIGNAL> signal is <VALUE>
+        - <SIGNAL> is equal to <VALUE>
+    response:
+        - the value of <SIGNAL> shall be <VALUE>
+        - the value of <SIGNAL> remains on <VALUE>
+        - the value of signal <SIGNAL> will have to remain equal to <VALUE>
+        - <SIGNAL> must be set to <VALUE>
+        - <SIGNAL> is <VALUE>
+        - the value of <SIGNAL> must be promptly <VALUE>
+        - the value of <SIGNAL> immediately remains on <VALUE>
+        - the value of <SIGNAL> is equal to <VALUE> simultaneously
+        - the value of <SIGNAL> has to be <VALUE> right away
+    temporal_inner:
+        - the value of <SIGNAL> has to be equal to <VALUE>
+        - the value of <SIGNAL> will be <VALUE>
+        - <SIGNAL> should settle to <VALUE>
+        - <SIGNAL> ultimately settles to <VALUE>
+        - the value of <SIGNAL> needs to be <VALUE>
+        - the value of <SIGNAL> ought to equal to <VALUE>
+        - <SIGNAL> will be continuously staying at <VALUE>
+        - <SIGNAL> must be equal to <VALUE>
+        - <SIGNAL> should equal to <VALUE>
+        - <SIGNAL> must remain equal to <VALUE>
+
+type:state_equal
+stl:<SIGNAL> == <STATE>
+semantics:The signal is in the discrete state.
+nl:
+    standalone:
+        - the mode of signal <SIGNAL> has to be set to <STATE>
+        - the <SIGNAL> signal has to be <STATE>
+        - <SIGNAL> ought to be <STATE>
+        - the state of signal <SIGNAL> shall remain in <STATE>
+        - the mode of signal <SIGNAL> will be in <STATE>
+        - <SIGNAL> ought to continuously keep in <STATE>
+    trigger:
+        - the state of <SIGNAL> is in <STATE>
+        - the mode of <SIGNAL> is set to <STATE>
+        - the state of <SIGNAL> is set to <STATE>
+        - <SIGNAL> is set to <STATE>
+        - the <SIGNAL> signal is in <STATE>
+        - the state of signal <SIGNAL> is <STATE>
+        - <SIGNAL> is <STATE>
+    response:
+        - the <SIGNAL> signal has to be in <STATE>
+        - the mode of signal <SIGNAL> is <STATE>
+        - <SIGNAL> shall be in <STATE>
+        - the state of <SIGNAL> will have to be <STATE>
+        - the mode of signal <SIGNAL> will remain in <STATE>
+        - the mode of <SIGNAL> needs to immediately remain in <STATE>
+        - the mode of <SIGNAL> must be promptly <STATE>
+        - the state of <SIGNAL> should be <STATE> at once
+        - the mode of <SIGNAL> immediately remains in <STATE>
+        - <SIGNAL> should be <STATE> starting without any delay
+        - the mode of <SIGNAL> has to be set to <STATE> without any delay
+    temporal_inner:
+        - the state of <SIGNAL> has to keep in <STATE>
+        - the state of <SIGNAL> is always in <STATE>
+        - <SIGNAL> needs to be set to <STATE>
+        - the mode of signal <SIGNAL> keeps in <STATE>
+        - <SIGNAL> will stay in <STATE>
+        - the state of <SIGNAL> is set to <STATE>
+        - <SIGNAL> has to be eventually <STATE>
+        - <SIGNAL> will be being in <STATE>
+        - <SIGNAL> should keep in <STATE> consistently
+
+type:less_than
+stl:<SIGNAL> < <VALUE>
+semantics:The signal is strictly less than the value.
+nl:
+    standalone:
+        - the value of signal <SIGNAL> needs to remain below <VALUE>
+        - the value of <SIGNAL> will continuously stay below <VALUE>
+        - <SIGNAL> must stay less than <VALUE>
+        - the value of signal <SIGNAL> is smaller than <VALUE>
+        - the value of signal <SIGNAL> needs to remain smaller than <VALUE>
+        - the <SIGNAL> signal needs to keep smaller than <VALUE>
+        - the value of signal <SIGNAL> should remain less than <VALUE>
+    trigger:
+        - the <SIGNAL> signal is smaller than <VALUE>
+        - <SIGNAL> remains smaller than <VALUE>
+        - the value of <SIGNAL> is less than <VALUE>
+        - the <SIGNAL> signal is below <VALUE>
+        - the value of signal <SIGNAL> is less than <VALUE>
+        - <SIGNAL> is below <VALUE>
+    response:
+        - <SIGNAL> will have to be smaller than <VALUE>
+        - the value of signal <SIGNAL> has to be below <VALUE>
+        - the value of signal <SIGNAL> remains less than <VALUE>
+        - the value of signal <SIGNAL> is lower than <VALUE>
+        - the value of <SIGNAL> needs to be smaller than <VALUE> starting without any delay
+        - <SIGNAL> will be below <VALUE>
+        - <SIGNAL> must be below <VALUE> in no time
+        - <SIGNAL> ought to be below <VALUE> simultaneously
+        - <SIGNAL> has to be smaller than <VALUE>
+    temporal_inner:
+        - the <SIGNAL> signal has to stay less than <VALUE>
+        - the value of signal <SIGNAL> shall be smaller than <VALUE>
+        - <SIGNAL> is lower than <VALUE>
+        - the <SIGNAL> signal is lower than <VALUE>
+        - <SIGNAL> ought to stay less than <VALUE>
+        - <SIGNAL> should be smaller than <VALUE>
+
+type:less_or_equal
+stl:<SIGNAL> <= <VALUE>
+semantics:The signal is less than or equal to the value.
+nl:
+    standalone:
+        - the <SIGNAL> signal shall keep at most <VALUE>
+        - the value of <SIGNAL> will stay less than or equal to <VALUE>
+        - <SIGNAL> should be no larger than <VALUE>
+    trigger:
+        - <SIGNAL> is no more than <VALUE>
+        - <SIGNAL> is less than or equal to <VALUE>
+        - the <SIGNAL> signal is less than or equal to <VALUE>
+        - <SIGNAL> is at most <VALUE>
+    response:
+        - the value of signal <SIGNAL> should be no more than <VALUE>
+        - <SIGNAL> has to be less than or equal to <VALUE> immediately
+        - <SIGNAL> must be less than or equal to <VALUE>
+    temporal_inner:
+        - the value of <SIGNAL> will remain at most <VALUE>
+        - <SIGNAL> will be less than or equal to <VALUE>
+        - <SIGNAL> will have to be less than or equal to <VALUE>
+        - <SIGNAL> ought to keep less than or equal to <VALUE>
+        - <SIGNAL> is less than or equal to <VALUE>
+        - <SIGNAL> must be at most <VALUE>
+        - <SIGNAL> should stay less than or equal to <VALUE>
+
+type:greater_than
+stl:<SIGNAL> > <VALUE>
+semantics:The signal is strictly greater than the value.
+nl:
+    standalone:
+        - the value of <SIGNAL> ought to be larger than <VALUE>
+        - the value of signal <SIGNAL> ought to consistently remain above <VALUE>
+        - <SIGNAL> shall stay greater than <VALUE>
+        - the value of signal <SIGNAL> shall stay higher than <VALUE>
+        - the value of signal <SIGNAL> shall uninterruptedly remain over <VALUE>
+        - <SIGNAL> will have to be larger than <VALUE>
+    trigger:
+        - <SIGNAL> is over <VALUE>
+        - the <SIGNAL> signal stays greater than <VALUE>
+        - the <SIGNAL> signal keeps greater than <VALUE>
+        - the value of signal <SIGNAL> is above <VALUE>
+        - <SIGNAL> is higher than <VALUE>
+        - <SIGNAL> gets larger than <VALUE>
+    temporal_inner:
+        - the <SIGNAL> signal must be higher than <VALUE>
+        - the value of <SIGNAL> is above <VALUE>
+        - <SIGNAL> is greater than <VALUE>
+        - <SIGNAL> needs to be higher than <VALUE>
+
+type:greater_or_equal
+stl:<SIGNAL> >= <VALUE>
+semantics:The signal is greater than or equal to the value.
+nl:
+    standalone:
+        - the value of signal <SIGNAL> remains greater than or equal to <VALUE>
+        - <SIGNAL> will remain no less than <VALUE>
+        - the value of <SIGNAL> should uninterruptedly stay greater than or equal to <VALUE>
+    trigger:
+        - the <SIGNAL> signal is at least <VALUE>
+        - the value of signal <SIGNAL> is greater than or equal to <VALUE>
+        - <SIGNAL> is no less than <VALUE>
+    response:
+        - the value of signal <SIGNAL> must stay greater than or equal to <VALUE>
+        - <SIGNAL> needs to be no less than <VALUE>
+        - the <SIGNAL> signal will be greater than or equal to <VALUE>
+        - <SIGNAL> will have to be no less than <VALUE>
+        - <SIGNAL> should be greater than or equal to <VALUE> at the same time
+        - <SIGNAL> must be greater than or equal to <VALUE> promptly
+        - <SIGNAL> ought to stay greater than or equal to <VALUE> in no time
+    temporal_inner:
+        - the <SIGNAL> signal will have to be greater than or equal to <VALUE>
+        - the <SIGNAL> signal ought to keep greater than or equal to <VALUE>
+        - <SIGNAL> must remain greater than or equal to <VALUE>
+        - <SIGNAL> shall be greater than or equal to <VALUE>
+        - <SIGNAL> shall be at least <VALUE>
+        - <SIGNAL> ought to be finally greater than or equal to <VALUE>
+
+type:open_range
+stl:<LOW> < <SIGNAL> < <HIGH>
+semantics:The signal lies strictly between the two bounds.
+nl:
+    standalone:
+        - the value of <SIGNAL> will be greater than <LOW> and below <HIGH>
+        - the <SIGNAL> signal needs to be consistently bigger than <LOW> and less than <HIGH>
+        - the <SIGNAL> signal has to be over <LOW> and smaller than <HIGH>
+        - the value of <SIGNAL> is larger than <LOW> and less than <HIGH>
+    trigger:
+        - <SIGNAL> stays larger than <LOW> and below <HIGH>
+        - the value of <SIGNAL> keeps larger than <LOW> and below <HIGH>
+        - the <SIGNAL> signal remains above <LOW> and below <HIGH>
+        - the value of <SIGNAL> is over <LOW> and smaller than <HIGH>
+        - the value of signal <SIGNAL> is higher than <LOW> and below <HIGH>
+        - the value of <SIGNAL> is greater than <LOW> and smaller than <HIGH>
+        - the value of <SIGNAL> is above <LOW> and lower than <HIGH>
+        - the value of signal <SIGNAL> is larger than <LOW> and less than <HIGH>
+        - <SIGNAL> enters the range (<LOW>, <HIGH>)
+    response:
+        - <SIGNAL> will be higher than <LOW> and less than <HIGH>
+        - <SIGNAL> must be larger than <LOW> and less than <HIGH>
+        - <SIGNAL> shall keep larger than <LOW> and below <HIGH>
+        - <SIGNAL> shall be above <LOW> and lower than <HIGH>
+        - <SIGNAL> needs to be within the range (<LOW>, <HIGH>) instantly
+    temporal_inner:
+        - the <SIGNAL> signal is bigger than <LOW> and smaller than <HIGH>
+        - the value of <SIGNAL> is bigger than <LOW> and less than <HIGH>
+        - the value of signal <SIGNAL> must be larger than <LOW> and less than <HIGH>
+        - <SIGNAL> needs to keep larger than <LOW> and below <HIGH>
+        - <SIGNAL> gets into the range (<LOW>, <HIGH>)
+
+type:right_open_range
+stl:<LOW> <= <SIGNAL> < <HIGH>
+semantics:The signal lies in a left-closed, right-open interval.
+nl:
+    trigger:
+        - the <SIGNAL> signal is greater than or equal to <LOW> and smaller than <HIGH>
+        - the value of signal <SIGNAL> is greater than or equal to <LOW> and less than <HIGH>
+        - <SIGNAL> is within the interval [<LOW>, <HIGH>)
+    response:
+        - the value of signal <SIGNAL> is greater than or equal to <LOW> and less than <HIGH>
+        - <SIGNAL> is no less than <LOW> and less than <HIGH>
+    temporal_inner:
+        - <SIGNAL> is greater than or equal to <LOW> and less than <HIGH>
+        - <SIGNAL> keeps between [<LOW>, <HIGH>) consistently
+
+type:left_open_right_closed_range
+stl:<LOW> < <SIGNAL> <= <HIGH>
+semantics:The signal lies in a left-open, right-closed interval.
+nl:
+    standalone:
+        - <SIGNAL> has to be in the interval (<LOW>, <HIGH>]
+    trigger:
+        - the <SIGNAL> signal enters the range (<LOW>, <HIGH>]
+        - the <SIGNAL> signal is greater than <LOW> and no larger than <HIGH>
+    temporal_inner:
+        - <SIGNAL> has to be in the interval (<LOW>, <HIGH>]
+
+type:closed_range
+stl:<LOW> <= <SIGNAL> <= <HIGH>
+semantics:The signal lies in the closed interval.
+nl:
+    standalone:
+        - the value of signal <SIGNAL> should continuously stay greater than or equal to <LOW> and no larger than <HIGH>
+        - the value of signal <SIGNAL> should remain greater than or equal to <LOW> and no more than <HIGH>
+        - the <SIGNAL> signal will be keeping no less than <LOW> and less than or equal to <HIGH> continuously
+    trigger:
+        - the value of signal <SIGNAL> is greater than or equal to <LOW> and less than or equal to <HIGH>
+        - the value of <SIGNAL> is no less than <LOW> and no more than <HIGH>
+        - the value of <SIGNAL> is within the interval [<LOW>, <HIGH>]
+        - the value of <SIGNAL> is no less than <LOW> and less than or equal to <HIGH>
+        - <SIGNAL> is between the closed interval [<LOW>, <HIGH>]
+        - the value of signal <SIGNAL> is no less than <LOW> and no more than <HIGH>
+    response:
+        - the <SIGNAL> signal shall be between [<LOW>, <HIGH>]
+        - the <SIGNAL> signal should be no less than <LOW> and less than or equal to <HIGH>
+        - the <SIGNAL> signal must be between [<LOW>, <HIGH>]
+        - <SIGNAL> shall be between the range [<LOW>, <HIGH>]
+        - <SIGNAL> ought to be greater than or equal to <LOW> and less than or equal to <HIGH>
+        - <SIGNAL> should be in the interval [<LOW>, <HIGH>]
+        - <SIGNAL> needs to be between <LOW> (closed) and <HIGH> (closed)
+        - <SIGNAL> ought to stay greater than or equal to <LOW> and no larger than <HIGH> instantly
+        - <SIGNAL> needs to be within the interval [<LOW>, <HIGH>]
+    temporal_inner:
+        - <SIGNAL> will stay greater than or equal to <LOW> and at most <HIGH>
+        - the value of signal <SIGNAL> will be uninterruptedly greater than or equal to <LOW> and less than or equal to <HIGH>
+        - <SIGNAL> remains greater than or equal to <LOW> and less than or equal to <HIGH>
+        - <SIGNAL> will remain in the range [<LOW>, <HIGH>]
+
+[predicate_modifiers]
+
+modifier:not
+stl:not(<PRED>)
+semantics:The inner predicate or temporal condition is not true.
+applicable_when:
+    input_kind:state | range | temporal
+    output_kind:state
+nl:
+    standalone:
+        - the value of <SIGNAL> is outside the range (<LOW>, <HIGH>)
+        - the value of <SIGNAL> is out of the range [<LOW>, <HIGH>]
+        - the value of <SIGNAL> mustn't be set to <VALUE>
+        - the <SIGNAL> signal shall not be lower than <VALUE>
+        - the value of <SIGNAL> is not less than or equal to <VALUE>
+        - the mode of <SIGNAL> will not be in <STATE>
+        - the value of signal <SIGNAL> is not equal to <VALUE>
+        - <SIGNAL> is in the outside of the range (<LOW>, <HIGH>)
+        - <SIGNAL> is out of the range (<LOW>, <HIGH>)
+        - <SIGNAL> keeps in the outside of the range [<LOW>, <HIGH>) continuously
+        - <SIGNAL> is in the outside of the range (<LOW>, <HIGH>)
+    trigger:
+        - the subsequent condition is not true: <TEMPORAL_RESPONSE_NL>
+        - the <SIGNAL> signal isn't set to <STATE>
+        - the mode of <SIGNAL> is not set to <STATE>
+        - the following condition won't be true: <TEMPORAL_RESPONSE_NL>
+        - the subsequent condition isn't true: <TEMPORAL_RESPONSE_NL>
+        - the mode of signal <SIGNAL> is not <STATE>
+        - <SIGNAL> is not greater than or equal to <VALUE>
+    response:
+        - <PRED_NL> should not hold without interruption in the future before the execution ends
+        - right away the <SIGNAL> signal shouldn't be <STATE>
+        - at any time instant starting at most <T_END> time units <PRED_NL> must never hold
+        - the condition that <TEMPORAL_RESPONSE_NL> won't be true
+        - the value of signal <SIGNAL> has to be out of the range [<LOW>, <HIGH>]
+        - the value of signal <SIGNAL> will be in the outside of the range [<LOW>, <HIGH>]
+        - <SIGNAL> does not settle to <VALUE>
+        - <SIGNAL> shouldn't be less than or equal to <VALUE>
+        - <SIGNAL> ought not to be less than <VALUE>
+        - <SIGNAL> should not be within (<LOW>, <HIGH>]
+        - <SIGNAL> will never be less than or equal to <VALUE>
+        - <SIGNAL> shall never be less than or equal to <VALUE>
+        - <SIGNAL> won't have been <STATE>
+        - <SIGNAL> shall not be greater than or equal to <VALUE>
+        - <SIGNAL> will be in the outside of the range (<LOW>, <HIGH>)
+    temporal_inner:
+        - the <SIGNAL> signal is not less than or equal to <VALUE>
+        - the <SIGNAL> signal shan't be less than or equal to <VALUE>
+        - the value of <SIGNAL> isn't no less than <VALUE>
+        - the <SIGNAL> signal will not be greater than <VALUE>
+        - the value of signal <SIGNAL> mustn't be higher than <VALUE>
+        - <SIGNAL> will not be greater than <VALUE>
+        - <SIGNAL> is not equal to <VALUE>
+        - <SIGNAL> must never be equal to <VALUE>
+        - <SIGNAL> shouldn't be no larger than <VALUE>
+        - <SIGNAL> oughtn't to keep in <STATE> continuously
+        - <SIGNAL> should never be <VALUE>
+        - <SIGNAL> shan't be no larger than <VALUE>
+        - <SIGNAL> shall not be at most <VALUE>
+        - <SIGNAL> mustn't be no less than <VALUE>
+
+modifier:rise
+stl:rise(<PRED>)
+semantics:The inner predicate changes from false to true.
+applicable_when:
+    input_kind:state | range
+    output_kind:event
+nl:
+    standalone:
+        - the event that <PRED_NL> gets detected finally
+        - the value of <SIGNAL> has to be ultimately shifted to <VALUE>
+        - the transition action that <PRED_NL> ought to eventually get observed
+    trigger:
+        - the transition action that <PRED_NL> gets detected
+        - the event that <PRED_NL> takes place
+        - the event that <PRED_NL> occurs
+        - the scenario that <PRED_NL> is observed
+        - the scenario that <PRED_NL> gets observed
+        - the transition action that <PRED_NL> occurs
+        - the transition action that <PRED_NL> is detected
+        - the scenario that <PRED_NL> gets into the range is detected
+        - the event that <PRED_NL> jumps to the threshold takes place
+        - the transition action that <PRED_NL> is observed
+        - the event that <PRED_NL> gets observed
+        - the scenario that <PRED_NL> happens
+        - the event that <PRED_NL> gets changed takes place
+        - the event that <PRED_NL> gets to the threshold gets observed
+        - the scenario that <PRED_NL> gets shifted occurs
+        - the scenario that <PRED_NL> crosses the threshold gets observed
+        - the event that <PRED_NL> exceeds the threshold gets observed
+        - the scenario that <PRED_NL> increases to the threshold occurs
+        - the transition action that <PRED_NL> jumps to the threshold is detected
+        - the event that <PRED_NL> increases above the threshold gets detected
+        - the transition action that <PRED_NL> falls to the threshold occurs
+        - the scenario that <PRED_NL> gets lower than the threshold happens
+        - the event that <PRED_NL> goes to the threshold is observed
+        - the value of <SIGNAL> jumps to no less than <VALUE>
+        - the scenario that <PRED_NL> drops below the threshold occurs
+        - the scenario that <PRED_NL> gets to at most <VALUE> takes place
+        - the event that <PRED_NL> is changed to <VALUE> gets observed
+        - the scenario that <PRED_NL> decreases to no more than <VALUE> will happen
+        - the scenario that <PRED_NL> goes down to less than <VALUE> will happen
+        - the event that <PRED_NL> goes to no more than <VALUE> is detected
+        - the event that <PRED_NL> changes to <VALUE> occurs
+        - the scenario that <PRED_NL> gets set to <VALUE> takes place
+        - the scenario that <PRED_NL> gets into the range is observed
+    response:
+        - the scenario that <PRED_NL> will immediately take place
+        - the scenario that <PRED_NL> will get observed without any delay
+        - the event that <PRED_NL> will happen
+        - the event that <PRED_NL> takes place
+        - the transition action that <PRED_NL> ought to take place without any delay
+        - the event that <PRED_NL> must take place at the same time point
+        - the event that <PRED_NL> has to happen right away
+        - the event that <PRED_NL> has to be detected ultimately
+        - the scenario that <PRED_NL> will happen simultaneously
+        - the event that <PRED_NL> must get observed at once
+    temporal_inner:
+        - the event that <PRED_NL> will get detected
+        - the scenario that <PRED_NL> ought to be observed
+        - the transition action that <PRED_NL> should ultimately occur
+        - the event that <PRED_NL> gets detected
+        - the event that <PRED_NL> must be eventually detected
+        - the transition action that <PRED_NL> has to ultimately get observed
+        - the scenario that <PRED_NL> will occur
+        - the scenario that <PRED_NL> will have to get detected
+        - the event that <PRED_NL> will have to occur eventually
+        - the event that <PRED_NL> will have to get observed
+        - the event that <PRED_NL> shall take place
+pattern_notes:
+    - Range-entry wording includes enters the region, gets into the range, and enters the interval.
+    - Threshold wording includes crosses the threshold, exceeds, becomes larger, goes below, and goes to no less than.
+
+modifier:fall
+stl:fall(<PRED>)
+semantics:The inner predicate changes from true to false.
+applicable_when:
+    input_kind:state | range
+    output_kind:event
+nl:
+    standalone:
+        - the scenario that <PRED_NL> will have to take place
+    trigger:
+        - the transition action that the state of <SIGNAL> becomes not set to <STATE> occurs
+        - the event that the value of <SIGNAL> goes out of the bound [<LOW>, <HIGH>] gets detected
+        - the scenario that the value of <SIGNAL> deviates from <VALUE> happens
+        - the scenario that the value of <SIGNAL> gets out of the range [<LOW>, <HIGH>) occurs
+        - the transition action that the value of <SIGNAL> starts deviating from <VALUE> gets detected
+        - the transition action that the value of <SIGNAL> leaves the range (<LOW>, <HIGH>) is detected
+        - the scenario that the value of <SIGNAL> gets out of the range [<LOW>, <HIGH>] happens
+        - the scenario that the value of <SIGNAL> starts not equaling to <VALUE> happens
+        - the <SIGNAL> signal becomes not set to <STATE>
+        - the transition action that <SIGNAL> gets out of the range (<LOW>, <HIGH>) gets detected
+        - the transition action that the state of <SIGNAL> leaves <STATE> is detected
+        - the event that <SIGNAL> goes out of the bound (<LOW>, <HIGH>] gets observed
+    response:
+        - the transition action that <PRED_NL> will have to take place without any delay
+        - the transition action that <PRED_NL> ought to be detected at the same time
+        - the transition action that <PRED_NL> ought to be observed at the same moment
+        - the scenario that <PRED_NL> has to take place at the same time
+    temporal_inner:
+        - the event that <PRED_NL> will have to get detected finally
+        - the event that <PRED_NL> will have to occur eventually
+        - the event that <PRED_NL> will have to be eventually observed
+        - the transition action that <PRED_NL> ought to get observed
+
+modifier:not_rise
+stl:not rise(<PRED>)
+semantics:No false-to-true transition of the inner predicate is observed.
+applicable_when:
+    input_kind:state
+    output_kind:event_absence
+nl:
+    standalone:
+        - the value of signal <SIGNAL> isn't shifted to <VALUE>
+    temporal_inner:
+        - the scenario that <PRED_NL> should consecutively not get observed
+        - the scenario that <PRED_NL> doesn't occur
+        - <PRED_NL> will never occur
+        - <PRED_NL> shall not be observed
+
+modifier:not_rise
+stl:not rise(<TEMPORAL_RESPONSE>)
+semantics:The temporal response is not observed to change from false to true.
+applicable_when:
+    input_kind:temporal
+    output_kind:event_absence
+nl:
+    response:
+        - the subsequent condition mustn't be detected to change from false to true: <TEMPORAL_RESPONSE_NL>
+        - the following condition does not shift from false to true: <TEMPORAL_RESPONSE_NL>
+        - the condition that <TEMPORAL_RESPONSE_NL> shouldn't be detected to shift from false to true
+        - the condition that <TEMPORAL_RESPONSE_NL> shan't be observed to shift from false to true
+        - the following condition should not be detected to change from false to true: <TEMPORAL_RESPONSE_NL>
+        - the condition that <TEMPORAL_RESPONSE_NL> ought not to change from false to true
+        - the subsequent condition mustn't be detected to shift from false to true: <TEMPORAL_RESPONSE_NL>
+    trigger:
+        - the subsequent condition isn't detected to shift from false to true: <TEMPORAL_RESPONSE_NL>
+        - the following condition is not detected to shift from false to true: <TEMPORAL_RESPONSE_NL>
+        - the condition that <TEMPORAL_RESPONSE_NL> is not detected to shift from false to true
+        - the condition that <TEMPORAL_RESPONSE_NL> will not shift from false to true
+
+modifier:not_fall
+stl:not fall(<REQUIREMENT>)
+semantics:The state or temporal requirement is not observed to change from true to false.
+applicable_when:
+    input_kind:state | temporal
+    output_kind:event_absence
+nl:
+    standalone:
+        - the scenario that <PRED_NL> will not be observed
+        - the scenario that <PRED_NL> isn't detected
+    trigger:
+        - the value of <SIGNAL> does not deviate from <VALUE>
+        - the condition that <TEMPORAL_RESPONSE_NL> does not change from true to false
+        - the event that <PRED_NL> never gets observed
+        - the <SIGNAL> signal does not decrease to no longer satisfying <PRED_NL>
+    response:
+        - the condition that <TEMPORAL_RESPONSE_NL> shan't be detected to shift from true to false
+        - the following condition shall not be observed to shift from true to false: <TEMPORAL_RESPONSE_NL>
+        - the value of <SIGNAL> must not start deviating from <VALUE>
+        - the scenario that <PRED_NL> shouldn't happen
+        - the scenario that <PRED_NL> shall never happen
+        - the transition action that <PRED_NL> oughtn't to take place
+        - the condition that <TEMPORAL_RESPONSE_NL> does not shift from true to false
+        - the subsequent condition should not be detected to change from true to false: <TEMPORAL_RESPONSE_NL>
+    temporal_inner:
+        - <SIGNAL> ought not to start deviating from <VALUE>
+        - the scenario that <SIGNAL> leaves <STATE> oughtn't to get observed
+        - the value of <SIGNAL> didn't go lower than <VALUE>
+        - the event that <PRED_NL> shouldn't take place
+        - <PRED_NL> mustn't occur
+        - <PRED_NL> shouldn't get detected
+        - <PRED_NL> ought never to take place
+
+modifier:rise
+stl:rise(<TEMPORAL_RESPONSE>)
+semantics:The temporal response changes from false to true.
+applicable_when:
+    input_kind:temporal
+    output_kind:event
+nl:
+    trigger:
+        - the condition that <TEMPORAL_RESPONSE_NL> will be observed to change from false to true
+        - the subsequent condition will be observed to shift from false to true: <TEMPORAL_RESPONSE_NL>
+    response:
+        - the subsequent condition shall be detected to shift from false to true: <TEMPORAL_RESPONSE_NL>
+        - the condition that <TEMPORAL_RESPONSE_NL> has to be observed to change from false to true
+        - the condition that <TEMPORAL_RESPONSE_NL> ought to be observed to shift from false to true
+        - the condition that <TEMPORAL_RESPONSE_NL> needs to be observed to shift from false to true
+        - the subsequent condition must be observed to shift from false to true: <TEMPORAL_RESPONSE_NL>
+        - the following condition should be detected to change from false to true: <TEMPORAL_RESPONSE_NL>
+
+modifier:fall
+stl:fall(<TEMPORAL_RESPONSE>)
+semantics:The temporal response changes from true to false.
+applicable_when:
+    input_kind:temporal
+    output_kind:event
+nl:
+    trigger:
+        - the following condition shifts from true to false: <TEMPORAL_RESPONSE_NL>
+        - the subsequent condition is observed to shift from true to false: <TEMPORAL_RESPONSE_NL>
+        - the condition that <TEMPORAL_RESPONSE_NL> will be detected to change from true to false
+    response:
+        - the following condition has to change from true to false: <TEMPORAL_RESPONSE_NL>
+        - the condition that <TEMPORAL_RESPONSE_NL> must be detected to change from true to false
+        - the condition that <TEMPORAL_RESPONSE_NL> ought to be detected to shift from true to false
+        - the following condition must shift from true to false: <TEMPORAL_RESPONSE_NL>
+        - the subsequent condition should be observed to change from true to false: <TEMPORAL_RESPONSE_NL>
+        - the following condition has to be detected to change from true to false: <TEMPORAL_RESPONSE_NL>
+        - the condition that <TEMPORAL_RESPONSE_NL> needs to change from true to false
+
+[predicate_composition]
+
+operator:and
+stl:<PRED1> and <PRED2>
+semantics:Both child predicates hold.
+applicable_when:
+    child_kind:state | event | mixed
+nl:
+    standalone:
+        - <PRED1_NL> and <PRED2_NL>
+        - <PRED1_NL>, and <PRED2_NL>
+    trigger:
+        - <PRED1_NL> and <PRED2_NL>
+        - <PRED1_NL>, and <PRED2_NL>
+    temporal_inner:
+        - <PRED1_NL> and <PRED2_NL>
+
+operator:or
+stl:<PRED1> or <PRED2>
+semantics:At least one child predicate holds.
+applicable_when:
+    child_kind:state | event | mixed
+nl:
+    standalone:
+        - <PRED1_NL> or <PRED2_NL>
+    trigger:
+        - <PRED1_NL>, or <PRED2_NL>
+    response:
+        - <PRED1_NL>, or <PRED2_NL>

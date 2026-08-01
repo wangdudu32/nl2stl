@@ -1,3 +1,9 @@
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+
 from bleu import BLEU
 from exact_formula_match import Exact_Formula_Match
 from formula_accuracy import Formula_Accuracy
@@ -20,7 +26,12 @@ from template_accuracy import Template_Accuracy
 # file_path = "../result/deepstl_with_ast_train_operator_test_template_knowledge_2k_deepseek_v4_pro_result.txt"
 # file_path = "../result/deepstl_with_template_knowledge_deepseek_v4_pro_result.txt"
 # file_path = "../result/two_way_iteration_with_ast_deepseek_v4_pro_result.txt"
-file_path = "../result/two_way_iteration_with_ast_train_operator_test_template_deepseek_v4_pro_result.txt"
+# file_path = "../result/two_way_iteration_with_ast_train_operator_test_template_deepseek_v4_pro_result.txt"
+file_path = (
+    PROJECT_ROOT
+    / "result"
+    / "deepstl_with_ast_knowledge_deepseek_v4_pro_result.txt"
+)
 
 if __name__ == "__main__":
     Exact_formula_match_accuracy = Exact_Formula_Match(file_path)
