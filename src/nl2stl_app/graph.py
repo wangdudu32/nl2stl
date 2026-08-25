@@ -66,7 +66,7 @@ def build_graph(
     tavily: TavilyService | None = None,
     progress: ProgressCallback | None = None,
 ):
-    """构建以可修订全局语义为中心的 NL→STL 状态图。"""
+    """构建可以修订全局语义为中心的 NL→STL 状态图。"""
 
     report = progress or (lambda _message: None)
     settings = settings or Settings.load()
