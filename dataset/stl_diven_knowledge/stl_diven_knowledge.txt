@@ -1,0 +1,1476 @@
+[metadata]
+source_dataset:<stl_diven_6970.csv>
+goal:从 STL-Diven 数据中反推出可复用的 STL->NL 知识库
+extraction_method:LLM-only row-by-row knowledge extraction
+
+[placeholder_annotations]
+<PRED>:任意谓词结构
+<PRED1>, <PRED2>:多个谓词结构
+<TRIGGER>:蕴含左侧触发结构
+<TEMPORAL_TRIGGER>:包含时间算子的触发结构
+<TEMPORAL_TRIGGER1>, <TEMPORAL_TRIGGER2>:多个时间触发结构
+<NESTED_TEMPORAL_TRIGGER>:嵌套时间触发结构
+<RESPONSE>:蕴含右侧立即响应结构
+<STATE_REQUIREMENT>:状态型要求
+<EVENT_REQUIREMENT>:事件型要求
+<REQUIREMENT>:状态、事件或二者组合形成的通用要求
+<TEMPORAL_RESPONSE>:一层时间响应结构
+<TEMPORAL_RESPONSE1>, <TEMPORAL_RESPONSE2>:多个一层时间响应结构
+<NESTED_TEMPORAL_RESPONSE>:嵌套时间响应结构
+
+<TRIGGER_NL>:触发条件的自然语言表达
+<TEMPORAL_TRIGGER_NL>:时间触发结构的自然语言表达
+<TEMPORAL_TRIGGER1_NL>, <TEMPORAL_TRIGGER2_NL>:多个时间触发结构的自然语言表达
+<NESTED_TEMPORAL_TRIGGER_NL>:嵌套时间触发结构的自然语言表达
+<RESPONSE_NL>:立即响应的自然语言表达
+<STATE_REQUIREMENT_NL>:状态型要求的自然语言表达
+<EVENT_REQUIREMENT_NL>:事件型要求的自然语言表达
+<REQUIREMENT_NL>:状态、事件或混合要求的自然语言表达
+<TEMPORAL_RESPONSE_NL>:一层时间响应的自然语言表达
+<TEMPORAL_RESPONSE1_NL>, <TEMPORAL_RESPONSE2_NL>:多个一层时间响应的自然语言表达
+<NESTED_TEMPORAL_RESPONSE_NL>:嵌套时间响应的自然语言表达
+<TIME_SCOPE_NL>:完整公式外层时间作用域的自然语言表达
+<PRED_NL>:谓词的自然语言表达
+<PRED1_NL>, <PRED2_NL>:多个谓词的自然语言表达
+
+<SIGNAL>:信号变量
+<SIGNAL1>, <SIGNAL2>, ...:同一表达中的多个信号变量
+<ARITH_EXPR>:由一个或多个信号构成的算术表达式
+<VALUE>:普通数值阈值
+<VALUE1>, <VALUE2>, ...:同一表达中的多个普通数值阈值
+<REFERENCE>:参考值或命名阈值
+<TOLERANCE>:相对参考值的允许偏差
+<STATE>:离散状态
+<LOW>, <HIGH>:单个数值区间的下界和上界
+<T_START>, <T_END>:单个时间区间的下界和上界
+<OUTER_T_START>, <OUTER_T_END>:嵌套时间表达的外层区间
+<INNER_T_START>, <INNER_T_END>:嵌套时间表达的内层区间
+<DURATION>, <OUTER_DURATION>, <INNER_DURATION>:由零起始区间表达的持续时间
+<OUTER_DURATION_NL>:原 English 中观察到的外层持续时间表达，如单位换算后的复合形式
+<TIME_UNIT>:秒、分钟、time unit 等原 English 中观察到的时间单位
+
+[formula_templates]
+description:记录完整公式骨架和公式级连接句式；局部时间表达由 NL 角色占位符引用。
+
+templates:
+    - type:invariance_reachability
+      stl:always[<T_START>,<T_END>](<PRED>)
+      semantics:谓词在有界区间内持续成立。
+      applicable_when:
+          antecedent_kind:none
+          response_kind:state
+          time_scope:bounded
+          notes:完整公式只有一个持续状态要求。
+      nl_patterns:
+          - <TEMPORAL_RESPONSE_NL>.
+
+    - type:invariance_reachability
+      stl:<TEMPORAL_RESPONSE1> and <TEMPORAL_RESPONSE2>
+      semantics:两个时间要求均须成立；区间可以相同、相邻、重叠或不同。
+      applicable_when:
+          antecedent_kind:none
+          response_kind:temporal
+          time_scope:bounded
+          notes:只有原区间支持先后关系时才使用 then/subsequently。
+      nl_patterns:
+          - <TEMPORAL_RESPONSE1_NL>, and <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL>, and within the same period, <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL>, and concurrently, <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL>, and simultaneously, <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL>, and then <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL>, and subsequently, <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL>, while simultaneously, <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL> simultaneously with <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL>, but <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL>, but within this period, <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL>, which should also coincide with <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL>, and immediately after, <TEMPORAL_RESPONSE2_NL>.
+
+    - type:invariance_reachability
+      stl:<TEMPORAL_RESPONSE1> or <TEMPORAL_RESPONSE2>
+      semantics:两个时间要求至少一个成立。
+      applicable_when:
+          antecedent_kind:none
+          response_kind:temporal
+          time_scope:bounded
+          notes:保留顶层 or，不与谓词层 or 混合。
+      nl_patterns:
+          - <TEMPORAL_RESPONSE1_NL> or <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL>, or else <TEMPORAL_RESPONSE2_NL>.
+
+    - type:invariance_reachability
+      stl:<TEMPORAL_RESPONSE> and <NESTED_TEMPORAL_RESPONSE>
+      semantics:一个一层时间要求和一个嵌套时间要求均须成立。
+      applicable_when:
+          antecedent_kind:none
+          response_kind:nested_temporal
+          time_scope:mixed
+          notes:只有区间先后关系明确时才使用 following this period。
+      nl_patterns:
+          - <TEMPORAL_RESPONSE_NL>. Following this period, <NESTED_TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:<TEMPORAL_RESPONSE1> -> <TEMPORAL_RESPONSE2>
+      semantics:一个时间触发条件成立时，要求另一个时间响应成立。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:temporal
+          time_scope:bounded
+          notes:前件和后件各自保留其原始区间锚点；preceded by 仅在后件区间确实早于前件时使用。
+      nl_patterns:
+          - If <TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+          - Whenever <TRIGGER_NL>, <TEMPORAL_RESPONSE_NL>.
+          - <TRIGGER_NL> only if <TEMPORAL_RESPONSE_NL>.
+          - Whenever <TRIGGER_NL>, it is necessary that <TEMPORAL_RESPONSE_NL>.
+          - Whenever <TRIGGER_NL>, expect <TEMPORAL_RESPONSE_NL>.
+          - As long as <TRIGGER_NL>, it should ensure that <TEMPORAL_RESPONSE_NL>.
+          - <TRIGGER_NL>, which implies <TEMPORAL_RESPONSE_NL>.
+          - <TRIGGER_NL>, which implies that <TEMPORAL_RESPONSE_NL>.
+          - <TRIGGER_NL>, which guarantees that <TEMPORAL_RESPONSE_NL>.
+          - As long as <TRIGGER_NL>, <TEMPORAL_RESPONSE_NL>.
+          - If <TRIGGER_NL>, then it is necessary that <TEMPORAL_RESPONSE_NL>.
+          - If <TRIGGER_NL>, then it must be the case that <TEMPORAL_RESPONSE_NL>.
+          - If <TRIGGER_NL>, then it must be true that <TEMPORAL_RESPONSE_NL>.
+          - <TRIGGER_NL>. If this condition holds, then <TEMPORAL_RESPONSE_NL>.
+          - <TRIGGER_NL> to ensure that <TEMPORAL_RESPONSE_NL>.
+          - <TRIGGER_NL> must be preceded by <TEMPORAL_RESPONSE_NL>.
+          - <TRIGGER_NL> must immediately precede a period where <TEMPORAL_RESPONSE_NL>.
+          - <TRIGGER_NL>, after which <TEMPORAL_RESPONSE_NL>.
+          - If <TRIGGER_NL>, then it is expected that <TEMPORAL_RESPONSE_NL>.
+          - If <TRIGGER_NL>, then it must follow that <TEMPORAL_RESPONSE_NL>.
+          - The occurrence of <TRIGGER_NL> implies that <TEMPORAL_RESPONSE_NL>.
+          - Whenever <TRIGGER_NL>, then the system must ensure that <TEMPORAL_RESPONSE_NL>.
+          - <TRIGGER_NL>; this ensures that <TEMPORAL_RESPONSE_NL>.
+          - <TRIGGER_NL>, which should trigger that <TEMPORAL_RESPONSE_NL>.
+          - <TRIGGER_NL> must result in <TEMPORAL_RESPONSE_NL>.
+          - <TEMPORAL_RESPONSE_NL>, provided that <TRIGGER_NL>.
+          - <TRIGGER_NL> will invariably lead to <TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:<TEMPORAL_TRIGGER> -> not eventually[<T_START>,<T_END>](<PRED>)
+      semantics:一个时间触发条件成立时，禁止响应窗口内出现指定事件。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:negative_temporal
+          time_scope:bounded
+          notes:prevent 表达的是后件的 not eventually；不得把被防止事件误写成必须发生。
+      nl_patterns:
+          - <TEMPORAL_TRIGGER_NL> in order to prevent <PRED_EVENT_NL> at any point <TIME_SCOPE_NL>.
+
+    - type:temporal_response
+      stl:<TRIGGER> -> <TEMPORAL_RESPONSE>
+      semantics:即时状态触发成立时，要求一个时间响应成立。
+      applicable_when:
+          antecedent_kind:state
+          response_kind:temporal
+          time_scope:bounded
+          notes:无外层 always；只表示当前公式层的单次状态条件。
+      nl_patterns:
+          - <TRIGGER_NL> only if <TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:<TRIGGER> -> (<TEMPORAL_RESPONSE1> or <TEMPORAL_RESPONSE2>)
+      semantics:即时状态触发成立时，两个时间响应中至少一个必须成立。
+      applicable_when:
+          antecedent_kind:state
+          response_kind:temporal
+          time_scope:bounded
+          notes:保留后件析取；unless 可表达第二响应作为替代满足分支。
+      nl_patterns:
+          - If <TRIGGER_NL>, then either <TEMPORAL_RESPONSE1_NL> or <TEMPORAL_RESPONSE2_NL>.
+          - If <TRIGGER_NL>, then <TEMPORAL_RESPONSE1_NL> unless <TEMPORAL_RESPONSE2_NL>.
+
+    - type:temporal_response
+      stl:<TRIGGER> -> (<TEMPORAL_RESPONSE1> and <TEMPORAL_RESPONSE2>)
+      semantics:即时状态触发成立时，两个时间响应都必须成立。
+      applicable_when:
+          antecedent_kind:state
+          response_kind:temporal
+          time_scope:bounded
+          notes:保留后件合取；meanwhile 可表达第二时间响应与第一时间响应共同作为后件要求。
+      nl_patterns:
+          - Whenever <TRIGGER_NL>, <TEMPORAL_RESPONSE1_NL>, and meanwhile, <TEMPORAL_RESPONSE2_NL>.
+
+    - type:temporal_response
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](<TRIGGER> -> <TEMPORAL_RESPONSE>)
+      semantics:外层区间内每次触发都产生一个时间响应要求。
+      applicable_when:
+          antecedent_kind:state
+          response_kind:temporal
+          time_scope:mixed
+          notes:响应区间相对于外层各触发时刻解释。
+      nl_patterns:
+          - <TIME_SCOPE_NL>, if <TRIGGER_NL>, <TEMPORAL_RESPONSE_NL>.
+          - <TIME_SCOPE_NL>, it is always the case that if <TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+          - Every time <TIME_SCOPE_NL> that <TRIGGER_NL>, <TEMPORAL_RESPONSE_NL>.
+          - Whenever <TRIGGER_NL> <TIME_SCOPE_NL>, <TEMPORAL_RESPONSE_NL> subsequent to each occurrence.
+          - <TIME_SCOPE_NL>, whenever <TRIGGER_NL>, there should be an instance where <TEMPORAL_RESPONSE_NL>.
+          - <TIME_SCOPE_NL>, whenever <TRIGGER_NL>, <TEMPORAL_RESPONSE_NL>.
+          - For every point <TIME_SCOPE_NL>, if <TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](<TRIGGER> -> (<TEMPORAL_RESPONSE1> or <TEMPORAL_RESPONSE2>))
+      semantics:外层区间内每次即时触发成立时，两个时间响应中至少一个必须成立。
+      applicable_when:
+          antecedent_kind:state
+          response_kind:temporal
+          time_scope:mixed
+          notes:外层 always 表示对作用域内每个触发点重复检查；后件 or 不可改成 and。
+      nl_patterns:
+          - <TIME_SCOPE_NL>, if <TRIGGER_NL>, then either <TEMPORAL_RESPONSE1_NL> or <TEMPORAL_RESPONSE2_NL>.
+          - <TIME_SCOPE_NL>, always ensure that if <TRIGGER_NL>, then either <TEMPORAL_RESPONSE1_NL> or <TEMPORAL_RESPONSE2_NL>.
+
+    - type:temporal_response
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](<TRIGGER> -> <RESPONSE>)
+      semantics:外层有界作用域内，每个即时触发都要求即时状态响应同时成立。
+      applicable_when:
+          antecedent_kind:state
+          response_kind:state
+          time_scope:bounded
+          notes:响应不是 eventually/always，而是同一外层检查时刻的状态谓词；unless 改写必须保留与 implication 等价的否定触发条件。
+      nl_patterns:
+          - Whenever <TRIGGER_NL> <TIME_SCOPE_NL>, <RESPONSE_NL>.
+          - <TIME_SCOPE_NL>, <RESPONSE_NL> unless <NEGATED_TRIGGER_NL>.
+
+    - type:temporal_response
+      stl:always(<TRIGGER> -> <NESTED_TEMPORAL_RESPONSE>)
+      semantics:每次触发后都必须在给定窗口内达到并维持一个状态。
+      applicable_when:
+          antecedent_kind:state
+          response_kind:nested_temporal
+          time_scope:unbounded
+          notes:外层 always 无界，嵌套响应区间相对每次触发。
+      nl_patterns:
+          - Every time that <TRIGGER_NL>, ensure that <NESTED_TEMPORAL_RESPONSE_NL>.
+          - Whenever <TRIGGER_NL>, <NESTED_TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](<TRIGGER> -> <NESTED_TEMPORAL_RESPONSE>)
+      semantics:在有界外层作用域中，每次触发后都必须达到并维持指定状态。
+      applicable_when:
+          antecedent_kind:state
+          response_kind:nested_temporal
+          time_scope:mixed
+          notes:不得把外层作用域误写成只检查一次的条件。
+      nl_patterns:
+          - If at any time <TIME_SCOPE_NL>, <TRIGGER_NL>, then <NESTED_TEMPORAL_RESPONSE_NL>.
+          - <TIME_SCOPE_NL>, if <TRIGGER_NL>, <NESTED_TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:<TEMPORAL_RESPONSE> -> <NESTED_TEMPORAL_RESPONSE>
+      semantics:持续型时间触发成立时，要求随后达到并维持响应状态。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:nested_temporal
+          time_scope:bounded
+          notes:只使用与原 STL 时间锚点一致的 soon after/following 表达。
+      nl_patterns:
+          - Whenever <TRIGGER_NL>, expect that <NESTED_TEMPORAL_RESPONSE_NL>.
+          - If <TRIGGER_NL>, then <NESTED_TEMPORAL_RESPONSE_NL>.
+          - If <TRIGGER_NL>, it must hold that <NESTED_TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:<TEMPORAL_RESPONSE> -> (<TEMPORAL_RESPONSE1> or <TEMPORAL_RESPONSE2>)
+      semantics:时间触发成立时，两个时间响应至少一个成立。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:temporal
+          time_scope:bounded
+          notes:保留 either/or 的析取语义。
+      nl_patterns:
+          - Whenever <TRIGGER_NL>, it should be that either <TEMPORAL_RESPONSE1_NL> or <TEMPORAL_RESPONSE2_NL>.
+          - Whenever <TRIGGER_NL>, it must be true that either <TEMPORAL_RESPONSE1_NL> or <TEMPORAL_RESPONSE2_NL>.
+          - Whenever <TRIGGER_NL>, it implies that either <TEMPORAL_RESPONSE1_NL> or <TEMPORAL_RESPONSE2_NL>.
+          - Whenever <TRIGGER_NL>, it necessitates that either <TEMPORAL_RESPONSE1_NL> or <TEMPORAL_RESPONSE2_NL>.
+
+    - type:temporal_response
+      stl:<TEMPORAL_RESPONSE> -> (<TEMPORAL_RESPONSE1> and <TEMPORAL_RESPONSE2>)
+      semantics:时间触发成立时，两个时间响应都必须成立。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:temporal
+          time_scope:bounded
+          notes:保留 both/and 的合取语义。
+      nl_patterns:
+          - Whenever <TRIGGER_NL>, it must also be true that both <TEMPORAL_RESPONSE1_NL> and <TEMPORAL_RESPONSE2_NL>.
+          - Whenever <TRIGGER_NL>, it should be followed by <TEMPORAL_RESPONSE1_NL>, while ensuring that <TEMPORAL_RESPONSE2_NL>.
+          - If <TRIGGER_NL>, then there must be a phase where <TEMPORAL_RESPONSE1_NL>, before <TEMPORAL_RESPONSE2_NL>.
+
+    - type:temporal_response
+      stl:(<TEMPORAL_RESPONSE1> and <TEMPORAL_RESPONSE2>) -> <TEMPORAL_RESPONSE>
+      semantics:两个时间触发条件共同成立时产生时间响应。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:temporal
+          time_scope:bounded
+          notes:无括号写法只有在 English 明确把 and 放入前件时采用此骨架。
+      nl_patterns:
+          - If <TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+          - Whenever <TRIGGER_NL>, then the system must ensure that <TEMPORAL_RESPONSE_NL>.
+          - When <TEMPORAL_TRIGGER1_NL>, if during this period <TEMPORAL_TRIGGER2_NL>, then <TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:(<TEMPORAL_TRIGGER1> and (<TEMPORAL_TRIGGER2> or <TEMPORAL_TRIGGER>)) -> <TEMPORAL_RESPONSE>
+      semantics:一个必需时间触发与两个可选时间触发之一共同成立时产生响应。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:temporal
+          time_scope:mixed
+          notes:保留前件中的 and/or 嵌套层级。
+      nl_patterns:
+          - If <TEMPORAL_TRIGGER1_NL>, and either <TEMPORAL_TRIGGER2_NL> or <TEMPORAL_TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:(<TEMPORAL_TRIGGER1> or <TEMPORAL_TRIGGER2>) -> <TEMPORAL_RESPONSE>
+      semantics:两个时间触发中任意一个成立时，都要求同一个时间响应成立。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:temporal
+          time_scope:bounded
+          notes:前件中的 or 保留为触发条件析取，不是响应析取。
+      nl_patterns:
+          - If <TEMPORAL_TRIGGER1_NL>, or if <TEMPORAL_TRIGGER2_NL>, then <TEMPORAL_RESPONSE_NL>.
+
+    - type:stabilization_recurrence
+      stl:eventually[<OUTER_T_START>,<OUTER_T_END>](always[<INNER_T_START>,<INNER_T_END>](<PRED>))
+      semantics:在外层窗口内找到一个时刻，使谓词随后在内层窗口持续成立。
+      applicable_when:
+          antecedent_kind:none
+          response_kind:nested_temporal
+          time_scope:bounded
+          notes:外层 eventually 与内层 always 的嵌套顺序不可交换。
+      nl_patterns:
+          - <NESTED_TEMPORAL_RESPONSE_NL>.
+
+    - type:other
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](<STATE_REQUIREMENT> and (<TRIGGER> -> <NESTED_TEMPORAL_RESPONSE>))
+      semantics:外层区间内既维持一个状态，又对局部触发施加嵌套时间响应。
+      applicable_when:
+          antecedent_kind:state
+          response_kind:nested_temporal
+          time_scope:mixed
+          notes:状态要求和条件响应共享外层作用域。
+      nl_patterns:
+          - <TIME_SCOPE_NL>, <STATE_REQUIREMENT_NL>, and during this period, if <TRIGGER_NL>, <NESTED_TEMPORAL_RESPONSE_NL>.
+          - <TIME_SCOPE_NL>, <STATE_REQUIREMENT_NL>, but if <TRIGGER_NL> during this period, <NESTED_TEMPORAL_RESPONSE_NL>.
+          - <TIME_SCOPE_NL>, <STATE_REQUIREMENT_NL>. Additionally, if <TRIGGER_NL>, <NESTED_TEMPORAL_RESPONSE_NL>.
+          - <TIME_SCOPE_NL>, <STATE_REQUIREMENT_NL>, but should <TRIGGER_NL>, <NESTED_TEMPORAL_RESPONSE_NL>.
+
+    - type:other
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](<STATE_REQUIREMENT> and (<TRIGGER> -> <TEMPORAL_RESPONSE>))
+      semantics:外层区间内既维持一个状态，又在局部触发时施加一层时间响应。
+      applicable_when:
+          antecedent_kind:state
+          response_kind:temporal
+          time_scope:mixed
+          notes:状态要求和局部条件响应共享外层作用域。
+      nl_patterns:
+          - <TIME_SCOPE_NL>, <STATE_REQUIREMENT_NL>, and concurrently, if <TRIGGER_NL>, <TEMPORAL_RESPONSE_NL>.
+
+    - type:other
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](<STATE_REQUIREMENT> and (<TRIGGER> -> <RESPONSE>))
+      semantics:外层区间内既维持一个状态要求，又在即时触发时要求即时状态响应。
+      applicable_when:
+          antecedent_kind:state
+          response_kind:state
+          time_scope:mixed
+          notes:条件响应不含时间算子；与状态要求共享外层 always 作用域。
+      nl_patterns:
+          - <TIME_SCOPE_NL>, <STATE_REQUIREMENT_NL>, and during the same period, if <TRIGGER_NL>, <RESPONSE_NL>.
+
+    - type:other
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](<STATE_REQUIREMENT> and <TEMPORAL_RESPONSE>)
+      semantics:外层区间内每个时刻都要求即时状态条件成立，同时一个时间条件也成立。
+      applicable_when:
+          antecedent_kind:none
+          response_kind:temporal
+          time_scope:mixed
+          notes:时间条件位于外层 always 内部，按外层检查点相对解释；不得当作顶层 and。
+      nl_patterns:
+          - <TIME_SCOPE_NL>, <STATE_REQUIREMENT_NL> while ensuring that <TEMPORAL_RESPONSE_NL>.
+
+    - type:other
+      stl:eventually(always(<TRIGGER>)) -> (eventually(always(<RESPONSE>)) or eventually(<RESPONSE>))
+      semantics:达到并维持触发状态后，两个可选响应中至少一个须在其窗口内发生，其中一个还须持续。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:nested_temporal
+          time_scope:bounded
+          notes:各 eventually/always 的具体区间由相应局部模板保存。
+      nl_patterns:
+          - If <TRIGGER_NL>, then we expect that either <NESTED_TEMPORAL_RESPONSE_NL> or <TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:always(<TRIGGER> -> <TEMPORAL_RESPONSE>)
+      semantics:任意时刻出现触发条件时，必须在相对时间窗口内产生响应。
+      applicable_when:
+          antecedent_kind:state
+          response_kind:temporal
+          time_scope:unbounded
+          notes:无界 always 表示规则在所有时刻生效。
+      nl_patterns:
+          - Whenever <TRIGGER_NL>, <TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:always(<TEMPORAL_TRIGGER> -> <TEMPORAL_RESPONSE>)
+      semantics:在所有时刻检查一个时间触发；每次成立时施加时间响应。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:temporal
+          time_scope:unbounded
+          notes:时间触发的内层窗口相对每个外层检查时刻解释。
+      nl_patterns:
+          - Whenever <TEMPORAL_TRIGGER_NL>, <TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](<TEMPORAL_TRIGGER> -> <TEMPORAL_RESPONSE>)
+      semantics:外层区间内持续检查一个局部时间触发，并施加局部时间响应。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:temporal
+          time_scope:mixed
+          notes:不得把滑动检查弱化为在外层区间内只出现一次。
+      nl_patterns:
+          - For every interval <TIME_SCOPE_NL>, if <TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+          - Whenever <TEMPORAL_TRIGGER_NL>, <TEMPORAL_RESPONSE_NL>.
+          - Anytime <TIME_SCOPE_NL>, if <TEMPORAL_TRIGGER_NL>, <TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:always[<OUTER_T_START>,<OUTER_T_END>]((<TEMPORAL_TRIGGER> and <TRIGGER>) -> <TEMPORAL_RESPONSE>)
+      semantics:外层区间内持续检查一个由时间触发和即时状态共同组成的前件；两者同时成立时施加时间响应。
+      applicable_when:
+          antecedent_kind:mixed_temporal_state
+          response_kind:temporal
+          time_scope:mixed
+          notes:即时状态触发与时间触发同属 implication 前件，不得拆成两个独立公式。
+      nl_patterns:
+          - <TIME_SCOPE_NL>, if <TEMPORAL_TRIGGER_NL> and concurrently <TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](<TEMPORAL_TRIGGER> -> <NESTED_TEMPORAL_RESPONSE>)
+      semantics:外层有界作用域内，每个时间触发成立时都要求嵌套时间响应。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:nested_temporal
+          time_scope:mixed
+          notes:触发和响应都包含时间算子，响应的嵌套顺序必须保留。
+      nl_patterns:
+          - <TIME_SCOPE_NL>, if <TEMPORAL_TRIGGER_NL>, then <NESTED_TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](<TRIGGER> -> (<TEMPORAL_RESPONSE> and <NESTED_TEMPORAL_RESPONSE>))
+      semantics:外层有界作用域内，每次即时触发后同时要求一层时间响应和嵌套时间响应。
+      applicable_when:
+          antecedent_kind:state
+          response_kind:mixed_temporal
+          time_scope:mixed
+          notes:右侧合取中的一层响应和嵌套响应都必须保留。
+      nl_patterns:
+          - <TIME_SCOPE_NL>, if <TRIGGER_NL>, <TEMPORAL_RESPONSE_NL> and <NESTED_TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:(<TEMPORAL_TRIGGER> and <NESTED_TEMPORAL_RESPONSE>) -> <TEMPORAL_RESPONSE>
+      semantics:持续触发和“至少一次达到并维持”的嵌套触发共同成立时产生时间响应。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:temporal
+          time_scope:mixed
+          notes:前件中的嵌套顺序必须保留。
+      nl_patterns:
+          - If <TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:(<TEMPORAL_TRIGGER> and <NESTED_TEMPORAL_TRIGGER>) -> <TEMPORAL_RESPONSE>
+      semantics:一层时间触发与嵌套时间触发共同成立时产生时间响应。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:temporal
+          time_scope:mixed
+          notes:嵌套触发可包含 always(eventually(...)) recurrence 结构。
+      nl_patterns:
+          - If <TEMPORAL_TRIGGER_NL>, and during the same period <NESTED_TEMPORAL_TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+
+    - type:other
+      stl:<TEMPORAL_RESPONSE1> <-> <TEMPORAL_RESPONSE2>
+      semantics:两个时间要求互为充分必要条件。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:temporal
+          time_scope:bounded
+          notes:保留双向等价，不可降为单向蕴含。
+      nl_patterns:
+          - <TEMPORAL_RESPONSE1_NL> if and only if <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL> precisely when <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL>, which is equivalent to <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL>, and this always corresponds to <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL>, which is strictly necessary and sufficient for <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL> should correspond exactly to when <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL> should coincide with <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL> should mirror <TEMPORAL_RESPONSE2_NL>.
+
+    - type:other
+      stl:(<PRED1> or <PRED2>) until[<T_START>,<T_END>](<PRED>)
+      semantics:终止谓词须在有界区间内发生，在此之前两个维持谓词至少一个持续成立。
+      applicable_when:
+          antecedent_kind:none
+          response_kind:temporal
+          time_scope:bounded
+          notes:until 的左侧析取和右侧终止条件不可交换。
+      nl_patterns:
+          - The system must ensure that <PRED1_NL> or <PRED2_NL> until <PRED_NL> within the time frame from <T_START> to <T_END> <TIME_UNIT>.
+
+    - type:invariance_reachability
+      stl:eventually[<T_START>,<T_END>](<PRED>)
+      semantics:谓词在有界区间内至少一次成立。
+      applicable_when:
+          antecedent_kind:none
+          response_kind:event
+          time_scope:bounded
+          notes:完整公式只有一个有界存在性要求。
+      nl_patterns:
+          - <TEMPORAL_RESPONSE_NL>.
+
+    - type:stabilization_recurrence
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](eventually[<INNER_T_START>,<INNER_T_END>](<PRED>))
+      semantics:外层区间的每个时刻起算，谓词都须在内层窗口内至少一次恢复成立。
+      applicable_when:
+          antecedent_kind:none
+          response_kind:nested_temporal
+          time_scope:bounded
+          notes:这是 recurrence/最大缺失窗口约束，不得与 eventually(always(...)) 交换。
+      nl_patterns:
+          - <NESTED_TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:<TEMPORAL_TRIGGER1> -> (<TEMPORAL_TRIGGER2> -> <TEMPORAL_RESPONSE>)
+      semantics:第一个时间触发成立后，第二个时间触发再产生最终响应。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:temporal
+          time_scope:bounded
+          notes:保留右结合蕴含；需要时可在语义层说明与合取前件的关系。
+      nl_patterns:
+          - Whenever <TEMPORAL_TRIGGER1_NL>, and then <TEMPORAL_TRIGGER2_NL>, it must lead to a scenario where <TEMPORAL_RESPONSE_NL>.
+          - If <TEMPORAL_TRIGGER1_NL> and then <TEMPORAL_TRIGGER2_NL>, <TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:<TEMPORAL_TRIGGER1> -> (<TEMPORAL_TRIGGER2> -> <NESTED_TEMPORAL_RESPONSE>)
+      semantics:第一个时间触发成立后，第二个时间触发再产生最终嵌套时间响应。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:nested_temporal
+          time_scope:mixed
+          notes:保留右结合蕴含；最终响应为 eventually(always(...)) 等嵌套结构。
+      nl_patterns:
+          - If <TEMPORAL_TRIGGER1_NL>, and if <TEMPORAL_TRIGGER2_NL>, it should result in <NESTED_TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:always(<TRIGGER> -> (<NESTED_TEMPORAL_RESPONSE> -> <TEMPORAL_RESPONSE>))
+      semantics:每次即时触发后，只有嵌套时间条件也成立时才要求最终时间响应。
+      applicable_when:
+          antecedent_kind:state
+          response_kind:temporal
+          time_scope:mixed
+          notes:保留右结合蕴含及无界外层 always。
+      nl_patterns:
+          - Whenever <TRIGGER_NL>, if <NESTED_TEMPORAL_RESPONSE_NL>, then <TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:eventually[<OUTER_T_START>,<OUTER_T_END>](<PRED> and always[<INNER_T_START>,<INNER_T_END>](<PRED2>)) -> <TEMPORAL_RESPONSE>
+      semantics:在外层窗口内找到一个时刻，使即时谓词与从该时刻起的持续谓词共同成立，随后施加时间响应。
+      applicable_when:
+          antecedent_kind:nested_temporal
+          response_kind:temporal
+          time_scope:mixed
+          notes:内层 always 从外层 eventually 选中的时刻起算。
+      nl_patterns:
+          - If <TRIGGER_NL>, then <TEMPORAL_RESPONSE_NL>.
+
+    - type:other
+      stl:<TEMPORAL_RESPONSE1> and (<TEMPORAL_TRIGGER> -> <TEMPORAL_RESPONSE2>)
+      semantics:一个时间要求无条件成立，同时另一个时间触发产生条件响应。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:temporal
+          time_scope:bounded
+          notes:外层 and 与括号内 implication 的作用域必须保留。
+      nl_patterns:
+          - <TEMPORAL_RESPONSE1_NL>, and if <TEMPORAL_TRIGGER_NL>, then <TEMPORAL_RESPONSE2_NL>.
+          - <TEMPORAL_RESPONSE1_NL>, but if <TEMPORAL_TRIGGER_NL>, then <TEMPORAL_RESPONSE2_NL>.
+
+    - type:temporal_response
+      stl:(<TEMPORAL_TRIGGER1> and <TEMPORAL_TRIGGER2>) -> <NESTED_TEMPORAL_RESPONSE>
+      semantics:两个时间触发共同成立时，要求随后达到并持续维持响应状态。
+      applicable_when:
+          antecedent_kind:temporal
+          response_kind:nested_temporal
+          time_scope:mixed
+          notes:but 在该观察句式中仍表达逻辑合取。
+      nl_patterns:
+          - If <TEMPORAL_TRIGGER1_NL> but <TEMPORAL_TRIGGER2_NL>, then <NESTED_TEMPORAL_RESPONSE_NL>.
+          - If <TEMPORAL_TRIGGER1_NL>, and if during the same period <TEMPORAL_TRIGGER2_NL>, then <NESTED_TEMPORAL_RESPONSE_NL>.
+
+    - type:other
+      stl:<TEMPORAL_RESPONSE> and (<TRIGGER> -> <NESTED_TEMPORAL_RESPONSE>)
+      semantics:一个时间要求无条件成立，同时一个即时触发产生嵌套时间响应。
+      applicable_when:
+          antecedent_kind:state
+          response_kind:nested_temporal
+          time_scope:bounded
+          notes:外层 and 与括号内 implication 的作用域必须保留。
+      nl_patterns:
+          - <TEMPORAL_RESPONSE_NL>. If <TRIGGER_NL>, then <NESTED_TEMPORAL_RESPONSE_NL>.
+
+    - type:other
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](<PRED1> until[<INNER_T_START>,<INNER_T_END>](<PRED2>))
+      semantics:外层区间内每个时刻起算，左谓词维持到右谓词在内层窗口中发生。
+      applicable_when:
+          antecedent_kind:none
+          response_kind:temporal
+          time_scope:mixed
+          notes:当前 English 使用 unless，未可靠表达 until 的必达性，因此不记录 NL pattern。
+
+    - type:temporal_response
+      stl:always(eventually(always(<TRIGGER>)) -> always(always(<RESPONSE>)))
+      semantics:每当达到并维持触发状态后，后续外层窗口中的每个内层窗口都必须维持响应状态。
+      applicable_when:
+          antecedent_kind:nested_temporal
+          response_kind:nested_temporal
+          time_scope:mixed
+          notes:四层时间算子的相对次序必须原样保留。
+      nl_patterns:
+          - Every time <TRIGGER_NL>, <NESTED_TEMPORAL_RESPONSE_NL>.
+
+    - type:other
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](<STATE_REQUIREMENT> or (<TRIGGER> -> <NESTED_TEMPORAL_RESPONSE>))
+      semantics:外层区间内每个时刻都满足状态要求，或在触发成立时满足嵌套响应。
+      applicable_when:
+          antecedent_kind:state
+          response_kind:nested_temporal
+          time_scope:mixed
+          notes:or else 在该结构中保留外层析取，不改写成顶层 implication。
+      nl_patterns:
+          - <TIME_SCOPE_NL>, <STATE_REQUIREMENT_NL> or else if <TRIGGER_NL>, <NESTED_TEMPORAL_RESPONSE_NL>.
+          - <TIME_SCOPE_NL>, <STATE_REQUIREMENT_NL> unless <TRIGGER_NL>, in which case <NESTED_TEMPORAL_RESPONSE_NL>.
+
+    - type:other
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](<STATE_REQUIREMENT> or <NESTED_TEMPORAL_RESPONSE>)
+      semantics:外层区间内每个时刻都要求一个即时状态条件成立，或一个嵌套时间条件成立。
+      applicable_when:
+          antecedent_kind:none
+          response_kind:nested_temporal
+          time_scope:mixed
+          notes:unless 可表达析取的例外分支；不得误写成 implication，除非 STL 明确使用 ->。
+      nl_patterns:
+          - <TIME_SCOPE_NL>, <STATE_REQUIREMENT_NL> unless <NESTED_TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:eventually(always(<TRIGGER>)) -> always(always(<RESPONSE>))
+      semantics:在触发状态至少出现一个持续窗口后，响应状态必须在后续每个滑动内层窗口中持续成立。
+      applicable_when:
+          antecedent_kind:nested_temporal
+          response_kind:nested_temporal
+          time_scope:bounded
+          notes:右侧 always(always(...)) 表达 every/any inner-period 约束，不是一次性持续区间。
+      nl_patterns:
+          - If <NESTED_TEMPORAL_TRIGGER_NL>, then <NESTED_TEMPORAL_RESPONSE_NL>.
+
+    - type:stabilization_recurrence
+      stl:eventually[<OUTER_T_START>,<OUTER_T_END>](always[<INNER_T_START>,<INNER_T_END>](<PRED1>) and eventually[<T_START>,<T_END>](<PRED2>))
+      semantics:在外层窗口内找到一个起点，使第一个谓词先持续成立，同时第二个谓词在相对后续窗口中至少一次成立。
+      applicable_when:
+          antecedent_kind:none
+          response_kind:nested_temporal
+          time_scope:mixed
+          notes:内层 always 与 eventually 同属外层 eventually 选中的起点。
+      nl_patterns:
+          - Within the next <OUTER_DURATION> <TIME_UNIT>, <PRED1_NL> for at least <INNER_DURATION> consecutive <TIME_UNIT> and then <PRED2_NL> at least once within the following <DURATION> <TIME_UNIT>.
+
+    - type:temporal_response
+      stl:eventually[<OUTER_T_START>,<OUTER_T_END>](always[<INNER_T_START>,<INNER_T_END>](<PRED1>) and always[<T_START>,<T_END>](<PRED2>)) -> <TEMPORAL_RESPONSE>
+      semantics:在外层窗口内找到一个起点，使两个持续条件同时满足，然后施加时间响应。
+      applicable_when:
+          antecedent_kind:nested_temporal
+          response_kind:temporal
+          time_scope:mixed
+          notes:两个内层 always 都从外层 eventually 的见证时刻相对解释。
+      nl_patterns:
+          - If <PRED1_NL> for at least <INNER_DURATION> <TIME_UNIT> within <OUTER_DURATION_NL>, and simultaneously <PRED2_NL>, then <TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_response
+      stl:eventually[<OUTER_T_START>,<OUTER_T_END>](always[<INNER_T_START>,<INNER_T_END>](<PRED1>) and not eventually[<T_START>,<T_END>](<PRED2>)) -> <TEMPORAL_RESPONSE>
+      semantics:在外层窗口内找到一个起点，使一个持续条件成立，同时另一个事件在指定相对窗口内不出现，然后施加时间响应。
+      applicable_when:
+          antecedent_kind:nested_temporal
+          response_kind:temporal
+          time_scope:mixed
+          notes:not eventually 是触发合取中的负时间条件；不得改写为响应侧否定。
+      nl_patterns:
+          - If <PRED1_NL> for at least <INNER_DURATION> <TIME_UNIT> within <OUTER_DURATION_NL>, and concurrently <PRED2_EVENT_NL> does not occur within the same timeframe, then <TEMPORAL_RESPONSE_NL>.
+
+    - type:temporal_nested
+      stl:eventually[<OUTER_T_START>,<OUTER_T_END>](always[<INNER_T_START>,<INNER_T_END>](<PRED1>) and <PRED2>)
+      semantics:在外层窗口内找到一个时刻，使即时谓词成立，同时从该时刻起另一个谓词持续成立。
+      applicable_when:
+          input_kind:mixed_state_temporal
+          output_role:nested_temporal_response
+          time_scope:mixed
+          notes:即时谓词和内层 always 共享外层 eventually 的见证时刻。
+      nl_patterns:
+          - <PRED2_NL> within the next <OUTER_DURATION> <TIME_UNIT> and <PRED1_NL> for at least <INNER_DURATION> consecutive <TIME_UNIT>
+
+[subexpression_templates]
+description:记录可复用的局部时间表达；时间单位和相对时长只在原 English 支持时使用。
+
+templates:
+    - type:temporal_unary
+      stl:always[<T_START>,<T_END>](<PRED>)
+      semantics:谓词在闭合有界时间区间内持续成立。
+      applicable_when:
+          input_kind:state
+          output_role:any
+          time_scope:bounded
+          notes:for at least <DURATION> 仅用于从零开始且 English 以持续时间表达的区间。
+      nl_patterns:
+          - <PRED_NL> throughout the interval [<T_START>, <T_END>]
+          - <PRED_NL> during the entire interval [<T_START>,<T_END>]
+          - <PRED_NL> from time <T_START> to time <T_END>
+          - <PRED_NL> continuously from <T_START> to <T_END>
+          - <PRED_NL> between <T_START> and <T_END> time units
+          - <PRED_NL> at any time during the same interval
+          - <PRED_NL> within the first <DURATION> <TIME_UNIT>
+          - <PRED_NL> for at least <DURATION> <TIME_UNIT>
+          - <PRED_NL> for the entire duration between <T_START> and <T_END> <TIME_UNIT>
+          - <PRED_NL> from the start up to time <T_END>
+          - <PRED_NL> at any point from <T_START> to <T_END>
+          - <PRED_NL> at all times during the first <DURATION> <TIME_UNIT>
+          - <PRED_NL> from t=<T_START> to t=<T_END>
+          - <PRED_NL> without interruption for at least <DURATION> <TIME_UNIT>
+          - <PRED_NL> from now until <DURATION> <TIME_UNIT> later
+          - every point during the interval [<T_START>,<T_END>] must see <PRED_NL>
+          - each value of signal <SIGNAL> stays above <VALUE> throughout the range [<T_START>,<T_END>]
+          - every value of signal <SIGNAL> remains less than <VALUE> across the entire range [<T_START>,<T_END>]
+          - <PRED_NL> for each <TIME_UNIT> in the following <DURATION> <TIME_UNIT>
+          - <PRED_NL> for <DURATION> <TIME_UNIT> starting at the <T_START>-<TIME_UNIT> mark
+          - <PRED_NL> for the entire duration of the first <DURATION> <TIME_UNIT>
+
+    - type:temporal_unary
+      stl:eventually[<T_START>,<T_END>](<PRED>)
+      semantics:谓词在有界时间区间内至少一次成立。
+      applicable_when:
+          input_kind:state
+          output_role:any
+          time_scope:bounded
+          notes:at least once/at some point/there should be an instance/incident 明确表达存在性；temporarily 只在原 English 明确表示短暂越过阈值且外层结构为 eventually 时使用。
+      nl_patterns:
+          - <PRED_NL> at least once between time <T_START> and <T_END>
+          - <PRED_NL> at least once in the interval [<T_START>,<T_END>]
+          - <PRED_NL> at some point in [<T_START>,<T_END>]
+          - <PRED_NL> at any moment between <T_START> to <T_END> <TIME_UNIT> later
+          - <PRED_NL> within the next <DURATION> <TIME_UNIT>
+          - there should be an instance where <PRED_NL> within the next <T_START> to <T_END> <TIME_UNIT>
+          - <PRED_NL> between <T_START> and <T_END> time units after the start
+          - <PRED_NL> before time unit <T_END>
+          - <PRED_NL> sometime within the first <DURATION> <TIME_UNIT>
+          - <PRED_NL> sometime during the interval [<T_START>,<T_END>]
+          - <PRED_NL> for at least one moment during the first <DURATION> <TIME_UNIT>
+          - <PRED_NL> occasionally during the same period
+          - <PRED_NL> for any duration within the next <DURATION> <TIME_UNIT>
+          - there must exist a moment between <T_START> and <T_END> when <PRED_NL>
+          - <PRED_NL> for at least one moment during the same interval
+          - <PRED_NL> at any point in the subsequent <DURATION> <TIME_UNIT>
+          - the presence of <PRED_NL> at any moment during the interval [<T_START>,<T_END>]
+          - there must be at least one incident where <PRED_NL> within the next <DURATION> <TIME_UNIT>
+          - <PRED_NL> temporarily within the next <DURATION> <TIME_UNIT>
+
+    - type:temporal_unary
+      stl:eventually[<T_START>,<T_END>](<PRED1> and <PRED2>)
+      semantics:有界区间内至少存在一个时刻，使两个谓词同时成立。
+      applicable_when:
+          input_kind:predicate_composition
+          output_role:any
+          time_scope:bounded
+          notes:simultaneously 表达同一见证时刻上的合取，不是两个独立 eventually。
+      nl_patterns:
+          - at any point within the next <DURATION> <TIME_UNIT>, <PRED1_NL> and simultaneously <PRED2_NL>
+
+    - type:temporal_nested
+      stl:eventually[<OUTER_T_START>,<OUTER_T_END>](always[<INNER_T_START>,<INNER_T_END>](<PRED1>) and always[<T_START>,<T_END>](<PRED2>))
+      semantics:在外层窗口内找到一个起点，使两个持续条件在各自内层窗口内同时成立。
+      applicable_when:
+          input_kind:nested_temporal_composition
+          output_role:nested_temporal_response
+          time_scope:mixed
+          notes:两个 always 都从外层 eventually 的见证时刻相对解释；during the same time 表达同一见证窗口下的并列持续条件。
+      nl_patterns:
+          - <PRED1_NL> for at least <INNER_DURATION> continuous <TIME_UNIT> within the next <OUTER_DURATION> <TIME_UNIT>, and during the same time <PRED2_NL>
+
+    - type:temporal_unary
+      stl:always[<T_START>,<T_END>](not (<PRED1> and <PRED2>))
+      semantics:有界区间内不存在两个谓词同时成立的时刻。
+      applicable_when:
+          input_kind:predicate_composition
+          output_role:temporal_negation
+          time_scope:bounded
+          notes:否定作用于整个合取，不等价于 not P1 and not P2。
+      nl_patterns:
+          - At no point during the first <DURATION> <TIME_UNIT> do both <PRED1_NL> and <PRED2_NL> simultaneously hold.
+
+    - type:temporal_unary
+      stl:eventually[-<DURATION>,0](<PRED>)
+      semantics:谓词在当前时刻之前的有界回看窗口内至少一次成立。
+      applicable_when:
+          input_kind:state
+          output_role:past_temporal_trigger
+          time_scope:past
+          notes:负时间区间表达过去窗口，不可改写成未来 eventually。
+      nl_patterns:
+          - <PRED_NL> at least once within the previous <DURATION> <TIME_UNIT>
+
+    - type:temporal_unary
+      stl:eventually[<T_START>,<T_END>](<PRED1> or <PRED2>)
+      semantics:有界区间内至少存在一个时刻，使两个谓词中的至少一个成立。
+      applicable_when:
+          input_kind:predicate_composition
+          output_role:any
+          time_scope:bounded
+          notes:eventually 对析取的存在性语义必须保留。
+      nl_patterns:
+          - <PRED1_NL> or <PRED2_NL> during the first <DURATION> <TIME_UNIT>
+
+    - type:temporal_nested
+      stl:eventually[<OUTER_T_START>,<OUTER_T_END>](always[<INNER_T_START>,<INNER_T_END>](<PRED>))
+      semantics:在外层窗口内达到谓词，并在内层窗口内持续保持。
+      applicable_when:
+          input_kind:state
+          output_role:nested_temporal_response
+          time_scope:bounded
+          notes:at least/maintain/stay/consistently remains 表达内层持续性。
+      nl_patterns:
+          - <PRED_NL> for at least <INNER_DURATION> consecutive <TIME_UNIT> within the first <OUTER_DURATION> <TIME_UNIT>
+          - within the subsequent <OUTER_DURATION> <TIME_UNIT>, <PRED_NL> for at least <INNER_DURATION> consecutive <TIME_UNIT>
+          - <PRED_NL> within the next <OUTER_DURATION> <TIME_UNIT> and maintain this for at least <INNER_DURATION> <TIME_UNIT>
+          - within the next <OUTER_T_START> to <OUTER_T_END> <TIME_UNIT>, <PRED_NL> and stay below that threshold for at least <INNER_DURATION> consecutive <TIME_UNIT>
+          - within a <OUTER_DURATION_NL> period, <PRED_NL> for at least <INNER_DURATION> consecutive <TIME_UNIT>
+          - <PRED_NL> for at least <INNER_DURATION> consecutive <TIME_UNIT> starting <OUTER_T_START> <TIME_UNIT> from now
+          - <PRED_NL> within <OUTER_DURATION> <TIME_UNIT> and maintain this for at least <INNER_DURATION> <TIME_UNIT>
+          - <PRED_NL> within <OUTER_DURATION> <TIME_UNIT> and maintain this for no less than <INNER_DURATION> <TIME_UNIT>
+          - there must be a <INNER_DURATION>-<TIME_UNIT> interval within <OUTER_T_START> to <OUTER_T_END> <TIME_UNIT> where <PRED_NL>
+          - there will be a period of at least <INNER_DURATION> continuous <TIME_UNIT> within the following <OUTER_DURATION> <TIME_UNIT> where <PRED_NL>
+          - <PRED_NL> and stay below that threshold for a continuous <INNER_DURATION> <TIME_UNIT> period within the next <OUTER_DURATION> <TIME_UNIT>
+          - there should be a subsequent interval of <INNER_DURATION> <TIME_UNIT> within the next <OUTER_DURATION> <TIME_UNIT> where <PRED_NL>
+          - <PRED_NL> for <INNER_DURATION> consecutive <TIME_UNIT> starting any time within the next <OUTER_DURATION> <TIME_UNIT>
+          - <PRED_NL> for at least <INNER_DURATION> continuous <TIME_UNIT> before <OUTER_T_END> <TIME_UNIT> have passed
+
+    - type:temporal_nested
+      stl:not always[0,<DURATION>](<PRED>)
+      semantics:谓词并非在整个持续窗口内一直成立。
+      applicable_when:
+          input_kind:state
+          output_role:any
+          time_scope:bounded
+          notes:不得改写成 always(not(<PRED>))。
+      nl_patterns:
+          - the <SIGNAL> should not exceed <VALUE> continuously for more than <DURATION> <TIME_UNIT>
+          - the <SIGNAL> should not fall below <VALUE> for more than <DURATION> consecutive <TIME_UNIT>
+
+    - type:temporal_unary
+      stl:not eventually[<T_START>,<T_END>](<PRED>)
+      semantics:谓词在整个有界区间内一次也不成立。
+      applicable_when:
+          input_kind:state
+          output_role:any
+          time_scope:bounded
+          notes:在谓词可取补时等价于相反方向的 always，但保留原 not eventually 结构。
+      nl_patterns:
+          - <PRED_NL> does not hold at any time between <T_START> and <T_END>
+          - <SIGNAL> must not exceed <VALUE> at any point in the interval [<T_START>,<T_END>]
+          - <SIGNAL> must not exceed <VALUE> within the next <DURATION> <TIME_UNIT>
+
+    - type:temporal_nested
+      stl:not eventually[<OUTER_T_START>,<OUTER_T_END>](always[<INNER_T_START>,<INNER_T_END>](<PRED>))
+      semantics:外层窗口内不存在任何起点能让谓词在完整内层窗口持续成立。
+      applicable_when:
+          input_kind:state
+          output_role:any
+          time_scope:bounded
+          notes:常用于限制某状态连续维持不得达到给定时长。
+      nl_patterns:
+          - <SIGNAL> will not <PRED_NL> continuously for more than <INNER_DURATION> <TIME_UNIT> within <TIME_SCOPE_NL>
+          - <SIGNAL> should not drop below <VALUE> for more than <INNER_DURATION> consecutive <TIME_UNIT> during the same period
+
+    - type:temporal_nested
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](not always[0,<INNER_DURATION>](<PRED>))
+      semantics:外层区间内每个时刻起算，禁止谓词在完整内层窗口内持续成立。
+      applicable_when:
+          input_kind:state
+          output_role:nested_temporal_response
+          time_scope:bounded
+          notes:表达最大连续保持时长约束；not 作用于内层 always。
+      nl_patterns:
+          - <TIME_SCOPE_NL>, <PRED_NL> must not hold continuously for at least <INNER_DURATION> consecutive <TIME_UNIT>
+
+    - type:temporal_nested
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](not eventually[<INNER_T_START>,<INNER_T_END>](<PRED>))
+      semantics:外层区间内每个时刻起算，内层窗口中都不允许谓词发生。
+      applicable_when:
+          input_kind:state
+          output_role:nested_temporal_response
+          time_scope:bounded
+          notes:not 作用于内层 eventually；表示滑动窗口内禁止事件出现。
+      nl_patterns:
+          - <TIME_SCOPE_NL>, <PRED_EVENT_NL> must not occur within any following <INNER_DURATION> <TIME_UNIT> window
+
+    - type:temporal_binary
+      stl:<PRED1> until[<T_START>,<T_END>](<PRED2>)
+      semantics:右侧谓词在有界区间内发生，并且左侧谓词在此之前持续成立。
+      applicable_when:
+          input_kind:predicate_composition
+          output_role:standalone
+          time_scope:future
+          notes:左侧可以是 and/or 组合。
+      nl_patterns:
+          - <PRED1_NL> until <PRED2_NL> within the time frame from <T_START> to <T_END> <TIME_UNIT>
+
+    - type:temporal_nested
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](eventually[<INNER_T_START>,<INNER_T_END>](<PRED>))
+      semantics:外层每个时刻起算，内层窗口中至少存在一次谓词成立。
+      applicable_when:
+          input_kind:state
+          output_role:nested_temporal_response
+          time_scope:bounded
+          notes:English 可以用“不连续低于阈值超过某时长”表达最大缺失窗口。
+      nl_patterns:
+          - <SIGNAL> must not fall below <VALUE> for more than <INNER_DURATION> <TIME_UNIT> at any given time within <TIME_SCOPE_NL>
+
+    - type:temporal_nested
+      stl:always[<OUTER_T_START>,<OUTER_T_END>](always[<INNER_T_START>,<INNER_T_END>](<PRED>))
+      semantics:外层窗口中每个时刻开始的内层窗口内，谓词都持续成立。
+      applicable_when:
+          input_kind:state
+          output_role:nested_temporal_response
+          time_scope:bounded
+          notes:any <INNER_DURATION>-period during <OUTER_DURATION> 明确表达滑动持续要求。
+      nl_patterns:
+          - <PRED_NL> for any <INNER_DURATION> <TIME_UNIT> period during the following <OUTER_DURATION> <TIME_UNIT>
+
+    - type:temporal_binary
+      stl:<TEMPORAL_RESPONSE> until[<T_START>,<T_END>](<PRED>)
+      semantics:左侧时间要求维持到右侧终止谓词在有界窗口内发生。
+      applicable_when:
+          input_kind:temporal
+          output_role:standalone
+          time_scope:mixed
+          notes:左操作数本身包含 always 时保留其嵌套层级。
+      nl_patterns:
+          - <TEMPORAL_RESPONSE_NL> until <PRED_NL> within a time frame between <T_START> and <T_END> <TIME_UNIT>
+
+    - type:temporal_binary
+      stl:<PRED> until[<T_START>,<T_END>](<NESTED_TEMPORAL_RESPONSE>)
+      semantics:左侧即时谓词在右侧嵌套时间响应达成之前持续成立，右侧必须在有界窗口内达成。
+      applicable_when:
+          input_kind:mixed_state_temporal
+          output_role:standalone
+          time_scope:mixed
+          notes:右操作数包含 always/eventually 时保留嵌套层级，不压缩成即时谓词。
+      nl_patterns:
+          - <PRED_NL> before <NESTED_TEMPORAL_RESPONSE_NL> between <T_START> and <T_END> <TIME_UNIT> later
+
+[predicates]
+description:谓词短语按实际句法上下文保存；fall/drop/rise/surpass 在此仅表达阈值达到，不代表 STL 中存在独立边沿算子。
+
+templates:
+    - type:greater_than
+      stl:<SIGNAL> > <VALUE>
+      semantics:信号值严格大于阈值。
+      applicable_when:
+          signal_kind:numeric
+          notes:above/over/higher than/exceeds 均保持严格比较方向。
+      nl:
+          trigger:
+              - signal <SIGNAL> exceeds <VALUE>
+              - the <SIGNAL> signal remains above <VALUE>
+              - <SIGNAL> stays above <VALUE>
+              - <SIGNAL> is consistently above <VALUE>
+              - <SIGNAL> is greater than <VALUE>
+              - <SIGNAL> is strictly above <VALUE>
+          response:
+              - signal <SIGNAL> should exceed <VALUE>
+              - signal <SIGNAL> must exceed <VALUE>
+              - signal <SIGNAL> will exceed <VALUE>
+              - <SIGNAL> surpasses <VALUE>
+              - <SIGNAL> is higher than <VALUE>
+              - <SIGNAL> must reach beyond <VALUE>
+              - <SIGNAL> must necessarily rise above <VALUE>
+          temporal_inner:
+              - signal <SIGNAL> remains above <VALUE>
+              - signal <SIGNAL> consistently stays above <VALUE>
+              - <SIGNAL> remains strictly above <VALUE>
+              - <SIGNAL> remains steadily above <VALUE>
+              - <SIGNAL> exceeds <VALUE> continuously
+              - <SIGNAL> is consistently over <VALUE>
+
+    - type:greater_than
+      stl:<SIGNAL> > 0
+      semantics:信号严格大于0。
+      applicable_when:
+          signal_kind:numeric_or_binary
+          notes:valve open 仅用于原 English 明确给出阀门语境且阈值为0的情况；activate/turned on 仅用于二值启用、控制、加热器或执行器信号且阈值为0。
+      nl:
+          response:
+              - the valve <SIGNAL> should open
+              - the <SIGNAL> should activate
+              - the <SIGNAL> must be turned on
+
+    - type:greater_or_equal
+      stl:<SIGNAL> >= <VALUE>
+      semantics:信号值大于或等于阈值。
+      applicable_when:
+          signal_kind:numeric
+          notes:not fall/drop below 在持续时间上下文中表达同一方向。
+      nl:
+          trigger:
+              - signal <SIGNAL> remains at least <VALUE>
+          response:
+              - signal <SIGNAL> reaches at least <VALUE>
+              - signal <SIGNAL> reaches or exceeds <VALUE>
+              - signal <SIGNAL> reaches values greater than or equal to <VALUE>
+              - signal <SIGNAL> remains at least <VALUE> units high
+          temporal_inner:
+              - signal <SIGNAL> remains at or above <VALUE>
+              - signal <SIGNAL> remains at least <VALUE>
+              - signal <SIGNAL> will not drop below <VALUE>
+              - <SIGNAL> will not fall below <VALUE>
+              - <SIGNAL> does not decrease below <VALUE>
+              - <SIGNAL> stays not lower than <VALUE>
+              - <SIGNAL> should not go below <VALUE>
+              - <SIGNAL> should not fall under <VALUE>
+              - <SIGNAL> must not be less than <VALUE>
+              - <SIGNAL> must not drop below <VALUE> at any point
+              - <SIGNAL> should not return to below <VALUE>
+
+    - type:less_than
+      stl:<SIGNAL> < <VALUE>
+      semantics:信号值严格小于阈值。
+      applicable_when:
+          signal_kind:numeric
+          notes:falls/drops below 只保存在 eventually 响应上下文，不推断为 fall 修饰符。
+      nl:
+          trigger:
+              - signal <SIGNAL> remains below <VALUE>
+              - <SIGNAL> stays below <VALUE>
+              - <SIGNAL> is consistently below <VALUE>
+              - signal <SIGNAL> is less than <VALUE>
+              - signal <SIGNAL> remains under <VALUE>
+          response:
+              - signal <SIGNAL> falls below <VALUE>
+              - signal <SIGNAL> drops below <VALUE>
+              - signal <SIGNAL> reaches below <VALUE>
+              - signal <SIGNAL> decreases to less than <VALUE>
+              - signal <SIGNAL> must remain below <VALUE>
+              - signal <SIGNAL> should stay below <VALUE>
+              - signal <SIGNAL> should not reach <VALUE>
+          temporal_inner:
+              - signal <SIGNAL> remains below <VALUE>
+              - signal <SIGNAL> consistently remains below <VALUE>
+              - signal <SIGNAL> maintains a value below <VALUE>
+              - signal <SIGNAL> never reaches <VALUE>
+              - signal <SIGNAL> never reaches or exceeds <VALUE>
+
+    - type:less_or_equal
+      stl:<SIGNAL> <= <VALUE>
+      semantics:信号值小于或等于阈值。
+      applicable_when:
+          signal_kind:numeric
+          notes:not exceed/never exceed 保留非严格上界。
+      nl:
+          trigger:
+              - <SIGNAL> does not exceed <VALUE>
+              - <SIGNAL> is not greater than <VALUE>
+              - <SIGNAL> is less than or equal to <VALUE>
+          response:
+              - <SIGNAL> must not exceed <VALUE>
+              - <SIGNAL> should not exceed <VALUE>
+              - <SIGNAL> must not go above <VALUE>
+              - <SIGNAL> must not go beyond <VALUE>
+              - <SIGNAL> does not go beyond <VALUE>
+              - <SIGNAL> is less than or equal to <VALUE>
+              - <SIGNAL> drops to <VALUE> or slower
+              - <SIGNAL> should not cross <VALUE>
+          temporal_inner:
+              - <SIGNAL> never exceeds <VALUE>
+              - <SIGNAL> never rises above <VALUE>
+              - <SIGNAL> should not rise above <VALUE>
+              - <SIGNAL> must not exceed <VALUE> at any time
+              - <SIGNAL> does not exceed <VALUE> at any point
+              - <SIGNAL> should not surpass <VALUE>
+              - <SIGNAL> is not above <VALUE>
+
+    - type:numeric_equal
+      stl:<SIGNAL> == <VALUE>
+      semantics:数值信号恰好等于指定值。
+      applicable_when:
+          signal_kind:numeric
+          notes:exactly at 明确表达等值；valve open/not open/closed 仅用于原 English 明确给出阀门数值编码且 <VALUE> 分别为 1/0/0 的上下文；valve fully open 仅用于阀门开度百分比语境且 <VALUE> 为 100；activate 仅用于二值激活信号且 <VALUE> 为 1；halted 仅用于二值运行信号且 <VALUE> 为 0。
+      nl:
+          temporal_inner:
+              - signal <SIGNAL> must remain exactly at <VALUE>
+              - signal <SIGNAL> remains constant at <VALUE>
+              - signal <SIGNAL> remains steady at <VALUE>
+              - signal <SIGNAL> remains precisely at <VALUE>
+          response:
+              - the valve <SIGNAL> must open
+              - the valve <SIGNAL> should be fully open
+              - the valve <SIGNAL> must not open
+              - the valve <SIGNAL> is closed
+              - the <SIGNAL> must be halted
+              - the <SIGNAL> should activate
+              - the <SIGNAL> should be active
+              - signal <SIGNAL> will reach <VALUE>
+              - signal <SIGNAL> is exactly <VALUE>
+
+    - type:boolean_true
+      stl:<STATE_SIGNAL> == true
+      semantics:布尔状态信号为真，对应状态被触发或发生。
+      applicable_when:
+          signal_kind:boolean_state
+          notes:仅用于原 English 明确把布尔真值表达为状态发生、启动或进入；valve open 仅用于开状态布尔信号的阀门语境。
+      nl:
+          response:
+              - the system should initiate a <STATE_SIGNAL> sequence
+              - <STATE_SIGNAL> should become true
+              - the valve <STATE_SIGNAL> must open
+
+    - type:state_equal
+      stl:<SIGNAL> == <STATE>
+      semantics:离散信号处于指定状态。
+      applicable_when:
+          signal_kind:discrete_state
+          notes:动作形状态词可以直接作动词；该句式仅在原状态词允许时使用。
+      nl:
+          response:
+              - the <SIGNAL> must <STATE> at least once
+
+    - type:absolute_bound
+      stl:abs(<SIGNAL>) <= <TOLERANCE>
+      semantics:信号处于以零为中心的闭合对称区间内。
+      applicable_when:
+          signal_kind:numeric
+          notes:within <TOLERANCE> units 同时覆盖正负方向；oscillates between -T and T 仅用于原 English 把对称绝对值上界表达为围绕零的振荡范围。
+      nl:
+          temporal_inner:
+              - signal <SIGNAL> remains within <TOLERANCE> units
+              - signal <SIGNAL> oscillates between -<TOLERANCE> and <TOLERANCE>
+              - signal <SIGNAL> stabilizes within <TOLERANCE> units of zero
+
+    - type:outside_absolute_bound
+      stl:abs(<SIGNAL>) > <TOLERANCE>
+      semantics:信号处于以零为中心的闭合对称区间之外。
+      applicable_when:
+          signal_kind:numeric
+          notes:this range 需要前文已给出同一对称区间。
+      nl:
+          trigger:
+              - it exceeds this range
+
+    - type:absolute_deviation
+      stl:abs(<SIGNAL> - <REFERENCE>) <= <TOLERANCE>
+      semantics:信号与参考值的绝对偏差不超过容差。
+      applicable_when:
+          signal_kind:numeric
+          notes:REFERENCE 可以是命名阈值。
+      nl:
+          trigger:
+              - the <SIGNAL> remains within <TOLERANCE> units above or below the set <REFERENCE>
+
+    - type:absolute_difference_bound
+      stl:abs(<SIGNAL1> - <SIGNAL2>) <= <VALUE>
+      semantics:两个信号之间的绝对差不超过阈值。
+      applicable_when:
+          signal_kind:numeric
+          notes:absolute difference between signal A and B 对应两个信号差值的绝对值。
+      nl:
+          temporal_inner:
+              - the absolute difference between signal <SIGNAL1> and <SIGNAL2> never exceeds <VALUE>
+          trigger:
+              - <SIGNAL1> remains within <VALUE> units of <SIGNAL2>
+
+    - type:absolute_difference_less_than
+      stl:abs(<SIGNAL1> - <SIGNAL2>) < <VALUE>
+      semantics:两个信号之间的绝对差严格小于阈值。
+      applicable_when:
+          signal_kind:numeric
+          notes:difference between signals 在 abs 结构中表达绝对差。
+      nl:
+          temporal_inner:
+              - the difference between signals <SIGNAL1> and <SIGNAL2> should remain below <VALUE>
+
+    - type:absolute_difference_greater_than
+      stl:abs(<SIGNAL1> - <SIGNAL2>) > <VALUE>
+      semantics:两个信号之间的绝对差严格大于阈值。
+      applicable_when:
+          signal_kind:numeric
+          notes:用于 abs 差值超过阈值的事件。
+      nl:
+          response:
+              - the difference between signals <SIGNAL1> and <SIGNAL2> should exceed <VALUE>
+
+    - type:open_range
+      stl:(<LOW> < <SIGNAL>) and (<SIGNAL> < <HIGH>)
+      semantics:信号严格位于开区间 (<LOW>, <HIGH>) 内。
+      applicable_when:
+          signal_kind:numeric
+          notes:above/below 同时出现时保留两个严格端点。
+      nl:
+          response:
+              - <SIGNAL> must remain above <LOW> but below <HIGH>
+          temporal_inner:
+              - signal <SIGNAL> remains strictly between <LOW> and <HIGH>
+
+    - type:closed_range
+      stl:(<LOW> <= <SIGNAL>) and (<SIGNAL> <= <HIGH>)
+      semantics:信号位于闭区间 [<LOW>, <HIGH>] 内。
+      applicable_when:
+          signal_kind:numeric
+          notes:within the range 明确包含两个端点时使用。
+      nl:
+          trigger:
+              - signal <SIGNAL> remains within the range [<LOW>, <HIGH>]
+          temporal_inner:
+              - signal <SIGNAL> should remain within the range [<LOW>, <HIGH>]
+              - signal <SIGNAL> should not drop below <LOW> or exceed <HIGH>
+              - signal <SIGNAL> should oscillate around <REFERENCE> with a tolerance of +/-<TOLERANCE>
+              - signal <SIGNAL> remains between <LOW> and <HIGH> inclusive
+              - signal <SIGNAL> should remain within safe limits (<LOW>-<HIGH>)
+
+    - type:left_open_right_closed_range
+      stl:(<LOW> < <SIGNAL>) and (<SIGNAL> <= <HIGH>)
+      semantics:信号严格大于下界且小于或等于上界。
+      applicable_when:
+          signal_kind:numeric
+          notes:exceed lower bound 与 not exceed upper bound 同时出现时使用。
+      nl:
+          temporal_inner:
+              - <SIGNAL> must consistently exceed <LOW>, but it should not exceed <HIGH>
+
+    - type:closed_range
+      stl:(<LOW> <= <ARITH_EXPR>) and (<ARITH_EXPR> <= <HIGH>)
+      semantics:算术表达式位于闭区间 [<LOW>, <HIGH>] 内。
+      applicable_when:
+          signal_kind:numeric
+          notes:观察到加法表达式的闭区间范围。
+      nl:
+          response:
+              - the sum of signals <SIGNAL1> and <SIGNAL2> reaches at least <LOW> but does not exceed <HIGH>
+
+    - type:greater_than
+      stl:<ARITH_EXPR> > <VALUE>
+      semantics:由多个信号构成的算术表达式严格大于阈值。
+      applicable_when:
+          signal_kind:numeric
+          notes:目前观察到加法表达式。
+      nl:
+          trigger:
+              - the sum of signals <SIGNAL1> and <SIGNAL2> exceeds <VALUE>
+          temporal_inner:
+              - the sum of signals <SIGNAL1> and <SIGNAL2> remains above <VALUE>
+
+    - type:less_or_equal
+      stl:<ARITH_EXPR> <= <VALUE>
+      semantics:由多个信号构成的算术表达式小于或等于阈值。
+      applicable_when:
+          signal_kind:numeric
+          notes:目前观察到加法表达式和乘积表达式的非严格上界。
+      nl:
+          temporal_inner:
+              - the sum of signals <SIGNAL1> and <SIGNAL2> should not exceed <VALUE>
+              - the sum of signals <SIGNAL1> and <SIGNAL2> never surpasses <VALUE>
+              - the aggregate of signals <SIGNAL1> and <SIGNAL2> should not exceed <VALUE>
+          response:
+              - the product of signals <SIGNAL1> and <SIGNAL2> should not exceed <VALUE>
+
+    - type:less_than
+      stl:<ARITH_EXPR> < <VALUE>
+      semantics:由多个信号构成的算术表达式严格小于阈值。
+      applicable_when:
+          signal_kind:numeric
+          notes:观察到乘积表达式及其物理量名称。
+      nl:
+          response:
+              - the power consumption, calculated as the product of <SIGNAL1> and <SIGNAL2>, must remain under <VALUE>
+          temporal_inner:
+              - the sum of signals <SIGNAL1> and <SIGNAL2> remains below <VALUE>
+
+    - type:greater_than
+      stl:<SIGNAL1> > <SIGNAL2> + <VALUE>
+      semantics:第一个信号严格大于第二个信号加偏移量。
+      applicable_when:
+          signal_kind:numeric
+          notes:观察到的 English 未可靠保留严格边界，因此不记录 NL pattern。
+
+    - type:greater_or_equal
+      stl:<SIGNAL1> - <SIGNAL2> >= <VALUE>
+      semantics:第一个信号至少比第二个信号大指定差值。
+      applicable_when:
+          signal_kind:numeric
+          notes:差值比较保持非严格下界。
+      nl:
+          temporal_inner:
+              - signal <SIGNAL1> must always exceed signal <SIGNAL2> by at least <VALUE> units
+
+    - type:greater_than
+      stl:<SIGNAL1> - <SIGNAL2> > <VALUE>
+      semantics:第一个信号与第二个信号的差值严格大于阈值。
+      applicable_when:
+          signal_kind:numeric
+          notes:difference between signals 表达差值比较，不是两个独立谓词。
+      nl:
+          trigger:
+              - the difference between signals <SIGNAL1> and <SIGNAL2> exceeds <VALUE>
+
+    - type:less_or_equal
+      stl:<SIGNAL1> - <SIGNAL2> <= <VALUE>
+      semantics:第一个信号减第二个信号的差值小于或等于阈值。
+      applicable_when:
+          signal_kind:numeric
+          notes:minus 表达有方向的差值，不是绝对差。
+      nl:
+          temporal_inner:
+              - signal <SIGNAL1> minus <SIGNAL2> being less than or equal to <VALUE>
+
+    - type:greater_than
+      stl:<SIGNAL1> > <SIGNAL2>
+      semantics:第一个信号严格大于第二个信号。
+      applicable_when:
+          signal_kind:numeric
+          notes:当前 English 未可靠表达两个信号之间的比较，因此不记录 NL pattern。
+
+    - type:greater_than
+      stl:<SIGNAL1> * <SIGNAL2> > <VALUE>
+      semantics:两个信号的乘积严格大于阈值。
+      applicable_when:
+          signal_kind:numeric
+          notes:乘积表达式保留信号顺序。
+      nl:
+          temporal_inner:
+              - the product of signals <SIGNAL1> and <SIGNAL2> stays above <VALUE>
+
+[predicate_modifiers]
+description:只记录 STL 中实际出现的修饰结构；阈值短语中的 rise/fall 不自动视为边沿算子。
+
+templates:
+    - modifier:not
+      stl:not always[0,<DURATION>](<PRED>)
+      semantics:否定整个持续时间要求，而非要求谓词始终为假。
+      applicable_when:
+          input_kind:temporal
+          output_kind:temporal_negation
+          notes:对应 NL 见 temporal_nested 的 not always 模板。
+
+    - modifier:not
+      stl:not eventually[<T_START>,<T_END>](<PRED>)
+      semantics:否定区间内存在一次谓词成立的要求。
+      applicable_when:
+          input_kind:temporal
+          output_kind:temporal_negation
+          notes:不得与 not always 混淆。
+      nl:
+          response:
+              - <SIGNAL> does not exceed <VALUE> at any time between <T_START> and <T_END>
+              - <SIGNAL> never reaches <VALUE> at any time between <T_START> and <T_END>
+
+    - modifier:not
+      stl:not (<SIGNAL> > <VALUE>)
+      semantics:严格大于谓词的补集，即信号小于或等于阈值。
+      applicable_when:
+          input_kind:state
+          output_kind:state
+          notes:结构可在 always 内出现；valve not open 仅用于 <VALUE> 为 0 且原 English 明确为阀门开闭语境。
+      nl:
+          temporal_inner:
+              - the valve <SIGNAL> should not open
+
+    - modifier:not
+      stl:not (<SIGNAL> < <VALUE>)
+      semantics:严格小于谓词的补集，即信号大于或等于阈值。
+      applicable_when:
+          input_kind:state
+          output_kind:state
+          notes:结构在 always 内出现时可表达持续非严格下界。
+      nl:
+          temporal_inner:
+              - <SIGNAL> must not fall below <VALUE>
+
+    - modifier:not
+      stl:not (<SIGNAL> == <STATE>)
+      semantics:离散信号不处于指定状态。
+      applicable_when:
+          input_kind:state
+          output_kind:state
+          notes:仅用于原 English 明确表达离散状态缺失的上下文。
+      nl:
+          temporal_inner:
+              - <SIGNAL> should not record any <STATE> states
+
+    - modifier:not
+      stl:not <STATE_SIGNAL>
+      semantics:布尔状态信号为假，即对应状态未发生或不成立。
+      applicable_when:
+          input_kind:boolean_state
+          output_kind:state
+          notes:仅用于原 STL 中出现原子布尔信号否定，不用于数值比较的省略写法。
+      nl:
+          temporal_inner:
+              - the system must not experience <STATE_SIGNAL> being true
+              - <STATE_SIGNAL> must not occur
+
+[predicate_composition]
+description:记录布尔组合在实际上下文中的连接方式。
+
+templates:
+    - operator:and
+      stl:<PRED1> and <PRED2>
+      semantics:两个子要求均成立。
+      applicable_when:
+          child_kind:any
+          notes:same period/simultaneously 仅在区间关系支持时使用。
+      nl:
+          standalone:
+              - <PRED1_NL>, and <PRED2_NL>
+              - both <PRED1_NL> and <PRED2_NL>
+          trigger:
+              - <PRED1_NL>, and simultaneously, <PRED2_NL>
+              - <PRED1_NL> and within the same instance <PRED2_NL>
+          response:
+              - both <PRED1_NL> and <PRED2_NL>
+              - <PRED1_NL> while <PRED2_NL> simultaneously
+          temporal_inner:
+              - <PRED1_NL>, and within the same period, <PRED2_NL>
+              - signals <SIGNAL1> and <SIGNAL2> remain below the thresholds <VALUE1> and <VALUE2> respectively
+              - both signals <SIGNAL1> and <SIGNAL2> remain under <VALUE>
+              - <PRED1_NL> but <PRED2_NL>
+
+    - operator:or
+      stl:<PRED1> or <PRED2>
+      semantics:两个子要求至少一个成立。
+      applicable_when:
+          child_kind:any
+          notes:保留 either/or 配对。
+      nl:
+          standalone:
+              - either <PRED1_NL> or <PRED2_NL>
+          response:
+              - either <PRED1_NL> or <PRED2_NL>
+          temporal_inner:
+              - either of them exceeds <VALUE>
+
+[quality_rules]
+- 所有知识由 LLM 逐条阅读原始 STL/English/Complexity 后提取。
+- 程序只允许读取单条数据，不参与知识判断。
+- 时间算子使用 always/eventually/historically/once/until/since。
+- 嵌套算子保持原顺序，不使用 F/G 等单字母缩写。
+- 只保留原 English 中实际观察到且与 STL 可靠对齐的 NL 表达。
+- 无可靠 NL 时省略相应 pattern，不输出空占位符。
+- 知识库不包含次数、support、频率统计、Complexity 分布或逐条 trace。
+- 否定、比较方向、布尔作用域和时间锚点必须与 STL 一致。
+- English 中的 rise/fall/drop 只有在 STL 存在相应边沿结构时才可归入谓词修饰符。

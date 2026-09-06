@@ -11,6 +11,8 @@ from semantic_robustness import Semantic_Robustness
 from strict_semantic_robustness import strict_semantic_robustness
 from template_accuracy import Template_Accuracy
 
+file_path = "../result/STLDivEn_with_ast_knowledge_deepseek_v4_pro_result.txt"
+#file_path = "../result/STLDivEn_with_ast_deepseek_v4_pro_result.txt"
 # file_path = "../result/direct_deepstl_with_deepseek_v4_pro_result.txt"
 # file_path = "../result/deepstl_with_operatorExplain_deepseek_v4_pro_result.txt"
 # file_path = "../tmp/stl2stl.txt"
@@ -27,11 +29,13 @@ from template_accuracy import Template_Accuracy
 # file_path = "../result/deepstl_with_template_knowledge_deepseek_v4_pro_result.txt"
 # file_path = "../result/two_way_iteration_with_ast_deepseek_v4_pro_result.txt"
 # file_path = "../result/two_way_iteration_with_ast_train_operator_test_template_deepseek_v4_pro_result.txt"
-file_path = (
-    PROJECT_ROOT
-    / "result"
-    / "deepstl_with_ast_knowledge_deepseek_v4_pro_result.txt"
-)
+#file_path = (
+#    PROJECT_ROOT
+#    / "result"
+#    / "deepstl_with_ast_knowledge_deepseek_v4_pro_result.txt"
+#)
+
+#file_path = "../result/direct_STLDivEn_with_deepseek_v4_pro_result.txt"
 
 if __name__ == "__main__":
     Exact_formula_match_accuracy = Exact_Formula_Match(file_path)

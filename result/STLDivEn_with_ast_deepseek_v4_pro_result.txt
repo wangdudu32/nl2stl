@@ -1,0 +1,1502 @@
+{
+  {
+    taskid:0,
+    gold_stl:"(speed < 40) until[2,4] (passed_school_zone > 0)",
+    pred_stl:"(speed < 40) until [2:4] (passed_school_zone == true)",
+  },
+  {
+    taskid:1,
+    gold_stl:"always[0,5](v > 90) -> eventually[5,65](fe < 15)",
+    pred_stl:"always ( historically [0:5] (v > 90) -> eventually [0:60] (fe < 15) )",
+  },
+  {
+    taskid:2,
+    gold_stl:"always[0,5](p_1 > 100) -> eventually[0,15](v_1 > 20)",
+    pred_stl:"always ( always [0:5] (p1 > 100) -> eventually [0:15] (v1 > 20) )",
+  },
+  {
+    taskid:3,
+    gold_stl:"always[0,10](((20 <= p_1) and (p_1 <= 40)) and f_1 <= 100)",
+    pred_stl:"always [0:10] (p1 >= 20 and p1 <= 40 and f1 <= 100)",
+  },
+  {
+    taskid:4,
+    gold_stl:"always[0,30](p1 > 80) -> always[0,60](v1 <= 40)",
+    pred_stl:"always ( historically [0:30] (p1 > 80) -> always [0:60] (v1 <= 40) )",
+  },
+  {
+    taskid:5,
+    gold_stl:"always[0,300](h1 < 20) -> eventually[0,900](c1 > 75)",
+    pred_stl:"always [0:5] (h1 < 20) -> eventually [0:15] (c1 > 75)",
+  },
+  {
+    taskid:6,
+    gold_stl:"always[0,10](p1 < 30) -> always[10,30](p1 > 25)",
+    pred_stl:"always ( historically [0:10] (p1 < 30) -> always [0:20] (p1 > 25) )",
+  },
+  {
+    taskid:7,
+    gold_stl:"always((p1 > 120) -> always[0,30](p1 > 100))",
+    pred_stl:"always ( rise (p1 > 120) -> always [0:30] (p1 > 100) )",
+  },
+  {
+    taskid:8,
+    gold_stl:"always[0,300](v1 <= 60)",
+    pred_stl:"always [0:5] (speed_v1 <= 60)",
+  },
+  {
+    taskid:9,
+    gold_stl:"always[0,5](y_1 < 1.5)",
+    pred_stl:"always [0:5] (y_1 < 1.5)",
+  },
+  {
+    taskid:10,
+    gold_stl:"always((obstacle_distance > 100) -> (speed >= 50)) and ((obstacle_distance <= 100) -> eventually[0,10](speed < 20))",
+    pred_stl:"always ( not (obstacle_distance <= 100) -> speed >= 50 ) and always ( obstacle_distance <= 100 -> eventually [0:10] (speed < 20) )",
+  },
+  {
+    taskid:11,
+    gold_stl:"always[0,60](p1 > 45 -> eventually[10,20](p2 <= 35))",
+    pred_stl:"always [0:60] ( p1 > 45 -> always [10:20] (p2 <= 35) )",
+  },
+  {
+    taskid:12,
+    gold_stl:"eventually[0,2](x_1 > 3) -> eventually[3,5](x_1 < 1)",
+    pred_stl:"always [0:2] ( x_1 > 3 -> eventually [3:5] (x_1 < 1) )",
+  },
+  {
+    taskid:13,
+    gold_stl:"eventually[0,100](always[0,5](x_3 > 10)) -> eventually[0,50](x_4 < 5)",
+    pred_stl:"eventually [0:95] (always [0:5] (x3 > 10)) -> eventually [100:150] (x4 < 5)",
+  },
+  {
+    taskid:14,
+    gold_stl:"always[0,2](v < 30)",
+    pred_stl:"always [0:120] (speed < 30)",
+  },
+  {
+    taskid:15,
+    gold_stl:"eventually[0,200](x1 > 100 and always[0,25](x2 < 20) -> always[0,60](x3 <= 45))",
+    pred_stl:"always [0:200] ( x1 > 100 and always [0:25] (x2 < 20) -> always [0:60] (x3 <= 45) )",
+  },
+  {
+    taskid:16,
+    gold_stl:"eventually[0,60](p_1 > 90) and (always[0,30](t_1 < 50) or eventually[0,30](v_1 > 5)) -> always[60,180](p_1 > 85)",
+    pred_stl:"eventually [0:60] (p1 > 90) and (eventually [0:30] (always [0:30] (t1 < 50)) or eventually [0:60] (v1 > 5)) -> always [0:120] (p1 >= 85)",
+  },
+  {
+    taskid:17,
+    gold_stl:"always[50,150](always[0,10](p1 > 100) -> always[200,250](v1 <= 5))",
+    pred_stl:"always ( eventually [50:140] (always [0:10] (p1 > 100)) -> always [200:250] (v1 <= 5) )",
+  },
+  {
+    taskid:18,
+    gold_stl:"always[50,70](x4 > 8 -> always[5,10](x3 >= 2))",
+    pred_stl:"always [50:70] ( x4 > 8 -> always [5:10] (x3 >= 2) )",
+  },
+  {
+    taskid:19,
+    gold_stl:"eventually[0,50](p1 > 80) -> always[50,80](p1 > 60)",
+    pred_stl:"eventually [0:50] (p1 > 80 and always [0:30] (p1 > 60))",
+  },
+  {
+    taskid:20,
+    gold_stl:"eventually[0,60](always[0,5](v_1 > 80))",
+    pred_stl:"eventually [0:55] (always [0:5] (v_1 > 80))",
+  },
+  {
+    taskid:21,
+    gold_stl:"always[10,20]((v >= 50) and (v <= 70))",
+    pred_stl:"always [10:20] (speed >= 50 and speed <= 70)",
+  },
+  {
+    taskid:22,
+    gold_stl:"eventually[0,30](always[0,10](proximity_sensor < 2)) -> eventually[0,60](speed < 10)",
+    pred_stl:"always [0:30] ( historically [0:10] (proximity < 2) -> eventually [0:60] (speed < 10) )",
+  },
+  {
+    taskid:23,
+    gold_stl:"always[0,15](p_1 < 25) -> eventually[0,30](v_1 > 10)",
+    pred_stl:"always [0:15] (p1 < 25) -> eventually [15:45] (v1 > 10)",
+  },
+  {
+    taskid:24,
+    gold_stl:"always[30,120](d < 5 and (v_rel > 10 -> eventually[0,10](v_rel <= 5)))",
+    pred_stl:"always [30:120] (distance < 5 and (relative_velocity > 10 -> eventually [0:10] (relative_velocity <= 5)))",
+  },
+  {
+    taskid:25,
+    gold_stl:"always[0,20](p_1 > 30) -> (eventually[10,30](v_1 > 50) or eventually[10,30](t_3 < 15))",
+    pred_stl:"always [0:20] (p1 > 30) -> eventually [30:50] (v1 > 50 or t3 < 15)",
+  },
+  {
+    taskid:26,
+    gold_stl:"always(distance_to_car_in_front > safe_distance)",
+    pred_stl:"always (distance > 50)",
+  },
+  {
+    taskid:27,
+    gold_stl:"always[100,200]((d1 > 2) -> eventually[1,2](p1 > 0))",
+    pred_stl:"always [100:200] ( d1 > 2 -> eventually [1:2] (p1 == 1) )",
+  },
+  {
+    taskid:28,
+    gold_stl:"always[200,500]((speed>60) -> eventually[0,100](always[0,30](speed<40)))",
+    pred_stl:"always [200:500] ( speed > 60 -> eventually [0:100] (always [0:30] (speed < 40)) )",
+  },
+  {
+    taskid:29,
+    gold_stl:"always[0,120](s1 > 60) -> eventually[0,30](s1 <= 40)",
+    pred_stl:"always ( peak_hours == true and historically [0:120] (speed_s1 > 60) -> eventually [0:30] (speed_s1 <= 40) )",
+  },
+  {
+    taskid:30,
+    gold_stl:"always[0,10](temp_1 <= 100) -> eventually[5,15](pres_1 < 50)",
+    pred_stl:"always [0:10] (temp_1 <= 100) -> eventually [5:15] (pres_1 < 50)",
+  },
+  {
+    taskid:31,
+    gold_stl:"always[0,30](p1 > 10) -> (eventually[40,70](v1 > 15) or always[40,70](i1 < 5))",
+    pred_stl:"always [0:30] (p1 > 10) -> eventually [40:70] (v1 > 15 or i1 < 5)",
+  },
+  {
+    taskid:32,
+    gold_stl:"always[2,5](x1 > 7) <-> always[1,6](x3 <= -2)",
+    pred_stl:"always [2:5] (x1 > 7) <-> always [1:6] (x3 <= -2)",
+  },
+  {
+    taskid:33,
+    gold_stl:"always[0,600](v < 20) -> eventually[0,120](obstacle_detected > 0)",
+    pred_stl:"always ( historically [0:10] (v < 20) -> eventually [0:2] (obstacle_detected == 1) )",
+  },
+  {
+    taskid:34,
+    gold_stl:"always[0,5](x3 < 2) -> eventually[2,6](x4 > 3)",
+    pred_stl:"always [0:5] (x3 < 2) -> eventually [2:6] (x4 > 3)",
+  },
+  {
+    taskid:35,
+    gold_stl:"always[5,15](p1 > 100 and v1 <= 20) -> always[15,25](a1 <= 30)",
+    pred_stl:"always [5:15] (p1 > 100 and v1 <= 20) -> always [15:25] (a1 <= 30)",
+  },
+  {
+    taskid:36,
+    gold_stl:"always[0,60](P1 > 200) and eventually[0,60](always[0,15](P2 < 50)) -> always[60,180](P3 <= 180)",
+    pred_stl:"always [0:60] (P1 > 200) and eventually [0:60] (always [0:15] (P2 < 50)) -> always [60:180] (P3 <= 180)",
+  },
+  {
+    taskid:37,
+    gold_stl:"always[15,45](p1 < 60)",
+    pred_stl:"always [15:45] (p1 < 60)",
+  },
+  {
+    taskid:38,
+    gold_stl:"always[0,60](p_1 < 30) -> eventually[60,80](v_1 < 10)",
+    pred_stl:"always [0:60] ( p_1 < 30 -> eventually [0:20] (v_1 < 10) )",
+  },
+  {
+    taskid:39,
+    gold_stl:"always[50,200]((z > 10) -> always[10,20](x <= 5))",
+    pred_stl:"always [50:200] ( z > 10 -> always [10:20] (x <= 5) )",
+  },
+  {
+    taskid:40,
+    gold_stl:"always[0,120](d > 50) -> eventually[10,20](v1 > 60)",
+    pred_stl:"always [0:120] (d > 50) -> eventually [130:140] (v1 > 60)",
+  },
+  {
+    taskid:41,
+    gold_stl:"always[120,5000](((20 <= temp) and (temp <= 22)))",
+    pred_stl:"always [120:5000] (temp >= 20 and temp <= 22)",
+  },
+  {
+    taskid:42,
+    gold_stl:"always[10,20](p1 > 25) -> always[10,20](v1 <= 40)",
+    pred_stl:"always ( always [10:20] (p1 > 25) -> always [10:20] (v1 <= 40) )",
+  },
+  {
+    taskid:43,
+    gold_stl:"always[10,50](p_1 > 30) -> (eventually[10,50](t_1 > 100) or eventually[10,50](h_1 < 40))",
+    pred_stl:"always ( always [10:50] (p_1 > 30) -> eventually [10:50] (t_1 > 100 or h_1 < 40) )",
+  },
+  {
+    taskid:44,
+    gold_stl:"eventually[0,15](p > 30) and always[15,35](p < 25)",
+    pred_stl:"eventually [0:15] (p > 30) and always [15:35] (p < 25)",
+  },
+  {
+    taskid:45,
+    gold_stl:"always[0,10](p1 <= 50) and always[0,10](v1 >= 30)",
+    pred_stl:"always [0:10] (p1 <= 50 and v1 >= 30)",
+  },
+  {
+    taskid:46,
+    gold_stl:"always(x_1 < 2) or eventually[0,10](x_2 > 3)",
+    pred_stl:"always (x_1 < 2) or eventually [0:10] (x_2 > 3)",
+  },
+  {
+    taskid:47,
+    gold_stl:"eventually[0,20](p_1 > 200) -> always[10,30](f_1 < 50)",
+    pred_stl:"p_1 > 200 -> always [10:30] (f_1 < 50)",
+  },
+  {
+    taskid:48,
+    gold_stl:"always[0,20](x_2 < 5) and eventually[0,10](p_1 > 80) -> always[0,40](t_3 <= 100)",
+    pred_stl:"always ( historically [0:20] (x_2 < 5) and eventually [0:10] (p_1 > 80) -> always [0:40] (t_3 <= 100) )",
+  },
+  {
+    taskid:49,
+    gold_stl:"eventually[20,40](z > 10) and always[50,60](z > 8)",
+    pred_stl:"eventually [20:40] (rise (z > 10)) and always [50:60] (z > 8)",
+  },
+  {
+    taskid:50,
+    gold_stl:"always[0,60](always[0,10](v_10 > 20) -> eventually[40,70](d_3 < 1))",
+    pred_stl:"eventually [0:60] (always [0:10] (v_10 > 20)) -> eventually [40:70] (d_3 < 1)",
+  },
+  {
+    taskid:51,
+    gold_stl:"always[0,8](p_1 > 5) -> eventually[6,10](T_1 > 50)",
+    pred_stl:"always [0:8] (p_1 > 5) -> eventually [6:10] (T_1 > 50)",
+  },
+  {
+    taskid:52,
+    gold_stl:"eventually[0,10](theta_1 == 90) -> always[0,30](p_1 > 1000)",
+    pred_stl:"always [0:10] ( arm_angle == 90 -> always [0:30] (pressure > 1000) )",
+  },
+  {
+    taskid:53,
+    gold_stl:"always[15,25]((y_1 < 20) and (y_2 > 50))",
+    pred_stl:"always [15:25] ( y_2 > 50 -> y_1 < 20 )",
+  },
+  {
+    taskid:54,
+    gold_stl:"always[0,8](x > 30)",
+    pred_stl:"eventually (always [0:8] (x > 30))",
+  },
+  {
+    taskid:55,
+    gold_stl:"eventually[0,60](obstacle_distance <= 2) -> eventually[0,5](speed == 0)",
+    pred_stl:"always [0:60] ( rise (radar_distance <= 2) -> eventually [0:5] (speed == 0) )",
+  },
+  {
+    taskid:56,
+    gold_stl:"always[10,50](x_3<0.2) -> eventually[5,10](x_5>0.5)",
+    pred_stl:"always ( always [10:50] (x_3 < 0.2) -> eventually [5:10] (x_5 > 0.5) )",
+  },
+  {
+    taskid:57,
+    gold_stl:"always[0,10](p_1 < 25) -> eventually[5,15](v_1 >= 50)",
+    pred_stl:"always [0:10] (p1 < 25) -> eventually [5:15] (v1 >= 50)",
+  },
+  {
+    taskid:58,
+    gold_stl:"eventually[0,300](p1 > 100) -> (eventually[0,300](v1 < 30) or eventually[0,300](n1 > 70))",
+    pred_stl:"eventually [0:5] (p1 > 100) -> eventually [0:5] (v1 < 30) or eventually [0:5] (n1 > 70)",
+  },
+  {
+    taskid:59,
+    gold_stl:"always(p1 > 50 -> eventually[0,20] (always[0,10](p1 < 45)))",
+    pred_stl:"always ( rise (p1 > 50) -> eventually [0:20] (p1 < 45 and always [0:10] (p1 < 45)) )",
+  },
+  {
+    taskid:60,
+    gold_stl:"always[0,30](battery_a > 80) and eventually[0,30](distance_b > 100) -> eventually[30,60](emergency_c == 1)",
+    pred_stl:"always [0:30] (battery_a > 80) and eventually [0:30] (distance_b > 100) -> eventually [30:60] (emergency_c == 1)",
+  },
+  {
+    taskid:61,
+    gold_stl:"eventually[0,2](obstacle > 0) -> eventually[2,2.5](speed < 20)",
+    pred_stl:"always [0:120] ( obstacle_detected == true -> eventually [0:30] (speed < 20) )",
+  },
+  {
+    taskid:62,
+    gold_stl:"always[0,10](p_1 < 200) -> eventually[0,30](v_1 > 500)",
+    pred_stl:"always ( historically [0:10] (p_1 < 200) -> eventually [0:30] (v_1 > 500) )",
+  },
+  {
+    taskid:63,
+    gold_stl:"eventually[10,60](v1 > 50) and eventually[120,180](v2 > 80) -> always[200,300](v1 < 30)",
+    pred_stl:"eventually [10:60] (v1 > 50) and eventually [120:180] (v2 > 80) -> always [200:300] (v1 < 30)",
+  },
+  {
+    taskid:64,
+    gold_stl:"always[2,10](p_3 > 25 and v_3 <= 15) -> eventually[5,15](t_3 > 100)",
+    pred_stl:"always ( always [2:10] (p_3 > 25) and always [2:10] (v_3 <= 15) -> eventually [5:15] (t_3 > 100) )",
+  },
+  {
+    taskid:65,
+    gold_stl:"always[0,5](ice_warning == 0) -> always[0,10](((20 <= v1) and (v1 <= 40)))",
+    pred_stl:"historically [0:5] (not (ice_warning == true)) -> always [0:10] (speed >= 20 and speed <= 40)",
+  },
+  {
+    taskid:66,
+    gold_stl:"eventually[2,5](x_3 > 2) and always[5,7](x_3 > 4)",
+    pred_stl:"eventually [2:5] (x3 > 2) and always [5:7] (x3 > 4)",
+  },
+  {
+    taskid:67,
+    gold_stl:"always[0,15](x_1 > 30) -> (eventually[10,20](p_1 > 100) or eventually[10,20](h_1 < 50))",
+    pred_stl:"always [0:15] (x_1 > 30) -> eventually [10:20] (p_1 > 100) or eventually [10:20] (h_1 < 50)",
+  },
+  {
+    taskid:68,
+    gold_stl:"always((v < 20) -> eventually[0,600](always[0,300](v >= 30)))",
+    pred_stl:"always ( rise (v < 20) -> eventually [0:10] (v >= 30 and always [0:5] (v >= 30)) )",
+  },
+  {
+    taskid:69,
+    gold_stl:"(speed > 60) -> eventually[0,10](always[0,5](speed < 40))",
+    pred_stl:"always ( speed > 60 -> eventually [0:10] (always [0:5] (speed < 40)) )",
+  },
+  {
+    taskid:70,
+    gold_stl:"always[0,30](d_1 < 5) -> eventually[25,35](v_1 <= 1)",
+    pred_stl:"always [0:30] (d_1 < 5) -> eventually [25:35] (v_1 <= 1)",
+  },
+  {
+    taskid:71,
+    gold_stl:"always[120,180](v_1 > 60 and x_obstacle == 0) -> eventually[181,240](braking_system == 1)",
+    pred_stl:"always [120:180] (v1 > 60 and obstacle_detected == false) -> eventually [180:240] (brake_operational == true)",
+  },
+  {
+    taskid:72,
+    gold_stl:"always[100,400](always[0,10](v > 10) -> always[0,20](i <= 5))",
+    pred_stl:"always [100:390] ( always [0:10] (v > 10) -> always [10:30] (i <= 5) )",
+  },
+  {
+    taskid:73,
+    gold_stl:"always[0,60](x_speed < 50)",
+    pred_stl:"always ( residential_zone == true -> speed < 50 )",
+  },
+  {
+    taskid:74,
+    gold_stl:"always[0,10](h_1 > 80) -> always[5,15](p_1 >= 1000)",
+    pred_stl:"always [0:10] (h1 > 80) -> always [5:15] (p1 >= 1000)",
+  },
+  {
+    taskid:75,
+    gold_stl:"always[0,15](p_1 < 30) -> eventually[20,30](v_1 > 5)",
+    pred_stl:"always [0:15] (p_1 < 30) -> eventually [20:30] (v_1 > 5)",
+  },
+  {
+    taskid:76,
+    gold_stl:"always[0,100]( (speed > 60) -> eventually[10,15](speed < 40) )",
+    pred_stl:"always [0:100] ( speed > 60 -> eventually [10:15] (speed < 40) )",
+  },
+  {
+    taskid:77,
+    gold_stl:"always[0,500](always[0,100](T > 40) -> eventually[0,50](always[0,30](C > 0)))",
+    pred_stl:"always [0:400] ( always [0:100] (T > 40) -> eventually [0:50] (always [0:30] (C > 0)) )",
+  },
+  {
+    taskid:78,
+    gold_stl:"always[0,10](x_3 >= 0)",
+    pred_stl:"always [0:10] (x_3 >= 0)",
+  },
+  {
+    taskid:79,
+    gold_stl:"always[4,10](t1 < 30) -> (always[0,5](p1 > 100) and always[5,15](p2 <= 90))",
+    pred_stl:"always [4:10] (t1 < 30) -> always [0:5] (p1 > 100) and always [5:15] (p2 <= 90)",
+  },
+  {
+    taskid:80,
+    gold_stl:"always[2,6](x_1 + x_2 < 5) <-> eventually[4,7](x_3 > 3)",
+    pred_stl:"always [2:6] (x1 + x2 < 5) <-> eventually [4:7] (x3 > 3)",
+  },
+  {
+    taskid:81,
+    gold_stl:"always[0,10](p_1 <= 80) and always[0,10](t_3 > 20)",
+    pred_stl:"always [0:10] (p1 <= 80 and t3 > 20)",
+  },
+  {
+    taskid:82,
+    gold_stl:"always[0,60](v_1 < 10) -> always[0,60](i_1 <= 5)",
+    pred_stl:"always [0:60] (v1 < 10) -> always [0:60] (i1 <= 5)",
+  },
+  {
+    taskid:83,
+    gold_stl:"eventually[0,200](x_1 < 2) -> eventually[5,10](v < 1)",
+    pred_stl:"always [0:200] ( rise (x_1 < 2) -> eventually [5:10] (v < 1) )",
+  },
+  {
+    taskid:84,
+    gold_stl:"always[5,10](x_3 < 10) and eventually[2,6](x_1 > 3)",
+    pred_stl:"always [5:10] (x3 < 10) and eventually [2:6] (x1 > 3)",
+  },
+  {
+    taskid:85,
+    gold_stl:"always[0,10](s1 < 2) -> eventually[0,60](always[0,5](s2 > 5))",
+    pred_stl:"always ( historically [0:10] (s1 < 2) -> eventually [0:60] (always [0:5] (s2 == true)) )",
+  },
+  {
+    taskid:86,
+    gold_stl:"always[0,10](d_front < 2) -> eventually[2,12](deceleration > 5)",
+    pred_stl:"always [0:10] (distance < 2) -> eventually [2:12] (deceleration_force > 5)",
+  },
+  {
+    taskid:87,
+    gold_stl:"always[50,100](x_1 < 7 -> eventually[10,20](x_2 > 10))",
+    pred_stl:"always [50:100] ( x1 < 7 -> eventually [10:20] (x2 > 10) )",
+  },
+  {
+    taskid:88,
+    gold_stl:"always[0,60](s1 < 20) -> eventually[0,40](s2 > 30)",
+    pred_stl:"always ( historically [0:60] (s1 <= 20) -> eventually [0:40] (heat_s2 > 30) )",
+  },
+  {
+    taskid:89,
+    gold_stl:"always[1,4](x_3 > 5) -> always[2,6](x_4 <= 7)",
+    pred_stl:"historically [1:4] (x_3 > 5) -> always [2:6] (x_4 <= 7)",
+  },
+  {
+    taskid:90,
+    gold_stl:"always[0,1000](abs(theta) <= 45) and eventually[1000,1100](always[0,100](abs(theta) < 30))",
+    pred_stl:"always [0:1000] (angle <= 45) and always [1000:1100] (angle < 30)",
+  },
+  {
+    taskid:91,
+    gold_stl:"always[2,10](x3 > 5) -> (always[4,12](y3 <= 8) and always[6,14](t3 < 3))",
+    pred_stl:"always [2:10] (x3 > 5) -> always [4:12] (y3 <= 8) and always [6:14] (t3 < 3)",
+  },
+  {
+    taskid:92,
+    gold_stl:"always[0,200](x_3 > 2) -> eventually[5,10](x_4 > 3)",
+    pred_stl:"always [0:200] (x_3 > 2) and eventually [205:210] (x_4 > 3)",
+  },
+  {
+    taskid:93,
+    gold_stl:"always(x_speed == 60 -> eventually[0,10] (always[0,20] (x_speed <= 30)))",
+    pred_stl:"always ( rise (speed >= 60) -> eventually [0:10] (speed <= 30 and always [0:20] (speed <= 30)) )",
+  },
+  {
+    taskid:94,
+    gold_stl:"eventually[2,6](x1 < -10) and always[6,10](x1 < -5)",
+    pred_stl:"eventually [2:6] (x1 < -10) and always [6:10] (x1 < -5)",
+  },
+  {
+    taskid:95,
+    gold_stl:"always[0,10](x1 < 20) -> eventually[0,10](x2 < 2)",
+    pred_stl:"always [0:10] (speed_x1 < 20) -> eventually [0:10] (proximity_x2 < 2)",
+  },
+  {
+    taskid:96,
+    gold_stl:"always[0,600](proximity < 2 -> eventually[0,60](speed < 20))",
+    pred_stl:"always [0:10] ( proximity < 2 -> eventually [0:1] (speed < 20) )",
+  },
+  {
+    taskid:97,
+    gold_stl:"always[0,300]((obstacle_distance < 2) -> eventually[0,5](vehicle_speed == 0))",
+    pred_stl:"always ( distance < 2 -> eventually [0:5] (speed == 0) )",
+  },
+  {
+    taskid:98,
+    gold_stl:"always[5,15](x_3 > 10) -> eventually[16,20](x_4 <= 20)",
+    pred_stl:"always [5:15] (x_3 > 10) and eventually [16:20] (x_4 <= 20)",
+  },
+  {
+    taskid:99,
+    gold_stl:"eventually[0,1](v1_speed > 60) -> eventually[0,2](high_beam == 1)",
+    pred_stl:"always ( fall (inside_tunnel == 1) and eventually [0:60] (speed > 60) -> eventually [0:120] (high_beam == 1) )",
+  },
+  {
+    taskid:100,
+    gold_stl:"always[0,10](v_1 < 30) <-> not eventually[0,5](i_1 > 0)",
+    pred_stl:"always [0:10] (v1 < 30) <-> always [0:5] (i1 == 0)",
+  },
+  {
+    taskid:101,
+    gold_stl:"eventually[20,60](y1 > 10) -> always[100,120](y1 >= 5)",
+    pred_stl:"always [20:60] ( rise (y1 > 10) -> always [100:120] (y1 >= 5) )",
+  },
+  {
+    taskid:102,
+    gold_stl:"eventually[200,400](proximity_sensor < 0.5) -> (eventually[0,10](always[0,30](velocity == 0)))",
+    pred_stl:"always [200:400] ( distance < 0.5 -> eventually [0:10] (speed == 0 and always [0:30] (speed == 0)) )",
+  },
+  {
+    taskid:103,
+    gold_stl:"always(p1 > 100 -> eventually[20,40](always[0,5](h1 > 90)))",
+    pred_stl:"always ( rise (p1 > 100) -> eventually [20:40] (rise (h1 > 90) and always [0:5] (h1 > 90)) )",
+  },
+  {
+    taskid:104,
+    gold_stl:"always[0,10](v1 > 80) <-> not eventually[0,10](p1 > 100)",
+    pred_stl:"always [0:10] (v1 > 80) <-> always [0:10] (p1 <= 100)",
+  },
+  {
+    taskid:105,
+    gold_stl:"always[3,8](x_1 > 10) -> always[5,10](x_3 <= 15)",
+    pred_stl:"always ( always [3:8] (x_1 > 10) -> always [5:10] (x_3 <= 15) )",
+  },
+  {
+    taskid:106,
+    gold_stl:"eventually[0,15](always[0,15](s1 > 20) and always[0,15](s2 < 5)) -> eventually[0,10](alarm == true)",
+    pred_stl:"always ( historically [0:15] (s1 > 20) and s2 < 5 -> eventually [0:10] (alarm == true) )",
+  },
+  {
+    taskid:107,
+    gold_stl:"always(x_b > 0.2) -> eventually(x_s < 1)",
+    pred_stl:"always (x_b > 20) -> always (x_s < 1)",
+  },
+  {
+    taskid:108,
+    gold_stl:"always[50,150](p_1 > 200) -> eventually[60,180](f_1 < 100)",
+    pred_stl:"always [50:150] (p1 > 200) -> eventually [60:180] (f1 < 100)",
+  },
+  {
+    taskid:109,
+    gold_stl:"always[0,600](speed > 50 and proximity < 2) -> eventually[0,300](speed < 30)",
+    pred_stl:"always [0:10] (speed > 50 and proximity_distance < 2) -> eventually [0:5] (speed < 30)",
+  },
+  {
+    taskid:110,
+    gold_stl:"always[0,10](speed >= 20)",
+    pred_stl:"always [0:10] (speed >= 20)",
+  },
+  {
+    taskid:111,
+    gold_stl:"always[0,120](pedestrian_detected < 10 -> always[0,120](speed < 20))",
+    pred_stl:"always ( pedestrian_distance <= 10 -> always [0:120] (speed < 20) )",
+  },
+  {
+    taskid:112,
+    gold_stl:"always[0,60](always[0,15](p1 > 10) -> eventually[0,30](v1 > 20))",
+    pred_stl:"always [0:45] ( always [0:15] (p1 > 10) -> eventually [15:45] (v1 > 20) )",
+  },
+  {
+    taskid:113,
+    gold_stl:"always((proximity < 2) -> always[0,10](acceleration <= 0))",
+    pred_stl:"always ( rise (obstacle_distance < 2) -> always [0:10] (acceleration <= 0) )",
+  },
+  {
+    taskid:114,
+    gold_stl:"always[2,4](v < 2.5) -> eventually[4,6](v > 3.5)",
+    pred_stl:"always ( always [2:4] (v < 2.5) -> eventually [4:6] (v > 3.5) )",
+  },
+  {
+    taskid:115,
+    gold_stl:"always[0,50](p1 < 70) and eventually[0,50](p2 > 100)",
+    pred_stl:"always [0:50] (p1 < 70) and eventually [0:50] (p2 > 100)",
+  },
+  {
+    taskid:116,
+    gold_stl:"always[0,20](v_1 <= 10) and always[15,20](i_2 > 2)",
+    pred_stl:"always [0:20] (v1 <= 10) and always [15:20] (i2 > 2)",
+  },
+  {
+    taskid:117,
+    gold_stl:"eventually[0,60](always[0,10](h1 > 120) and always[0,5](p1 <= 140)) -> always[60,90](h1 < 100)",
+    pred_stl:"eventually [0:50] (always [0:10] (h1 > 120)) and eventually [0:55] (always [0:5] (p1 <= 140)) -> always [60:90] (h1 < 100)",
+  },
+  {
+    taskid:118,
+    gold_stl:"always[100,800](x<10 or y>-10) and always[1020,2090](z<=30)",
+    pred_stl:"always [100:800] (x < 10 or y > -10) and always [1020:2090] (z <= 30)",
+  },
+  {
+    taskid:119,
+    gold_stl:"always[2,6](x3 < 10) -> eventually[3,7](x4 > 15)",
+    pred_stl:"always ( always [2:6] (x3 < 10) -> eventually [3:7] (x4 > 15) )",
+  },
+  {
+    taskid:120,
+    gold_stl:"always[0,10](p_1 > 80) -> (eventually[0,10](p_2 < 30) or eventually[10,15](t_3 > 100))",
+    pred_stl:"always [0:10] (p1 > 80) -> eventually [0:10] (p2 < 30) or eventually [10:15] (t3 > 100)",
+  },
+  {
+    taskid:121,
+    gold_stl:"always[4,10](x_1 < 30) and eventually[10,10](x_1 > 40)",
+    pred_stl:"always [4:10] (x1 < 30) and eventually [10.001:10.001] (rise (x1 > 40))",
+  },
+  {
+    taskid:122,
+    gold_stl:"always[0,300](speed_vehicle1 <= 120)",
+    pred_stl:"always [0:5] (speed <= 120)",
+  },
+  {
+    taskid:123,
+    gold_stl:"always[0,3](x_3 > 5) -> always[1,4](x_4 >= 2)",
+    pred_stl:"always [0:3] (x_3 > 5) -> always [1:4] (x_4 >= 2)",
+  },
+  {
+    taskid:124,
+    gold_stl:"always[0,15](x_r > 10) -> always[15,25](y_b >= 20)",
+    pred_stl:"always ( historically [0:15] (x_r > 10) -> always [0:10] (y_b >= 20) )",
+  },
+  {
+    taskid:125,
+    gold_stl:"eventually[0,10](p_1 > 50 and always[0,10](v_1 < 30)) -> always[10,30](p_1 <= 80)",
+    pred_stl:"eventually [0:10] (p1 > 50) and always [0:10] (v1 < 30) -> always [10:30] (p1 <= 80)",
+  },
+  {
+    taskid:126,
+    gold_stl:"always[100,200](x > 10) -> always[205,300](x >= 8)",
+    pred_stl:"always [100:200] (x > 10) -> always [205:300] (x >= 8)",
+  },
+  {
+    taskid:127,
+    gold_stl:"always[50,400](p > 200) -> (eventually[450,550](t > 90) or eventually[450,550](h > 60))",
+    pred_stl:"always [50:400] (p > 200) -> eventually [450:550] (t > 90 or h > 60)",
+  },
+  {
+    taskid:128,
+    gold_stl:"always[0,10](a > 5) -> eventually[0,30](alert == true)",
+    pred_stl:"always ( historically [0:10] (acceleration > 5) -> eventually [0:30] (alert == 1) )",
+  },
+  {
+    taskid:129,
+    gold_stl:"always((obstacle_ahead -> eventually[0,2](speed==0)))",
+    pred_stl:"always ( rise (obstacle_detected == true) -> eventually [0:2] (speed == 0) )",
+  },
+  {
+    taskid:130,
+    gold_stl:"always[1000,3000]((z <= 100) and ((z > 50) -> eventually[0,200] (always[0,30](z < 25))))",
+    pred_stl:"always [1000:3000] (z <= 100 and (rise (z > 50) -> eventually [0:200] (always [0:30] (z < 25))))",
+  },
+  {
+    taskid:131,
+    gold_stl:"eventually[0,20](y > 10) -> always[20,50](z >= -5)",
+    pred_stl:"eventually [0:20] (y > 10 and always [0:30] (z >= -5))",
+  },
+  {
+    taskid:132,
+    gold_stl:"always[0,60](v_1 > 60 and s_1 > 50) -> eventually[10,30](v_1 < 40)",
+    pred_stl:"always [0:60] (v_1 > 60) and always [0:60] (s_1 >= 50) -> eventually [70:90] (v_1 < 40)",
+  },
+  {
+    taskid:133,
+    gold_stl:"eventually[0,120](always[0,10](p1 < 35)) -> eventually[0,30](lift > 50)",
+    pred_stl:"always [0:110] ( always [0:10] (p1 < 35) -> eventually [10:40] (lift > 50) )",
+  },
+  {
+    taskid:134,
+    gold_stl:"always[0,60](v_1 > 5 and p_1 <= 100) -> always[0,30](l_1 <= 300)",
+    pred_stl:"always ( always [0:60] (v_1 > 5 and p_1 <= 100) -> always [60:90] (l_1 <= 300) )",
+  },
+  {
+    taskid:135,
+    gold_stl:"always[0,200]((x_v > 100) -> eventually[0,50](x_b > 0))",
+    pred_stl:"always [0:200] ( x_v > 100 -> eventually [0:50] (x_b > 0) )",
+  },
+  {
+    taskid:136,
+    gold_stl:"always[10,20](d < 2) -> eventually[0,5](always[0,10](v < 1))",
+    pred_stl:"always ( (d < 2) since [10:20] (rise (d < 2)) -> eventually [0:5] (always [0:10] (v < 1)) )",
+  },
+  {
+    taskid:137,
+    gold_stl:"always[10,20](z > 0.8) -> eventually[20,30](z < 0.3)",
+    pred_stl:"always [10:20] (z > 0.8) -> eventually [20:30] (z < 0.3)",
+  },
+  {
+    taskid:138,
+    gold_stl:"always[100,800]((z < -10) -> (eventually[0,100](always[0,30](z > 10))))",
+    pred_stl:"always [100:800] ( rise (z < -10) -> eventually [0:100] (always [0:30] (z > 10)) )",
+  },
+  {
+    taskid:139,
+    gold_stl:"always[0,60](p_1 <= 100) until[0,60](h_1 >= 50)",
+    pred_stl:"always [0:60] ( h1 < 50 -> p1 <= 100 )",
+  },
+  {
+    taskid:140,
+    gold_stl:"eventually[0,50](always[0,10](p_1 > 70)) -> always[30,80](p_2 >= 20)",
+    pred_stl:"eventually [0:40] (always [0:10] (p1 > 70)) -> always [30:80] (p2 >= 20)",
+  },
+  {
+    taskid:141,
+    gold_stl:"always[0,10](distance < 5) -> eventually[0,5](speed < 10)",
+    pred_stl:"always ( historically [0:10] (pedestrian_distance < 5) -> eventually [0:5] (speed < 10) )",
+  },
+  {
+    taskid:142,
+    gold_stl:"always[0,10](speed < 30) -> eventually[10,15](signal_right == 1 and turn == 1)",
+    pred_stl:"always ( always [0:10] (speed < 30) -> eventually [10:15] (signal_right == true and turn == true) )",
+  },
+  {
+    taskid:143,
+    gold_stl:"always[0,5](p1 > 70) -> not eventually[10,15](p2 > 100)",
+    pred_stl:"always ( always [0:5] (p1 > 70) -> always [10:15] (p2 <= 100) )",
+  },
+  {
+    taskid:144,
+    gold_stl:"always[0,200](a_3 < -0.5 -> eventually[2,4](b_4 > 1.2))",
+    pred_stl:"always [0:200] ( a_3 < -0.5 -> eventually [2:4] (b_4 > 1.2) )",
+  },
+  {
+    taskid:145,
+    gold_stl:"always[0,10](d_sensor > 2)",
+    pred_stl:"rise (obstacle == 1) -> always [0:10] (distance > 2)",
+  },
+  {
+    taskid:146,
+    gold_stl:"always[0,10](v_bat < 12) -> eventually[5,15](charging_unit_active == 1)",
+    pred_stl:"always [0:10] (v_bat < 12) -> eventually [5:15] (charging_active == 1)",
+  },
+  {
+    taskid:147,
+    gold_stl:"eventually[7,9](distance_to_school <= 100) -> always[7,9](speed < 20)",
+    pred_stl:"always ( distance_to_school_zone <= 100 and (hour >= 7 and hour <= 9) -> speed < 20 )",
+  },
+  {
+    taskid:148,
+    gold_stl:"always[0,20](always[0,5](x1 < 10) -> always[20,35](x1 > 50))",
+    pred_stl:"always [0:20] ( historically [0:5] (proximity < 10) -> always [0:15] (distance <= 50) )",
+  },
+  {
+    taskid:149,
+    gold_stl:"always[0,5](x1 < 2) -> always[0,5](x2 >= 0)",
+    pred_stl:"always [0:5] (x1 <= 2) -> always [0:5] (x2 == 0)",
+  },
+  {
+    taskid:150,
+    gold_stl:"always[2,5](y2 < 3) -> eventually[6,9](x3 > 7)",
+    pred_stl:"always [2:5] (y2 < 3) -> eventually [6:9] (x3 > 7)",
+  },
+  {
+    taskid:151,
+    gold_stl:"eventually[0,30]((x1 + x2 >= 15) and (x1 + x2 <= 20))",
+    pred_stl:"always [0:30] (x1 + x2 <= 20) and eventually [0:30] (x1 + x2 >= 15)",
+  },
+  {
+    taskid:152,
+    gold_stl:"eventually[0,60](obstacle_detected > 0) -> always[0,15](speed < 20)",
+    pred_stl:"always [0:60] ( obstacle_detected == 1 -> always [0:15] (speed < 20) )",
+  },
+  {
+    taskid:153,
+    gold_stl:"always[0,50](s1 < 2) -> eventually[0,20](v1 > 1)",
+    pred_stl:"always [0:50] (s1 < 2) and eventually [50:70] (v1 > 1)",
+  },
+  {
+    taskid:154,
+    gold_stl:"always[0,500]((z > 10) -> (eventually[0,100] (always[0,50] (z < 5))))",
+    pred_stl:"always [0:500] ( z > 10 -> eventually [0:100] (always [0:50] (z < 5)) )",
+  },
+  {
+    taskid:155,
+    gold_stl:"eventually[2,7](x_1 + x_2 > 3) -> always[2,7](x_3 >= -2)",
+    pred_stl:"always ( eventually [2:7] (x1 + x2 > 3) -> always [2:7] (x3 >= -2) )",
+  },
+  {
+    taskid:156,
+    gold_stl:"always[0,20](p1 > 100) -> eventually[0,5](v1 > 50)",
+    pred_stl:"always [0:20] (p1 > 100) -> eventually [0:5] (v1 > 50)",
+  },
+  {
+    taskid:157,
+    gold_stl:"always[5,15](chemical > 200) -> eventually[0,20](pH < 5)",
+    pred_stl:"always [5:15] (concentration > 200) -> eventually [0:20] (pH < 5)",
+  },
+  {
+    taskid:158,
+    gold_stl:"always[2,4](x3 < 2) -> eventually[1,2](x1 > 10)",
+    pred_stl:"always ( always [2:4] (x3 < 2) -> once [1:2] (x1 > 10) )",
+  },
+  {
+    taskid:159,
+    gold_stl:"(speed < 30) until[0,10] (outside_pedestrian_zone > 0)",
+    pred_stl:"always ( entering == 1 -> (speed < 30) until [0:10] (exit == 1) )",
+  },
+  {
+    taskid:160,
+    gold_stl:"eventually[0,50](v1 > 10) -> always[0,30](i5 >= 2)",
+    pred_stl:"always [0:50] ( v1 > 10 -> always [0:30] (i5 >= 2) )",
+  },
+  {
+    taskid:161,
+    gold_stl:"always[0,2](x_1 > 7) and eventually[0,2](x_2 < -3)",
+    pred_stl:"always [0:2] (x1 > 7) and eventually [0:2] (x2 < -3)",
+  },
+  {
+    taskid:162,
+    gold_stl:"always[480,600](always[0,2](v_1 > 60) -> eventually[0,10](v_1 < 50))",
+    pred_stl:"always ( peak_hours == true -> (historically [0:120] (v_1 > 60) -> eventually [0:600] (v_1 < 50)) )",
+  },
+  {
+    taskid:163,
+    gold_stl:"always[0,20](x_1 > 0.5) and always[0,20](x_3 > 5)",
+    pred_stl:"always (x_3 > 5) and always [0:20] (x_1 > 0.5)",
+  },
+  {
+    taskid:164,
+    gold_stl:"always[120,300](v >= 60) and (obstacle -> eventually[0,30](v < 30))",
+    pred_stl:"always [120:300] ( not (obstacle == 1) -> speed >= 60 ) and always [120:300] ( rise (obstacle == 1) -> eventually [0:30] (speed < 30) )",
+  },
+  {
+    taskid:165,
+    gold_stl:"always[0,10](x3 == 2) -> eventually[15,20](x4 == 3)",
+    pred_stl:"always [0:10] (x3 == 2) -> eventually [15:20] (x4 == 3)",
+  },
+  {
+    taskid:166,
+    gold_stl:"always[0,10](A > 7) and always[0,10](B <= 15) -> eventually[0,30](C > 20)",
+    pred_stl:"always [0:10] (sensorA > 7) and always [0:10] (sensorB <= 15) -> eventually [0:30] (sensorC > 20)",
+  },
+  {
+    taskid:167,
+    gold_stl:"eventually[0,10](torque > 25) -> always[20,30](speed < 0.5)",
+    pred_stl:"always [0:10] ( torque > 25 -> eventually [20:30] (arm_speed <= 0.5) )",
+  },
+  {
+    taskid:168,
+    gold_stl:"always[420,540](v <= 50)",
+    pred_stl:"always ( time >= 7 and time < 9 and approaching_school_zone == true -> speed <= 50 )",
+  },
+  {
+    taskid:169,
+    gold_stl:"always[0,150](torque > 40) -> (eventually[0,100](grip_sensor > 5) or always[0,50](vibration < 2))",
+    pred_stl:"always [0:150] (torque > 40) -> eventually [150:250] (grip > 5) or always [150:200] (vibration < 2)",
+  },
+  {
+    taskid:170,
+    gold_stl:"always[100,500]((d < 2) -> eventually[10,30](d > 4))",
+    pred_stl:"always [100:500] ( following_distance < 2 -> eventually [10:30] (following_distance > 4) )",
+  },
+  {
+    taskid:171,
+    gold_stl:"always[0,20](p_1 > 150) and eventually[0,20](v_1 > 0.5) -> always[0,30](t_3 < 50)",
+    pred_stl:"historically [0:20] (p1 > 150) and once [0:20] (v1 > 0.5) -> always [0:30] (t3 < 50)",
+  },
+  {
+    taskid:172,
+    gold_stl:"always[0,600](speed > 100) -> eventually[0,300](speed < 50)",
+    pred_stl:"always ( historically [0:10] (speed > 100) -> eventually [0:5] (speed < 50) )",
+  },
+  {
+    taskid:173,
+    gold_stl:"always[0,100](x_3 < 0.2) -> eventually[50,150](x_4 > 1.0)",
+    pred_stl:"always [0:100] (x_3 < 0.2) -> eventually [50:150] (x_4 > 1.0)",
+  },
+  {
+    taskid:174,
+    gold_stl:"always[0,600](x1 > 60 -> eventually[30,60](x2 > 0.5))",
+    pred_stl:"always [0:600] ( x1 > 60 -> eventually [30:60] (x2 > 0.5) )",
+  },
+  {
+    taskid:175,
+    gold_stl:"always((pedestrian_detected -> eventually[0,2](stop)))",
+    pred_stl:"always ( rise (pedestrian_crossing == 1) -> eventually [0:2] (speed == 0) )",
+  },
+  {
+    taskid:176,
+    gold_stl:"always[2,8](y1 - y3 <= 10)",
+    pred_stl:"always [2:8] (y1 - y3 <= 10)",
+  },
+  {
+    taskid:177,
+    gold_stl:"always[0,60]((distance_front < 10) -> (speed < 50))",
+    pred_stl:"always ( distance < 10 -> always [0:60] (speed < 50) )",
+  },
+  {
+    taskid:178,
+    gold_stl:"eventually[0,10](pedestrian_crossing > 0) -> always[0,5](vehicle_speed == 0)",
+    pred_stl:"eventually [0:10] (rise (pedestrian_crossing == true)) -> eventually (always [0:5] (speed == 0))",
+  },
+  {
+    taskid:179,
+    gold_stl:"always[2,8](x_3 > 5) -> eventually[5,9](x_4 < -3)",
+    pred_stl:"always [2:8] (x_3 > 5) -> eventually [5:9] (x_4 < -3)",
+  },
+  {
+    taskid:180,
+    gold_stl:"always[10,20](z > 1.2) -> eventually[22,30](y > 2)",
+    pred_stl:"always [10:20] (z > 1.2) -> eventually [22:30] (y > 2)",
+  },
+  {
+    taskid:181,
+    gold_stl:"always[0,15](p_1 > 200) -> eventually[10,20](f_1 > 100)",
+    pred_stl:"always ( always [0:15] (p_1 > 200) -> eventually [10:20] (f_1 > 100) )",
+  },
+  {
+    taskid:182,
+    gold_stl:"eventually[0,2](traffic_density > 80) -> eventually[0,5](speed < 45)",
+    pred_stl:"always ( rise (density > 80) -> eventually [0:5] (speed < 45) )",
+  },
+  {
+    taskid:183,
+    gold_stl:"always[0,4](t > 30) -> eventually[4,6](h < 40)",
+    pred_stl:"always [0:4] (t > 30) -> eventually [4:6] (h < 40)",
+  },
+  {
+    taskid:184,
+    gold_stl:"always[500,1000](z <= 40 and (x < 10 -> eventually[0,60](x >= 20)))",
+    pred_stl:"always [500:1000] (z <= 40 and (x < 10 -> eventually [0:60] (x >= 20)))",
+  },
+  {
+    taskid:185,
+    gold_stl:"always[0,30](y1 > 5) until[30,50](y2 > 10)",
+    pred_stl:"(y1 > 5) until [30:50] (y2 > 10)",
+  },
+  {
+    taskid:186,
+    gold_stl:"eventually[0,10](x_3 > 0.8) and always[10,20](x_3 > 0.9)",
+    pred_stl:"always ( rise (x_3 > 0.8) -> eventually [10:20] (always (x_3 > 0.9)) )",
+  },
+  {
+    taskid:187,
+    gold_stl:"always[0,10](y < 0.2) until[10,15](y > 0.8)",
+    pred_stl:"(y < 0.2) until [10:15] (y > 0.8)",
+  },
+  {
+    taskid:188,
+    gold_stl:"always[0,30](x_1 < -10)",
+    pred_stl:"always [0:30] (x_1 < -10)",
+  },
+  {
+    taskid:189,
+    gold_stl:"always[0,60](always[0,10](p1 > 120) -> eventually[0,30](s1 > 70))",
+    pred_stl:"always [0:60] ( always [0:10] (p1 > 120) -> eventually [0:30] (s1 > 70) )",
+  },
+  {
+    taskid:190,
+    gold_stl:"always( (light_color == red -> always[0,0](Speed == 0)) and (light_color == green -> eventually[0,5](Speed > 0)) )",
+    pred_stl:"always ( light == RED -> speed == 0 ) and always ( rise (light == GREEN) -> eventually [0:5] (speed > 0) )",
+  },
+  {
+    taskid:191,
+    gold_stl:"always(obstacle_detected -> eventually[0,2](vehicle_speed == 0))",
+    pred_stl:"always ( rise (obstacle == true) -> eventually [0:2] (speed == 0) )",
+  },
+  {
+    taskid:192,
+    gold_stl:"always[2,7](s1 < 10) -> (eventually[4,9](s2 > 15) or always[3,8](s3 < -5))",
+    pred_stl:"always ( always [2:7] (s1 < 10) -> eventually [4:9] (s2 > 15) or always [3:8] (s3 < -5) )",
+  },
+  {
+    taskid:193,
+    gold_stl:"always[0,200]((v1 > 90) -> eventually[0,10](s1 < 2))",
+    pred_stl:"always [0:200] ( v1_speed > 90 -> eventually [0:10] (s1_distance < 2) )",
+  },
+  {
+    taskid:194,
+    gold_stl:"always[0,15](p_1 < 20) -> (eventually[10,20](l_1 > 10) or always[5,25](f_1 < 30))",
+    pred_stl:"always [0:15] (p1 < 20) -> eventually [10:20] (l1 > 10) or always [5:25] (f1 < 30)",
+  },
+  {
+    taskid:195,
+    gold_stl:"eventually[0,5](x_1 > 10) and always[5,10](x_1 > 10)",
+    pred_stl:"eventually [0:5] (x_1 > 10) and always [5:10] (x_1 > 10)",
+  },
+  {
+    taskid:196,
+    gold_stl:"always[0,10](x1 < 1) -> eventually[0,30](v < 10)",
+    pred_stl:"always ( historically [0:10] (distance <= 1) -> eventually [0:30] (speed < 10) )",
+  },
+  {
+    taskid:197,
+    gold_stl:"always[2,5](x_3 > 10) -> eventually[2,5](x_1 > 15)",
+    pred_stl:"historically [2:5] (x3 > 10) -> eventually [2:5] (x1 > 15)",
+  },
+  {
+    taskid:198,
+    gold_stl:"eventually[0,120](obstacle_detected > 0) -> (eventually[0,5](speed < 30) and always[5,15](speed < 30))",
+    pred_stl:"always [0:120] ( obstacle_detected == true -> eventually [0:5] (speed < 30 and always [0:10] (speed < 30)) )",
+  },
+  {
+    taskid:199,
+    gold_stl:"always[0,5](t_1 < 20) -> eventually[4,8](p_1 > 100)",
+    pred_stl:"always [0:5] (t_1 < 20) -> eventually [4:8] (p_1 > 100)",
+  },
+  {
+    taskid:200,
+    gold_stl:"always[0,100](z<=50) and eventually[100,200](z>70)",
+    pred_stl:"always [0:100] (z <= 50) and eventually [100:200] (z > 70)",
+  },
+  {
+    taskid:201,
+    gold_stl:"eventually[2,5](x_1 > 80) -> eventually[3,6](x_2 > 500)",
+    pred_stl:"always [2:5] ( x1 > 80 -> eventually [1:3] (x2 > 500) )",
+  },
+  {
+    taskid:202,
+    gold_stl:"always[0,10](speed < 30) -> always[0,10](distance_to_pedestrian > 5)",
+    pred_stl:"always [0:10] (speed < 30) -> always [0:10] (pedestrian_distance > 5)",
+  },
+  {
+    taskid:203,
+    gold_stl:"always[0,60](p1 <= 100 and t3 >= 20)",
+    pred_stl:"always [0:60] (p1 <= 100) and always [0:60] (t3 >= 20)",
+  },
+  {
+    taskid:204,
+    gold_stl:"always[0,300](b_1 >= 80) and eventually[300,900](d_1 < 2) -> always[0,900](s_1 <= 2)",
+    pred_stl:"always [0:5] (b_1 >= 80) and eventually [5:15] (d_1 < 2) -> always [0:15] (s_1 <= 2)",
+  },
+  {
+    taskid:205,
+    gold_stl:"always[50,100](x_3>1.2) or eventually[60,90](x_4>2.0)",
+    pred_stl:"always [50:100] (x_3 > 1.2 or eventually [60:90] (x_4 > 2.0))",
+  },
+  {
+    taskid:206,
+    gold_stl:"always[50,200](v > 10) -> (always[201,300](u > 20) -> always[200,400](w <= 50))",
+    pred_stl:"always [50:200] (v > 10) and always [200:400] (u > 20) -> always [200:400] (w <= 50)",
+  },
+  {
+    taskid:207,
+    gold_stl:"eventually[0,600](v > 100) -> eventually[0,900](always[0,300](v < 50))",
+    pred_stl:"eventually [0:10] (speed > 100) -> eventually [10:20] (always [0:5] (speed < 50))",
+  },
+  {
+    taskid:208,
+    gold_stl:"always[50,150]((x_1+x_2>1.5) -> eventually[5,10](x_3<0.3))",
+    pred_stl:"always [50:150] ( x_1 + x_2 > 1.5 -> eventually [5:10] (x_3 < 0.3) )",
+  },
+  {
+    taskid:209,
+    gold_stl:"eventually[0,120](obstacleDetected > 0) -> eventually[0,10](vehicleSpeed == 0)",
+    pred_stl:"always ( obstacle == true -> eventually [0:10] (speed == 0) )",
+  },
+  {
+    taskid:210,
+    gold_stl:"always[6,12](y>10) and eventually[12,15](y<5)",
+    pred_stl:"always [6:12] (y > 10) and always [12:15] (y < 5)",
+  },
+  {
+    taskid:211,
+    gold_stl:"always(proximity < 2 -> x_speed < 20)",
+    pred_stl:"always ( proximity < 2 -> speed < 20 )",
+  },
+  {
+    taskid:212,
+    gold_stl:"always[0,60](p1 > 80) and eventually[60,100](v2 > 30) -> always[100,120](p1 > 60)",
+    pred_stl:"always [0:60] (p1 > 80) and eventually [60:100] (v2 > 30) -> always [100:120] (p1 >= 60)",
+  },
+  {
+    taskid:213,
+    gold_stl:"always[5,10](x1 > 12) -> eventually[5,10](x2 > 300)",
+    pred_stl:"always [5:10] (x1 > 12) -> eventually [5:10] (x2 > 300)",
+  },
+  {
+    taskid:214,
+    gold_stl:"always[0,10](temperature > 25)",
+    pred_stl:"always [0:10] (temperature > 25)",
+  },
+  {
+    taskid:215,
+    gold_stl:"always[0,120](h_1 > 85) and always[0,120](eventually[0,30](l_1 <= 300)) -> eventually[0,60](q_1 < 50)",
+    pred_stl:"always ( always [0:120] (h1 > 85) and always [0:120] (eventually [0:30] (l1 <= 300)) -> eventually [120:180] (q1 < 50) )",
+  },
+  {
+    taskid:216,
+    gold_stl:"always[0,50](j1 < 45)",
+    pred_stl:"always [0:50] (j1 < 45)",
+  },
+  {
+    taskid:217,
+    gold_stl:"always[100,200]((x_3 < -0.5) -> always[0,50](x_3 < 0.5))",
+    pred_stl:"always [100:200] ( x_3 < -0.5 -> always [0:150] (x_3 < 0.5) )",
+  },
+  {
+    taskid:218,
+    gold_stl:"always[0,60](always[0,20](V1 > 110) and always[0,20](I1 < 5) -> always[0,60](eventually[0,10](V1 >= 100)))",
+    pred_stl:"always ( historically [0:20] (V1 > 110 and I1 < 5) -> not (eventually [0:50] (always [0:10] (V1 < 100))) )",
+  },
+  {
+    taskid:219,
+    gold_stl:"always[0,100](v1 > 15) -> always[0,60](i1 <= 5)",
+    pred_stl:"always ( historically [0:100] (v1 > 15) -> eventually (always [0:60] (i1 <= 5)) )",
+  },
+  {
+    taskid:220,
+    gold_stl:"always[400,1200](z <= 75 and (z < 10 -> eventually[0,100](always[0,30](z > 50))))",
+    pred_stl:"always [400:1200] (z <= 75 and (z < 10 -> eventually [0:100] (z > 50 and always [0:30] (z > 50))))",
+  },
+  {
+    taskid:221,
+    gold_stl:"eventually[2,6](s1 == 5)",
+    pred_stl:"eventually [2:6] (s1 == 5)",
+  },
+  {
+    taskid:222,
+    gold_stl:"always[0,15](p1 < 30) -> eventually[10,20](h1 > 80)",
+    pred_stl:"always ( historically [0:15] (p1 < 30) -> eventually [10:20] (h1 > 80) )",
+  },
+  {
+    taskid:223,
+    gold_stl:"always[0,10]((x_sensor < 2) -> (x_speed < 45))",
+    pred_stl:"always ( proximity < 2 -> always [0:10] (speed < 45) )",
+  },
+  {
+    taskid:224,
+    gold_stl:"always[10,30](x_3 > 5) -> eventually[5,15](x_4 > 8)",
+    pred_stl:"always ( (x_3 > 5) since [10:30] (x_3 <= 5) -> eventually [5:15] (x_4 > 8) )",
+  },
+  {
+    taskid:225,
+    gold_stl:"always[0,50](p_1 > 40) -> eventually[60,120](p_2 < 10)",
+    pred_stl:"always [0:50] (p1 > 40) -> eventually [60:120] (p2 < 10)",
+  },
+  {
+    taskid:226,
+    gold_stl:"always[0,50](v_1 < 75) and eventually[60,120](v_1 > 100)",
+    pred_stl:"always [0:50] (v_1 < 75) and eventually [60:120] (v_1 > 100)",
+  },
+  {
+    taskid:227,
+    gold_stl:"(temp > 30) until[12,18] (temp < 15)",
+    pred_stl:"eventually (temperature < 15 and once [12:18] (temperature > 30))",
+  },
+  {
+    taskid:228,
+    gold_stl:"eventually[0,30](p_1 > 200) -> always[0,60](p_2 >= 100)",
+    pred_stl:"eventually [0:30] (p1 > 200) -> always [0:60] (p2 >= 100)",
+  },
+  {
+    taskid:229,
+    gold_stl:"always[0,20](p1 > 15) and always[20,45](p2 <= 30) -> always[45,60](p1 < 10)",
+    pred_stl:"always ( always [0:20] (p1 > 15) and always [20:45] (p2 <= 30) -> always [45:60] (p1 < 10) )",
+  },
+  {
+    taskid:230,
+    gold_stl:"always(d < 2 -> eventually[0,3](v < 10))",
+    pred_stl:"always ( obstacle_distance < 2 -> eventually [0:3] (speed < 10) )",
+  },
+  {
+    taskid:231,
+    gold_stl:"eventually[0,60](always[0,10](p_1 > 100)) -> always[10,70](s_1 <= 80)",
+    pred_stl:"always ( rise (once [0:60] (historically [0:10] (p_1 > 100))) -> always [10:70] (s_1 <= 80) )",
+  },
+  {
+    taskid:232,
+    gold_stl:"always[100,200](x_1>1.0 -> always[0,10](x_1<0.5))",
+    pred_stl:"always [100:200] ( x_1 > 1.0 -> always [0:10] (x_1 < 0.5) )",
+  },
+  {
+    taskid:233,
+    gold_stl:"always[0,10](p1 > 3) -> (eventually[0,50](always[0,5](p2 < 5))) -> not eventually[0,100](always[0,20](p1 < 2))",
+    pred_stl:"always [0:10] (p1 > 3) and eventually [10:55] (always [0:5] (p2 < 5)) -> not (eventually [0:80] (always [0:20] (p1 < 2)))",
+  },
+  {
+    taskid:234,
+    gold_stl:"always[10,30](x_1 < 600) -> eventually[0,1](headlights_on == true)",
+    pred_stl:"always ( historically [0:10] (x_1 < 600) -> headlights == 1 )",
+  },
+  {
+    taskid:235,
+    gold_stl:"(always[0,5](v1 > 10) or always[0,5](j1 > 300)) -> not eventually[10,20](a1 > 70)",
+    pred_stl:"always [0:5] (v1_velocity > 10) or eventually [0:5] (j1_rotation_speed > 300) -> always [10:20] (arm_a1_rotation <= 70)",
+  },
+  {
+    taskid:236,
+    gold_stl:"always[0,10](x_1 < 2)",
+    pred_stl:"always [0:10] (x1 < 2)",
+  },
+  {
+    taskid:237,
+    gold_stl:"always[0,5](x_1 < 5) -> eventually[3,8](x_2 > 10)",
+    pred_stl:"always [0:5] (x_1 < 5) -> eventually [3:8] (x_2 > 10)",
+  },
+  {
+    taskid:238,
+    gold_stl:"always[100,500](((5 <= z) and (z <= 15))) and (z > 20 -> eventually[0,60](always[0,30](z < 10)))",
+    pred_stl:"always [100:500] (z >= 5 and z <= 15) and always ( z > 20 -> eventually [0:60] (always [0:30] (z < 10)) )",
+  },
+  {
+    taskid:239,
+    gold_stl:"always[0,600](v1 > 60) and eventually[0,5](proximity_sensor < 2) -> eventually[0,900](v1 < 30)",
+    pred_stl:"historically [0:600] (v1 > 60) and once [0:600] (historically [0:5] (distance < 2)) -> eventually [0:900] (v1 < 30)",
+  },
+  {
+    taskid:240,
+    gold_stl:"eventually[0,30](always[0,10](proximity < 2)) -> eventually[0,5](speed < 10)",
+    pred_stl:"always ( historically [0:10] (distance < 2) -> eventually [0:5] (speed < 10) )",
+  },
+  {
+    taskid:241,
+    gold_stl:"eventually[0,200](always[0,25](d_R1 < 2) -> not eventually[0,60](v_R2 > 10))",
+    pred_stl:"always [0:200] ( historically [0:25] (distance_R1 < 2) -> always [0:60] (speed_R2 <= 10) )",
+  },
+  {
+    taskid:242,
+    gold_stl:"always[2,8](x_1 > 10) -> eventually[6,9](x_3 > 15)",
+    pred_stl:"always [2:8] (x1 > 10) -> eventually [6:9] (x3 > 15)",
+  },
+  {
+    taskid:243,
+    gold_stl:"always((x1>30 and x2>0.5) -> eventually[0,2](x1<30))",
+    pred_stl:"always ( rise (x2 > 0.5) and x1 > 30 -> eventually [0:120] (x1 < 30) )",
+  },
+  {
+    taskid:244,
+    gold_stl:"always[0,60](p_1 >= 100 -> eventually[0,20](h_1 < 30))",
+    pred_stl:"always [0:60] ( rise (p1 >= 100) -> eventually [0:20] (h1 < 30) )",
+  },
+  {
+    taskid:245,
+    gold_stl:"always[0,60](p > 100 -> eventually[0,30](p < 80))",
+    pred_stl:"always [0:60] ( p > 100 -> eventually [0:30] (p < 80) )",
+  },
+  {
+    taskid:246,
+    gold_stl:"(obstacle_detected > 0) -> eventually[0,2](speed == 0)",
+    pred_stl:"always ( rise (obstacle_detected == true) -> eventually [0:2] (speed == 0) )",
+  },
+  {
+    taskid:247,
+    gold_stl:"always[0,10](x_3 > 1.5) and (eventually[5,15](x_4 < 0) -> eventually[0,5](x_5 > 0.5))",
+    pred_stl:"always [0:10] (x_3 > 1.5) and always [5:15] ( x_4 < 0 -> eventually [0:5] (x_5 > 0.5) )",
+  },
+  {
+    taskid:248,
+    gold_stl:"always(distance < 5 -> always[0,0](speed < speed_vehicle_in_front))",
+    pred_stl:"always ( distance < 5 -> eventually (slow_down == true) )",
+  },
+  {
+    taskid:249,
+    gold_stl:"always[10,20](x_3<0.5) -> eventually[15,25](x_4>2.0)",
+    pred_stl:"always ( always [10:20] (x_3 < 0.5) -> eventually [15:25] (x_4 > 2.0) )",
+  },
+  {
+    taskid:250,
+    gold_stl:"always[1,8](x_1 > 10) -> eventually[3,10](y_1 > 5)",
+    pred_stl:"always [1:8] (x_1 > 10) -> eventually [3:10] (y_1 > 5)",
+  },
+  {
+    taskid:251,
+    gold_stl:"always[0,10](x_speed > 50) until[0,10](x_traffic_density > critical_level)",
+    pred_stl:"always (eventually [0:10] (traffic_density > critical_level) or speed > 50)",
+  },
+  {
+    taskid:252,
+    gold_stl:"eventually[0,10](x_1 > 3) -> eventually[0,15](always[0,5](x_2 < 20))",
+    pred_stl:"always [0:10] ( rise (x1 > 3) -> eventually [0:15] (always [0:5] (x2 < 20)) )",
+  },
+  {
+    taskid:253,
+    gold_stl:"always[0,10](v_r >= 3) -> eventually[5,15](height_A > 50)",
+    pred_stl:"always [0:10] (v_r >= 3) -> eventually [5:15] (height_A > 50)",
+  },
+  {
+    taskid:254,
+    gold_stl:"eventually[0,10](x_speed > 80 and in_highway == true) -> eventually[0,5](x_speed < 60)",
+    pred_stl:"always [0:10] ( speed > 80 and zone == HIGHWAY -> eventually [0:5] (speed < 60) )",
+  },
+  {
+    taskid:255,
+    gold_stl:"eventually[0,50](s_1 > 40) -> always[0,30](s_1 < 20)",
+    pred_stl:"always [0:50] ( s1 > 40 -> always [0:30] (s1 < 20) )",
+  },
+  {
+    taskid:256,
+    gold_stl:"always[0,200](eventually[0,0](y1 < 3) -> always[10,20](y3 > 5))",
+    pred_stl:"always [0:200] ( y1 < 3 -> always [10:20] (y3 > 5) )",
+  },
+  {
+    taskid:257,
+    gold_stl:"always[0,1000](z<50) -> eventually[0,200](z>75 or z<20)",
+    pred_stl:"always [0:1000] (z < 50) -> eventually [1000:1200] (z > 75 or z < 20)",
+  },
+  {
+    taskid:258,
+    gold_stl:"eventually[0,30](v > 120) and always[30,60](v > 80)",
+    pred_stl:"eventually [0:30] (v > 120) and always [0:60] (v > 80)",
+  },
+  {
+    taskid:259,
+    gold_stl:"always[0,50](p > 120) and eventually[60,100](v > 30) -> eventually[0,200](always[0,30](t < 40))",
+    pred_stl:"always [0:50] (p > 120) and always [60:100] (v > 30) -> eventually [100:300] (always [0:30] (t < 40))",
+  },
+  {
+    taskid:260,
+    gold_stl:"eventually[0,60](h1 > 80) -> always[0,120](p1 > 750)",
+    pred_stl:"always ( h1 > 80 -> always [0:120] (p1 > 750) )",
+  },
+  {
+    taskid:261,
+    gold_stl:"always[2,7](p1 > 120) -> eventually[5,10](v1 <= 100)",
+    pred_stl:"always [2:7] (p1 > 120) -> eventually [5:10] (v1_position <= 100)",
+  },
+  {
+    taskid:262,
+    gold_stl:"eventually[0,15](speed > 60) -> eventually[0,30](speed < 40)",
+    pred_stl:"always ( eventually [0:15] (speed > 60) -> eventually [0:30] (speed < 40) )",
+  },
+  {
+    taskid:263,
+    gold_stl:"always(zone==1 -> always[0,60](speed < 30))",
+    pred_stl:"always ( rise (zone == 1) -> always [0:60] (speed < 30) )",
+  },
+  {
+    taskid:264,
+    gold_stl:"always[0,5](x1 > 100)",
+    pred_stl:"always [0:5] (x1 > 100)",
+  },
+  {
+    taskid:265,
+    gold_stl:"always(x_obstacle > 0 -> eventually[0,2](x_speed == 0))",
+    pred_stl:"always ( obstacle == 1 -> eventually [0:2] (speed == 0) )",
+  },
+  {
+    taskid:266,
+    gold_stl:"always(x_1>10 -> eventually[1,2](x_1<8))",
+    pred_stl:"always ( x_1 > 10 -> eventually [1:2] (x_1 < 8) )",
+  },
+  {
+    taskid:267,
+    gold_stl:"always[5,15](x_3 > 10) -> eventually[10,20](x_4 > 20)",
+    pred_stl:"always [5:15] (x3 > 10) -> eventually [10:20] (x4 > 20)",
+  },
+  {
+    taskid:268,
+    gold_stl:"eventually[0,120](always[0,40](p1 > 20) and always[0,75](p2 <= 35)) -> always[120,180](p1 > 25)",
+    pred_stl:"eventually [0:80] (always [0:40] (p1 > 20)) and always [0:75] (p2 <= 35) -> always [120:180] (p1 > 25)",
+  },
+  {
+    taskid:269,
+    gold_stl:"always[0,60](v <= 50)",
+    pred_stl:"always [0:60] (velocity <= 50)",
+  },
+  {
+    taskid:270,
+    gold_stl:"always[0,10](obstacle_distance < 20) -> eventually[0,30](speed < 5)",
+    pred_stl:"always ( historically [0:10] (distance <= 20) -> eventually [0:30] (speed < 5) )",
+  },
+  {
+    taskid:271,
+    gold_stl:"always[0,30](p_1 > 100) and eventually[0,30](v_1 < 20) -> always[10,40](p_2 <= 150)",
+    pred_stl:"always ( always [0:30] (p1 > 100) and eventually [0:30] (v1 < 20) -> always [10:40] (p2 <= 150) )",
+  },
+  {
+    taskid:272,
+    gold_stl:"always[0,100](x_3<0.5) -> eventually[5,7](x_4>0.9)",
+    pred_stl:"always [0:100] (x_3 < 0.5) -> eventually [5:7] (x_4 > 0.9)",
+  },
+  {
+    taskid:273,
+    gold_stl:"always[0,50](p1 > 500 -> always[5,10](h1 < 30))",
+    pred_stl:"always [0:50] ( p1 > 500 -> always [5:10] (h1 < 30) )",
+  },
+  {
+    taskid:274,
+    gold_stl:"always[0,10](t_1 > 30) -> (always[0,10](h_1 < 75) and eventually[5,15](p_1 < 1000))",
+    pred_stl:"always ( always [0:10] (t_1 > 30) -> always [0:10] (h_1 < 75) and eventually [15:25] (p_1 < 1000) )",
+  },
+  {
+    taskid:275,
+    gold_stl:"eventually[3,10](x_2 < 0.5) -> always[0,5](x_1 > 0.8)",
+    pred_stl:"eventually [3:10] (fall (x_2 < 0.5)) -> always [0:5] (x_1 > 0.8)",
+  },
+  {
+    taskid:276,
+    gold_stl:"always[0,5](x_3 > 7) and always[6,10](x_3 <= 10)",
+    pred_stl:"always [0:5] (x3 > 7) and always [6:10] (x3 <= 10)",
+  },
+  {
+    taskid:277,
+    gold_stl:"always[0,600](speed < 50) and (temp > 35 -> eventually[0,300](speed < 30))",
+    pred_stl:"always [0:10] (speed < 50) and always ( rise (temp > 35) -> eventually [0:5] (speed < 30) )",
+  },
+  {
+    taskid:278,
+    gold_stl:"(z > 1.2) until[10,20] (z < 0.3)",
+    pred_stl:"(z > 1.2) until [10:20] (z < 0.3)",
+  },
+  {
+    taskid:279,
+    gold_stl:"always[0,50](p_1 < 30) -> eventually[60,120](h_1 > 85)",
+    pred_stl:"always [0:50] (p1 < 30) -> eventually [60:120] (h1 > 85)",
+  },
+  {
+    taskid:280,
+    gold_stl:"always[0,10](speed < 25) -> eventually[0,30](pedestrian_alert == true)",
+    pred_stl:"always ( historically [0:10] (speed < 25 and school_zone_active == true) -> eventually [0:30] (ped_alert == true) )",
+  },
+  {
+    taskid:281,
+    gold_stl:"always[0,30](x_1 < 0.5) -> eventually[0,60](x_2 > 0.8)",
+    pred_stl:"always ( historically [0:30] (x_1 < 0.5) -> eventually [0:60] (x_2 == true) )",
+  },
+  {
+    taskid:282,
+    gold_stl:"always[0,60](x < 10) -> (eventually[100,200](x > 20) and always[100,200](z >= -5))",
+    pred_stl:"always [0:60] (x < 10) -> eventually [100:200] (x > 20) and always [100:200] (z >= -5)",
+  },
+  {
+    taskid:283,
+    gold_stl:"always[100,500](z <= 50) and eventually[600,800](z < 10)",
+    pred_stl:"always [100:500] (z <= 50) and eventually [600:800] (z < 10)",
+  },
+  {
+    taskid:284,
+    gold_stl:"always[2,6](x_3 < -0.5) -> eventually[3,7](x_4 > 1.0)",
+    pred_stl:"always ( always [2:6] (x3 < -0.5) -> eventually [3:7] (x4 > 1.0) )",
+  },
+  {
+    taskid:285,
+    gold_stl:"always(v1 > 60 -> eventually[0,5](v1 <= 50))",
+    pred_stl:"always ( speed > 60 -> eventually [0:5] (speed <= 50) )",
+  },
+  {
+    taskid:286,
+    gold_stl:"always[0,30](d_pedestrian < 10) -> eventually[0,60](speed < 10)",
+    pred_stl:"historically [0:30] (distance <= 10) -> eventually [0:60] (speed < 10)",
+  },
+  {
+    taskid:287,
+    gold_stl:"always[0,100]((x_3<=0.5) -> eventually[2,4](x_4<0.3))",
+    pred_stl:"always [0:100] ( x_3 <= 0.5 -> eventually [2:4] (x_4 < 0.3) )",
+  },
+  {
+    taskid:288,
+    gold_stl:"always[0,10](p1 < 300) -> eventually[15,25](v1 > 100)",
+    pred_stl:"always [0:10] (p1 < 300) -> eventually [15:25] (v1 > 100)",
+  },
+  {
+    taskid:289,
+    gold_stl:"eventually[1,4](x_2 < 0.3) and eventually[5,7](y_2 > 0.6) -> always[6,9](z_2 > 0.8)",
+    pred_stl:"eventually [1:4] (rise (x_2 < 0.3)) and eventually [5:7] (rise (y_2 > 0.6)) -> always [6:9] (z_2 > 0.8)",
+  },
+  {
+    taskid:290,
+    gold_stl:"always[2,12](x_1 > 3)",
+    pred_stl:"always [2:12] (x_1 > 3)",
+  },
+  {
+    taskid:291,
+    gold_stl:"always[0,60](x + y < 100) -> eventually[61,110](x * y > 200)",
+    pred_stl:"always [0:60] (x + y < 100) and eventually [60:110] (x * y > 200)",
+  },
+  {
+    taskid:292,
+    gold_stl:"always[0,5] (not (J1 > 45)) -> eventually[5,15] (J2 > 90)",
+    pred_stl:"always [0:5] (J1 <= 45) -> eventually [5:15] (J2 > 90)",
+  },
+  {
+    taskid:293,
+    gold_stl:"always[50,150](avg_temp > 20) -> eventually[180,200](humidity > 40)",
+    pred_stl:"always [50:150] (temperature > 20) -> eventually [180:200] (humidity > 40)",
+  },
+  {
+    taskid:294,
+    gold_stl:"always[2,4](x_2 < 10) -> eventually[5,8](x_4 > 12)",
+    pred_stl:"always ( historically [2:4] (x_2 < 10) -> eventually [5:8] (x_4 > 12) )",
+  },
+  {
+    taskid:295,
+    gold_stl:"eventually[2,6](y1 > 3) -> always[0,5](y2 < 1)",
+    pred_stl:"always [2:6] ( y1 > 3 -> always [0:5] (y2 < 1) )",
+  },
+  {
+    taskid:296,
+    gold_stl:"always[0,15](speed > 60) -> always[15,45](distance_to_front_vehicle >= 10)",
+    pred_stl:"historically [0:15] (speed > 60) -> always [0:30] (distance >= 10)",
+  },
+  {
+    taskid:297,
+    gold_stl:"eventually[0,20](v > 5) -> always[0,40](p > 80)",
+    pred_stl:"always [0:20] ( v > 5 -> always [0:40] (p > 80) )",
+  },
+  {
+    taskid:298,
+    gold_stl:"always[0,10](x1 > 1.5) -> always[0,20](x2 < 2)",
+    pred_stl:"historically [0:10] (x1 > 1.5) -> always [0:20] (x2 < 2)",
+  },
+  {
+    taskid:299,
+    gold_stl:"always[0,10](x_10 > 5) -> eventually[5,15](y_10 < 2)",
+    pred_stl:"always ( always [0:10] (x_10 > 5) -> eventually [5:15] (y_10 < 2) )",
+  }
+}
