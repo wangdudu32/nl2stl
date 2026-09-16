@@ -4,7 +4,7 @@
 
 | 记号 | 含义 |
 |---|---|
-| `e`、`f` | 信号或数值，如 `` `sig1` ``、`5.2` |
+| `e`、`f` | 信号或数值，如 sig1、`5.2` |
 | `P`、`Q` | 任意完整 DSL 子表达式，可递归嵌套 |
 | `a`、`b` | 时间下界与上界，满足 `0 <= a <= b` |
 | `I` | 有限闭区间 `[a, b]`，包含两个端点 |
@@ -12,7 +12,7 @@
 
 这些是规则占位符，实际表达式必须替换为具体内容，不是需要声明的信号或符号参数。
 
-- 信号名称原样保留并加反引号，如 `` `sig1` ``；不预设物理含义。数字可为整数或小数，不带物理单位。比较对象也可为另一信号。
+- 信号名称原样保留，不加引号或反引号，如 sig1；不预设物理含义。数字可为整数或小数，不带物理单位。比较对象也可为另一信号。
 - 时间使用抽象的 `time units`，不默认表示秒；时间端点与信号值阈值是不同的量。
 - 普通 `{ ... }` 内恰好一个表达式，末尾不加分号；`all of`、`any of` 至少两项，每项以分号结束。
 - 所有子表达式均可递归组合，花括号决定作用域。单独的比较不隐含全局要求。
@@ -28,25 +28,24 @@
 
 ## 2. 全部表述的转换对应
 
-`T(P)` 表示将 DSL 子表达式 P 递归转换成 STL；`V(e)` 表示输出信号名或数值：信号去掉反引号，名称和数值保持不变。`T`、`V` 都是规则记号，不出现在最终公式中。
+STL 列中的 P、Q 表示相应 DSL 子表达式递归转换后的 STL 子公式；e、f 表示原样输出的信号名或数值。这些字母都是规则占位符，不出现在最终公式中。
 
 ### 比较、逻辑、条件与变化
 
 | DSL | STL |
 |---|---|
-| `e is equal to f` | `(V(e) == V(f))` |
-| `e is not equal to f` | `not(V(e) == V(f))` |
-| `e is less than f` | `(V(e) < V(f))` |
-| `e is less than or equal to f` | `(V(e) <= V(f))` |
-| `e is greater than f` | `(V(e) > V(f))` |
-| `e is greater than or equal to f` | `(V(e) >= V(f))` |
-| `all of { P; Q; }` | `(T(P) and T(Q))` |
-| `any of { P; Q; }` | `(T(P) or T(Q))` |
-| `it is not the case that { P }` | `not(T(P))` |
-| `if { P } then { Q }` | `(T(P) -> T(Q))` |
-| `whenever { P } then { Q }` | `always(T(P) -> T(Q))` |
-| `becomes true { P }` | `rise(T(P))` |
-| `becomes false { P }` | `fall(T(P))` |
+| `e is equal to f` | `(e == f)` |
+| `e is not equal to f` | `not(e == f)` |
+| `e is less than f` | `(e < f)` |
+| `e is less than or equal to f` | `(e <= f)` |
+| `e is greater than f` | `(e > f)` |
+| `e is greater than or equal to f` | `(e >= f)` |
+| `all of { P; Q; }` | `(P and Q)` |
+| `any of { P; Q; }` | `(P or Q)` |
+| `it is not the case that { P }` | `not(P)` |
+| `if { P } then { Q }` | `(P -> Q)` |
+| `becomes true { P }` | `rise(P)` |
+| `becomes false { P }` | `fall(P)` |
 
 多项 `all of`、`any of` 保留原顺序，用同一连接符连接全部子公式；不丢失任何一项。
 
@@ -56,34 +55,34 @@
 
 | DSL | STL |
 |---|---|
-| `throughout the next [a, b] time units { P }` | `always[a:b](T(P))` |
-| `at least once in the next [a, b] time units { P }` | `eventually[a:b](T(P))` |
-| `throughout the previous [a, b] time units { P }` | `historically[a:b](T(P))` |
-| `at least once in the previous [a, b] time units { P }` | `once[a:b](T(P))` |
-| `keep { P } until the next [a, b] time units { Q }` | `(T(P) until[a:b] T(Q))` |
-| `keep { P } since the previous [a, b] time units { Q }` | `(T(P) since[a:b] T(Q))` |
+| `throughout the next [a, b] time units { P }` | `always[a:b](P)` |
+| `at least once in the next [a, b] time units { P }` | `eventually[a:b](P)` |
+| `throughout the previous [a, b] time units { P }` | `historically[a:b](P)` |
+| `at least once in the previous [a, b] time units { P }` | `once[a:b](P)` |
+| `keep { P } until the next [a, b] time units { Q }` | `(P until[a:b] Q)` |
+| `keep { P } since the previous [a, b] time units { Q }` | `(P since[a:b] Q)` |
 
 ### 无界时序
 
 | DSL | STL |
 |---|---|
-| `throughout the entire future { P }` | `always(T(P))` |
-| `at least once in the entire future { P }` | `eventually(T(P))` |
-| `throughout the entire past { P }` | `historically(T(P))` |
-| `at least once in the entire past { P }` | `once(T(P))` |
-| `keep { P } until the entire future { Q }` | `(T(P) until T(Q))` |
-| `keep { P } since the entire past { Q }` | `(T(P) since T(Q))` |
+| `throughout the entire future { P }` | `always(P)` |
+| `at least once in the entire future { P }` | `eventually(P)` |
+| `throughout the entire past { P }` | `historically(P)` |
+| `at least once in the entire past { P }` | `once(P)` |
+| `keep { P } until the entire future { Q }` | `(P until Q)` |
+| `keep { P } since the entire past { Q }` | `(P since Q)` |
 
 ### 转换约束
 
-- 先递归转换子表达式，再套用对应形式。保留括号作用域、左右顺序、否定层次和时间嵌套；示例可省略原子比较的冗余外括号。
+- 先递归转换子表达式，再套用对应形式。信号名和数值原样输出；保留括号作用域、左右顺序、否定层次和时间嵌套；示例可省略原子比较的冗余外括号。
 - 不把状态自动改成边沿，不把 `if` 自动加上全局量化，不交换“持续”与“至少一次”，不把无界范围替换成日志长度。
 - until 采用强直到：Q 的见证时刻为 u，P 在 `[t,u)` 成立；since 采用强自从，P 在 `(u,t]` 成立。目标解释器须采用相同端点约定。
 - `historically/once/since` 为过去时态扩展，`rise/fall` 为边沿扩展；保留算子，不猜测采样间隔。目标解释器须支持相应能力及一致的信号模型。
 
 ## 3. 必要示例
 
-以下 DSL 与第一阶段同编号示例完全一致。
+以下示例与第一阶段同编号，DSL 完全一致；两个阶段的信号名均不加引号或反引号。
 
 ### E01 范围与合取
 
@@ -91,8 +90,8 @@ DSL:
 
 ```text
 all of {
-  `sig1` is greater than 2;
-  `sig1` is less than or equal to 5;
+  sig1 is greater than 2;
+  sig1 is less than or equal to 5;
 }
 ```
 
@@ -108,8 +107,8 @@ DSL:
 
 ```text
 any of {
-  `sig1` is less than 0;
-  `sig2` is greater than 10;
+  sig1 is less than 0;
+  sig2 is greater than 10;
 }
 ```
 
@@ -126,8 +125,8 @@ DSL:
 ```text
 it is not the case that {
   all of {
-    `sig1` is greater than or equal to 2;
-    `sig1` is less than or equal to 5;
+    sig1 is greater than or equal to 2;
+    sig1 is less than or equal to 5;
   }
 }
 ```
@@ -144,7 +143,7 @@ DSL:
 
 ```text
 becomes true {
-  `sig1` is less than or equal to 5
+  sig1 is less than or equal to 5
 }
 ```
 
@@ -160,7 +159,7 @@ DSL:
 
 ```text
 becomes false {
-  `sig1` is equal to `sig2`
+  sig1 is equal to sig2
 }
 ```
 
@@ -177,7 +176,7 @@ DSL:
 ```text
 it is not the case that {
   becomes true {
-    `sig1` is greater than 5
+    sig1 is greater than 5
   }
 }
 ```
@@ -194,9 +193,9 @@ DSL:
 
 ```text
 if {
-  `sig1` is greater than 5
+  sig1 is greater than 5
 } then {
-  `sig2` is equal to 1
+  sig2 is equal to 1
 }
 ```
 
@@ -211,10 +210,12 @@ STL:
 DSL:
 
 ```text
-whenever {
-  `sig1` is greater than 5
-} then {
-  `sig2` is equal to 1
+throughout the entire future {
+  if {
+    sig1 is greater than 5
+  } then {
+    sig2 is equal to 1
+  }
 }
 ```
 
@@ -230,7 +231,7 @@ DSL:
 
 ```text
 throughout the next [2, 5] time units {
-  `sig1` is less than 10
+  sig1 is less than 10
 }
 ```
 
@@ -246,7 +247,7 @@ DSL:
 
 ```text
 at least once in the next [2, 5] time units {
-  `sig1` is less than 10
+  sig1 is less than 10
 }
 ```
 
@@ -262,7 +263,7 @@ DSL:
 
 ```text
 throughout the previous [2, 5] time units {
-  `sig1` is less than 10
+  sig1 is less than 10
 }
 ```
 
@@ -278,7 +279,7 @@ DSL:
 
 ```text
 at least once in the previous [2, 5] time units {
-  `sig1` is less than 10
+  sig1 is less than 10
 }
 ```
 
@@ -294,7 +295,7 @@ DSL:
 
 ```text
 throughout the entire future {
-  `sig1` is equal to `sig2`
+  sig1 is equal to sig2
 }
 ```
 
@@ -310,7 +311,7 @@ DSL:
 
 ```text
 at least once in the entire future {
-  `sig1` is equal to `sig2`
+  sig1 is equal to sig2
 }
 ```
 
@@ -326,7 +327,7 @@ DSL:
 
 ```text
 throughout the entire past {
-  `sig1` is equal to `sig2`
+  sig1 is equal to sig2
 }
 ```
 
@@ -342,7 +343,7 @@ DSL:
 
 ```text
 at least once in the entire past {
-  `sig1` is equal to `sig2`
+  sig1 is equal to sig2
 }
 ```
 
@@ -358,9 +359,9 @@ DSL:
 
 ```text
 keep {
-  `sig1` is less than 10
+  sig1 is less than 10
 } until the next [2, 5] time units {
-  `sig2` is equal to 1
+  sig2 is equal to 1
 }
 ```
 
@@ -376,9 +377,9 @@ DSL:
 
 ```text
 keep {
-  `sig1` is less than 10
+  sig1 is less than 10
 } since the previous [1, 5] time units {
-  `sig2` is equal to 1
+  sig2 is equal to 1
 }
 ```
 
@@ -394,9 +395,9 @@ DSL:
 
 ```text
 keep {
-  `sig1` is less than 10
+  sig1 is less than 10
 } until the entire future {
-  `sig2` is equal to 1
+  sig2 is equal to 1
 }
 ```
 
@@ -412,9 +413,9 @@ DSL:
 
 ```text
 keep {
-  `sig1` is less than 10
+  sig1 is less than 10
 } since the entire past {
-  `sig2` is equal to 1
+  sig2 is equal to 1
 }
 ```
 
@@ -424,15 +425,15 @@ STL:
 ((sig1 < 10) since (sig2 == 1))
 ```
 
-### E21 共同成立一次
+### E21 共同至少成立一次
 
 DSL:
 
 ```text
 at least once in the next [0, 5] time units {
   all of {
-    `sig1` is equal to 1;
-    `sig2` is equal to 1;
+    sig1 is equal to 1;
+    sig2 is equal to 1;
   }
 }
 ```
@@ -450,10 +451,10 @@ DSL:
 ```text
 all of {
   at least once in the next [0, 5] time units {
-    `sig1` is equal to 1
+    sig1 is equal to 1
   };
   at least once in the next [0, 5] time units {
-    `sig2` is equal to 1
+    sig2 is equal to 1
   };
 }
 ```
@@ -471,7 +472,7 @@ DSL:
 ```text
 it is not the case that {
   throughout the next [0, 5] time units {
-    `sig1` is greater than 5
+    sig1 is greater than 5
   }
 }
 ```
@@ -489,7 +490,7 @@ DSL:
 ```text
 throughout the next [0, 5] time units {
   it is not the case that {
-    `sig1` is greater than 5
+    sig1 is greater than 5
   }
 }
 ```
@@ -505,11 +506,13 @@ always[0:5](not(sig1 > 5))
 DSL:
 
 ```text
-whenever {
-  `sig1` is greater than 20
-} then {
-  at least once in the next [0, 3] time units {
-    `sig2` is equal to 1
+throughout the entire future {
+  if {
+    sig1 is greater than 20
+  } then {
+    at least once in the next [0, 3] time units {
+      sig2 is equal to 1
+    }
   }
 }
 ```
@@ -527,7 +530,7 @@ DSL:
 ```text
 at least once in the next [0, 5] time units {
   throughout the next [0, 10] time units {
-    `sig1` is equal to 1
+    sig1 is equal to 1
   }
 }
 ```
@@ -545,7 +548,7 @@ DSL:
 ```text
 throughout the next [0, 5] time units {
   at least once in the next [0, 10] time units {
-    `sig1` is equal to 1
+    sig1 is equal to 1
   }
 }
 ```
@@ -561,13 +564,15 @@ always[0:5](eventually[0:10](sig1 == 1))
 DSL:
 
 ```text
-whenever {
-  at least once in the previous [0, 8] time units {
-    `sig1` is greater than or equal to 1
-  }
-} then {
-  at least once in the next [2, 5] time units {
-    `sig2` is equal to `sig3`
+throughout the entire future {
+  if {
+    at least once in the previous [0, 8] time units {
+      sig1 is greater than or equal to 1
+    }
+  } then {
+    at least once in the next [2, 5] time units {
+      sig2 is equal to sig3
+    }
   }
 }
 ```

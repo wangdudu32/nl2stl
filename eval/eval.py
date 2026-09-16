@@ -11,7 +11,6 @@ from semantic_robustness import Semantic_Robustness
 from strict_semantic_robustness import strict_semantic_robustness
 from template_accuracy import Template_Accuracy
 
-file_path = "../result/STLDivEn_with_ast_knowledge_deepseek_v4_pro_result.txt"
 #file_path = "../result/STLDivEn_with_ast_deepseek_v4_pro_result.txt"
 # file_path = "../result/direct_deepstl_with_deepseek_v4_pro_result.txt"
 # file_path = "../result/deepstl_with_operatorExplain_deepseek_v4_pro_result.txt"

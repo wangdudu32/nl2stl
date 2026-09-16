@@ -4,7 +4,7 @@
 
 | 记号 | 含义 |
 |---|---|
-| `e`、`f` | 信号或数值，如 `` `sig1` ``、`5.2` |
+| `e`、`f` | 信号或数值，如 sig1、`5.2` |
 | `P`、`Q` | 任意完整 DSL 子表达式，可递归嵌套 |
 | `a`、`b` | 时间下界与上界，满足 `0 ≤ a ≤ b` |
 | `I` | 有限闭区间 `[a, b]`，包含两个端点 |
@@ -12,7 +12,7 @@
 
 这些是规则占位符，实际表达式必须替换为具体内容，不是需要声明的信号或符号参数。
 
-- 信号名称原样保留。数字可为整数或小数，不带物理单位。比较对象也可为另一信号。
+- 信号名称原样保留，不加引号或反引号，如 sig1；不预设物理含义。数字可为整数或小数，不带物理单位。比较对象也可为另一信号。
 - 时间使用抽象的 `time units`，不默认表示秒；时间端点与信号值阈值是不同的量。
 - 普通 `{ ... }` 内恰好一个表达式，末尾不加分号；`all of`、`any of` 至少两项，每项以分号结束。
 - 所有子表达式均可递归组合，花括号决定作用域。单独的比较不隐含全局要求。
@@ -28,25 +28,34 @@
 
 ## 2. 全部可用表述与解释
 
-| DSL 表述 | 含义 |
-|---|---|
-| `e is equal to f` | e 等于 f |
-| `e is not equal to f` | e 不等于 f |
-| `e is less than f` | e 严格小于 f |
-| `e is less than or equal to f` | e 小于或等于 f |
-| `e is greater than f` | e 严格大于 f |
-| `e is greater than or equal to f` | e 大于或等于 f |
-| `all of { P; Q; }` | 所有子表达式在同一求值时刻成立，允许多项 |
-| `any of { P; Q; }` | 至少一项成立，允许同时成立，允许多项 |
-| `it is not the case that { P }` | 花括号内的完整表达式不成立 |
-| `if { P } then { Q }` | 当前若 P 成立则 Q 必须成立；P 为假时成立 |
-| `whenever { P } then { Q }` | 从当前起，每个 P 成立的时刻都要求 Q 成立 |
-| `throughout W { P }` | W 内每个时刻 P 都成立；适用全部四种窗口 |
-| `at least once in W { P }` | W 内存在 P 成立的时刻；适用全部四种窗口 |
-| `keep { P } until W { Q }` | W 为未来窗口；必须有 Q 成立的时刻 u，P 从当前 t 保持到 u 之前，即 `[t,u)` |
-| `keep { P } since W { Q }` | W 为过去窗口；必须有 Q 成立的时刻 u，P 从 u 之后保持到当前 t，即 `(u,t]` |
-| `becomes true { P }` | P 的真值由假变真，而不只是当前为真 |
-| `becomes false { P }` | P 的真值由真变假，而不只是当前为假 |
+第三列中，e、f 表示原样输出的信号名或数值；P、Q 表示相应 DSL 子表达式递归转换后的 STL 子公式；DSL 区间 `[a, b]` 在 STL 中写作 `[a:b]`。
+
+| DSL 表述 | 含义 | 形式化解释（STL） |
+|---|---|---|
+| `e is equal to f` | e 等于 f。 | `(e == f)` |
+| `e is not equal to f` | e 不等于 f。 | `not(e == f)` |
+| `e is less than f` | e 严格小于 f。 | `(e < f)` |
+| `e is less than or equal to f` | e 小于或等于 f。 | `(e <= f)` |
+| `e is greater than f` | e 严格大于 f。 | `(e > f)` |
+| `e is greater than or equal to f` | e 大于或等于 f。 | `(e >= f)` |
+| `all of { P; Q; ...; }` | 所有子表达式在同一求值时刻成立，允许多项。 | `(P and Q and ...)` |
+| `any of { P; Q; ...; }` | 至少一项成立，允许同时成立，允许多项。 | `(P or Q or ...)` |
+| `it is not the case that { P }` | 花括号内的完整表达式不成立。 | `not(P)` |
+| `if { P } then { Q }` | 当前若 P 成立，则 Q 必须成立；P 为假时，Q 可以成立也可以不成立。 | `(P -> Q)` |
+| `throughout the entire future { P }` | 从当前起的全部未来时刻，P 都成立。 | `always(P)` |
+| `throughout the next I time units { P }` | 从当前起的未来 I 时间窗口内，每个时刻 P 都成立。 | `always[a:b](P)` |
+| `throughout the entire past { P }` | 全部已有历史及当前时刻，P 都成立。 | `historically(P)` |
+| `throughout the previous I time units { P }` | 在已有历史的 `[t-b,t-a]` 内，每个时刻 P 都成立；`a=0` 时窗口包含当前时刻。 | `historically[a:b](P)` |
+| `at least once in the entire future { P }` | 从当前起的全部未来中，至少存在一个 P 成立的时刻。 | `eventually(P)` |
+| `at least once in the next I time units { P }` | 从当前起的未来 I 时间窗口内，至少存在一个 P 成立的时刻。 | `eventually[a:b](P)` |
+| `at least once in the entire past { P }` | 全部已有历史及当前时刻中，至少存在一个 P 成立的时刻。 | `once(P)` |
+| `at least once in the previous I time units { P }` | 在已有历史的 `[t-b,t-a]` 内，至少存在一个 P 成立的时刻；`a=0` 时窗口包含当前时刻。 | `once[a:b](P)` |
+| `keep { P } until the entire future { Q }` | 当前或未来必须有 Q 成立的时刻 u；P 从当前 t 保持到 u 之前，即 `[t,u)`。 | `(P until Q)` |
+| `keep { P } until the next I time units { Q }` | 未来 I 时间窗口内必须有 Q 成立的时刻 u；P 从当前 t 保持到 u 之前，即 `[t,u)`。 | `(P until[a:b] Q)` |
+| `keep { P } since the entire past { Q }` | 全部已有历史及当前时刻中必须有 Q 成立的时刻 u；P 从 u 之后保持到当前 t，即 `(u,t]`。 | `(P since Q)` |
+| `keep { P } since the previous I time units { Q }` | 在距当前 a 到 b 个时间单位的已有历史范围内（`a=0` 时包括当前时刻），必须找到一个 Q 成立的时刻 u；从 u 之后直到当前，P 始终成立。 | `(P since[a:b] Q)` |
+| `becomes true { P }` | P 的真值由假变真，而不只是当前为真。 | `rise(P)` |
+| `becomes false { P }` | P 的真值由真变假，而不只是当前为假。 | `fall(P)` |
 
 - 数值范围用两个比较的合取表达；范围外否定整个合取。圆括号范围端点用严格比较，方括号端点用非严格比较。
 - “至少一次”不表示恰好一次，也不要求此前为假。保持一段时间不要求开始前为假或结束后变假。
@@ -68,8 +77,8 @@ DSL:
 
 ```text
 all of {
-  `sig1` is greater than 2;
-  `sig1` is less than or equal to 5;
+  sig1 is greater than 2;
+  sig1 is less than or equal to 5;
 }
 ```
 
@@ -83,8 +92,8 @@ DSL:
 
 ```text
 any of {
-  `sig1` is less than 0;
-  `sig2` is greater than 10;
+  sig1 is less than 0;
+  sig2 is greater than 10;
 }
 ```
 
@@ -99,8 +108,8 @@ DSL:
 ```text
 it is not the case that {
   all of {
-    `sig1` is greater than or equal to 2;
-    `sig1` is less than or equal to 5;
+    sig1 is greater than or equal to 2;
+    sig1 is less than or equal to 5;
   }
 }
 ```
@@ -115,7 +124,7 @@ DSL:
 
 ```text
 becomes true {
-  `sig1` is less than or equal to 5
+  sig1 is less than or equal to 5
 }
 ```
 
@@ -129,7 +138,7 @@ DSL:
 
 ```text
 becomes false {
-  `sig1` is equal to `sig2`
+  sig1 is equal to sig2
 }
 ```
 
@@ -144,7 +153,7 @@ DSL:
 ```text
 it is not the case that {
   becomes true {
-    `sig1` is greater than 5
+    sig1 is greater than 5
   }
 }
 ```
@@ -159,9 +168,9 @@ DSL:
 
 ```text
 if {
-  `sig1` is greater than 5
+  sig1 is greater than 5
 } then {
-  `sig2` is equal to 1
+  sig2 is equal to 1
 }
 ```
 
@@ -169,15 +178,17 @@ if {
 
 NL:
 
-Globally, whenever sig1 is greater than 5, sig2 must equal 1 at the same instant.
+Globally, at every instant at which sig1 is greater than 5, sig2 must equal 1 at the same instant.
 
 DSL:
 
 ```text
-whenever {
-  `sig1` is greater than 5
-} then {
-  `sig2` is equal to 1
+throughout the entire future {
+  if {
+    sig1 is greater than 5
+  } then {
+    sig2 is equal to 1
+  }
 }
 ```
 
@@ -191,7 +202,7 @@ DSL:
 
 ```text
 throughout the next [2, 5] time units {
-  `sig1` is less than 10
+  sig1 is less than 10
 }
 ```
 
@@ -205,7 +216,7 @@ DSL:
 
 ```text
 at least once in the next [2, 5] time units {
-  `sig1` is less than 10
+  sig1 is less than 10
 }
 ```
 
@@ -219,7 +230,7 @@ DSL:
 
 ```text
 throughout the previous [2, 5] time units {
-  `sig1` is less than 10
+  sig1 is less than 10
 }
 ```
 
@@ -233,7 +244,7 @@ DSL:
 
 ```text
 at least once in the previous [2, 5] time units {
-  `sig1` is less than 10
+  sig1 is less than 10
 }
 ```
 
@@ -247,7 +258,7 @@ DSL:
 
 ```text
 throughout the entire future {
-  `sig1` is equal to `sig2`
+  sig1 is equal to sig2
 }
 ```
 
@@ -261,7 +272,7 @@ DSL:
 
 ```text
 at least once in the entire future {
-  `sig1` is equal to `sig2`
+  sig1 is equal to sig2
 }
 ```
 
@@ -275,7 +286,7 @@ DSL:
 
 ```text
 throughout the entire past {
-  `sig1` is equal to `sig2`
+  sig1 is equal to sig2
 }
 ```
 
@@ -289,7 +300,7 @@ DSL:
 
 ```text
 at least once in the entire past {
-  `sig1` is equal to `sig2`
+  sig1 is equal to sig2
 }
 ```
 
@@ -303,9 +314,9 @@ DSL:
 
 ```text
 keep {
-  `sig1` is less than 10
+  sig1 is less than 10
 } until the next [2, 5] time units {
-  `sig2` is equal to 1
+  sig2 is equal to 1
 }
 ```
 
@@ -319,9 +330,9 @@ DSL:
 
 ```text
 keep {
-  `sig1` is less than 10
+  sig1 is less than 10
 } since the previous [1, 5] time units {
-  `sig2` is equal to 1
+  sig2 is equal to 1
 }
 ```
 
@@ -335,9 +346,9 @@ DSL:
 
 ```text
 keep {
-  `sig1` is less than 10
+  sig1 is less than 10
 } until the entire future {
-  `sig2` is equal to 1
+  sig2 is equal to 1
 }
 ```
 
@@ -351,25 +362,25 @@ DSL:
 
 ```text
 keep {
-  `sig1` is less than 10
+  sig1 is less than 10
 } since the entire past {
-  `sig2` is equal to 1
+  sig2 is equal to 1
 }
 ```
 
-### E21 共同成立一次
+### E21 共同至少成立一次
 
 NL:
 
-Within the first 5 time units, including now and the endpoint, there must be a single instant at which sig1 and sig2 both equal 1.
+Within the first 5 time units, including now and the endpoint, there must be at least one instant at which sig1 and sig2 both equal 1.
 
 DSL:
 
 ```text
 at least once in the next [0, 5] time units {
   all of {
-    `sig1` is equal to 1;
-    `sig2` is equal to 1;
+    sig1 is equal to 1;
+    sig2 is equal to 1;
   }
 }
 ```
@@ -385,10 +396,10 @@ DSL:
 ```text
 all of {
   at least once in the next [0, 5] time units {
-    `sig1` is equal to 1
+    sig1 is equal to 1
   };
   at least once in the next [0, 5] time units {
-    `sig2` is equal to 1
+    sig2 is equal to 1
   };
 }
 ```
@@ -404,7 +415,7 @@ DSL:
 ```text
 it is not the case that {
   throughout the next [0, 5] time units {
-    `sig1` is greater than 5
+    sig1 is greater than 5
   }
 }
 ```
@@ -420,7 +431,7 @@ DSL:
 ```text
 throughout the next [0, 5] time units {
   it is not the case that {
-    `sig1` is greater than 5
+    sig1 is greater than 5
   }
 }
 ```
@@ -429,16 +440,18 @@ throughout the next [0, 5] time units {
 
 NL:
 
-Globally, whenever sig1 is greater than 20, sig2 must equal 1 at least once within the following 3 time units, including the trigger instant and the deadline.
+Globally, at every instant at which sig1 is greater than 20, sig2 must equal 1 at least once within the following 3 time units, including that instant and the deadline.
 
 DSL:
 
 ```text
-whenever {
-  `sig1` is greater than 20
-} then {
-  at least once in the next [0, 3] time units {
-    `sig2` is equal to 1
+throughout the entire future {
+  if {
+    sig1 is greater than 20
+  } then {
+    at least once in the next [0, 3] time units {
+      sig2 is equal to 1
+    }
   }
 }
 ```
@@ -454,7 +467,7 @@ DSL:
 ```text
 at least once in the next [0, 5] time units {
   throughout the next [0, 10] time units {
-    `sig1` is equal to 1
+    sig1 is equal to 1
   }
 }
 ```
@@ -470,7 +483,7 @@ DSL:
 ```text
 throughout the next [0, 5] time units {
   at least once in the next [0, 10] time units {
-    `sig1` is equal to 1
+    sig1 is equal to 1
   }
 }
 ```
@@ -479,18 +492,20 @@ throughout the next [0, 5] time units {
 
 NL:
 
-Globally, whenever sig1 has been at least 1 at some available instant in the preceding 8 time units, including the current instant, sig2 must equal sig3 at some time from 2 to 5 time units later, including both endpoints.
+Globally, at every instant at which sig1 has been at least 1 at some available instant in the preceding 8 time units, including that instant, sig2 must equal sig3 at some time from 2 to 5 time units later, including both endpoints.
 
 DSL:
 
 ```text
-whenever {
-  at least once in the previous [0, 8] time units {
-    `sig1` is greater than or equal to 1
-  }
-} then {
-  at least once in the next [2, 5] time units {
-    `sig2` is equal to `sig3`
+throughout the entire future {
+  if {
+    at least once in the previous [0, 8] time units {
+      sig1 is greater than or equal to 1
+    }
+  } then {
+    at least once in the next [2, 5] time units {
+      sig2 is equal to sig3
+    }
   }
 }
 ```
