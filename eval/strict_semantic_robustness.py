@@ -2,64 +2,34 @@
 
 from __future__ import annotations
 
-import random
-
-from semantic_robustness import (
-    DATASET_PATH,
-    MAX_HORIZON,
-    SEED,
-    TRACE_COUNT,
-    build_spec,
-    discretize_intervals,
-    extract_numeric_thresholds,
-    generate_trace,
-    max_interval_end,
-    satisfies,
-)
-from stl_metrics_utils import load_records, mean, tokenize_formula
-from stl_syntax_validator import extract_variables, stl_syntax_validator
+from semantic_robustness import DATASET_PATH, SEED, semantic_scores_for_pair
+from stl_metrics_utils import load_records, mean
+from stl_syntax_validator import validate_record
 
 
 def strict_semantic_robustness(file_path: str) -> float:
-    """Return macro-average all-trace satisfaction agreement."""
+    """返回全部采样轨迹上满足性均一致的样本比例。"""
     scores: list[float] = []
     for index, record in enumerate(load_records(file_path)):
         pred_formula = record["pred_stl"]
-        if not stl_syntax_validator(pred_formula):
+        if validate_record(record) is not None:
             scores.append(0.0)
             continue
         try:
             scores.append(strict_semantic_robustness_for_pair(record["gold_stl"], pred_formula, SEED + index))
-        except Exception as exc:
-            taskid = record.get("taskid", index)
+        except Exception as error:
             raise RuntimeError(
-                f"Strict semantic robustness failed at taskid={taskid}\n"
+                f"Strict semantic robustness failed at taskid={record['taskid']}\n"
                 f"gold_stl={record['gold_stl']}\n"
-                f"pred_stl={pred_formula}"
-            ) from exc
+                f"pred_stl={pred_formula}\n{error}"
+            ) from error
     return mean(scores)
 
 
 def strict_semantic_robustness_for_pair(gold_formula: str, pred_formula: str, seed: int) -> float:
-    if tokenize_formula(gold_formula) == tokenize_formula(pred_formula):
-        return 1.0
-
-    variables = sorted(extract_variables(gold_formula) | extract_variables(pred_formula))
-    if not variables:
-        return 0.0
-
-    gold_formula = discretize_intervals(gold_formula)
-    pred_formula = discretize_intervals(pred_formula)
-    gold_spec = build_spec(gold_formula, variables)
-    pred_spec = build_spec(pred_formula, variables)
-    horizon = min(max(max_interval_end(gold_formula), max_interval_end(pred_formula), 10), MAX_HORIZON)
-    thresholds = extract_numeric_thresholds(gold_formula + " " + pred_formula)
-    rng = random.Random(seed)
-    for _ in range(TRACE_COUNT):
-        trace = generate_trace(variables, thresholds, horizon, rng)
-        if satisfies(gold_spec, trace) != satisfies(pred_spec, trace):
-            return 0.0
-    return 1.0
+    """与普通语义指标使用同一批轨迹和一致的随机种子。"""
+    _, score = semantic_scores_for_pair(gold_formula, pred_formula, seed)
+    return score
 
 
 if __name__ == "__main__":

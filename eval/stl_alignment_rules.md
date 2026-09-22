@@ -1,0 +1,66 @@
+- x < y ↔ not(x >= y)
+- x <= y ↔ not(x > y)
+- x > y ↔ not(x <= y)
+- x >= y ↔ not(x < y)
+- x == y ↔ not(x != y)
+- x != y ↔ not(x == y)
+- x < y ↔ y > x
+- x <= y ↔ y >= x
+- x > y ↔ y < x
+- x >= y ↔ y <= x
+- x == y ↔ y == x
+- x != y ↔ y != x
+- not(not(P)) ↔ P
+- P and Q ↔ Q and P
+- P or Q ↔ Q or P
+- (P and Q) and R ↔ P and (Q and R)
+- (P or Q) or R ↔ P or (Q or R)
+- P and P ↔ P
+- P or P ↔ P
+- not(P and Q) ↔ not(P) or not(Q)
+- not(P or Q) ↔ not(P) and not(Q)
+- P and (Q or R) ↔ (P and Q) or (P and R)
+- P or (Q and R) ↔ (P or Q) and (P or R)
+- P and (P or Q) ↔ P
+- P or (P and Q) ↔ P
+- P -> Q ↔ not(P) or Q
+- not(P -> Q) ↔ P and not(Q)
+- P -> Q ↔ not(Q) -> not(P)
+- P -> (Q and R) ↔ (P -> Q) and (P -> R)
+- P -> (Q or R) ↔ (P -> Q) or (P -> R)
+- (P or Q) -> R ↔ (P -> R) and (Q -> R)
+- (P and Q) -> R ↔ P -> (Q -> R)
+- not(always(P)) ↔ eventually(not(P))
+- not(eventually(P)) ↔ always(not(P))
+- not(always[a:b](P)) ↔ eventually[a:b](not(P))
+- not(eventually[a:b](P)) ↔ always[a:b](not(P))
+- not(historically(P)) ↔ once(not(P))
+- not(once(P)) ↔ historically(not(P))
+- not(historically[a:b](P)) ↔ once[a:b](not(P))
+- not(once[a:b](P)) ↔ historically[a:b](not(P))
+- always(P and Q) ↔ (always(P)) and (always(Q))
+- eventually(P or Q) ↔ (eventually(P)) or (eventually(Q))
+- always[a:b](P and Q) ↔ (always[a:b](P)) and (always[a:b](Q))
+- eventually[a:b](P or Q) ↔ (eventually[a:b](P)) or (eventually[a:b](Q))
+- historically(P and Q) ↔ (historically(P)) and (historically(Q))
+- once(P or Q) ↔ (once(P)) or (once(Q))
+- historically[a:b](P and Q) ↔ (historically[a:b](P)) and (historically[a:b](Q))
+- once[a:b](P or Q) ↔ (once[a:b](P)) or (once[a:b](Q))
+- always(always(P)) ↔ always(P)
+- eventually(eventually(P)) ↔ eventually(P)
+- historically(historically(P)) ↔ historically(P)
+- once(once(P)) ↔ once(P)
+- always(P -> Q) ↔ not(eventually(P and not(Q)))
+- eventually(P -> Q) ↔ not(always(P and not(Q)))
+- always[a:b](P -> Q) ↔ not(eventually[a:b](P and not(Q)))
+- eventually[a:b](P -> Q) ↔ not(always[a:b](P and not(Q)))
+- historically(P -> Q) ↔ not(once(P and not(Q)))
+- once(P -> Q) ↔ not(historically(P and not(Q)))
+- historically[a:b](P -> Q) ↔ not(once[a:b](P and not(Q)))
+- once[a:b](P -> Q) ↔ not(historically[a:b](P and not(Q)))
+- rise(not(P)) ↔ fall(P)
+- fall(not(P)) ↔ rise(P)
+- rise(P) ↔ fall(not(P))
+- fall(P) ↔ rise(not(P))
+- P until P ↔ P
+- P since P ↔ P
