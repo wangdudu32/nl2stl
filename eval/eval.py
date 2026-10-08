@@ -21,7 +21,11 @@ from stl_syntax_validator import validate_record
 from template_accuracy import template_accuracy_for_pair
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-file_path = PROJECT_ROOT / "result" / "DeepSTL_with_dsl_result.txt"
+
+#file_path = PROJECT_ROOT / "result" / "deepstl_with_ast_template_operator_knowledge_deepseek_v4_pro_result.txt"
+#file_path = PROJECT_ROOT / "result" / "deepstl_with_ast_deepseek_v4_pro_result.txt"
+file_path = PROJECT_ROOT / "result" / "direct_deepstl_with_deepseek_v4_pro_result.txt"
+#file_path = PROJECT_ROOT / "result" / "DeepSTL_with_dsl_result.txt"
 
 METRIC_NAMES = (
     "exact_formula_match",
